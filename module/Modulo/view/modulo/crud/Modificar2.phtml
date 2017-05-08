@@ -1,0 +1,60 @@
+<h1>Modificar usuario - Crud en Zend Framework 2</h1>
+<hr/>
+<?php 
+$flash=$this->flashMessenger()
+            ->setMessageOpenFormat('<div%s>')
+            ->setMessageSeparatorString('')
+            ->setMessageCloseString('</div>');
+?>
+<?php
+$this->headTitle("Modificar usuarios");
+$form = $this->form;
+$form->prepare();
+$formLabel = $this->plugin('formLabel');
+echo $this->form()->openTag($form);
+echo $flash->render('duplicado',array('btn', 'btn-danger'));
+?>
+<div class="form_element">
+<?php
+    $email = $form->get('email');
+    echo $formLabel->openTag().$email->getOption('label')." ";
+    echo $this->formInput($email);
+    //echo $this->formElementErrors($email);
+    if(isset($error["email"])){
+      echo $error["email"]['emailAddressInvalidHostname'];
+    }
+    echo $formLabel->closeTag();
+?>
+</div>
+<div class="form_element">
+<?php
+    $pass = $form->get('password');
+    echo $formLabel->openTag().$pass->getOption('label')." ";
+    echo $this->formInput($pass);
+    echo $this->formElementErrors($pass);
+    echo $formLabel->closeTag();
+?>
+</div>
+<div class="form_element">
+<?php
+    $name = $form->get('nombre');
+    echo $formLabel->openTag().$name->getOption('label')." ";
+    echo $this->formInput($name);
+    echo $this->formElementErrors($name);
+    echo $formLabel->closeTag();
+?>
+</div>
+ 
+<div class="form_element">
+<?php
+    $apellido = $form->get('apellido');
+    echo $formLabel->openTag().$apellido->getOption('label')." ";
+    echo $this->formInput($apellido);
+    echo $this->formElementErrors($apellido);
+    echo $formLabel->closeTag();
+?>
+</div>
+<?php 
+echo $this->formElement($form->get('submit'));
+echo $this->form()->closeTag(); 
+?>

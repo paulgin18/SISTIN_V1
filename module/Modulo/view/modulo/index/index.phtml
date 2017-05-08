@@ -1,0 +1,23 @@
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="widget p-md clearfix">
+                            <div class="pull-left">
+                                <h3 class="widget-title">BIENVEIDO</h3>
+                                <!-- <small class="text-color">Number of views</small> -->
+                            </div>
+                            <!-- <span class="pull-right fz-lg fw-500 counter" data-plugin="counterUp">102</span> -->
+                            <img src="images/logo.png">
+                        </div>
+                    </div>
+
+                </div>
+                        <?= $this->inlineScript()
+         ->prependFile($this->basePath('js/pedidos.js'))           
+        ->prependFile($this->basePath() . '/assets/js/fullcalendar.js')
+        ->prependFile($this->basePath() . '/libs/bower/fullcalendar/dist/fullcalendar.min.js')
+        ->prependFile($this->basePath() . '/libs/bower/moment/moment.js')
+        ->prependFile($this->basePath() . '/assets/js/app.min.js')
+        ->prependFile($this->basePath() . '/assets/js/core.min.js')
+        
+            
+        ?>

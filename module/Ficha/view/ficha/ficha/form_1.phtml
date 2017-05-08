@@ -1,0 +1,333 @@
+<?php if ($mantenimiento != null) { ?>
+	<div class="right_col" role="main">
+		<div class="">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2><?php echo $this->mantenimiento ?> Ficha Tecnica de Equipos de Computo<small></small></h2>
+							<ul class="nav navbar-right panel_toolbox">
+								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<div id="wizard" class="form_wizard wizard_horizontal">
+								<ul class="wizard_steps">
+									<li>
+										<a href="#step-1">
+											<span class="step_no">1</span>
+											<span class="step_descr">
+												Paso 1<br />
+												<small>Datos Generales</small>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#step-2">
+											<span class="step_no">2</span>
+											<span class="step_descr">
+												Paso 2<br />
+												<small>Componentes Internos</small>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#step-3">
+											<span class="step_no">3</span>
+											<span class="step_descr">
+												Paso 3<br />
+												<small>Otros Componentes</small>
+											</span>
+										</a>
+									</li>
+									<li>
+										<a href="#step-4">
+											<span class="step_no">4</span>
+											<span class="step_descr">
+												Paso 4<br />
+												<small>Software</small>
+											</span>
+										</a>
+									</li>
+								</ul>
+								<hr>
+								<div id="step-1">
+									<form class="form-horizontal form-label-left">
+										<div class="form-group">
+											<div class="col-sm-12">
+												<div class="col-sm-5 control-label">
+													<label><input type="radio" name="rbtPC" id="rbtPC" value="d" onclick="getDe('d')"   checked>
+														DESKTOP</label>
+												</div>
+												<div class="col-sm-5 control-label">
+													<label><input type="radio" name="rbtPC" id="rbtPC"  onclick="getDe('l')"  value="l">
+														LAPTOP</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div id="pcCompatible">
+												<label class="col-sm-2 control-label" for="chkCompatible" ><b>Compatible:</b></label>
+												<div class="col-sm-1">
+													<?=
+													$datos != null ? $datos['compatible'] == true ?
+																	'<input type="checkbox" name="chkCompatible" id="chkCompatible" value="1" checked>' :
+																	'<input type="checkbox" name="chkCompatible" id="chkCompatible" value="1">' :
+															'<input type="checkbox" name="chkCompatible" id="chkCompatible" value="1"><br>';
+													?>
+												</div>
+											</div>
+										</div>
+										<div class="form-group" id="datosPC">
+											<label class="col-sm-2 control-label"><b>Marca:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdMPc" id="txtIdMPc"  placeholder=""  value="<?= $datos != null ? $datos['id_marca'] : ''; ?>">
+												<input class="form-control " name="txtMarcaPC" id="txtMarcaPC" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>Serie:</b></label>
+											<div class="col-sm-4">
+												<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text" >
+											</div>
+										</div>
+										<div class="form-group" >
+											<label class="col-sm-2 control-label"><b>N° Patrimonial:</b></label>
+											<div class="col-sm-4">
+												<input type="text" name="txtNroPatrimonio" id="txtNroPatrimonio" class="form-control col-md-6 col-xs-10">
+											</div>
+											<div class="col-sm-2"></div>
+											<label class=" control-label"><b></b></label>
+											<div class="col-sm-1">
+												<?=
+												$datos != null ? $datos['operativo'] == true ?
+																'<label for="chkOperativo"><input type="checkbox" name="chkOperativo" id="chkOperativo" value="1" checked/>Operativo</label>' :
+																'<label for="chkOperativo"><input type="checkbox" name="chkOperativo" id="chkOperativo" value="1"/>Operativo</label>' :
+														'<label for="chkOperativo"><input type="checkbox" name="chkOperativo" id="chkOperativo" value="1" checked/>Operativo</label>';
+												?>
+
+												<?=
+												$datos != null ? $datos['garantia'] == true ?
+																'<label for="chkGarantia"><input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" checked/>Garantia</label>' :
+																'<label for="chkGarantia"><input type="checkbox" name="chkGarantia" id="chkGarantia" value="1"/>Garantia</label>' :
+														'<label for="chkGarantia"><input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" checked/>Garantia</label>';
+												?>
+											</div>
+										</div>
+										<hr>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Sistema Operativo:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdSO" id="txtIdSO"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtSO" id="txtSO" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>Nro Licencia:</b></label>
+											<div class="col-sm-4">
+												<input type="text" id="txtLicenciaSO" name="txtLicenciaSO" class="form-control">
+											</div>
+										</div>
+										<hr>
+
+									</form>
+									<br/>
+									<br/>
+								</div>
+								<div id="step-2" style="display:none">
+									<h2 class="StepTitle">Componenetes Internos</h2>
+									<form class="form-horizontal form-label-left">
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Microprocesador:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdMI" id="txtIdMI"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtMI" id="txtMI" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>Estruct(Bits)</b></label>
+											<div class="col-sm-1">
+												<input type="text" id="txtEstPC" name="txtEstPC" class="form-control" placeholder="Bits">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Memoria Ram:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdMR" id="txtIdMR"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtMR" id="txtMR" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>Cant. de Tarj Ram:</b></label>
+											<div class="col-sm-1">
+												<input type="text" id="txtCantTrPC" name="txtCantTrPC" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Disco Duro:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdDD id="txtIdDD"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+													   <input class="form-control " name="txtDD" id="txtDD" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>Serie:</b></label>
+											<div class="col-sm-4">
+												<input type="text" id="txtSerieDD" name="txtSerieDD" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Maimboard:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdMain" id="txtIdMain"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtMain" id="txtMain" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>Serie:</b></label>
+											<div class="col-sm-4">
+												<input type="text" id="txtSerieMain" name="txtSerieMain" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Red:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdRed" id="txtIdRed"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtRed" id="txtRed" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>MAC:</b></label>
+											<div class="col-sm-4">
+												<input type="text" id="txtMac" name="txtMac" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Maimboard:</b></label>
+											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdSO" id="txtIdSO"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="bSO" id="bSO" placeholder="Buscar..." type="text">
+											</div>
+											<label class="col-sm-2 control-label"><b>Serie:</b></label>
+											<div class="col-sm-4">
+												<input type="text" id="txtSeriePC" name="txtSeriePC" class="form-control">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div id="step-3" style="display:none">
+									<h2 class="StepTitle">Otros Dispositivos</h2><br/>
+									<div class="form-horizontal form-label-left">
+										<div class="form-group">
+											<label for="" class="col-sm-1 control-label"><b>Disp:</b></label>
+											<div class="col-sm-4">
+												<input class="form-control" name="txtDispositivo" id="txtDispositivo" type="text" placeholder="Buscar">										
+												<input type="hidden" id="txtIdDis">	
+												<input type="hidden" id="disp">
+												<input type="hidden" id="mar">
+
+											</div>
+											<label class="col-sm-2 control-label"><b>Marca / Modelo:</b></label>
+											<div class="col-sm-4">
+												<input type="text" id="txtMaMo" name="txtMaMo" class="form-control" placeholder="Buscar" >
+											</div>
+
+										</div>
+										<div class="form-group">
+											<label for="" class="col-sm-1 control-label"><b>Serie:</b></label>
+											<div class="col-sm-4">
+												<input class="form-control" name="txtSerieMaMo" id="txtSerieMaMo" type="text">
+												<input type="hidden" id="txtIdDisMaMo">
+											</div>
+
+											<label class="col-sm-2 control-label"><b>Operativo:</b></label>
+											<div class="col-sm-2">
+												<?=
+												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1" checked>' :
+																'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1">' : '<input type="checkbox" name="chkOpOtros"  value="1" checked><br>';
+												?>
+
+											</div>
+											<div class="col-sm-2">
+												<button class="btn btn-success " id="btnAnadirDisp"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-12">
+												<table id="tabla_marca" class="table table-striped table-bordered">
+													<thead>
+														<tr>
+															<th width="5%">#</th>
+															<th hidden></th>
+															<th width="30%">Dispositivo</th>
+															<th hidden></th>
+															<th width="25%">Marca - Modelo</th>
+															<th width="25%">Serie</th>
+															<th width="8%">Operativo</th>
+															<th width="30%">Accion</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>			
+											</div>
+											<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+										</div>
+									</div>								
+								</div>
+								<div id="step-4" style="display:none">
+									<h2 class="StepTitle">Software</h2>
+									<div class="form-horizontal form-label-left">
+										<div class="form-group">
+											<label for="" class="col-sm-1 control-label"><b>Software:</b></label>
+											<div class="col-sm-4">
+												<input class="form-control" name="txtSoftCL" id="txtSoftCL" type="text" placeholder="Buscar" >
+												<input type="hidden" id="txtIdSofCl">
+												<input type="hidden" id="tipoSoft">
+											</div>
+											<label class="col-sm-2 control-label"><b>Licenciado:</b></label>
+											<div class="col-sm-2">
+												<?=
+												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkLicencia" value="1" checked>' :
+																'<input type="checkbox" name="chkLicencia" value="1">' : '<input type="checkbox" name="chkLicencia" value="1" checked><br>';
+												?>
+											</div>
+											<div class="col-sm-2">
+												<button class="btn btn-success " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-12">
+												<table id="tabla_soft" class="table table-striped table-bordered">
+													<thead>
+														<tr>
+															<th width="5%">#</th>
+															<th hidden></th>
+															<th width="30%">Tipo Software</th>
+															<th hidden></th>
+															<th width="25%">Software</th>
+															<th width="25%">Licencia</th>
+															<th width="30%">Accion</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>
+											</div>
+											<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+										</div>
+									</div>
+								</div>
+								<!-- End SmartWizard Content -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+		<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+		<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+		<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+		<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+		<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+		<script src="<?php echo $this->basePath() ?>/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+		<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+	<?php } ?>
+
+	<?=
+			$this->inlineScript()
+			->prependFile($this->basePath('js/js_ficha.js'))
+			->prependFile($this->basePath('js/jquery-ui.js'))
+			->prependFile($this->basePath('js/bootbox.js'))
+	?>
+

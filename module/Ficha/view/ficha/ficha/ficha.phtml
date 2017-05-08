@@ -1,0 +1,72 @@
+<div class="right_col" role="main">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/ficha/ficha/form/0/1">Nuevo</a>
+                    <ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<h2>Lista de Fichas</h2>
+                    <table id="datatable" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Tipo</th>
+								<th>Descripcion</th>
+								
+								<th>Vigencia</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<?php foreach ($this->fichas as $ficha) { ?>
+								<tr>
+									<td><?php echo $ficha['tipo'] ?></td>
+									<td><?php echo $ficha['descripcion'] ?></td>
+
+									<td><?= $ficha['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
+									<td>
+										<a class="btn btn-default"href="<?php echo $this->basePath("ficha/ficha/form/1/" . $ficha['id_disp_soft'] . ""); ?>">Editar</a>
+										<?= $ficha['vigencia'] == 1 
+												? 
+												"<a class='btn btn-danger' href='" . $this->basePath('ficha/ficha/' . $ficha['id_disp_soft']) . "'>Eliminar</a></td></i>" 
+											  : "" ?></td>
+								</tr>
+							<?php } ?>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Tipo</th>
+								<th>Descripcion</th>
+								<th>Vigencia</th>
+								<th>Acciones</th>
+							</tr>
+						</tfoot>
+                    </table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/jszip/dist/jszip.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>

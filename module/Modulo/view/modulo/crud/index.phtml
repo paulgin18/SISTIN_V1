@@ -1,0 +1,55 @@
+
+
+            <div class="row">
+                <div class="col-md-12">
+                <h4 class="m-b-lg">Listado de Usuarios <?php echo $var ?>
+                        <a class="btn btn-success" href="<?=$this->basePath()?>/crud/add">Añadir usuario</a></h4>
+                    </div>
+                    <div class="col-md-12">
+
+
+
+
+                        <div class="widget p-lg">
+                            <h4 class="m-b-lg">Ejemplo basico</h4>
+                            <p class="m-b-lg docs">Tabla con listado de usuarios.</p>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Correo</th>
+                                        <th>Contraseña</th>
+                                        <th>Nombre y apellidos</th>
+                                        <th>Ver</th>
+                                        <th>Modificar</th>
+                                        <th>Eliminar</th>
+                                    </tr>
+                                    <?php foreach($lista as $usuario){ ?>
+                                    <tr>
+                                        <td><?=$usuario["id"]?></td>
+                                        <td><?=$usuario["email"]?></td>
+                                        <td><?=$usuario["password"]?></td>
+                                        <td><?=$usuario["nombre"]." ".$usuario["apellido"]?></td>
+                                        <td><a class="btn btn-success" href="<?=$this->basePath()?>/crud/ver/<?=$usuario["id"]?>">Ver</a></td>
+                                        <td><a class="btn btn-primary" href="<?=$this->basePath()?>/crud/modificar/<?=$usuario["id"]?>">Modificar</a></td>
+                                        <td><a class="btn btn-danger" href="<?=$this->basePath()?>/crud/eliminar/<?=$usuario["id"]?>">Eliminar</a></td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+        <!-- /container -->
+        <?php echo $this->inlineScript() 
+        ->prependFile($this->basePath() . '/assets/js/fullcalendar.js')
+        ->prependFile($this->basePath() . '/libs/bower/fullcalendar/dist/fullcalendar.min.js')
+        ->prependFile($this->basePath() . '/libs/bower/moment/moment.js')
+        ->prependFile($this->basePath() . '/assets/js/app.min.js')
+        ->prependFile($this->basePath() . '/assets/js/core.min.js')
+        
+
+        ?>
