@@ -1,4 +1,4 @@
-var registraranio = function (txtDescripcion, txtAnio,txtId) {
+var registraranio = function (txtDescripcion, txtAnio, txtId) {
 	var options = {
 		type: 'POST',
 		url: '../../registraranio',
@@ -32,4 +32,11 @@ $(document).on('click', '#btnguardar', function (event) {
 	registraranio(txtDescripcion, txtAnio, txtId);
 	//this.disabled=false;
 
+});
+
+$(function() {
+    $('input').focusout(function() {
+        // Uppercase-ize contents
+        this.value = this.value.toLocaleUpperCase();
+    });
 });

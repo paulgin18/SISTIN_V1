@@ -1,59 +1,59 @@
-<?php if($mantenimiento!= null ){?>
-<div class="right_col" role="main" style="min-height: 771px;">
-    <div class="">
-        <div class="clearfix"></div>
-        <div class="row">
-            <div c="" lass="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2><?php echo $this->mantenimiento ?> Anio <small></small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                        <br>
-							<div class="form-group">
-								<label class="col-sm-2 control-label"><b>Año:</b></label>
-								<div class="col-sm-1">
-									<input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_anio'] :'';?>">
-									<input class="form-control" name="txtAnio" id="txtAnio" placeholder="" type="text" value="<?= $datos!=null ? $datos['numero'] :'';?>">
+<?php if ($mantenimiento != null) { ?>
+	<div class="right_col" role="main" style="min-height: 771px;">
+	    <div class="">
+	        <div class="clearfix"></div>
+	        <div class="row">
+	            <div class="col-md-12 col-sm-12 col-xs-12">
+	                <div class="x_panel">
+	                    <div class="x_title">
+	                        <h2><?php echo $this->mantenimiento ?> Anio <small></small></h2>
+	                        <ul class="nav navbar-right panel_toolbox">
+	                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+	                        </ul>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                    <div class="x_content">
+							<form class="form-horizontal form-label-left">
+								<div class="form-group">
+									<label for="inputAño" class="col-sm-1 control-label"><b>Año:</b></label>
+									<div class="col-sm-1">
+										<input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos != null ? $datos['id_anio'] : ''; ?>">
+										<input type="text" class="form-control" id="txtAnio" placeholder="2017" value="<?= $datos != null ? $datos['numero'] : ''; ?>">
+									</div>
+									<label for="inputPassword3" class="col-sm-1 control-label">Descripcion</label>
+									<div class="col-sm-9">
+										<input ype="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos != null ? $datos['descripcion'] : ''; ?>" />	
+									</div>
 								</div>
-								<label class="col-sm-2 control-label"><b>Descripcion:</b></label>
-								<div class="col-sm-7">
-									<input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['descripcion'] :'';?>">
-									<input type="hidden" id="idAnio">
-								</div>
-							</div>
-                        <hr>
-                        <div class="form-group">
-                            <center><div class="col-sm-9">
-                                <button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton?></button>
-                                </div></center>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+							</form>
+	                        <hr>
+	                        <div class="form-group">
+	                            <center><div class="col-sm-9">
+										<button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton ?></button>
+	                                </div></center>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
-<?php }?>
-    <script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
-	
+<?php } ?>
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
 
 <?=
 		$this->inlineScript()
-		->prependFile($this->basePath('js/jsanio.js'))
-					->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
+		->prependFile($this->basePath('js/js_anio.js'))
+		->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
 		->prependFile($this->basePath('js/jquery-ui.js'))
 		->prependFile($this->basePath('js/bootbox.js'))
 ?>
