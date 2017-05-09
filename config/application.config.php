@@ -10,8 +10,10 @@ return array(
         'Modulo', 
 		'Ficha',
         'Mantenimiento',
+        'Red',
         'Unidad', 
-        'Application',  
+        'Application',
+
 
     ),
 
