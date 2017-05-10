@@ -11,7 +11,8 @@ return array(
 		'Ficha',
         'Mantenimiento',
         'Red',
-        'Unidad', 
+        'Unidad',
+        'TipoAtencion', 
         'Application',
 
 
