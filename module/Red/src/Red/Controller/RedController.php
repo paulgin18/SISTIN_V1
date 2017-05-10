@@ -87,12 +87,13 @@ class RedController extends AbstractActionController {
 			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
+			$cmbUnidad = $this->getRequest()->getPost('cmbUnidad');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$redes = new Red($this->dbAdapter);
 			if ($id != '') {
 				$insert = $redes->modificar($id,$descripcion);
 			} else {
-				$insert = $redes->insertar($descripcion);
+				$insert = $redes->insertar($descripcion,$cmbUnidad);
 			}
 
 			if($vigencia==1 && $id!=''){

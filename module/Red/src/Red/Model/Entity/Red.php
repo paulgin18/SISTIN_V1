@@ -20,8 +20,9 @@ class Red extends TableGateway {
 	public function insertar($descripcion,$id_uni_ejec) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO red (decripcion,id_uni_ejec) "
-						. "VALUES (upper(trim('$descripcion')),$id_uni_ejec)");
+				"INSERT INTO red (decripcion,id_uni_ejec)"
+				."VALUES (upper(trim('$descripcion')),$id_uni_ejec)");
+			
 		$datos = $insert->execute();
 		return $insert;
 	}
