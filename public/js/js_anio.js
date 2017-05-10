@@ -34,9 +34,8 @@ $(document).on('click', '#btnguardar', function (event) {
 
 });
 
-$(function() {
-    $('input').focusout(function() {
-        // Uppercase-ize contents
-        this.value = this.value.toLocaleUpperCase();
-    });
+$(function () {
+	$('input').focusout(function () {
+		this.value = this.value.toLocaleUpperCase();
+	});
 });

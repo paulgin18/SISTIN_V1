@@ -13,12 +13,12 @@
 	                        <div class="clearfix"></div>
 	                    </div>
 	                    <div class="x_content">
-							<form class="form-horizontal form-label-left">
+							<form class="form-horizontal form-label-left" action="javascript:void(0)">
 								<div class="form-group">
 									<label for="inputAño" class="col-sm-1 control-label"><b>Año:</b></label>
 									<div class="col-sm-1">
-										<input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos != null ? $datos['id_anio'] : ''; ?>">
-										<input type="text" class="form-control" id="txtAnio" placeholder="2017" value="<?= $datos != null ? $datos['numero'] : ''; ?>">
+										<input type="hidden" class="" name="txtId" id="txtId"   placeholder=""  value="<?= $datos != null ? $datos['id_anio'] : ''; ?>">
+										<input type="number" class="form-control" id="txtAnio" minlength="4" maxlength="4" autofocus="autofocus" step="2017"  placeholder="2017" value="<?= $datos != null ? $datos['numero'] : ''; ?>">
 									</div>
 									<label for="inputPassword3" class="col-sm-1 control-label">Descripcion</label>
 									<div class="col-sm-9">
