@@ -23,16 +23,16 @@ var registraranio = function (txtDescripcion, txtAnio, txtId) {
 	$.ajax(options);
 };
 
-$(document).on('click', '#btnguardar', function (event) {
-	this.disabled = true;
-	event.preventDefault();
-	var txtDescripcion = $('#txtDescripcion').val();
-	var txtAnio = $('#txtAnio').val();
-	var txtId = $('#txtId').val();
-	registraranio(txtDescripcion, txtAnio, txtId);
-	//this.disabled=false;
-
-});
+//$(document).on('click', '#btnguardar', function (event) {
+//	this.disabled = true;
+//	event.preventDefault();
+//	var txtDescripcion = $('#txtDescripcion').val();
+//	var txtAnio = $('#txtAnio').val();
+//	var txtId = $('#txtId').val();
+//	registraranio(txtDescripcion, txtAnio, txtId);
+//	//this.disabled=false;
+//
+//});
 
 $(function () {
 	$('input').focusout(function () {
