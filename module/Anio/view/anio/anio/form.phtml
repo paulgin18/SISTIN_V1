@@ -13,26 +13,26 @@
 	                        <div class="clearfix"></div>
 	                    </div>
 	                    <div class="x_content">
-							<form class="form-horizontal form-label-left" id="formRegistro"  onsubmit="registraranio()" validate="validate" >
+							<form class="form-horizontal form-label-left" id="formRegistro"  action="javascript:void(0)"  >
 								<div class="form-group">
 									<label for="inputAño" class="col-sm-1 control-label"><b>Año:</b></label>
-									<div class="col-sm-1">
-										<input type="hidden" class="" name="txtId" id="txtId"   placeholder=""  value="<?= $datos != null ? $datos['id_anio'] : ''; ?>">
-										<input type="number" class="form-control" id="txtAnio" minlength="4" maxlength="4" autofocus="autofocus" step="2017"  placeholder="2017" value="<?= $datos != null ? $datos['numero'] : ''; ?>">
+									<div class="col-sm-2">
+										<input type="hidden" class="" name="txtId" id="txtId"   placeholder="" value="<?= $datos != null ? $datos['id_anio'] : ''; ?>">
+										<input type="text" minlength="4" id="txtAnio"   class='form-control  anio'  required=""  autofocus="autofocus"  placeholder="2017" value="<?= $datos != null ? $datos['numero'] : ''; ?>"  maxlength="4">
 									</div>
 									<label for="inputPassword3" class="col-sm-1 control-label">Descripcion</label>
-									<div class="col-sm-9">
-										<input ype="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos != null ? $datos['descripcion'] : ''; ?>" />	
+									<div class="col-sm-8">
+										<input ype="text" id="txtDescripcion" name="txtDescripcion" class='form-control descripcion' required="" value="<?= $datos != null ? $datos['descripcion'] : ''; ?>" maxlength="300" />	
 									</div>
 								</div>
-							</form>
 	                        <hr>
 	                        <div class="form-group">
 	                            <center><div class="col-sm-9">
 										<button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton ?></button>
 	                                </div></center>
 	                        </div>
-	                    </div>
+							</form>
+						</div>
 	                </div>
 	            </div>
 	        </div>
@@ -53,6 +53,7 @@
 <?=
 		$this->inlineScript()
 		->prependFile($this->basePath('js/js_anio.js'))
+		->prependFile($this->basePath('js/js_valnumlet.js'))
 		->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
 		->prependFile($this->basePath('js/jquery-ui.js'))
 		->prependFile($this->basePath('js/bootbox.js'))

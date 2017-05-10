@@ -24,7 +24,7 @@ class Anio extends TableGateway {
 						. "VALUES "
 						. "(upper(trim('$descripcion')),$numero)");
 		$datos = $insert->execute();
-		return $insert;
+		return $datos;
 	}
 	
 	public function modificar($descripcion, $numero,$id) {
@@ -38,7 +38,7 @@ class Anio extends TableGateway {
 
 
 	public function getAnios() {
-		$consulta = $this->dbAdapter->query("SELECT * FROM anio order by numero desc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_anio,numero,descripcion,vigencia FROM anio order by numero desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
