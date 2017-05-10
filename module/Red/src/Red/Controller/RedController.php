@@ -94,11 +94,10 @@ class RedController extends AbstractActionController {
 				$insert = $redes->modificar($id,$descripcion);
 			} else {
 				$insert = $redes->insertar($descripcion,$cmbUnidad);
+
 			}
 
-			if($vigencia==1 && $id!=''){
-				$insert = $redes->eliminar($id);
-			}
+			
 
 			$msj=$this->mensaje($insert);
 						

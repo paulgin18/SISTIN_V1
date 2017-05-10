@@ -27,7 +27,7 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtDescripcion = $('#txtDescripcion').val();
 	var txtId = $('#txtId').val(); 
 	var cmbUnidad = $('#cmbUnidad').val(); 
-	alert('id de la unidad ejecutora :: '+cmbUnidad);
+	
 	registrarred(txtDescripcion, txtId,cmbUnidad);
 	//this.disabled=false;
 
