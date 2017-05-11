@@ -52,55 +52,84 @@ class AnioController extends AbstractActionController {
 	}
 
 	public function registraranioAction() {
-		$error=0;
+		$error = 0;
+		$msj="";
 		try {
 			$numero = $this->getRequest()->getPost('txtAnio');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$anios = new Anio($this->dbAdapter);
-
+			$anios = new Anio($this->dbAdapter);//Instanciar
 			if ($id != '') {
-				$insert = $anios->modificar($descripcion, $numero, $id);
-				$msj = 'MODIFICADO CORRECTAMENTE';
+				$modificar = $anio->modificar($descripcion, $numero, $id);
+				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $anios->insertar($descripcion, $numero);
-				$msj = 'REGISTRADO CORRECTAMENTE';
+				$insertar = $anios->insertar($descripcion, $numero);
+				$msj = $this->mensaje($insertar, 0);
 			}
 		} catch (\Exception $e) {
-			$error=1;
+			$error = 1;
 			$codError = explode("(", $e->getMessage());
 			$codError = explode("-", $codError[1]);
 			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
 			switch ($codError[0]) {
 				case 23505:
-					$msj=$msj."<br/><strong>MENSAJE:</strong> El registro ingresado '". $numero."', ya se encuentra en la base de datos.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
 					break;
 				case 23514:
-					$msj=$msj."<br/><strong>MENSAJE:</strong> El año '".$numero."' debe ser mayor que 2017.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
 					break;
 				default:
-					$error= explode("DETAIL:",$codError[2]);
-					
-							$msj=$msj. "<strong>CODIGO:</strong>" . $codError[0]. "<br/><br/><strong>MENSAJE</strong> ".strtoupper($error[0]);
+					$error = explode("DETAIL:", $codError[2]);
+
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
 					break;
 			}
 //			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
 //				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
 //			
 		}
-		$response = new JsonModel(array('msj' => $msj, 'error'=>$error));
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
 
+
+
 	public function listadoaniosAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$anios = new Anio($this->dbAdapter);
-		$listadoanios = $anios->getAnios();
+		$listadoanios = $anios->lista();
 		$viewModel = new ViewModel(array("anios" => $listadoanios));
 		return $viewModel;
 	}
 
+	public function eliminarAction() {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$anios = new Anio($this->dbAdapter);
+		$eliminar = $anios->eliminar();
+		$msj=$this->mensaje($eliminar,2);
+		$viewModel = new ViewModel(array("msj" => $msj));
+		return $viewModel;
+	}
+
+		public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj="REGISTRADO CORRECTAMENTE";
+					break;
+				case 1:
+					$msj= "MODIFICADO CORRECTAMENTE";
+					break;
+				case 2:
+					$msj= "ELIMINADO CORRECTAMENTE";
+					break;
+			}
+		} else {
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
+		}
+		return $msj;
+	}
 }

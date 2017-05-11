@@ -33,11 +33,11 @@ class Anio extends TableGateway {
 				"update anio set descripcion=upper(trim('$descripcion')), numero=$numero "
 						. "where id_anio=$id");
 		$datos = $insert->execute();
-		return $insert;
+		return $datos;
 	}
 
 
-	public function getAnios() {
+	public function lista() {
 		$consulta = $this->dbAdapter->query("SELECT id_anio,numero,descripcion,vigencia FROM anio order by numero desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
@@ -47,5 +47,11 @@ class Anio extends TableGateway {
         $consulta=$this->dbAdapter->query("SELECT * FROM anio where  id_anio=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
+    } 
+	
+	public function eliminar($id){
+		$insert = $this->dbAdapter->createStatement("update anio set vigencia=false where id_anio=$id");
+		$datos = $insert->execute();
+		return $datos;
     } 
 }

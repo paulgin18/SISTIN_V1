@@ -12,7 +12,6 @@ return array(
         'Mantenimiento',
         'Red',
         'Unidad',
-        'TipoAtencion', 
         'Application',
 
 
