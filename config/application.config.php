@@ -6,12 +6,15 @@ return array(
 		'Anio',
 		'Marca',
 		'Dispositivo',
+        'Estado',
 		'Modelo',
         'Modulo', 
 		'Ficha',
         'Mantenimiento',
         'Red',
+        'Tipoatencion',
         'Unidad',
+
         'Application',
 
 
