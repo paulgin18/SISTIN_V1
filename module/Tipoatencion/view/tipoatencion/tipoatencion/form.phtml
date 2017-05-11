@@ -6,7 +6,7 @@
             <div c="" lass="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><?php echo $this->mantenimiento ?> Estado<small></small></h2>
+                        <h2><?php echo $this->mantenimiento ?> Tipo de Atencion <small></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         </ul>
@@ -18,12 +18,12 @@
                         <div class="form-group">
                                             <label class="col-sm-1 control-label"><b>Numero:</b></label>
                                             <div class="col-sm-2">
-                                                 <input type="hidden" class="" name="txtId" id="txtId"  placeholder="" value="<?=$datos!=null ? $datos ['id_estado'] :'';?>">
+                                                 <input type="hidden" class="" name="txtId" id="txtId"  placeholder="" value="<?=$datos!=null ? $datos ['id_tipo_atencion'] :'';?>">
                         <input type="text" id="txtNumero" name="txtNumero" class="form-control" value="<?= $datos !=null ? $datos ['numero'] :'';?>">
                                             </div>
-                                            <label class="col-sm-1 control-label"><b>Estado:</b></label>
+                                            <label class="col-sm-1 control-label"><b>Tipo de Atencion</b></label>
                                             <div class="col-sm-4">
-                                                <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_estado'] :'';?>">
+                                                <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_tipo_atencion'] :'';?>">
 
                                 <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['descripcion'] :'';?>">
                                 <input type="hidden" id="idAnio">
@@ -64,7 +64,7 @@
 
 <?=
 		$this->inlineScript()
-		->prependFile($this->basePath('js/js_estado.js'))
+		->prependFile($this->basePath('js/js_tipoatencion.js'))
 					->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
 		->prependFile($this->basePath('js/jquery-ui.js'))
 		->prependFile($this->basePath('js/bootbox.js'))

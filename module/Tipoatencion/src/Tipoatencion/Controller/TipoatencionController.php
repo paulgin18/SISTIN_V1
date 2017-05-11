@@ -8,7 +8,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Estado\Controller;
+namespace Tipoatencion\Controller;
 
 require "vendor/autoload.php";
 
@@ -19,10 +19,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
-use Estado\Model\Entity\Estado;
+use Tipoatencion\Model\Entity\Tipoatencion;
 use Zend\MVC\Exception;
 
-class EstadoController extends AbstractActionController {
+class TipoatencionController extends AbstractActionController {
 
 	public function indexAction() {
 
@@ -68,8 +68,8 @@ class EstadoController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$estados = new Estado($this->dbAdapter);
-		$datos = $estados->buscar($cod);
+		$tipoatencions = new Tipoatencion($this->dbAdapter);
+		$datos = $tipoatencions->buscar($cod);
 		return $datos;
 	}
 
@@ -80,11 +80,11 @@ class EstadoController extends AbstractActionController {
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$estados = new Estado($this->dbAdapter);
+			$tipoatencions = new Tipoatencion($this->dbAdapter);
 			if ($id != '') {
-				$insert = $estados->modificar($id,$descripcion,$numero, $vigencia );
+				$insert = $tipoatencions->modificar($id,$descripcion,$numero, $vigencia );
 			} else {
-				$insert = $estados->insertar($numero,$descripcion);
+				$insert = $tipoatencions->insertar($numero,$descripcion);
 			}
 			$msj=$this->mensaje($insert);
 						
@@ -104,8 +104,8 @@ class EstadoController extends AbstractActionController {
 			
 			$id = $this->params()->fromRoute('id');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$estados = new Estado($this->dbAdapter);
-			$eliminar = $estados->eliminar($id);
+			$tipoatencions = new Tipoatencion($this->dbAdapter);
+			$eliminar = $tipoatencions->eliminar($id);
 			
 			$msj =$this->mensajeEliminar($eliminar);
 			
@@ -142,12 +142,12 @@ public function mensajeEliminar($eliminar){
 			return $msj;
 	}
 
-	public function estadoAction() {
+	public function tipoatencionAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$estados = new Estado($this->dbAdapter);
-		$lista = $estados->lista();
+		$tipoatencions = new Tipoatencion($this->dbAdapter);
+		$lista = $tipoatencions->lista();
 		$viewModel = new ViewModel(array(
-			"estados" => $lista
+			"tipoatencions" => $lista
 		));
 		return $viewModel;
 	}
