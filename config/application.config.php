@@ -14,8 +14,7 @@ return array(
         'Red',
         'Tipoatencion',
         'Unidad',
-
-        'Application',
+		'Application',
 
 
     ),
