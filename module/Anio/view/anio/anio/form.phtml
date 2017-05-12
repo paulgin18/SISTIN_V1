@@ -15,12 +15,12 @@
 	                    <div class="x_content">
 							<form class="form-horizontal form-label-left" id="formRegistro"  action="javascript:void(0)"  >
 								<div class="form-group">
-									<label for="inputAño" class="col-sm-1 control-label"><b>Año:</b></label>
+									<label for="" class="col-sm-1 control-label"><b>Año:</b></label>
 									<div class="col-sm-2">
 										<input type="hidden" class="" name="txtId" id="txtId"   placeholder="" value="<?= $datos != null ? $datos['id_anio'] : ''; ?>">
 										<input type="text" minlength="4" id="txtAnio"   class='form-control  anio'  required=""  autofocus="autofocus"  placeholder="2017" value="<?= $datos != null ? $datos['numero'] : ''; ?>"  maxlength="4">
 									</div>
-									<label for="inputPassword3" class="col-sm-1 control-label">Descripcion</label>
+									<label for="" class="col-sm-1 control-label">Descripcion</label>
 									<div class="col-sm-8">
 										<input ype="text" id="txtDescripcion" name="txtDescripcion" class='form-control descripcion' required="" value="<?= $datos != null ? $datos['descripcion'] : ''; ?>" maxlength="300" />	
 									</div>
@@ -53,7 +53,7 @@
 <?=
 		$this->inlineScript()
 		->prependFile($this->basePath('js/js_anio.js'))
-		->prependFile($this->basePath('js/js_valnumlet.js'))
+	//	->prependFile($this->basePath('js/js_valnumlet.js'))
 		//->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
 		//->prependFile($this->basePath('js/jquery-ui.js'))
 	

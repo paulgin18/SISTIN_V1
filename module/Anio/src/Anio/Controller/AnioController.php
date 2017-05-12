@@ -53,16 +53,16 @@ class AnioController extends AbstractActionController {
 
 	public function registraranioAction() {
 		$error = 0;
-		$msj="";
+		$msj = "";
 		try {
 			$numero = $this->getRequest()->getPost('txtAnio');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$anios = new Anio($this->dbAdapter);//Instanciar
+			$anios = new Anio($this->dbAdapter); //Instanciar
 			if ($id != '') {
-				$modificar = $anio->modificar($descripcion, $numero, $id);
+				$modificar = $anios->modificar($descripcion, $numero, $id);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insertar = $anios->insertar($descripcion, $numero);
@@ -95,8 +95,6 @@ class AnioController extends AbstractActionController {
 		return $response;
 	}
 
-
-
 	public function listadoaniosAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$anios = new Anio($this->dbAdapter);
@@ -106,25 +104,28 @@ class AnioController extends AbstractActionController {
 	}
 
 	public function eliminarAction() {
+		$error = 0;
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$anios = new Anio($this->dbAdapter);
-		$eliminar = $anios->eliminar();
-		$msj=$this->mensaje($eliminar,2);
-		$viewModel = new ViewModel(array("msj" => $msj));
-		return $viewModel;
+		$cod = $this->getRequest()->getPost('cod');
+		$eliminar = $anios->eliminar($cod);
+		$msj = $this->mensaje($eliminar, 2);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
+		$response->setTerminal(true);
+		return $response;
 	}
 
-		public function mensaje($valorConsulta, $tipoConsulta) {
+	public function mensaje($valorConsulta, $tipoConsulta) {
 		if ($valorConsulta == true) {
 			switch ($tipoConsulta) {
 				case 0:
-					$msj="REGISTRADO CORRECTAMENTE";
+					$msj = "REGISTRADO CORRECTAMENTE";
 					break;
 				case 1:
-					$msj= "MODIFICADO CORRECTAMENTE";
+					$msj = "MODIFICADO CORRECTAMENTE";
 					break;
 				case 2:
-					$msj= "ELIMINADO CORRECTAMENTE";
+					$msj = "ELIMINADO CORRECTAMENTE";
 					break;
 			}
 		} else {
@@ -132,4 +133,5 @@ class AnioController extends AbstractActionController {
 		}
 		return $msj;
 	}
+
 }

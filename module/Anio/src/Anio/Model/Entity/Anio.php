@@ -38,7 +38,7 @@ class Anio extends TableGateway {
 
 
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_anio,numero,descripcion,vigencia FROM anio order by numero desc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_anio,numero,descripcion,vigencia FROM anio order by  vigencia desc, numero desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}

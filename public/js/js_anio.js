@@ -61,20 +61,21 @@ function validar() {
 	}
 }
 
-var eliminar= function ($cod){
+var eliminar = function ($cod){
 	var options = {
 		type: 'POST',
-		url: '../../eliminar',
+		url: 'eliminar',
 		data: {'cod': $cod,
 		},
 		dataType: 'json',
 		success: function (response) {
 		(response.error == 0) ?
 			bootbox.alert(response.msj, function () {
-				window.location.href = "../../listadoanios";
+				window.location.href = "listadoanios";
 			}) :
 			bootbox.alert(response.msj);
 		}
 	};
 	$.ajax(options);
+
 }
