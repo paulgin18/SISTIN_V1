@@ -21,15 +21,24 @@
                         <div class="col-sm-4">
 
                             <select class="form-control" name="cmbUnidad" id="cmbUnidad"> 
-                            <?php foreach ($this->unidades as $unidad) { ?>
-                              
-                                <option value="<?php echo $unidad['id_uni_ejec'] ?>"><?php echo $unidad['descripcion']?> </option>
+                            <?php foreach ($this->unidades as $unidad) { ?>      
+
+                                <?= $datos['id_uni_ejec']==$unidad['id_uni_ejec'] ? 
+                                '<option selected
+                                 value='. $unidad['id_uni_ejec'] .'>'
+                                 . $unidad['descripcion'].'
+                                </option>' :
+
+                                '<option 
+                                 value='. $unidad['id_uni_ejec'] .'>'
+                                 . $unidad['descripcion'].'
+                                </option>';?>     
+
+                                
                             <?php } ?>
                             </select>
                             
-                        
-
-                        </div> 
+                         </div> 
                         
 
                         <div class="form-group">
@@ -42,7 +51,8 @@
 
                             <div class="col-sm-7">
 							    <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_red'] :'';?>">
-                                <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['descripcion'] :'';?>">
+                                <!–El mismo input es para ambos para insertar y para modificar->
+                                <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['decripcion'] :'';?>">
                                     
                             </div>
 

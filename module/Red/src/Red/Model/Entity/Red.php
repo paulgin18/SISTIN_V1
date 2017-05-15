@@ -26,29 +26,31 @@ class Red extends TableGateway {
 		$datos = $insert->execute();
 		return $insert;
 	}
-	public function modificar($id_red, $id_uni_ejec, $descripcion) {
+	public function modificar($id_red,$descripcion) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update red set decripcion=upper(trim('$descripcion')) 
-				 and id_uni_ejec=$id_uni_ejec"
+				"update red set decripcion=upper(trim('$descripcion')) "
 						. "where id_red=$id_red");
 		$datos = $update->execute();
 		return $update;
 	}
+
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_red, decripcion,id_uni_ejec FROM red order by decripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_red, decripcion,vigencia,id_uni_ejec FROM red order by decripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_red, decripcion,id_uni_ejec FROM red where id_uni_ejec=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT  decripcion,id_red,id_uni_ejec FROM red where id_red=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
+    	
     }
-	  public function buscarRed($descripcion){
-        $consulta=$this->dbAdapter->query(
+
+	public function buscarRed($descripcion){
+        $consulta=$this->dbAdapter->query( 
 		"SELECT decripcion as label FROM red where decripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    

@@ -15,6 +15,7 @@
 						<thead>
 							<tr>
 								<th>Descripcion</th>
+								<th>Vigencia</th>
 								<th>Accciones</th>
 							</tr>
 						</thead>
@@ -23,9 +24,9 @@
 							<?php foreach ($this->redes as $red) { ?>
 								<tr>
 									<td><?php echo $red['decripcion'] ?></td>
-									
+									<td><?= $red['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
-										<a class="btn btn-default"href="<?php echo $this->basePath("red/red/form/1/" . $red['id_red'] . ""); ?>">Editar</a>
+										<a class="btn btn-default" href="<?php echo $this->basePath("red/red/form/1/" . $red['id_red'] .""); ?>">Editar</a>
 
 										<a class="btn btn-danger" href="<?php echo $this->basePath("red/red/eliminar/" . $red['id_red'] . ""); ?>">Eliminar</a>
 
@@ -37,8 +38,10 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<th>Descripcion</th>		
+								<th>Descripcion</th>
+								<th>Vigencia</th>	
 								<th>Acciones</th>
+									
 							</tr>
 						</tfoot>
                     </table>
