@@ -35,13 +35,7 @@ $(document).submit(function (event) {
 	}
 });
 
-$(function () {
-	
-});
-
-
 $(document).ready(function () {
-	
 	$('input').focusout(function () {
 		this.value = this.value.toLocaleUpperCase();
 	});
@@ -65,5 +59,23 @@ function validar() {
 	        } else {
 		return true;
 	}
+}
+
+var eliminar = function ($cod){
+	var options = {
+		type: 'POST',
+		url: 'eliminar',
+		data: {'cod': $cod,
+		},
+		dataType: 'json',
+		success: function (response) {
+		(response.error == 0) ?
+			bootbox.alert(response.msj, function () {
+				window.location.href = "listadoanios";
+			}) :
+			bootbox.alert(response.msj);
+		}
+	};
+	$.ajax(options);
 
 }

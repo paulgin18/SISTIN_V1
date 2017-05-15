@@ -47,14 +47,17 @@ class RedController extends AbstractActionController {
 //        return new ViewModel(array('session' => $session ));
 	}
 
+	//metodo relacionado con el tipo de formulario que se abre
+	//puede ser el formulario de Insertar o Modificar 
 	public function formAction() {
-		$id = $this->params()->fromRoute("id", null);
-		$cod = $this->params()->fromRoute("cod", null);
+		$id = $this->params()->fromRoute("id", null); // editar o insertar 0=insertar y 1=modificar 
+		$cod = $this->params()->fromRoute("cod", null); //recupera el id de bd
+		
 		if ($id !== null) {
 			if ($id == 0 ) {
 
 				//ESTABLECE UNA CONEXION CON LA BD Y OBTIENE LA LISTA
-				$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$this->dbAdapter = $this->getServiceLocator() -> get('Zend\Db\Adapter');		
 		$unidades = new Unidad($this->dbAdapter);
 		$lista = $unidades->lista();
 				//RETORNA UN NUEVO MODELO AGREGANDO LA VARIABLE UNIDADES Q CONTIENE LA LISTA
@@ -64,24 +67,44 @@ class RedController extends AbstractActionController {
 					'datos' => null));
 
 			} else {
+				//condicion para editar un registro cod= es el id de la base de datos
 				if ($id == 1 && $cod>0) {
-				$datos = $this->buscar($cod);
+				$this->dbAdapter = $this->getServiceLocator() -> get('Zend\Db\Adapter');		
+				$unidades = new Unidad($this->dbAdapter);
+				$lista = $unidades->lista();
+
+				$datos = $this->buscarRed($cod);
+
 				return new ViewModel(
+					    // la variable mantenimiento de la vista, cambia a Modificar
 						array('mantenimiento' => 'Modificar',
 					'textBoton' => 'Actualizar',
-					'datos' => $datos));
+					"unidades" => $lista, //contiene una lista de las unidades ejecutoras
+					'datos' => $datos)); // contiene un registro buscado de las redes
 				}
 			}
 		}
 	}
 
-	public function buscar($cod) {
+     
+	public function buscarRed($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$redes = new Red($this->dbAdapter);
 		$datos = $redes->buscar($cod);
 		return $datos;
 	}
+	
 
+
+
+	public function buscarUnidad(){
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$unid=ades|  new Unidad($this->dbAdapter);
+		$datos = $redes->buscar($cod);
+		return $datos;
+	}
+	//metodo encargado de la accion de Insertar o Actualizar se relaciona 
+	// con el formulario 
 	public function registrarAction() {
 		try {
 			

@@ -145,7 +145,7 @@ public function mensajeEliminar($eliminar){
 	public function accionAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$acciones = new Accion($this->dbAdapter);
-		$lista = $accciones->lista();
+		$lista = $acciones->lista();
 		$viewModel = new ViewModel(array(
 			"acciones" => $lista
 		));
