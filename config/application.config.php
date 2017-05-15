@@ -3,7 +3,8 @@ return array(
     // This should be an array of module namespaces used in the application.
     //se añaden los modulos creados, tener en cuenta que el ultimo modulo es el que tomara el layout por default, se pude cambiar variando el orden //pendiente de configuracion aidcional en caso se quiera cambiar de layout dinamicamente
     'modules' => array(
-		'Anio',
+        
+        'Anio',
 		'Marca',
 		'Dispositivo',
         'Estado',
@@ -14,7 +15,7 @@ return array(
         'Red',
         'Tipoatencion',
         'Unidad',
-   
+        'Accion',
         'Application',
 
 
