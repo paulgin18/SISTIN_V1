@@ -19,20 +19,25 @@ var registrar = function (txtDescripcion, txtId) {
 	$.ajax(options);
 };
 
-$(document).on('click', '#btnguardar', function (event) {
-	this.disabled = true;
-	event.preventDefault();
-	var txtDescripcion = $('#txtDescripcion').val();
-	var txtId = $('#txtId').val();
-	registrar(txtDescripcion, txtId);
+$(document).submit(function (event) {
+	var val = validar();
+	if (val == true) {
+		$("#btnguardar").prop('disabled', true);
+		event.preventDefault();
+		event.preventDefault();
+		var txtDescripcion = $('#txtDescripcion').val();
+		var txtId = $('#txtId').val();
+		registrar(txtDescripcion, txtId);
+		this.disabled = false;
+	}
 });
+
 
 $(document).ready(function () {
 	$('input').focusout(function () {
 		this.value = this.value.toLocaleUpperCase();
 	});
 	$('#txtDescripcion').valcn(' abcdefghijklmnñopqrstuvwxyzáéiou');
-
 	$(".descripcion").keyup(function () {
 		if ($(this).val() != "") {
 			$(".error").fadeOut();
@@ -41,18 +46,16 @@ $(document).ready(function () {
 	});
   
 });
-
-
 function validar() {
 	    $(".error").remove();
 	        if ($(".descripcion").val() == "") {
 		            $(".descripcion").focus().after("<span class='error'>Ingrese la descripcion.</span>");
 		            return false;
 	        }
+	return true;
 }
 
 var eliminar = function ($cod, $vigencia) {
-	alert($vigencia);
 	var options = {
 		type: 'POST',
 		url: 'eliminar',
@@ -65,7 +68,9 @@ var eliminar = function ($cod, $vigencia) {
 			}) :
 					bootbox.alert(response.msj);
 		}
+		, error: function () {
+			this.disabled = true;
+		}
 	};
 	$.ajax(options);
-
 }

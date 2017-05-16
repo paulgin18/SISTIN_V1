@@ -33,7 +33,7 @@ class Marca extends TableGateway {
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_marca, descripcion, vigencia FROM marca order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_marca, descripcion, vigencia FROM marca order by vigencia desc, descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
