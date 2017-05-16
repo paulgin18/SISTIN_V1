@@ -10,16 +10,7 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/',
-                    'defaults' => array(
-                        'controller' => 'Marca\Controller\Marcalistado',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
+            
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -30,8 +21,6 @@ return array(
                     'route'    => '/marca',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Marca\Controller',
-                        'controller'    => 'Marcalistado',
-                        'action'        => 'index',
                     ),
                 ),
                 'may_terminate' => true,
@@ -74,7 +63,6 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Marca\Controller\Marcalistado' => 'Marca\Controller\MarcalistadoController',
             'Marca\Controller\Marca' => 'Marca\Controller\MarcaController'
         ),
     ),

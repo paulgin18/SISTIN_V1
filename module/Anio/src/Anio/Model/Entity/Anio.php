@@ -49,8 +49,8 @@ class Anio extends TableGateway {
         return $datos[0];
     } 
 	
-	public function eliminar($id){
-		$insert = $this->dbAdapter->createStatement("update anio set vigencia=false where id_anio=$id");
+	public function eliminar($id,$vigencia){
+		$insert = $this->dbAdapter->createStatement("update anio set vigencia=$vigencia where id_anio=$id");
 		$datos = $insert->execute();
 		return $datos;
     } 

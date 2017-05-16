@@ -23,7 +23,7 @@
 									<td><?= $anio['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td><a class="btn btn-default" href="<?php echo $this->basePath("anio/anio/form/1/" . $anio['id_anio'] . ""); ?>">Editar</a>
 										<!--<?= $anio['vigencia'] == 1 ? "<a class='btn btn-danger btnBorrar' href='/*" . $this->basePath("anio/edit/" . $anio['id_anio'] . "") . "'>Eliminar</a>" : ""; ?>-->
-										<?= $anio['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "" ?>
+										<?= $anio['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 									</td>
 									<td id="idCod" style="display:none;"><?= $anio['id_anio'] ?></td>
 								</tr>
@@ -60,6 +60,5 @@
 
 <?=
 		$this->inlineScript()
-		
 		->prependFile($this->basePath('js/js_anio.js'))
 ?>

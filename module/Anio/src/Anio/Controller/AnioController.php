@@ -60,7 +60,7 @@ class AnioController extends AbstractActionController {
 			$id = $this->getRequest()->getPost('txtId');
 
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$anios = new Anio($this->dbAdapter); //Instanciar
+			$anios = new Anio($this->dbAdapter); 
 			if ($id != '') {
 				$modificar = $anios->modificar($descripcion, $numero, $id);
 				$msj = $this->mensaje($modificar, 1);
@@ -104,12 +104,14 @@ class AnioController extends AbstractActionController {
 	}
 
 	public function eliminarAction() {
-		$error = 0;
+		$error=0;$tipoConsulta = 0;
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$anios = new Anio($this->dbAdapter);
 		$cod = $this->getRequest()->getPost('cod');
-		$eliminar = $anios->eliminar($cod);
-		$msj = $this->mensaje($eliminar, 2);
+		$vigencia = $this->getRequest()->getPost('vigencia');
+		$eliminar = $anios->eliminar($cod,$vigencia);
+		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
@@ -126,6 +128,9 @@ class AnioController extends AbstractActionController {
 					break;
 				case 2:
 					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
 					break;
 			}
 		} else {

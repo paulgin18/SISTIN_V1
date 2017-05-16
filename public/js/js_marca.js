@@ -1,23 +1,19 @@
-var registrar = function (txtDescripcion, chkVigencia, txtId) {
+var registrar = function (txtDescripcion, txtId) {
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {'txtDescripcion': txtDescripcion,
-			'chkVigencia': chkVigencia,
 			'txtId': txtId,
 		},
 		dataType: 'json',
 		success: function (response) {
-			var elemento = response.msj.split(":");
-			if (elemento.length > 0) {
-				if (elemento[0] == "Error") {
-					bootbox.alert(elemento[0] + "" + elemento[1]);
-				} else {
+			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
 						window.location.href = "../../marca";
-					});
-				}
-			}
+					})
+					: bootbox.alert(response.msj);
+			$("#btnguardar").prop('disabled', false);
+
 		}
 	};
 	$.ajax(options);
@@ -27,15 +23,49 @@ $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
 	var txtDescripcion = $('#txtDescripcion').val();
-	var chkVigencia = $('input:checkbox[name=chkVigencia]:checked').val();
 	var txtId = $('#txtId').val();
-	alert(chkVigencia);
-	if(chkVigencia==1){
-		chkVigencia=true;
-	}else{
-		chkVigencia=false;
-	}
-	registrar(txtDescripcion, chkVigencia, txtId);
-	//this.disabled=false;
-
+	registrar(txtDescripcion, txtId);
 });
+
+$(document).ready(function () {
+	$('input').focusout(function () {
+		this.value = this.value.toLocaleUpperCase();
+	});
+	$('#txtDescripcion').valcn(' abcdefghijklmnñopqrstuvwxyzáéiou');
+
+	$(".descripcion").keyup(function () {
+		if ($(this).val() != "") {
+			$(".error").fadeOut();
+			return false;
+		}
+	});
+  
+});
+
+
+function validar() {
+	    $(".error").remove();
+	        if ($(".descripcion").val() == "") {
+		            $(".descripcion").focus().after("<span class='error'>Ingrese la descripcion.</span>");
+		            return false;
+	        }
+}
+
+var eliminar = function ($cod, $vigencia) {
+	alert($vigencia);
+	var options = {
+		type: 'POST',
+		url: 'eliminar',
+		data: {'cod': $cod, 'vigencia': $vigencia,
+		},
+		dataType: 'json',
+		success: function (response) {
+			(response.error == 0) ? bootbox.alert(response.msj, function () {
+				window.location.href = "marca";
+			}) :
+					bootbox.alert(response.msj);
+		}
+	};
+	$.ajax(options);
+
+}
