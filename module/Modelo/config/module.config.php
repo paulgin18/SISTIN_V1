@@ -10,16 +10,7 @@
 return array(
     'router' => array(
         'routes' => array(
-            'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/',
-                    'defaults' => array(
-                        'controller' => 'Modelo\Controller\Modelolistado',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
+            
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -30,8 +21,6 @@ return array(
                     'route'    => '/modelo',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Modelo\Controller',
-                        'controller'    => 'Modelolistado',
-                        'action'        => 'index',
                     ),
                 ),
                 'may_terminate' => true,
@@ -74,7 +63,6 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Modelo\Controller\Modelolistado' => 'Modelo\Controller\ModelolistadoController',
             'Modelo\Controller\Modelo' => 'Modelo\Controller\ModeloController'
         ),
     ),

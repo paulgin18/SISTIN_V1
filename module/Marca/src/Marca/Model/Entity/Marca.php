@@ -19,23 +19,21 @@ class Marca extends TableGateway {
 
 	public function insertar($descripcion) {
 		$insert = $this->dbAdapter->
-				createStatement(
-				"INSERT INTO marca (descripcion) "
-						. "VALUES (upper(trim('$descripcion')))");
+				createStatement("INSERT INTO marca (descripcion) VALUES (upper(trim('$descripcion')))");
 		$datos = $insert->execute();
-		return $insert;
+		return $datos;
 	}
-	public function modificar($id, $descripcion, $vigencia) {
+	public function modificar($id, $descripcion) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update marca set descripcion=upper(trim('$descripcion')), vigencia='$vigencia'"
+				"update marca set descripcion=upper(trim('$descripcion'))"
 						. "where id_marca=$id");
 		$datos = $update->execute();
-		return $update;
+		return $datos;
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_marca, descripcion, vigencia FROM marca order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_marca, descripcion, vigencia FROM marca order by vigencia desc, descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
@@ -59,4 +57,9 @@ class Marca extends TableGateway {
         $datos=$consulta->toArray();        
         return $datos;    
     }
+	public function eliminar($id,$vigencia){
+		$insert = $this->dbAdapter->createStatement("update marca set vigencia=$vigencia where id_marca=$id");
+		$datos = $insert->execute();
+		return $datos;
+    } 
 }

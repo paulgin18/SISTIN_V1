@@ -17,6 +17,7 @@
 								<th>Descripcion</th>
 								<th>Vigencia</th>
 								<th>Accciones</th>
+								<th style="display:none">c</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -28,11 +29,10 @@
 									<td>
 										<a class="btn btn-default" href="<?php echo $this->basePath("red/red/form/1/" . $red['id_red'] .""); ?>">Editar</a>
 
-										<a class="btn btn-danger" href="<?php echo $this->basePath("red/red/eliminar/" . $red['id_red'] . ""); ?>">Eliminar</a>
+										<?= $red['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 
-								
-
-									</td>
+										</td>
+									<td id="idCod" style="display:none;"><?= $red['id_red'] ?><td>
 								</tr>
 							<?php } ?>
 						</tbody>
@@ -67,4 +67,8 @@
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/jszip/dist/jszip.min.js"></script>
-<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script><?=
+		$this->inlineScript()
+		
+		->prependFile($this->basePath('js/js_red.js'))
+?>

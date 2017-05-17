@@ -50,17 +50,17 @@ class MarcaController extends AbstractActionController {
 		$id = $this->params()->fromRoute("id", null);
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
-			if ($id == 0 ) {
+			if ($id == 0) {
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
 			} else {
-				if ($id == 1 && $cod>0) {
-				$datos = $this->buscar($cod);
-				return new ViewModel(
-						array('mantenimiento' => 'Modificar',
-					'textBoton' => 'Actualizar',
-					'datos' => $datos));
+				if ($id == 1 && $cod > 0) {
+					$datos = $this->buscar($cod);
+					return new ViewModel(
+							array('mantenimiento' => 'Modificar',
+						'textBoton' => 'Actualizar',
+						'datos' => $datos));
 				}
 			}
 		}
@@ -74,6 +74,8 @@ class MarcaController extends AbstractActionController {
 	}
 
 	public function registrarAction() {
+		$error = 0;
+		$msj = "";
 		try {
 			$vigencia = $this->getRequest()->getPost('chkVigencia');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
@@ -81,29 +83,56 @@ class MarcaController extends AbstractActionController {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$marcas = new Marca($this->dbAdapter);
 			if ($id != '') {
-				$insert = $marcas->modificar($id,$descripcion, $vigencia );
+				$modificar= $marcas->modificar($id, $descripcion);
+				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $marcas->insertar($descripcion);
+				$msj = $this->mensaje($insert, 0);
 			}
-			$msj=$this->mensaje($insert);
-						
 		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			switch ($codError[0]) {
+				case 23505:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					break;
+				case 23514:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
+					break;
+				default:
+					$error = explode("DETAIL:", $codError[2]);
+
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+					break;
+			}
 		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
-	
-	public function mensaje($insert){
-		if ($insert == true) {
-				$msj = 'REGISTRADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
+
+	public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj = "REGISTRADO CORRECTAMENTE";
+					break;
+				case 1:
+					$msj = "MODIFICADO CORRECTAMENTE";
+					break;
+				case 2:
+					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
+					break;
 			}
-			return $msj;
+		} else {
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
+		}
+		return $msj;
 	}
 
 	public function marcaAction() {
@@ -114,6 +143,20 @@ class MarcaController extends AbstractActionController {
 			"marcas" => $lista
 		));
 		return $viewModel;
+	}
+
+	public function eliminarAction() {
+		$error = 0;$tipoConsulta=0;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$marcas = new Marca($this->dbAdapter);
+		$cod = $this->getRequest()->getPost('cod');
+		$vigencia = $this->getRequest()->getPost('vigencia');
+		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+		$eliminar = $marcas->eliminar($cod, $vigencia);
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
+		$response->setTerminal(true);
+		return $response;
 	}
 
 }

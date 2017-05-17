@@ -25,17 +25,17 @@ class Modelo extends TableGateway {
 		$datos = $insert->execute();
 		return $insert;
 	}
-	public function modificar($id, $descripcion, $capacidad, $vigencia) {
+	public function modificar($id, $descripcion, $capacidad) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update modelo set descripcion=upper(trim('$descripcion')), capacidad='$capacidad',vigencia='$vigencia'"
+				"update modelo set descripcion=upper(trim('$descripcion')), capacidad='$capacidad'"
 						. "where id_modelo=$id");
 		$datos = $update->execute();
-		return $update;
+		return $datos;
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_modelo, descripcion, capacidad, vigencia FROM modelo order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_modelo, descripcion, capacidad, vigencia FROM modelo order by vigencia desc, descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
@@ -52,4 +52,10 @@ class Modelo extends TableGateway {
         $datos=$consulta->toArray();        
         return $datos;    
     }
+	
+	public function eliminar($id,$vigencia){
+		$insert = $this->dbAdapter->createStatement("update modelo set vigencia=$vigencia where id_modelo=$id");
+		$datos = $insert->execute();
+		return $datos;
+    } 
 }

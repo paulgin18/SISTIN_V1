@@ -51,7 +51,7 @@ $(document).ready(function () {
 function validar() {
 	    $(".error").remove();
 	        if ($(".descripcion").val() == "") {
-		            $(".descripcion").focus().after("<span class='error'>Ingrese su nombre</span>");
+		            $(".descripcion").focus().after("<span class='error'>Ingrese la descripcion</span>");
 		            return false;
 	        } else if ($(".anio").val() == "") {
 		            $(".anio").focus().after("<span class='error'>Ingrese un año</span>");
@@ -61,11 +61,11 @@ function validar() {
 	}
 }
 
-var eliminar = function ($cod){
+var eliminar = function ($cod,$vigencia){
 	var options = {
 		type: 'POST',
 		url: 'eliminar',
-		data: {'cod': $cod,
+		data: {'cod': $cod,'vigencia':$vigencia,
 		},
 		dataType: 'json',
 		success: function (response) {
