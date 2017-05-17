@@ -41,7 +41,7 @@ class Accion extends TableGateway {
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_accion,tipo,descripcion, vigencia FROM accion where id_=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT id_accion,tipo,descripcion, vigencia FROM accion where id_accion=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }

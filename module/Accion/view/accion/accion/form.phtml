@@ -15,15 +15,20 @@
                     <div class="x_content">
                         <br>
 
+
                         <div class="form-group">
                                             <label class="col-sm-1 control-label"><b>Numero:</b></label>
                                             <div class="col-sm-2">
                                                  <input type="hidden" class="" name="txtId" id="txtId"  placeholder="" value="<?=$datos!=null ? $datos ['id_accion'] :'';?>">
-                        <input type="text" id="txtNumero" name="txtNumero" class="form-control" value="<?= $datos !=null ? $datos ['numero'] :'';?>">
+
+                        <input type="text" id="txtTipo" name="txtTipo" class="form-control" value="<?= $datos !=null ? $datos ['tipo'] :'';?>">
                                             </div>
                                             <label class="col-sm-1 control-label"><b>Tipo de Accion</b></label>
                                             <div class="col-sm-4">
+
                                                 <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_accion'] :'';?>">
+
+
 
                                 <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['descripcion'] :'';?>">
                                 <input type="hidden" id="idAnio">

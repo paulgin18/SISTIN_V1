@@ -68,7 +68,7 @@ class AccionController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$accions = new Accionatencion($this->dbAdapter);
+		$accions = new Accion($this->dbAdapter);
 		$datos = $accions->buscar($cod);
 		return $datos;
 	}
@@ -80,7 +80,7 @@ class AccionController extends AbstractActionController {
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$accions = new Accionatencion($this->dbAdapter);
+			$accions = new Accion($this->dbAdapter);
 			if ($id != '') {
 				$insert = $accions->modificar($id,$descripcion,$tipo, $vigencia );
 			} else {
@@ -106,7 +106,7 @@ class AccionController extends AbstractActionController {
 			
 			$id = $this->params()->fromRoute('id');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$accions = new Accionatencion($this->dbAdapter);
+			$accions = new Accion($this->dbAdapter);
 			$eliminar = $accions->eliminar($id);
 			
 			$msj =$this->mensajeEliminar($eliminar);
