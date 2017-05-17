@@ -20,12 +20,12 @@ class Accion extends TableGateway {
 	public function insertar($tipo,$descripcion) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO accion (tipo,descripcion) "
+				"INSERT INTO accion  (tipo,descripcion) "
 						. "VALUES ($tipo,upper(trim('$descripcion')))");
 		$datos = $insert->execute();
 		return $insert;
 	}
-	public function modificar($id,$tipo, $descripcion, $vigencia) {
+	public function modificar($id, $descripcion,$tipo, $vigencia) {
 		$update = $this->dbAdapter->
 				createStatement(
 				"update accion set descripcion=upper(trim('$descripcion')),tipo='$tipo', vigencia='$vigencia'"
@@ -41,13 +41,13 @@ class Accion extends TableGateway {
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_accion,tipo,descripcion, vigencia FROM accion where id_accion=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT id_accion,tipo,descripcion, vigencia FROM accion where id_=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }
-	  public function buscarAccion($descripcion){
+	  public function buscarAccion ($descripcion){
         $consulta=$this->dbAdapter->query(
-		"SELECT id_accion as value,tipo as tipohs, descripcion as label, vigencia FROM accion where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+		"SELECT id_accion as value,tipo as tipoacc, descripcion as label, vigencia FROM acccion where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }
@@ -57,18 +57,18 @@ class Accion extends TableGateway {
 public function eliminar($id) {
 		$delete = $this->dbAdapter->
 				createStatement(
-				"UPDATE accion set vigencia=FALSE where id_accion=$id");
+				"UPDATE accion  set vigencia=FALSE where id_accion=$id");
 		$datos = $delete->execute();
 		return $delete;
 	}
 
+
 	//MARCA MODELO ??
-	
   
 
-	public function buscarAccionModelo($descripcion){
+	public function buscarAccionatencionModelo($descripcion){
         $consulta=$this->dbAdapter->query(
-				"SELECT id_accion as value,tipo as cantidad, descripcion as label, vigencia FROM accion where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+				"SELECT id_accion  as value,tipo as tipoacc, descripcion as label, vigencia FROM accion where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }

@@ -23,3 +23,7 @@ $(document).on('click', '.btnBorrar', function (event) {
 });
 	
 });
+
+
+
+

@@ -6,7 +6,7 @@
             <div c="" lass="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><?php echo $this->mantenimiento ?> Accion<small></small></h2>
+                        <h2><?php echo $this->mantenimiento ?> Tipo de Accion <small></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         </ul>
@@ -19,9 +19,9 @@
                                             <label class="col-sm-1 control-label"><b>Numero:</b></label>
                                             <div class="col-sm-2">
                                                  <input type="hidden" class="" name="txtId" id="txtId"  placeholder="" value="<?=$datos!=null ? $datos ['id_accion'] :'';?>">
-                        <input type="text" id="txtTipo" name="txtTipo" class="form-control" value="<?= $datos !=null ? $datos ['tipo'] :'';?>">
+                        <input type="text" id="txtNumero" name="txtNumero" class="form-control" value="<?= $datos !=null ? $datos ['numero'] :'';?>">
                                             </div>
-                                            <label class="col-sm-1 control-label"><b>Accion:</b></label>
+                                            <label class="col-sm-1 control-label"><b>Tipo de Accion</b></label>
                                             <div class="col-sm-4">
                                                 <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_accion'] :'';?>">
 

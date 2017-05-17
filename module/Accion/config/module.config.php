@@ -27,7 +27,7 @@ return array(
             'accion' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/accion ',
+                    'route'    => '/accion',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Accion\Controller',
                         'controller'    => 'Accionlistado',
