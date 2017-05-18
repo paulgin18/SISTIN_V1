@@ -20,16 +20,13 @@ class Accion extends TableGateway {
 	public function insertar($tipo,$descripcion) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO accion  (tipo,descripcion) "
-						. "VALUES ($tipo,upper(trim('$descripcion')))");
+				"INSERT INTO accion(tipo,descripcion)". 
+				 "VALUES ('$tipo',upper(trim('$descripcion')))");
 		$datos = $insert->execute();
 		return $insert;
 	}
-	public function modificar($id, $descripcion,$tipo, $vigencia) {
-		$update = $this->dbAdapter->
-				createStatement(
-				"update accion set descripcion=upper(trim('$descripcion')),tipo='$tipo', vigencia='$vigencia'"
-						. "where id_accion=$id");
+	public function modificar($id, $descripcion,$tipo) {
+		$update = $this->dbAdapter->createStatement("UPDATE accion SET descripcion=upper(trim('$descripcion')), tipo='$tipo' WHERE id_accion=$id");
 		$datos = $update->execute();
 		return $update;
 	}

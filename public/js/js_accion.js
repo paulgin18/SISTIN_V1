@@ -1,12 +1,14 @@
 
 
-var registrar = function (txtTipo,txtDescripcion, chkVigencia, txtId) {
+var registrar = function (txtTipo,txtDescripcion, txtId) {
+	
+	
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {'txtTipo':txtTipo,
 			'txtDescripcion': txtDescripcion,
-			'chkVigencia': chkVigencia,
+			
 			'txtId': txtId,
 		},
 		dataType: 'json',
@@ -26,19 +28,19 @@ var registrar = function (txtTipo,txtDescripcion, chkVigencia, txtId) {
 
 
 $(document).on('click', '#btnguardar', function (event) {
-	this.disabled = true;
+	alert('dasdsada');
+this.disabled = true;
 	event.preventDefault();
-	var txtNumero =$('#txtTipo').val();
+	var txtTipo =$('#txtTipo').val();
 	var txtDescripcion = $('#txtDescripcion').val();
-	var chkVigencia = $('input:checkbox[name=chkVigencia]:checked').val();
+
 	var txtId = $('#txtId').val();
+	alert('tipo '+txtTipo);
+	alert('descripcion '+txtDescripcion);
 	
-	if(chkVigencia==1){
-		chkVigencia=true;
-	}else{
-		chkVigencia=false;
-	}
-	registrar(txtTipo,txtDescripcion, chkVigencia, txtId);
+	registrar(txtTipo,txtDescripcion, txtId);
+	//registrar(txtTipo,txtDescripcion,txtId);
+	
 	//this.disabled=false;
 
 });

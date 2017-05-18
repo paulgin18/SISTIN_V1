@@ -51,6 +51,7 @@ class AccionController extends AbstractActionController {
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
 			if ($id == 0 ) {
+				
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
