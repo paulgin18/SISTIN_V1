@@ -28,15 +28,14 @@ var registrar = function (txtTipo,txtDescripcion, txtId) {
 
 
 $(document).on('click', '#btnguardar', function (event) {
-	alert('dasdsada');
+
 this.disabled = true;
 	event.preventDefault();
 	var txtTipo =$('#txtTipo').val();
 	var txtDescripcion = $('#txtDescripcion').val();
 
 	var txtId = $('#txtId').val();
-	alert('tipo '+txtTipo);
-	alert('descripcion '+txtDescripcion);
+	
 	
 	registrar(txtTipo,txtDescripcion, txtId);
 	//registrar(txtTipo,txtDescripcion,txtId);
