@@ -22,7 +22,10 @@ use Zend\Db\Adapter\Adapter;
 use Accion\Model\Entity\Accion;
 use Zend\MVC\Exception;
 
-class AccionController extends AbstractActionController {
+
+
+
+class accionController extends AbstractActionController {
 
 	public function indexAction() {
 
@@ -51,6 +54,7 @@ class AccionController extends AbstractActionController {
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
 			if ($id == 0 ) {
+				
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
@@ -68,8 +72,8 @@ class AccionController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$acciones = new Accion($this->dbAdapter);
-		$datos = $acciones->buscar($cod);
+		$accions = new Accion($this->dbAdapter);
+		$datos = $accions->buscar($cod);
 		return $datos;
 	}
 
@@ -80,11 +84,11 @@ class AccionController extends AbstractActionController {
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$acciones = new Accion($this->dbAdapter);
+			$accions = new Accion($this->dbAdapter);
 			if ($id != '') {
-				$insert = $acciones->modificar($id,$descripcion,$tipo, $vigencia );
+				$insert = $accions->modificar($id,$descripcion,$tipo, $vigencia );
 			} else {
-				$insert = $acciones->insertar($tipo,$descripcion);
+				$insert = $accions->insertar($tipo,$descripcion);
 			}
 			$msj=$this->mensaje($insert);
 						
@@ -97,6 +101,8 @@ class AccionController extends AbstractActionController {
 		$response->setTerminal(true);
 		return $response;
 	}
+
+
 	
 
 	public function eliminarAction(){
@@ -104,8 +110,8 @@ class AccionController extends AbstractActionController {
 			
 			$id = $this->params()->fromRoute('id');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$acciones = new Accion($this->dbAdapter);
-			$eliminar = $acciones->eliminar($id);
+			$accions = new Accion($this->dbAdapter);
+			$eliminar = $accions->eliminar($id);
 			
 			$msj =$this->mensajeEliminar($eliminar);
 			
@@ -144,15 +150,16 @@ public function mensajeEliminar($eliminar){
 
 	public function accionAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$acciones = new Accion($this->dbAdapter);
-		$lista = $acciones->lista();
+		$accions = new Accion($this->dbAdapter);
+		$lista = $accions->lista();
 		$viewModel = new ViewModel(array(
-			"acciones" => $lista
+			"accions" => $lista
 		));
 		return $viewModel;
 	}
 
 }
+
 
 
 

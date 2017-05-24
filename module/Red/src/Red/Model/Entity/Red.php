@@ -24,7 +24,7 @@ class Red extends TableGateway {
 				."VALUES (upper(trim('$descripcion')),$id_uni_ejec)");
 			
 		$datos = $insert->execute();
-		return $insert;
+		return $datos ;
 	}
 	public function modificar($id_red,$descripcion) {
 		$update = $this->dbAdapter->
@@ -32,12 +32,14 @@ class Red extends TableGateway {
 				"update red set decripcion=upper(trim('$descripcion')) "
 						. "where id_red=$id_red");
 		$datos = $update->execute();
-		return $update;
+		return $datos ;
 	}
 
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_red, decripcion,vigencia,id_uni_ejec FROM red order by decripcion asc", Adapter::QUERY_MODE_EXECUTE);
+	//	$consulta = $this->dbAdapter->query("SELECT id_red, decripcion,vigencia,id_uni_ejec FROM red order by decripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_red, decripcion,vigencia,id_uni_ejec FROM red order by vigencia desc , decripcion asc", Adapter::QUERY_MODE_EXECUTE);
+
 		$datos = $consulta->toArray();
 		return $datos;
 	}
@@ -56,13 +58,12 @@ class Red extends TableGateway {
         return $datos;    
     }
 	
-	//	public function eliminar($id) {
-	//	$delete = $this->dbAdapter->
-	//			createStatement(
-	//			"UPDATE red set vigencia=FALSE where id_uni_ejec=$id");
-	//	$datos = $delete->execute();
-	//	return $delete;
-	//}
+	public function eliminar($id,$vigencia) {
+		$delete = $this->dbAdapter->
+				createStatement("UPDATE red set vigencia=$vigencia where id_red=$id");
+		$datos = $delete->execute();
+		return $datos;
+	}
 	
 	
 }

@@ -19,12 +19,12 @@ class Unidad extends TableGateway {
 
 	public function insertar($descripcion) {
 		$insert = $this->dbAdapter->
-				createStatement(
-				"INSERT INTO unidad_ejecutora (descripcion) "
-						. "VALUES (upper(trim('$descripcion')))");
+				createStatement("INSERT INTO unidad_ejecutora (descripcion) "
+					. "VALUES (upper(trim('xxx')))");
 		$datos = $insert->execute();
 		return $insert;
 	}
+	
 	public function modificar($id, $descripcion) {
 		$update = $this->dbAdapter->
 				createStatement(
@@ -35,7 +35,7 @@ class Unidad extends TableGateway {
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_uni_ejec, descripcion,vigencia FROM unidad_ejecutora order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_uni_ejec, descripcion,vigencia FROM unidad_ejecutora order by vigencia desc , descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}

@@ -95,17 +95,18 @@ class RedController extends AbstractActionController {
 	}
 	
 
-
-
 	public function buscarUnidad(){
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$unid=ades|  new Unidad($this->dbAdapter);
 		$datos = $redes->buscar($cod);
 		return $datos;
 	}
+
 	//metodo encargado de la accion de Insertar o Actualizar se relaciona 
 	// con el formulario 
 	public function registrarAction() {
+		$error = 0;
+		$msj = "";
 		try {
 			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
@@ -114,69 +115,83 @@ class RedController extends AbstractActionController {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$redes = new Red($this->dbAdapter);
 			if ($id != '') {
-				$insert = $redes->modificar($id,$descripcion);
+				$modificar = $redes->modificar($id,$descripcion);
+				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $redes->insertar($descripcion,$cmbUnidad);
+				$msj = $this->mensaje($insert, 0);
 
 			}
 
-			
-
-			$msj=$this->mensaje($insert);
+	
 						
 		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
-		}
-		
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			switch ($codError[0]) {
+				case 23505:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $descripcion . "', ya se encuentra en la base de datos.";
+					break;
+				case 23514:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $descripcion . "' debe ser mayor que 2017.";
+					break;
+				default:
+					$error = explode("DETAIL:", $codError[2]);
 
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+					break;
+			}
+//			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
+//				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
+//			
+		}
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
 
 	public function eliminarAction(){
-	    try {
+	    $error=0;$tipoConsulta = 0;
 			
-			$id = $this->params()->fromRoute('id');
+			$id = $this->getRequest()->getPost('txtId');
+			$vigencia = $this->getRequest()->getPost('txtVigencia');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$redes = new Red($this->dbAdapter);
 		
-		    $eliminar = $redes->eliminar($id);
-			
-
-			$this->mensajeEliminar($eliminar);
-			
-
-		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
-		}
-
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+		   			
+$eliminar = $redes->eliminar($id,$vigencia);
+		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 
-	}
-	
-	public function mensaje($insert){
-		if ($insert == true) {
-				$msj = 'REGISTRADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
-			}
-			return $msj;
-	}
 
-	public function mensajeEliminar($eliminar){
-		if ($eliminar == true) {
-				$msj = 'ELIMINADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
+		
+
+	}
+	public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj = "REGISTRADO CORRECTAMENTE";
+					break;
+				case 1:
+					$msj = "MODIFICADO CORRECTAMENTE";
+					break;
+				case 2:
+					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
+					break;
 			}
-			return $msj;
+		} else {
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
+		}
+		return $msj;
 	}
 
 
