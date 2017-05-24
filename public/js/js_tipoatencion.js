@@ -23,11 +23,6 @@ var registrar = function (txtNumero,txtDescripcion, chkVigencia, txtId) {
 	$.ajax(options);
 };
 
-
-
-
-
-
 $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
