@@ -19,6 +19,7 @@
 								<th>Marca</th>
 								<th>Vigencia</th>
 								<th>Acciones</th>
+								<th style="display:none" >c</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -31,10 +32,9 @@
 									<td><?= $dispositivo['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
 										<a class="btn btn-default"href="<?php echo $this->basePath("dispositivo/dispositivo/form/1/" . $dispositivo['id_disp_soft'] . ""); ?>">Editar</a>
-										<?= $dispositivo['vigencia'] == 1 
-												? 
-												"<a class='btn btn-danger' href='" . $this->basePath('dispositivo/dispositivo/' . $dispositivo['id_disp_soft']) . "'>Eliminar</a></td></i>" 
-											  : "" ?></td>
+										<?= $dispositivo['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+									</td>
+									<td id="idCod" style="display:none;"><?= $dispositivo['id_disp_soft'] ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>
@@ -71,3 +71,8 @@
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/jszip/dist/jszip.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+<?=
+		$this->inlineScript()
+		->prependFile($this->basePath('js/js_dipositivo.js'))
+?>

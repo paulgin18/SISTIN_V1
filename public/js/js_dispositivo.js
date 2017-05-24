@@ -99,15 +99,15 @@ $(document).on('click', '#btnMarca', function (event) {
 	} else {
 		if (id_modelo == '') {
 			bootbox.alert('<b style="color: #F44336;" >Debe seleccionar una Modelo</b>');
-		}else  if (id_marca == '') {
+		} else if (id_marca == '') {
 			bootbox.alert('<b style="color: #F44336;" >Debe seleccionar una Marca</b>');
-		}else {
-			if (id_marca >0 && id_modelo >=0) {
-			$("#tabla_marca > tbody").append(
-					'<tr data-id=' + id_marca + ' ><td>#</td><td hidden>' + id_marca + '</td><td>' + bitem + '</td><td hidden>' + id_modelo + '</td><td>' + bitem2 + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+		} else {
+			if (id_marca > 0 && id_modelo >= 0) {
+				$("#tabla_marca > tbody").append(
+						'<tr data-id=' + id_marca + ' ><td>#</td><td hidden>' + id_marca + '</td><td>' + bitem + '</td><td hidden>' + id_modelo + '</td><td>' + bitem2 + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+			}
 		}
-		}
-			
+
 	}
 	$('#id_marca').val('');
 	$('#id_modelo').val('');
@@ -184,3 +184,70 @@ $(document).on('click', '#btnguardar', function (event) {
 
 	registrar(cmbTipo, txtDescripcion, txtIdDis, rbtFichaTecnica, items_marca);
 });
+
+
+
+$(document).submit(function (event) {
+	var val = validar();
+	if (val == true) {
+		$("#btnguardar").prop('disabled', true);
+		var cmbTipo = $('#cmbTipo').val();
+		var txtDescripcion = $('#txtDispositivo').val();
+		var txtIdDis = $('#txtIdDis').val();
+		var rbtFichaTecnica = $('input:radio[id=rbtFicha]:checked').val();
+		var items_marca = $('#tabla_marca tbody tr').map(function (i, row) {
+			return {'id': row.cells[1].textContent,
+				'descripcion': row.cells[2].textContent,
+				'idModelo': row.cells[3].textContent,
+				'modelo': row.cells[4].textContent,
+			};
+		}).get();
+		registrar(cmbTipo, txtDescripcion, txtIdDis, rbtFichaTecnica, items_marca);
+		this.disabled = false;
+	}
+});
+
+$(document).ready(function () {
+	$('input').focusout(function () {
+		this.value = this.value.toLocaleUpperCase();
+	});
+	$(".tipo .dispositivo").keyup(function () {
+		if ($(this).val() != "") {
+			$(".error").fadeOut();
+			return false;
+		}
+	});
+  
+});
+
+function validar() {
+	    $(".error").remove();
+	        if ($(".tipo").val() == "") {
+		            $(".descripcion").focus().after("<span class='error'>Selecionar el Tipo</span>");
+		            return false;
+	} else   if ($(".dispositivo").val() == "") {
+		            $(".descripcion").focus().after("<span class='error'>Ingrese el Dispositivo</span>");
+		            return false;
+	}
+
+	return true;
+}
+
+var eliminar = function ($cod, $vigencia) {
+	var options = {
+		type: 'POST',
+		url: 'eliminar',
+		data: {'cod': $cod, 'vigencia': $vigencia,
+		},
+		dataType: 'json',
+		success: function (response) {
+			(response.error == 0) ?
+					bootbox.alert(response.msj, function () {
+						window.location.href = "dispositivo";
+					}) :
+					bootbox.alert(response.msj);
+		}
+	};
+	$.ajax(options);
+
+}

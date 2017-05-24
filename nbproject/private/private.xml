@@ -3,16 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Anio/src/Anio/Model/Entity/Anio.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Anio/view/anio/anio/form.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Anio/src/Anio/Controller/AnioController.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Anio/Module.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_unidad.js</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Modelo/src/Modelo/Model/Entity/Modelo.php</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Dispositivo/view/dispositivo/dispositivo/form.phtml</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Modelo/view/modelo/modelo/form.phtml</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_anio.js</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Anio/view/anio/anio/listadoanios.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Application/view/layout/layout.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_red.js</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_general.js</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Modelo/view/modelo/modelo/modelo.phtml</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_modelo.js</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_dispositivo.js</file>
         </group>
     </open-files>
 </project-private>
