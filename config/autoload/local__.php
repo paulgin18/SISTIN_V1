@@ -22,7 +22,7 @@ return array(
 		'password' =>'123',
 		'driver' => 'Pdo',
 		// 'schema' => 'sem',
-		'dsn'=>'pgsql:host=localhost;port=5432;dbname=SISCOMAVE', 
+		'dsn'=>'pgsql:host=192.168.1.34;port=5432;dbname=SISCOMAVE', 
 
 	),
 );
