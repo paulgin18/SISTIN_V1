@@ -22,7 +22,10 @@ use Zend\Db\Adapter\Adapter;
 use Accion\Model\Entity\Accion;
 use Zend\MVC\Exception;
 
-class AccionController extends AbstractActionController {
+
+
+
+class accionController extends AbstractActionController {
 
 	public function indexAction() {
 
