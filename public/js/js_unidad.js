@@ -26,8 +26,11 @@ $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
 	var txtDescripcion = $('#txtDescripcion').val();
-	
 	var txtId = $('#txtId').val();
+	
+	alert('descripcion '+txtDescripcion);
+	alert('id '+txtId);
+
 	registrarunidad(txtDescripcion, txtId);
 	//this.disabled=false;
 

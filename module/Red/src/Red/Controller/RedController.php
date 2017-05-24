@@ -132,10 +132,10 @@ class RedController extends AbstractActionController {
 			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
 			switch ($codError[0]) {
 				case 23505:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $descripcion . "', ya se encuentra en la base de datos.";
 					break;
 				case 23514:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $descripcion . "' debe ser mayor que 2017.";
 					break;
 				default:
 					$error = explode("DETAIL:", $codError[2]);

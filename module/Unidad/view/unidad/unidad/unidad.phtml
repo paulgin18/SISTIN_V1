@@ -17,6 +17,7 @@
 								<th>Descripcion</th>
 								<th>Vigencia</th>
 								<th>Accciones</th>
+								<th style="display:none">c</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -28,11 +29,11 @@
 									<td>
 										<a class="btn btn-default"href="<?php echo $this->basePath("unidad/unidad/form/1/" . $unidad['id_uni_ejec'] . ""); ?>">Editar</a>
 
-										<a class="btn btn-danger" href="<?php echo $this->basePath("unidad/unidad/eliminar/" . $unidad['id_uni_ejec'] . ""); ?>">Eliminar</a>
-
+										<?= $unidad['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 								
 
 									</td>
+									<td id="idCod" style="display:none;"><?= $unidad['id_uni_ejec'] ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>

@@ -3,7 +3,7 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/red/red/form/0/1">Nuevo</a>
+					<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/red/red/form/0/1"> Nuevo </a>
                     <ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
@@ -29,10 +29,10 @@
 									<td>
 										<a class="btn btn-default" href="<?php echo $this->basePath("red/red/form/1/" . $red['id_red'] .""); ?>">Editar</a>
 
-										<?= $red['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+										<?= $red['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnDesactivar'  value='Desactivar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 
 										</td>
-									<td id="idCod" style="display:none;"><?= $red['id_red'] ?><td>
+									<td id="idCod" style="display:none;"><?= $red['id_red'] ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>
