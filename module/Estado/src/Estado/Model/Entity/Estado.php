@@ -23,12 +23,12 @@ class Estado extends TableGateway {
 				"INSERT INTO estado (numero,descripcion) "
 						. "VALUES ($numero,upper(trim('$descripcion')))");
 		$datos = $insert->execute();
-		return $insert;
+		return $datos;
 	}
-	public function modificar($id, $descripcion,$numero, $vigencia) {
+	public function modificar($id, $descripcion,$numero) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update estado set descripcion=upper(trim('$descripcion')),numero='$numero', vigencia='$vigencia'"
+				"update estado set descripcion=upper(trim('$descripcion')),numero=$numero"
 						. "where id_estado=$id");
 		$datos = $update->execute();
 		return $update;
@@ -52,7 +52,7 @@ class Estado extends TableGateway {
         return $datos;    
     }
 
-
+/*
 
 public function eliminar($id) {
 		$delete = $this->dbAdapter->
@@ -61,10 +61,16 @@ public function eliminar($id) {
 		$datos = $delete->execute();
 		return $delete;
 	}
-
-	//MARCA MODELO ??
+*/
+   
+	public function eliminar($id,$vigencia) {
+		$delete = $this->dbAdapter->
+				createStatement("UPDATE estado set vigencia=$vigencia where id_estado=$id");
+		$datos = $delete->execute();
+		return $datos;
+	}
 	
-  
+	//MARCA MODELO ??
 
 	public function buscarEstadoModelo($descripcion){
         $consulta=$this->dbAdapter->query(

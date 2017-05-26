@@ -51,6 +51,8 @@ class EstadoController extends AbstractActionController {
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
 			if ($id == 0 ) {
+
+
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
@@ -82,13 +84,18 @@ class EstadoController extends AbstractActionController {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$estados = new Estado($this->dbAdapter);
 			if ($id != '') {
-				$insert = $estados->modificar($id,$descripcion,$numero, $vigencia );
+				$insert = $estados->modificar($id,$descripcion,$numero,$vigencia );
+				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $estados->insertar($numero,$descripcion);
+				$msj = $this->mensaje($insert, 0);
 			}
-			$msj=$this->mensaje($insert);
+			//$msj=$this->mensaje($insert);
 						
 		} catch (\Exception $e) {
+
+
+
 			$msj = 'Error: ' . $e->getMessage();
 		}
 		$response = new JsonModel(
@@ -97,50 +104,48 @@ class EstadoController extends AbstractActionController {
 		$response->setTerminal(true);
 		return $response;
 	}
-	
 
-	public function eliminarAction(){
-	    try {
+
+	public function eliminarAction()
+	{
+	        $error=0;$tipoConsulta = 0;
 			
-			$id = $this->params()->fromRoute('id');
+			$id = $this->getRequest()->getPost('txtId');
+			$vigencia = $this->getRequest()->getPost('txtVigencia');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$estados = new Estado($this->dbAdapter);
-			$eliminar = $estados->eliminar($id);
-			
-			$msj =$this->mensajeEliminar($eliminar);
-			
+		
+		   			
+	        $eliminar = $estados->eliminar($id,$vigencia);
+			$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+			$msj = $this->mensaje($eliminar, $tipoConsulta);
+			$response = new JsonModel(array('msj' => $msj, 'error' => $error));
+			$response->setTerminal(true);
+			return $response;
 
-		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
+	}
+	public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj = "REGISTRADO CORRECTAMENTE";
+					break;
+				case 1:
+					$msj = "MODIFICADO CORRECTAMENTE";
+					break; 
+				case 2:
+					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
+					break;
+			}
+		} else {
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
 		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
-		$response->setTerminal(true);
-		return $response;
-
+		return $msj;
 	}
 
-
-
-	public function mensaje($insert){
-		if ($insert == true) {
-				$msj = 'REGISTRADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
-			}
-			return $msj;
-	}
-
-
-public function mensajeEliminar($eliminar){
-		if ($eliminar == true) {
-				$msj = 'ELIMINADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
-			}
-			return $msj;
-	}
 
 	public function estadoAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
@@ -151,6 +156,8 @@ public function mensajeEliminar($eliminar){
 		));
 		return $viewModel;
 	}
+
+
 
 }
 

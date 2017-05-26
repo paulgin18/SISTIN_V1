@@ -24,6 +24,9 @@ return array(
 		// 'schema' => 'sem',
 		'dsn'=>'pgsql:host=192.168.1.34;port=5432;dbname=bdinventario', 
 
+		//conexion local
+		//'dsn'=>'pgsql:host=localhost;port=5432;dbname=bdinventario3', 
+
 	),    
 );
 

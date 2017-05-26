@@ -1,6 +1,7 @@
 
 
 var registrar = function (txtNumero,txtDescripcion, chkVigencia, txtId) {
+	
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
@@ -26,9 +27,6 @@ var registrar = function (txtNumero,txtDescripcion, chkVigencia, txtId) {
 
 
 
-
-
-
 $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
@@ -42,12 +40,54 @@ $(document).on('click', '#btnguardar', function (event) {
 	}else{
 		chkVigencia=false;
 	}
+	
 	registrar(txtNumero,txtDescripcion, chkVigencia, txtId);
 	//this.disabled=false;
 
 });
 
 
+function eliminar(id, vigencia){
+
+var options = {
+		type: 'POST',
+		url: 'eliminar',
+		data: {
+			'txtId': id,
+			'txtVigencia':vigencia,
+		},
+		dataType: 'json',
+		success: function (response) {
+			(response.error == 0) ?
+					bootbox.alert(response.msj, function () {
+						window.location.href = "estado";
+					}) :
+					bootbox.alert(response.msj);
+				$("#btnBorrar").prop('disabled', false);
+		}
+	};
+	$.ajax(options);
+	
+}
+
+
+
+var eliminar = function ($id,$vigencia){
+	var options = {
+		type: 'POST',
+		url: 'eliminar',
+		data: {'id_estado': $id,'vigencia':$vigencia,
+		},
+		dataType: 'json',
+		success: function (response) {
+		(response.error == 0) ?
+			bootbox.alert(response.msj, function () {
+				window.location.href = "Seastado";
+			}) :
+			bootbox.alert(response.msj);
+		}
+	};
+	$.ajax(options);
 
 
 

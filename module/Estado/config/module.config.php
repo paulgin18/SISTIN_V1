@@ -30,8 +30,8 @@ return array(
                     'route'    => '/estado',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Estado\Controller',
-                        'controller'    => 'Estadolistado',
-                        'action'        => 'index',
+                       // 'controller'    => 'Estadolistado',
+                       // 'action'        => 'index',
                     ),
                 ),
                 'may_terminate' => true,
@@ -74,7 +74,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Estado\Controller\Estadolistado' => 'Estado\Controller\EstadolistadoController',
+            //'Estado\Controller\Estadolistado' => 'Estado\Controller\EstadolistadoController',
             'Estado\Controller\Estado' => 'Estado\Controller\EstadoController'
         ),
     ),
