@@ -103,6 +103,13 @@ class AnioController extends AbstractActionController {
 		return $viewModel;
 	}
 
+	public function fechaAction() {
+		
+		$viewModel = new ViewModel();
+		return $viewModel;
+	}
+
+
 	public function eliminarAction() {
 		$error=0;$tipoConsulta = 0;
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
