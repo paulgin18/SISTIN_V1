@@ -20,7 +20,7 @@ class Unidad extends TableGateway {
 	public function insertar($descripcion) {
 		$insert = $this->dbAdapter->
 				createStatement("INSERT INTO unidad_ejecutora (descripcion) "
-					. "VALUES (upper(trim('xxx')))");
+					. "VALUES (upper(trim('$descripcion')))");
 		$datos = $insert->execute();
 		return $insert;
 	}
@@ -52,10 +52,10 @@ class Unidad extends TableGateway {
         return $datos;    
     }
 	
-	public function eliminar($id) {
+	public function eliminar($id,$vigencia) {
 		$delete = $this->dbAdapter->
 				createStatement(
-				"UPDATE unidad_ejecutora set vigencia=FALSE where id_uni_ejec=$id");
+				"UPDATE unidad_ejecutora set vigencia=$vigencia where id_uni_ejec=$id");
 		$datos = $delete->execute();
 		return $delete;
 	}

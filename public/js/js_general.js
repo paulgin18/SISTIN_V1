@@ -4,6 +4,7 @@ $(document).on('click', '.btnBorrar', function (event) {
 	$(this).parents("tr").find("#idCod").each(function () {
 		cod += $(this).html();
 	});
+	
 	bootbox.confirm({
 		title: "¿Desea Eliminar, el registro?",
 		message: "Al eliminar el registro, solo se desactivara para su uso",
