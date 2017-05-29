@@ -18,6 +18,7 @@
 								<th>Descripción</th>
 								<th>Vigencia</th>
 								<th>Acciones</th>
+								<th style="display:none">c</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -35,12 +36,12 @@
 										
 										<!--cambio-->
 
-										<?= $estado['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+										<?= $estado['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Desactivar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 
 										<!--  hasta aqui -->
 
-
-											  </td>
+									</td>
+									<td id="idCod" style="display:none;"><?= $estado['id_estado'] ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>
@@ -76,3 +77,14 @@
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/jszip/dist/jszip.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+</script><?=
+		$this->inlineScript()
+		
+		->prependFile($this->basePath('js/js_estado.js'))
+?>
+
+
+
+
+

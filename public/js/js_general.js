@@ -13,6 +13,7 @@ $(document).on('click', '.btnBorrar', function (event) {
 			},
 			confirm: {
 				label: '<i class="fa fa-check"></i> Confirm'
+
 			}
 		},
 		callback: function (result) {
@@ -23,6 +24,7 @@ $(document).on('click', '.btnBorrar', function (event) {
 			}
 		}
 	});
+	
 });
 
 $(document).on('click', '.btnActivar', function (event) {

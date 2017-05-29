@@ -31,13 +31,7 @@
                                 <input type="hidden" id="idAnio">
                                             </div>
                         </div>
-                     
-                      <label class="col-sm-2 control-label"><b>Vigencia:</b></label>
-                            <div class="col-sm-1">
-                                <?= $datos!=null 
-                                    ? $datos['vigencia']==true?'<input type="checkbox" name="chkVigencia" value="1" checked>': 
-                                  '<input type="checkbox" name="chkVigencia" value="1">' :'<input type="checkbox" name="chkVigencia" value="1" checked><br>';?>
-                            </div>
+              
 						 
                         </div>
                         <hr>
@@ -66,9 +60,9 @@
 	
 
 <?=
-		$this->inlineScript()
-		->prependFile($this->basePath('js/js_estado.js'))
-					->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
-		->prependFile($this->basePath('js/jquery-ui.js'))
-		->prependFile($this->basePath('js/bootbox.js'))
+        $this->inlineScript()
+        ->prependFile($this->basePath('js/js_estado.js'))
+                    ->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
+        ->prependFile($this->basePath('js/jquery-ui.js'))
+        ->prependFile($this->basePath('js/bootbox.js'))
 ?>

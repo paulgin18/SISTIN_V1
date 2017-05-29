@@ -28,6 +28,7 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtId = $('#txtId').val(); 
 	var cmbUnidad = $('#cmbUnidad').val(); 
 	
+		
 	registrarred(txtDescripcion, txtId,cmbUnidad);
 	//this.disabled=false;
 
