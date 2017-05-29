@@ -51,7 +51,9 @@ class EstadoController extends AbstractActionController {
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
 			if ($id == 0 ) {
-			return new ViewModel(array('mantenimiento' => 'Crear',
+
+
+				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
 			} else {
@@ -76,12 +78,13 @@ class EstadoController extends AbstractActionController {
 	public function registrarAction() {
 		try {
 			$numero =$this->getRequest()->getPost('txtNumero');
+			$vigencia = $this->getRequest()->getPost('chkVigencia');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$estados = new Estado($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $estados->modificar($id,$descripcion,$numero);
+				$insert = $estados->modificar($id,$descripcion,$numero,$vigencia );
 				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $estados->insertar($numero,$descripcion);
@@ -90,6 +93,7 @@ class EstadoController extends AbstractActionController {
 			//$msj=$this->mensaje($insert);
 						
 		} catch (\Exception $e) {
+
 
 
 			$msj = 'Error: ' . $e->getMessage();
@@ -110,7 +114,8 @@ class EstadoController extends AbstractActionController {
 			$vigencia = $this->getRequest()->getPost('txtVigencia');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$estados = new Estado($this->dbAdapter);
-   			
+		
+		   			
 	        $eliminar = $estados->eliminar($id,$vigencia);
 			$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
 			$msj = $this->mensaje($eliminar, $tipoConsulta);
@@ -151,6 +156,8 @@ class EstadoController extends AbstractActionController {
 		));
 		return $viewModel;
 	}
+
+
 
 }
 

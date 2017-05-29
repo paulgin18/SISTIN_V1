@@ -17,28 +17,14 @@ class Estado extends TableGateway {
 		return parent::__construct('Estado', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	/*
 	public function insertar($numero,$descripcion) {
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO estado (numero,descripcion) "
 						. "VALUES ($numero,upper(trim('$descripcion')))");
 		$datos = $insert->execute();
-		return $datos;  
+		return $datos;
 	}
-	*/
-
-	public function insertar($numero,$descripcion) {
-		$insert = $this->dbAdapter->
-				createStatement(
-				"INSERT INTO estado (numero,descripcion)"
-				."VALUES ($numero,'$descripcion')");
-			
-		$datos = $insert->execute();
-		return $datos ;
-	}
-
-
 	public function modificar($id, $descripcion,$numero) {
 		$update = $this->dbAdapter->
 				createStatement(
@@ -48,12 +34,8 @@ class Estado extends TableGateway {
 		return $update;
 	}
 	
-	
-//ordenar descendente 	
-//  order by vigencia desc , decripcion asc
-
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by vigencia desc,descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
