@@ -78,13 +78,13 @@ class EstadoController extends AbstractActionController {
 	public function registrarAction() {
 		try {
 			$numero =$this->getRequest()->getPost('txtNumero');
-			$vigencia = $this->getRequest()->getPost('chkVigencia');
+			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$estados = new Estado($this->dbAdapter);
 			if ($id != '') {
-				$insert = $estados->modificar($id,$descripcion,$numero,$vigencia );
+				$modificar = $estados->modificar($id,$descripcion,$numero);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $estados->insertar($numero,$descripcion);
