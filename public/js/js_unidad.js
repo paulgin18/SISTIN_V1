@@ -28,33 +28,31 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtDescripcion = $('#txtDescripcion').val();
 	var txtId = $('#txtId').val();
 	
-	alert('descripcion '+txtDescripcion);
-	alert('id '+txtId);
+	
 
 	registrarunidad(txtDescripcion, txtId);
 	//this.disabled=false;
 
 });
 
-function eliminar(id){
+function eliminar(id,vigencia){
+
 var options = {
 		type: 'POST',
-		url: '../../eliminar',
+		url: 'eliminar',
 		data: {
 			'txtId': id,
+			'txtVigencia':vigencia,
 		},
 		dataType: 'json',
+		
 		success: function (response) {
-			var elemento = response.msj.split(":");
-			if (elemento.length > 0) {
-				if (elemento[0] == "Error") {
-					bootbox.alert(elemento[0] + "" + elemento[1]);
-				} else {
+			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../unidad";
-					});
-				}
-			}
+						window.location.href = "unidad";
+					}) :
+					bootbox.alert(response.msj);
+				$("#btnguardar").prop('disabled', false);
 		}
 	};
 	$.ajax(options);

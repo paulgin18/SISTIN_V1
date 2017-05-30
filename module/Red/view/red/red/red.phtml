@@ -15,6 +15,7 @@
 						<thead>
 							<tr>
 								<th>Descripcion</th>
+								<th>Unidad Ejecutora</th>
 								<th>Vigencia</th>
 								<th>Accciones</th>
 								<th style="display:none">c</th>
@@ -25,11 +26,12 @@
 							<?php foreach ($this->redes as $red) { ?>
 								<tr>
 									<td><?php echo $red['decripcion'] ?></td>
+									<td><?php echo $red['unidadejecutora'] ?></td>
 									<td><?= $red['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
 										<a class="btn btn-default" href="<?php echo $this->basePath("red/red/form/1/" . $red['id_red'] .""); ?>">Editar</a>
 
-										<?= $red['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+										<?= $red['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Desactivar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 
 										</td>
 									<td id="idCod" style="display:none;"><?= $red['id_red'] ?></td>
@@ -39,6 +41,7 @@
 						<tfoot>
 							<tr>
 								<th>Descripcion</th>
+								<th>UnidadEjecutora</th>
 								<th>Vigencia</th>	
 								<th>Acciones</th>
 									
@@ -67,7 +70,8 @@
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/jszip/dist/jszip.min.js"></script>
-<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script><?=
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js">
+</script><?=
 		$this->inlineScript()
 		
 		->prependFile($this->basePath('js/js_red.js'))

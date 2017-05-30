@@ -8,6 +8,7 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
 use Zend\Db\ResultSet\ResultSet;
 
+
 class Red extends TableGateway {
 
 	private $dbAdapter;
@@ -38,7 +39,7 @@ class Red extends TableGateway {
 	
 	public function lista() {
 	//	$consulta = $this->dbAdapter->query("SELECT id_red, decripcion,vigencia,id_uni_ejec FROM red order by decripcion asc", Adapter::QUERY_MODE_EXECUTE);
-		$consulta = $this->dbAdapter->query("SELECT id_red, decripcion,vigencia,id_uni_ejec FROM red order by vigencia desc , decripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT red.id_red, red.decripcion,red.vigencia,unidad_ejecutora.descripcion unidadejecutora FROM red inner join unidad_ejecutora on red.id_uni_ejec=unidad_ejecutora.id_uni_ejec order by red.vigencia desc , red.decripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
 		$datos = $consulta->toArray();
 		return $datos;

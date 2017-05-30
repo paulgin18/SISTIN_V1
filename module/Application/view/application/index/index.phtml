@@ -1,3 +1,4 @@
+
 <div class="right_col" role="main">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -6,6 +7,10 @@
                 <div class="row x_title">
                   <div class="col-md-6">
                     <h3>BIENVENIDOS AL SISTEMA DE INVENTARIO<small></small></h3>
+
+                    <div id='hora'>
+                    </div>
+
                   </div>
                   <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
@@ -56,7 +61,7 @@
                       <div class="">
                         <div class="progress progress_sm" style="width: 76%;">
                           <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                        </div>
+                        </
                       </div>
                     </div>
                   </div>
@@ -115,3 +120,25 @@
 
     <!-- Custom Theme Scripts -->
     <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+    <!-- Custom Theme Scripts         
+    <script type="text/javascript" >
+                $('document').ready(function(){
+                 
+                  function hora(){
+                    $.ajax({
+                    type:'GET',
+                    url:'anio/anio/fecha',
+                    success:function($hora){
+                    $('#hora').html($hora);
+
+                    setTimeout(hora(),2000);
+                }
+              });
+              }
+        
+                  setTimeout(hora(),2000);
+                  });
+      </script>
+      -->
+
