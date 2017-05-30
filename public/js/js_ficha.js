@@ -1,25 +1,21 @@
 $(document).data('tipoDisp', 2);
 $(document).ready(function () {
 	var tipoDisp = $('#cmbTipo').val();
-	bDispositivo('DI');
-//	bMarcaPc();
-
-
+	bDispositivo('DI','#txtIdDis','txtDispositivo');
 });
 
-
-
-var bDispositivo = function (tipoDisp) {
-	$("#txtDispositivo").autocomplete({
+var bDispositivo = function (tipoDisp, id, inp) {
+	$(inp).autocomplete({
 		source: '../../../../dispositivo/dispositivo/buscardispositivo?tipo=' + tipoDisp + '',
 		select: function (event, ui) {
-			$('#txtIdDis').val(ui.item.value);
+			$(id).val(ui.item.value);
 			$(this).val(ui.item.label)
+			especificos(ui.item.value);
 			return false;
 		},
 		autoFocus: false,
 		open: function (event, ui) {
-			$("#txtIdDis").val('');
+			$(id).val('');
 		},
 		focus: function (event, ui) {
 			return false;
@@ -51,7 +47,6 @@ var bDispositivo = function (tipoDisp) {
 //	bDispositivo(tipoDisp);
 //});
 
-
 $("#txtSoftCL").focus(function (event) {
 	var tipo = 1;
 	$("#txtSoftCL").autocomplete({
@@ -60,7 +55,6 @@ $("#txtSoftCL").focus(function (event) {
 			$('#txtIdSofCl').val(ui.item.value);
 			$(this).val(ui.item.label);
 			$("#tipoSoft").val(ui.item.tipo);
-
 			return false;
 		},
 		autoFocus: false,
@@ -71,8 +65,8 @@ $("#txtSoftCL").focus(function (event) {
 			return false;
 		}
 	});
-
 });
+
 $("#txtMaMo").focus(function () {
 	var id_disp = $('#txtIdDis').val();
 	if ($('#txtIdDis').val() == '') {
@@ -96,9 +90,6 @@ $("#txtMaMo").focus(function () {
 	}
 });
 
-
-
-
 var bModelo = function () {
 	$("#bModelo").autocomplete({
 		source: '../../buscarmodelo',
@@ -120,11 +111,9 @@ var bModelo = function () {
 $(document).on('click', '#btnAnadirDisp', function (event) {
 	event.preventDefault();
 	var txtIdDisMaMo = $('#txtIdDisMaMo').val();
-
 	var dispositivo = $('#txtDispositivo').val();
 	var txtId = $('#txtIdDis').val();
 	var itemMaMo = $('#txtMaMo').val();
-
 	var txtSerie = $('#txtSerieMaMo').val();
 	var chk = $('input:checkbox[id=chkOpOtros]:checked').val();
 	if (chk == 1) {
@@ -152,6 +141,41 @@ $(document).on('click', '#btnAnadirDisp', function (event) {
 	$('#bModelo').val('');
 });
 
+$(document).on('click', '#btnAnadirRam', function (event) {
+	event.preventDefault();
+	var idRam = $('#txtIdMR').val();
+	var dispositivo = $('#txtMR').val();
+	if (dispositivo == '' && idRam == '') {
+		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar la Memoria Ram</b>');
+	} else {
+				insertarRam(idRam, dispositivo);
+	}
+	$('#txtIdDisMaMo').val('');
+	$('#txtDispositivo').val('');
+});
+
+
+
+var insertarRam = function (idRam, dispositivo) {
+	var campo1;
+	$("#tabla_ram tbody tr").each(function (index) {
+		$(this).children("td").each(function (index2) {
+			switch (index2) {
+				case 1:
+					campo1 = $(this).text();
+					break;
+			}
+		})
+	});
+	if (campo1 === idRam) {
+		bootbox.alert('<b style="color: #F44336;" >La Ram ya ha sido ingresada</b>');
+	} else {
+		$("#tabla_ram > tbody").append(
+				'<tr data-id=' + idRam + ' ><td>#</td><td hidden>' + idRam + '</td><td>' + dispositivo + '</td></td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+	}
+	;
+}
+
 $(document).on('click', '#btnAnadirSoft', function (event) {
 	if ($('#txtIdSofCl').val() == '') {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar el software</b>');
@@ -166,25 +190,6 @@ $(document).on('click', '#btnAnadirSoft', function (event) {
 		insertarSoft($('#txtSoftCL').val(), $('#txtIdSofCl').val(), $('#tipoSoft').val(), chk);
 	}
 });
-
-
-function getDe(dato) {
-	if (dato == 'd') {
-		$("#pcCompatible").show();
-		$("#txtMarcaPC").val("");
-		$("#txtIdMPc").val("");
-		$("#txtSeriePC").val("");
-		$(document).data('tipoDisp', 2);
-	} else {
-		$('#chkCompatible').prop('checked', false);
-		$("#datosPC").show();
-		$("#pcCompatible").hide();
-		$("#txtIdMPc").val("");
-		$("#txtMarcaPC").val("");
-		$("#txtSeriePC").val("");
-		$(document).data('tipoDisp', 1);
-	}
-}
 
 
 $("#txtMarcaPC").focus(function () {
@@ -222,11 +227,76 @@ $("#txtSO").focus(function () {
 		}
 	});
 });
+$("#txtEquipo").focus(function () {
+		bDispositivo('DI','#txtIdEquipo',"#txtEquipo");
+		
+	});
+
+function especificos(dato) {
+
+	if (dato == '2') {
+		$("#pcCompatible").show();
+		$("#txtMarcaPC").val("");
+		$("#txtIdMPc").val("");
+		$("#txtSeriePC").val("");
+		$(document).data('tipoDisp', 2);
+	} else if (dato == '1') {
+		alert(dato);
+		$('#chkCompatible').prop('checked', false);
+		$("#datosPC").show();
+		$("#pcCompatible").hide();
+		$("#txtIdMPc").val("");
+		$("#txtMarcaPC").val("");
+		$("#txtSeriePC").val("");
+		$(document).data('tipoDisp', 1);
+	}
+}
+
+$("#txtMI").focus(function () {bCI(3, '#txtIdMI', "#txtMI");});
 
 
-$("#txtMI").focus(function () {
-	bCI(3, '#txtIdMI', "#txtMI");
+$("#txtSeriePC").keyup(function () {
+	$(this).val()!='' &&$(this).val().length>0 ?
+	bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc"):'';
 });
+
+$("#txtLicenciaSO").keyup(function () {
+	bSerie($(this).val(), '#lblALicenciaSO', "#lblNLicenciaSO");
+});
+
+$("#txtSerieDD").keyup(function () {
+	bSerie($(this).val(), '#lblASerieDD', "#lblNSerieDD");
+});
+
+$("#txtSerieMain").keyup(function () {
+	bSerie($(this).val(), '#lblASerieMain', "#lblNSerieMain");
+});
+$("#txtSerieRed").keyup(function () {
+	bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed");
+});
+$("#txtSerieMaMo").keyup(function () {
+	bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo");
+});
+
+function bSerie(ser, lbla, lbln) {
+		var options = {
+		type: 'POST',
+		url: '../../bserie',
+		data: {'serie': ser},
+		dataType: 'json',
+		success: function (response) {
+			if (response.msj== 0) {
+				$(lbla).show();
+				$(lbln).hide();
+			}else if (response.msj>=1) {
+				$(lbla).hide();
+				$(lbln).show();
+			}else{
+			}
+		}
+	};
+	$.ajax(options);
+}
 
 $("#txtMR").focus(function () {
 	bCI(4, '#txtIdMR', '#txtMR');
@@ -270,19 +340,31 @@ $(document).on('click', '#btnModelo', function (event) {
 $(document).on('click', '#chkCompatible', function (event) {
 	var chk = $('input:checkbox[id=chkCompatible]:checked').val();
 	if (chk == 1) {
+	//	$("#chkGarantia").prop("checked", "");
 		$("#datosPC").hide();
 		$("#txtMarcaPC").val("");
 		$("#txtIdMPc").val("");
 		$("#txtSeriePC").val("");
 	} else {
+	//	$("#chkGarantia").prop("checked", "checked")
 		$("#datosPC").show();
 		$("#txtMarcaPC").val("");
 		$("#txtIdMPc").val("");
 		$("#txtSeriePC").val("");
+		//$('input:checkbox[id=chkGarantia]:checked').val();
 	}
-
 });
 
+$(document).on('click', '#chkGarantia', function (event) {
+	var chk = $('input:checkbox[id=chkGarantia]:checked').val();
+	if (chk == 1) {
+		$('#divAnioGarantia').show();
+		$('#txtAnioGarantia').val("");
+	} else {
+		$('#divAnioGarantia').hide();
+		$('#txtAnioGarantia').val("0");
+	}
+});
 
 $(document).on('click', '.removerM', function (event) {
 	event.preventDefault();
@@ -322,25 +404,19 @@ var registrar = function (cmbTipo, txtDescripcion, txtIdDis, rbtFichaTecnica, it
 };
 
 var verificar = function (txtIdDisMaMo, dispositivo, itemMaMo, txtSerie, chk) {
-
 	var campo1;
 	$("#tabla_marca tbody tr").each(function (index) {
-
 		$(this).children("td").each(function (index2) {
 			switch (index2) {
 				case 1:
 					campo1 = $(this).text();
 					break;
-
 			}
 		})
-
-
 	});
 	if (campo1 === txtIdDisMaMo) {
 		bootbox.alert('<b style="color: #F44336;" >El dispositivo ya ha sido ingresado</b>');
 	} else {
-
 		$("#tabla_marca > tbody").append(
 				'<tr data-id=' + txtIdDisMaMo + ' ><td>#</td><td hidden>' + txtIdDisMaMo + '</td><td>' + dispositivo + '</td><td>' + itemMaMo + '</td><td>' + txtSerie + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
@@ -372,7 +448,6 @@ var insertarSoft = function (txtSoft, txtId, tipo, chk) {
 		} else if (tipo == "SL") {
 			tip = "Software libre";
 		}
-
 		$("#tabla_soft > tbody").append(
 				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td hidden>' + tipo + '</td><td>' + tip + '</td><td>' + txtSoft + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
@@ -394,7 +469,5 @@ $(document).on('click', '#btnguardar', function (event) {
 			'modelo': row.cells[4].textContent,
 		};
 	}).get();
-
-
 	registrar(cmbTipo, txtDescripcion, txtIdDis, rbtFichaTecnica, items_marca);
 });

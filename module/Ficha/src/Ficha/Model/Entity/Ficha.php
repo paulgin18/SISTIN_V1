@@ -52,4 +52,11 @@ class Ficha extends TableGateway {
         return $datos[0];
     }
 	
+	public function buscarSerie($serie){
+        $consulta=$this->dbAdapter->query(
+				"SELECT count(serie) FROM detalle_ficha where serie=upper('$serie')"
+					,Adapter::QUERY_MODE_EXECUTE);
+        $datos=$consulta->toArray();
+        return $datos[0];
+    }
 }

@@ -28,6 +28,7 @@ var registrar = function (txtNumero,txtDescripcion, chkVigencia, txtId) {
 
 
 $(document).on('click', '#btnguardar', function (event) {
+	alert("s");
 	this.disabled = true;
 	event.preventDefault();
 	var txtNumero =$('#txtNumero').val();
