@@ -56,6 +56,17 @@
 									</div>
 								</div>
 							</form><br/><hr/>
+						</div>
+					</div>
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>DETALLE FICHA TECNICA<small></small></h2>
+							<ul class="nav navbar-right panel_toolbox">
+								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
 							<div id="wizard" class="form_wizard wizard_horizontal" id="tab" style="display: block" >
 								<ul class="wizard_steps" >
 									<li>
@@ -86,14 +97,6 @@
 										<a href="#step-4" id="tab4">
 											<span class="step_no">4</span>
 											<span class="step_descr">Paso 4<br />
-												<small>Software</small>
-											</span>
-										</a>
-									</li>
-									<li>
-										<a href="#step-5" id="tab5">
-											<span class="step_no">1</span>
-											<span class="step_descr">Paso 5<br />
 												<small>Software</small>
 											</span>
 										</a>
@@ -314,11 +317,7 @@
 									<br>
 								</div>
 								<div id="step-3" style="display:none">
-
-
-								</div>
-								<div id="step-4">
-									<h2 class="StepTitle">Otros Dispositivos</h2>
+									<h2 class="StepTitle">Otros Componentes</h2>
 									<div class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Disp:</b></label>
@@ -333,7 +332,6 @@
 											<div class="col-sm-4">
 												<input type="text" id="txtMaMo" name="txtMaMo" class="form-control" placeholder="Buscar"  style="text-transform:uppercase">
 											</div>
-
 										</div>
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Serie:</b></label>
@@ -370,42 +368,61 @@
 											</div>
 											<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 										</div>
-									</div>						
-
+									</div>
 								</div>
-								<div id="step-5" style="display:none">
-									<h2 class="StepTitle">Software</h2>
+								<div id="step-4">
+<h2 class="StepTitle">Software</h2>
 									<div class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Software:</b></label>
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<input class="form-control" name="txtSoftCL" id="txtSoftCL" type="text" placeholder="Buscar"  style="text-transform:uppercase">
 												<input type="hidden" id="txtIdSofCl">
 												<input type="hidden" id="tipoSoft">
 											</div>
-											<label class="col-sm-2 control-label"><b>Licenciado:</b></label>
+											<label for="" class="col-sm-1 control-label"><b>Edicion:</b></label>
 											<div class="col-sm-2">
+												<input class="form-control" name="txtSoftEdicion" id="txtSoftEdicion" type="text" style="text-transform:uppercase">
+											</div>
+											<label for="" class="col-sm-1 control-label"><b>Version:</b></label>
+											<div class="col-sm-1">
+												<input class="form-control" name="txtSoftVersion" id="txtSoftVersion" type="text" style="text-transform:uppercase">
+											</div>
+											
+											
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label"><b>Licenciado:</b></label>
+											<div class="col-sm-3">
 												<?=
-												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkLicencia" value="1" checked>' :
-																'<input type="checkbox" name="chkLicencia" value="1">' : '<input type="checkbox" name="chkLicencia" value="1" checked><br>';
+												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkLicencia" id="chkLicencia" value="1" checked>' :
+																'<input type="checkbox" name="chkLicencia" id="chkLicencia" value="1">' : '<input type="checkbox" id="chkLicencia" name="chkLicencia" value="1"><br>';
 												?>
 											</div>
-											<div class="col-sm-2">
-												<button class="btn btn-success " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
-
-											</div>
+											
+										<div id="divLicencia" style="display: none" >
+											<label for="" class="col-sm-1 control-label"><b>Nº Lic:</b></label>
+											<div class="col-sm-5">
+												<input class="form-control" name="txtSoftNroLicencia" id="txtSoftNroLicencia" type="text" style="text-transform:uppercase">
+											</div>	
 										</div>
+											<button class="btn btn-success " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+										</div>
+											
 										<div class="form-group">
 											<div class="col-md-12">
 												<table id="tabla_soft" class="table table-striped table-bordered">
 													<thead>
 														<tr>
-															<th width="5%">#</th>
+															<th width="3%">#</th>
 															<th hidden></th>
-															<th width="30%">Tipo Software</th>
+															<th width="15%">Tipo Software</th>
 															<th hidden></th>
-															<th width="25%">Software</th>
-															<th width="25%">Licencia</th>
+															<th width="12%">Software</th>
+															<th width="12%">Edicion</th>
+															<th width="4%">Version</th>
+															<th width="4%">Licenciado</th>
+															<th width="20%">Nº Licencia</th>
 															<th width="30%">Accion</th>
 														</tr>
 													</thead>
@@ -418,15 +435,13 @@
 										</div>
 									</div>
 								</div>
-								<!-- End SmartWizard Content -->
 							</div>
-
-							<!-- End SmartWizard Content -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>

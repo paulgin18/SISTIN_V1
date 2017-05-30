@@ -1,16 +1,15 @@
 $(document).data('tipoDisp', 2);
-$(document).ready(function () {
-	var tipoDisp = $('#cmbTipo').val();
-	bDispositivo('DI','#txtIdDis','txtDispositivo');
-});
 
 var bDispositivo = function (tipoDisp, id, inp) {
+		
 	$(inp).autocomplete({
 		source: '../../../../dispositivo/dispositivo/buscardispositivo?tipo=' + tipoDisp + '',
 		select: function (event, ui) {
 			$(id).val(ui.item.value);
 			$(this).val(ui.item.label)
-			especificos(ui.item.value);
+			if (inp == "#txtEquipo") {
+				especificos(ui.item.value);
+			}
 			return false;
 		},
 		autoFocus: false,
@@ -148,7 +147,7 @@ $(document).on('click', '#btnAnadirRam', function (event) {
 	if (dispositivo == '' && idRam == '') {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar la Memoria Ram</b>');
 	} else {
-				insertarRam(idRam, dispositivo);
+		insertarRam(idRam, dispositivo);
 	}
 	$('#txtIdDisMaMo').val('');
 	$('#txtDispositivo').val('');
@@ -187,7 +186,7 @@ $(document).on('click', '#btnAnadirSoft', function (event) {
 		} else {
 			chk = 'No';
 		}
-		insertarSoft($('#txtSoftCL').val(), $('#txtIdSofCl').val(), $('#tipoSoft').val(), chk);
+		insertarSoft($('#txtSoftCL').val(), $('#txtIdSofCl').val(), $('#tipoSoft').val(), chk, $("#txtSoftEdicion").val(), $("#txtSoftVersion").val(),$("#txtSoftNroLicencia").val());
 	}
 });
 
@@ -228,12 +227,14 @@ $("#txtSO").focus(function () {
 	});
 });
 $("#txtEquipo").focus(function () {
-		bDispositivo('DI','#txtIdEquipo',"#txtEquipo");
-		
-	});
+	bDispositivo('DI', '#txtIdEquipo', "#txtEquipo");
+});
+
+$("#txtDispositivo").focus(function () {
+	bDispositivo('DI', '#txtIdDis', '#txtDispositivo');
+});
 
 function especificos(dato) {
-
 	if (dato == '2') {
 		$("#pcCompatible").show();
 		$("#txtMarcaPC").val("");
@@ -241,7 +242,6 @@ function especificos(dato) {
 		$("#txtSeriePC").val("");
 		$(document).data('tipoDisp', 2);
 	} else if (dato == '1') {
-		alert(dato);
 		$('#chkCompatible').prop('checked', false);
 		$("#datosPC").show();
 		$("#pcCompatible").hide();
@@ -252,12 +252,14 @@ function especificos(dato) {
 	}
 }
 
-$("#txtMI").focus(function () {bCI(3, '#txtIdMI', "#txtMI");});
+$("#txtMI").focus(function () {
+	bCI(3, '#txtIdMI', "#txtMI");
+});
 
 
 $("#txtSeriePC").keyup(function () {
-	$(this).val()!='' &&$(this).val().length>0 ?
-	bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc"):'';
+	$(this).val() != '' && $(this).val().length > 0 ?
+			bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc") : '';
 });
 
 $("#txtLicenciaSO").keyup(function () {
@@ -279,19 +281,19 @@ $("#txtSerieMaMo").keyup(function () {
 });
 
 function bSerie(ser, lbla, lbln) {
-		var options = {
+	var options = {
 		type: 'POST',
 		url: '../../bserie',
 		data: {'serie': ser},
 		dataType: 'json',
 		success: function (response) {
-			if (response.msj== 0) {
+			if (response.msj == 0) {
 				$(lbla).show();
 				$(lbln).hide();
-			}else if (response.msj>=1) {
+			} else if (response.msj >= 1) {
 				$(lbla).hide();
 				$(lbln).show();
-			}else{
+			} else {
 			}
 		}
 	};
@@ -340,13 +342,13 @@ $(document).on('click', '#btnModelo', function (event) {
 $(document).on('click', '#chkCompatible', function (event) {
 	var chk = $('input:checkbox[id=chkCompatible]:checked').val();
 	if (chk == 1) {
-	//	$("#chkGarantia").prop("checked", "");
+		//	$("#chkGarantia").prop("checked", "");
 		$("#datosPC").hide();
 		$("#txtMarcaPC").val("");
 		$("#txtIdMPc").val("");
 		$("#txtSeriePC").val("");
 	} else {
-	//	$("#chkGarantia").prop("checked", "checked")
+		//	$("#chkGarantia").prop("checked", "checked")
 		$("#datosPC").show();
 		$("#txtMarcaPC").val("");
 		$("#txtIdMPc").val("");
@@ -363,6 +365,18 @@ $(document).on('click', '#chkGarantia', function (event) {
 	} else {
 		$('#divAnioGarantia').hide();
 		$('#txtAnioGarantia').val("0");
+	}
+});
+
+
+$(document).on('click', '#chkLicencia', function (event) {
+	var chk = $('input:checkbox[id=chkLicencia]:checked').val();
+	if (chk == 1) {
+		$('#divLicencia').show();
+		$('#txtSoftLicencia').val("");
+	} else {
+		$('#divLicencia').hide();
+		$('#txtSoftLicencia').val("---");
 	}
 });
 
@@ -425,7 +439,7 @@ var verificar = function (txtIdDisMaMo, dispositivo, itemMaMo, txtSerie, chk) {
 
 
 
-var insertarSoft = function (txtSoft, txtId, tipo, chk) {
+var insertarSoft = function (txtSoft, txtId, tipo, chk, edicion, version, nrolicencia) {
 	var campo1;
 	$("#tabla_soft tbody tr").each(function (index) {
 		$(this).children("td").each(function (index2) {
@@ -449,7 +463,7 @@ var insertarSoft = function (txtSoft, txtId, tipo, chk) {
 			tip = "Software libre";
 		}
 		$("#tabla_soft > tbody").append(
-				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td hidden>' + tipo + '</td><td>' + tip + '</td><td>' + txtSoft + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td hidden>' + tipo + '</td><td>' + tip + '</td><td>' + txtSoft + '</td><td>' + edicion + '</td><td>' + version+ '</td><td>' + chk+ '</td><td>' + nrolicencia + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
 	;
 }
