@@ -53,24 +53,46 @@ class FichaController extends AbstractActionController {
 		return $datos;
 	}
 
-	public function registraranioAction() {
+	public function registrarAction() {
 		$error = 0;
 		$msj = "";
 		try {
-			$numero = $this->getRequest()->getPost('txtAnio');
-			$descripcion = $this->getRequest()->getPost('txtDescripcion');
-			$id = $this->getRequest()->getPost('txtId');
-
+//			, , txtAnioNroFicha, txtUnidadOrganica,txtAreaServ,,
+//	,txtIdEquipo, txtFechaAdquisicion,,
+//		txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,, ,
+//	
+					
+			$numero =$this->getRequest()->getPost('txtNroFicha');
+			$fecha = $this->getRequest()->getPost('txtFecha');
+			$nompc = $this->getRequest()->getPost('txtNomPc');
+			$observacion= 'q';
+			$id_user= 1;
+			$id_respfuncionario= $this->getRequest()->getPost('txtRespFuncionario');
+			$id_resppatrimonio= $this->getRequest()->getPost('txtRespPatrimonio');
+			$operativo=$this->getRequest()->getPost('chkOpOtros');
+			$garantia=$this->getRequest()->getPost('chkGarantia');
+			$anioGarantia=$this->getRequest()->getPost('txtAnioGarantia');
+			$compatible=$this->getRequest()->getPost('chkCompatible');
+			
+			$tblMicroprocesador=$this->getRequest()->getPost('tblMicroprocesador');
+			$tblDiscoDuro =$this->getRequest()->getPost('tblDiscoDuro');
+			$tblMainboard=$this->getRequest()->getPost('tblMainboard');
+			$tblRed=$this->getRequest()->getPost('tblRed');
+			$tblRam=$this->getRequest()->getPost('tblRam');
+			$tblSoft=$this->getRequest()->getPost('tblSoftware');
+			$tblOtro=$this->getRequest()->getPost('tblOtrosComponentes');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$anios = new Anio($this->dbAdapter);
-			if ($id != '') {
-				$modificar = $anios->modificar($descripcion, $numero, $id);
-				$msj = $this->mensaje($modificar, 1);
-			} else {
-				$insertar = $anios->insertar($descripcion, $numero);
+			$ficha = new Ficha($this->dbAdapter);
+			//if ($id != '') {
+//				$modificar = $ficha->modificar($descripcion, $numero, $id);
+//				$msj = $this->mensaje($modificar, 1);
+//			} else {
+				$insertar = $ficha->insertar($numero, $fecha,$nompc,$observacion,$id_user, $id_respfuncionario,$id_resppatrimonio, $tblMicroprocesador,
+						$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro);
 				$msj = $this->mensaje($insertar, 0);
-			}
+//			}
 		} catch (\Exception $e) {
+			
 			$error = 1;
 			$codError = explode("(", $e->getMessage());
 			$codError = explode("-", $codError[1]);
@@ -124,7 +146,7 @@ class FichaController extends AbstractActionController {
 		if ($valorConsulta == true) {
 			switch ($tipoConsulta) {
 				case 0:
-					$msj = "REGISTRADO CORRECTAMENTE";
+					$msj = "REGISTRADO CORRECTAMENTE".$valorConsulta;
 					break;
 				case 1:
 					$msj = "MODIFICADO CORRECTAMENTE";
@@ -137,7 +159,7 @@ class FichaController extends AbstractActionController {
 					break;
 			}
 		} else {
-			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO".$valorConsulta."a";
 		}
 		return $msj;
 	}

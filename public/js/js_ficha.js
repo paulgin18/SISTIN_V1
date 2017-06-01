@@ -130,14 +130,16 @@ $(document).on('click', '#btnAnadirDisp', function (event) {
 		} else {
 			if (txtId > 0 && txtIdDisMaMo >= 0) {
 				verificar(txtIdDisMaMo, dispositivo, itemMaMo, txtSerie, chk);
+				test();
 			}
 		}
-
 	}
-	$('#id_marca').val('');
-	$('#id_modelo').val('');
-	$('#bMarca').val('');
-	$('#bModelo').val('');
+	
+	$('#txtIdDis').val('');
+	$('#txtDispositivo').val('');
+	$('#txtMaMo').val('');
+	$('#txtSerieMaMo').val('');
+	$('#txtIdDisMaMo').val('');
 });
 
 $(document).on('click', '#btnAnadirRam', function (event) {
@@ -149,8 +151,8 @@ $(document).on('click', '#btnAnadirRam', function (event) {
 	} else {
 		insertarRam(idRam, dispositivo);
 	}
-	$('#txtIdDisMaMo').val('');
-	$('#txtDispositivo').val('');
+	$('#txtMR').val('');
+	$('#txtIdMR').val('');
 });
 
 
@@ -188,6 +190,13 @@ $(document).on('click', '#btnAnadirSoft', function (event) {
 		}
 		insertarSoft($('#txtSoftCL').val(), $('#txtIdSofCl').val(), $('#tipoSoft').val(), chk, $("#txtSoftEdicion").val(), $("#txtSoftVersion").val(),$("#txtSoftNroLicencia").val());
 	}
+		$('#txtSoftCL').val('');
+		$('#txtSoftEdicion').val('');
+		$('#txtIdSofCl').val('');
+		$('#tipoSoft').val('');
+		$('#txtSoftVersion').val('');
+		$('#txtSoftNroLicencia').val('');
+	
 });
 
 
@@ -357,6 +366,20 @@ $(document).on('click', '#chkCompatible', function (event) {
 	}
 });
 
+
+$(document).on('click', '#chkRedIntegrada', function (event) {
+	var chk = $('input:checkbox[id=chkRedIntegrada]:checked').val();
+	if (chk == 1) {
+		$("#integrada").hide();
+		$("#txtRed").val("");
+		$("#txtIdRed").val("");
+		$("#txtSerieRed").val("");
+	} else {
+		$("#integrada").show();
+	}
+});
+
+
 $(document).on('click', '#chkGarantia', function (event) {
 	var chk = $('input:checkbox[id=chkGarantia]:checked').val();
 	if (chk == 1) {
@@ -373,10 +396,10 @@ $(document).on('click', '#chkLicencia', function (event) {
 	var chk = $('input:checkbox[id=chkLicencia]:checked').val();
 	if (chk == 1) {
 		$('#divLicencia').show();
-		$('#txtSoftLicencia').val("");
+		$('#txtSoftNroLicencia').val("");
 	} else {
 		$('#divLicencia').hide();
-		$('#txtSoftLicencia').val("---");
+		$('#txtSoftNroLicencia').val("---");
 	}
 });
 
@@ -390,32 +413,6 @@ $(document).on('click', '.removerMo', function (event) {
 	$(this).parent().parent().remove();
 });
 
-var registrar = function (cmbTipo, txtDescripcion, txtIdDis, rbtFichaTecnica, items_marca) {
-	var options = {
-		type: 'POST',
-		url: '../../registrar',
-		data: {'txtDescripcion': txtDescripcion,
-			'cmbTipo': cmbTipo,
-			'rbtFicha': rbtFichaTecnica,
-			'items_marca': items_marca,
-			'txtIdDis': txtIdDis,
-		},
-		dataType: 'json',
-		success: function (response) {
-			var elemento = response.msj.split(":");
-			if (elemento.length > 0) {
-				if (elemento[0] == "Error") {
-					bootbox.alert(elemento[0] + "" + elemento[1]);
-				} else {
-					bootbox.alert(response.msj, function () {
-						window.location.href = "../../dispositivo";
-					});
-				}
-			}
-		}
-	};
-	$.ajax(options);
-};
 
 var verificar = function (txtIdDisMaMo, dispositivo, itemMaMo, txtSerie, chk) {
 	var campo1;
@@ -463,25 +460,162 @@ var insertarSoft = function (txtSoft, txtId, tipo, chk, edicion, version, nrolic
 			tip = "Software libre";
 		}
 		$("#tabla_soft > tbody").append(
-				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td hidden>' + tipo + '</td><td>' + tip + '</td><td>' + txtSoft + '</td><td>' + edicion + '</td><td>' + version+ '</td><td>' + chk+ '</td><td>' + nrolicencia + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+        '<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td hidden>' + tipo + 
+		'</td><td>' + tip + '</td><td>' + txtSoft + '</td><td>' + edicion + '</td><td>' + version+ 
+		'</td><td>' + chk+ '</td><td>' + nrolicencia + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
 	;
 }
 
+
+function test()
+{
+		var tblMarca = {'idMicroprocesador': $("#txtIdMI").val(),
+			'descripcion': $("#txtMI").val(),
+			'estructura': $('input:radio[id=rbBits]:checked').val(),
+		};
+
+	
+	alert(JSON.stringify(tblMarca, null, 4));
+}
+
+//function test()
+//{
+//		var tblMarca = $('#tabla_marca tbody tr').map(function (i, row) {
+//		return {'id': row.cells[1].textContent,
+//			'descripcion': row.cells[2].textContent,
+//			'idModelo': row.cells[3].textContent,
+//			'modelo': row.cells[4].textContent,
+//		};
+//	}).get();
+//	
+//	//alert(JSON.stringify(tblMarca, null, 4));
+//}
+
+
 $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
-	var cmbTipo = $('#cmbTipo').val();
-	var txtDescripcion = $('#txtDispositivo').val();
-	var txtIdDis = $('#txtIdDis').val();
-	var rbtFichaTecnica = $('input:radio[id=rbtFicha]:checked').val();
-	//var txtId = $('#txtId').val();
-	var items_marca = $('#tabla_marca tbody tr').map(function (i, row) {
+	var txtFecha = $('#txtFecha').val();
+	var txtNroFicha = $('#txtNroFicha').val();
+	var txtAnioNroFicha = $('#txtAnioNroFicha').val();
+	var txtUnidadOrganica = $('#txtUnidadOrganica').val();
+	var txtAreaServ = $('#txtAreaServ').val();
+	var txtRespPatrimonio = $('#txtRespPatrimonio').val();
+	var txtRespFuncionario = $('#txtRespFuncionario').val();
+	var txtIdEquipo = $('#txtIdEquipo').val();
+	var txtNomPc = $('#txtNomPc').val();
+	var txtFechaAdquisicion = $('#txtFechaAdquisicion').val();
+	var txtAnioGarantia = $('#txtAnioGarantia').val();
+	var txtSeriePC = $('#txtSeriePC').val();
+	var txtNroPatrimonio = $('#txtNroPatrimonio').val();
+	var txtIdSO = $('#txtIdSO').val();
+	var txtLicenciaSO = $('#txtLicenciaSO').val();
+	var chkCompatible = $('input:checkbox[id=chkCompatible]:checked').val();
+	var chkOpOtros = $('input:checkbox[id=chkOpOtros]:checked').val();
+	var chkGarantia = $('input:checkbox[id=chkGarantia]:checked').val();
+	var tblRed = {'idRed': $("#txtIdRed").val(),
+			'descripcion': $("#txtRed").val(),
+			'serie': $("#txtSerieRed").val(),
+			'mac': $("#txtMac").val(),
+			'ip': $("#txtProxy").val(),
+			'puertaEnlace': $("#txtPuertaEnly").val(),
+			'proxy': $("#txtProxy").val(),
+			'integrada':  $('input:checkbox[id=chkRedIntegrada]:checked').val(),
+			'red':  $('input:checkbox[id=chkConRed]:checked').val(),
+			'internet':  $('input:checkbox[id=chkConInternet]:checked').val(),
+		};
+		
+	var tblMicroprocesador = {'idMicroprocesador': $("#txtIdMI").val(),
+			'descripcion': $("#txtMI").val(),
+			'estructura': $('input:radio[id=rbBits]:checked').val(),
+		};
+	var tblDiscoDuro = {'idDiscoDuro': $("#txtIdDD").val(),
+			'descripcion': $("#txtDD").val(),
+			'serie': $("#txtSerieDD").val(),
+		};
+	var tblMainboard = {'idMainboard': $("#txtIdMain").val(),
+			'descripcion': $("#txtMain").val(),
+			'serie': $("#txtSerieMain").val(),
+		};
+		
+	var tblOtrosComponentes = $('#tabla_marca tbody tr').map(function (i, row) {
 		return {'id': row.cells[1].textContent,
 			'descripcion': row.cells[2].textContent,
-			'idModelo': row.cells[3].textContent,
-			'modelo': row.cells[4].textContent,
+			'modelo': row.cells[3].textContent,
+			'serie': row.cells[4].textContent,
 		};
 	}).get();
-	registrar(cmbTipo, txtDescripcion, txtIdDis, rbtFichaTecnica, items_marca);
+	
+	var tblRam = $('#tabla_ram tbody tr').map(function (i, row) {
+		return {'id': row.cells[1].textContent
+		};
+	}).get();
+	
+	var tblSoftware = $('#tabla_soft tbody tr').map(function (i, row) {
+		return {'id': row.cells[1].textContent,
+			'tipo': row.cells[2].textContent,
+			'descripcion': row.cells[4].textContent,
+			'edicion': row.cells[5].textContent,
+			'version': row.cells[6].textContent,
+			'licenciado': row.cells[7].textContent,
+			'nrolicencia': row.cells[8].textContent,
+		};
+	}).get();
+	
+	registrar(txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica,txtAreaServ,txtRespPatrimonio,
+	txtRespFuncionario,txtIdEquipo,txtNomPc, txtFechaAdquisicion,txtAnioGarantia,
+	txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,chkCompatible,chkOpOtros, chkGarantia,
+	tblOtrosComponentes,tblRam,tblSoftware,tblMicroprocesador,tblDiscoDuro,tblMainboard,tblRed);
 });
+
+
+var registrar = function (txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica,txtAreaServ,txtRespPatrimonio,
+	txtRespFuncionario,txtIdEquipo,txtNomPc, txtFechaAdquisicion,txtAnioGarantia,
+	txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,chkCompatible,chkOpOtros, chkGarantia,
+	tblOtrosComponentes,tblRam,tblSoftware,tblMicroprocesador,tblDiscoDuro,tblMainboard,tblRed) {
+	var options = {
+		type: 'POST',
+		url: '../../registrar',
+		data: {'txtNroFicha':txtNroFicha,
+			'txtFecha':txtFecha, 
+			'txtAnioNroFicha':txtAnioNroFicha,
+			'txtUnidadOrganica':txtUnidadOrganica,
+			'txtAreaServ':txtAreaServ,
+			'txtRespPatrimonio':txtRespPatrimonio,
+			'txtRespFuncionario':txtRespFuncionario,
+			'txtIdEquipo':txtIdEquipo,
+			'txtNomPc':txtNomPc,
+			'txtFechaAdquisicion':txtFechaAdquisicion,
+			'txtAnioGarantia':txtAnioGarantia,
+			'txtSeriePC':txtSeriePC,
+			'txtNroPatrimonio':txtNroPatrimonio,
+			'txtIdSO':txtIdSO,
+			'txtLicenciaSO':txtLicenciaSO,
+			'chkCompatible':chkCompatible,
+			'chkOpOtros':chkOpOtros,
+			'chkGarantia':chkGarantia,
+			'tblOtrosComponentes':tblOtrosComponentes,
+			'tblRam':tblRam,
+			'tblSoftware':tblSoftware,
+			'tblMicroprocesador':tblMicroprocesador,
+			'tblDiscoDuro':tblDiscoDuro,
+			'tblMainboard':tblMainboard,
+			'tblRed':tblRed,
+		},
+		dataType: 'json',
+		success: function (response) {
+			var elemento = response.msj.split(":");
+			if (elemento.length > 0) {
+				if (elemento[0] == "Error") {
+					bootbox.alert(elemento[0] + "" + elemento[1]);
+				} else {
+					bootbox.alert(response.msj, function () {
+						window.location.href = "../../ficha";
+					});
+				}
+			}
+		}
+	};
+	$.ajax(options);
+};

@@ -22,37 +22,37 @@
 									</div>
 									<label class="col-sm-2 control-label"><b>F.T.Nº:</b></label>
 									<div class="col-sm-3">
-										<input class="form-control "  id="txtNroFicha" name="txtNroFicha" type="text" >
+										<input class="form-control "  id="txtNroFicha" name="txtNroFicha"  value="" type="text" >
 									</div>
 									<div class="col-sm-1">
-										<input class="form-control "  id="txtNroFicha"  name="txtNroFicha" value="<?= date("Y"); ?>" type="text" >
+										<input class="form-control "  id="txtAnioNroFicha"  name="txtAnioNroFicha" value="<?= date("Y"); ?>" type="text" >
 									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Unidad Organica:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtUnidadOrganica" autofocus="autofocus" name="txtUnidadOrganica" type="text" style="text-transform:uppercase"  >
+										<input class="form-control "  id="txtUnidadOrganica" autofocus="autofocus" name="txtUnidadOrganica" type="text" value="" style="text-transform:uppercase"  >
 									</div>
 									<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" style="text-transform:uppercase">
+										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="" style="text-transform:uppercase">
 									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Responsable Patrimonio:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" type="text" style="text-transform:uppercase" >
+										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" value="" type="text" style="text-transform:uppercase" >
 									</div>
 									<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" type="text" style="text-transform:uppercase"	>
+										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario" value="" type="text" style="text-transform:uppercase"	>
 									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Equipo:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" type="hidden" >
-										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo" style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
+										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="" type="hidden" >
+										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo"  value=""style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
 									</div>
 								</div>
 							</form><br/><hr/>
@@ -143,16 +143,16 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Nombre de PC:</b></label>
 											<div class="col-sm-3">
-												<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" type="text" style="text-transform:uppercase" >
+												<input class="form-control "  id="txtNomPc" name="txtNomPc" type="text"  value="" style="text-transform:uppercase" >
 											</div>
 											<label class="col-sm-2 control-label"><b>F. Adquisicion:</b></label>
 											<div class="col-sm-2">
-												<input class="form-control"  id="txtFechaAdquisicion" name="txtFechaAdquisicion" type="date">
+												<input class="form-control"  id="txtFechaAdquisicion" name="txtFechaAdquisicion" value="" type="date">
 											</div>
 											<div id="divAnioGarantia" style="display:none">
 												<label class="col-sm-1 control-label" ><b>Garantia:</b></label>
 												<div class="col-sm-1">
-													<input type="text" id="txtAnioGarantia" name="txtAnioGarantia" placeholder="años" class="form-control"  value="<?= $datos != null ? $datos['aniogarantia'] : ''; ?>">
+													<input type="text" id="txtAnioGarantia" name="txtAnioGarantia" placeholder="años"  class="form-control"  value="<?= $datos != null ? $datos['aniogarantia'] : ''; ?>">
 
 												</div>
 											</div>
@@ -161,11 +161,11 @@
 											<label class="col-sm-2 control-label"><b>Marca:</b></label>
 											<div class="col-sm-3">
 												<input type="hidden" class="" name="txtIdMPc" id="txtIdMPc"  placeholder=""  value="<?= $datos != null ? $datos['id_marca'] : ''; ?>">
-												<input class="form-control " name="txtMarcaPC" id="txtMarcaPC" placeholder="Buscar..." type="text" style="text-transform:uppercase">
+												<input class="form-control " name="txtMarcaPC" id="txtMarcaPC" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Serie:</b></label>
 											<div class="col-sm-3">
-												<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text"  style="text-transform:uppercase">
+												<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text" value="" style="text-transform:uppercase">
 
 											</div>
 											<div class="col-sm-1">
@@ -176,29 +176,43 @@
 										<div class="form-group" >
 											<label class="col-sm-2 control-label"><b>N° Patrimonial:</b></label>
 											<div class="col-sm-3">
-												<input type="text" name="txtNroPatrimonio" id="txtNroPatrimonio" class="form-control col-md-6 col-xs-10" style="text-transform:uppercase">
+												<input type="text" name="txtNroPatrimonio" id="txtNroPatrimonio" value="" class="form-control col-md-6 col-xs-10" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-2"></div>
 
 
 										</div>
 										<hr>
+										
+										<h2 class="StepTitle">Sistema Operativo</h2><br/>
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Sistema Operativo:</b></label>
 											<div class="col-sm-3">
 												<input type="hidden" class="" name="txtIdSO" id="txtIdSO"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtSO" id="txtSO" placeholder="Buscar..." type="text" style="text-transform:uppercase">
+												<input class="form-control " name="txtSO" id="txtSO" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Nro Licencia:</b></label>
 											<div class="col-sm-3">
-												<input type="text" id="txtLicenciaSO" name="txtLicenciaSO" class="form-control" style="text-transform:uppercase">
+												<input type="text" id="txtLicenciaSO" name="txtLicenciaSO" class="form-control" value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-1">
 												<label id='lblNLicenciaSO' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
 												<label  id='lblALicenciaSO'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 											</div>
+											
 										</div>
-										<hr>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Usuario:</b></label>
+											<div class="col-sm-3">
+												<input type="hidden" class="" name="txtIdUsuario" id="txtIdUsuario"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtUsuario" id="txtUsuario" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
+											</div>
+											<label class="col-sm-2 control-label"><b>Contraseña:</b></label>
+											<div class="col-sm-3">
+												<input type="text" id="txtContraseña" name="txtContraseña" value="" class="form-control" style="text-transform:uppercase">
+											</div>
+											
+										</div>
 									</form>
 									<br/>
 									<br/>
@@ -210,7 +224,7 @@
 											<label class="col-sm-2 control-label"><b>Microprocesador:</b></label>
 											<div class="col-sm-4">
 												<input type="hidden" class="" name="txtIdMI" id="txtIdMI"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtMI" id="txtMI" placeholder="Buscar..." type="text" style="text-transform:uppercase">
+												<input class="form-control " name="txtMI" id="txtMI" placeholder="Buscar..." type="text" value="" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Estruct(Bits)</b></label>
 											<div class="col-sm-2">
@@ -222,11 +236,11 @@
 											<label class="col-sm-2 control-label"><b>Disco Duro:</b></label>
 											<div class="col-sm-4">
 												<input type="hidden" class="" name="txtIdDD"  id="txtIdDD"   placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>"  >
-												<input class="form-control " name="txtDD" id="txtDD" style="text-transform:uppercase" placeholder="Buscar..." type="text">
+												<input class="form-control " name="txtDD" id="txtDD" style="text-transform:uppercase" value="" placeholder="Buscar..." type="text">
 											</div>
 											<label class="col-sm-2 control-label"><b>Serie:</b></label>
 											<div class="col-sm-3">
-												<input type="text" id="txtSerieDD" name="txtSerieDD" class="form-control" style="text-transform:uppercase">
+												<input type="text" id="txtSerieDD" name="txtSerieDD" class="form-control" value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-1">
 												<label id='lblNSerieDD' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
@@ -237,11 +251,11 @@
 											<label class="col-sm-2 control-label"><b>Mainboard:</b></label>
 											<div class="col-sm-4">
 												<input type="hidden" class="" name="txtIdMain" id="txtIdMain"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtMain" id="txtMain" placeholder="Buscar..." type="text" style="text-transform:uppercase">
+												<input class="form-control " name="txtMain" id="txtMain" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Serie:</b></label>
 											<div class="col-sm-3">
-												<input type="text" id="txtSerieMain" name="txtSerieMain" class="form-control" style="text-transform:uppercase">
+												<input type="text" id="txtSerieMain" name="txtSerieMain" class="form-control" value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-1">
 												<label id='lblNSerieMain' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
@@ -254,7 +268,7 @@
 											<label class="col-sm-1 control-label"><b>Memoria:</b></label>
 											<div class="col-sm-4">
 												<input type="hidden" class="" name="txtIdMR" id="txtIdMR"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtMR" id="txtMR" placeholder="Buscar..." type="text" style="text-transform:uppercase">
+												<input class="form-control " name="txtMR" id="txtMR" placeholder="Buscar..." type="text" value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-2">
 												<button class="btn btn-success " id="btnAnadirRam"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
@@ -277,14 +291,46 @@
 										<hr/>
 										<h2 class="StepTitle">RED</h2><br/>
 										<div class="form-group">
+											<label class="col-sm-1 control-label" for="chkRedIntegrada" ><b>Integrada:</b></label>
+												<div class="col-sm-1">
+													<?=
+													$datos != null ? $datos['inetgrada'] == true ?
+																	'<input type="checkbox" name="chkRedIntegrada" id="chkRedIntegrada" value="1" checked>' :
+																	'<input type="checkbox" name="chkRedIntegrada" id="chkRedIntegrada" value="1">' :
+															'<input type="checkbox" name="chkRedIntegrada" id="chkRedIntegrada" value="1"  ><br>';
+													?>
+												</div>
+											
+											<label class="col-sm-1 control-label" for="chkConRed" ><b>En Red:</b></label>
+												<div class="col-sm-1">
+													<?=
+													$datos != null ? $datos['enred'] == true ?
+																	'<input type="checkbox" name="chkConRed" id="chkConRed" value="1" checked>' :
+																	'<input type="checkbox" name="chkConRed" id="chkConRed" value="1">' :
+															'<input type="checkbox" name="chkConRed" id="chkConRed" value="1" checked  ><br>';
+													?>
+												</div>
+											<label class="col-sm-1 control-label" for="chkConInternet" ><b>Internet:</b></label>
+												<div class="col-sm-1">
+													<?=
+													$datos != null ? $datos['internet'] == true ?
+																	'<input type="checkbox" name="chkConInternet" id="chkConInternet" value="1" checked>' :
+																	'<input type="checkbox" name="chkConInternet" id="chkConInternet" value="1">' :
+															'<input type="checkbox" name="chkConInternet" id="chkConInternet" value="1" checked  ><br>';
+													?>
+												</div>
+										</div>	
+										<div class="form-group">
+											<div id="integrada">
 											<label class="col-sm-1 control-label"><b>Tarjeta:</b></label>
 											<div class="col-sm-3">
 												<input type="hidden" class="" name="txtIdRed" id="txtIdRed"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtRed" id="txtRed" placeholder="Buscar..." type="text" style="text-transform:uppercase">
+												<input class="form-control " name="txtRed" id="txtRed" placeholder="Buscar..." type="text" value="" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-1 control-label"><b>Serie:</b></label>
 											<div class="col-sm-3">
-												<input type="text" id="txtSerieRed" name="txtSerieRed" class="form-control" style="text-transform:uppercase">
+												<input type="text" id="txtSerieRed" name="txtSerieRed" class="form-control" value="" style="text-transform:uppercase">
+											</div>
 											</div>
 											<div class="col-sm-1">
 												<label id='lblNSerieRed' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
@@ -292,24 +338,24 @@
 											</div>
 											<label class="col-sm-1 control-label"><b>MAC:</b></label>
 											<div class="col-sm-3">
-												<input type="text" id="txtMac" name="txtMac" placeholder="0A-0B-0C-AD-D0-D0" class="form-control" style="text-transform:uppercase">
+												<input type="text" id="txtMac" name="txtMac" placeholder="0A-0B-0C-AD-D0-D0" class="form-control" value="" style="text-transform:uppercase">
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-1 control-label"><b>IP v4/v6:</b></label>
 											<div class="col-sm-2">
 												<input type="hidden" class="" name="txtIPAdd" id="txtIPAdd"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="bIPAdd" id="bIPAdd" placeholder="Buscar..." type="text" style="text-transform:uppercase">
+												<input class="form-control " name="bIPAdd" id="bIPAdd" placeholder="Buscar..." type="text"  value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-1"></div>
 											<label class="col-sm-2 control-label"><b>Puerta Enlace:</b></label>
 											<div class="col-sm-2">
-												<input class="form-control" name="txtPuertaEnl" id="txtPuertaEnl" type="text" style="text-transform:uppercase">
+												<input class="form-control" name="txtPuertaEnl" id="txtPuertaEnl" type="text" value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-1"></div>
 											<label class="col-sm-2 control-label"><b>Proxy:</b></label>
 											<div class="col-sm-2">
-												<input class="form-control" name="txtProxy" id="txtProxy" type="text" style="text-transform:uppercase">
+												<input class="form-control" name="txtProxy" id="txtProxy" type="text" value="" style="text-transform:uppercase">
 											</div>
 
 										</div>
@@ -322,7 +368,7 @@
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Disp:</b></label>
 											<div class="col-sm-4">
-												<input class="form-control" name="txtDispositivo" id="txtDispositivo" type="text" placeholder="Buscar" style="text-transform:uppercase">	
+												<input class="form-control" name="txtDispositivo" id="txtDispositivo" type="text" placeholder="Buscar" value="" style="text-transform:uppercase">	
 												<input type="hidden" id="txtIdDis">	
 												<input type="hidden" id="disp">
 												<input type="hidden" id="mar">
@@ -330,13 +376,14 @@
 											</div>
 											<label class="col-sm-2 control-label"><b>Marca / Modelo:</b></label>
 											<div class="col-sm-4">
-												<input type="text" id="txtMaMo" name="txtMaMo" class="form-control" placeholder="Buscar"  style="text-transform:uppercase">
+												
+												<input type="text" id="txtMaMo" name="txtMaMo" class="form-control" placeholder="Buscar" value="" style="text-transform:uppercase">
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Serie:</b></label>
 											<div class="col-sm-4">
-												<input class="form-control" name="txtSerieMaMo" id="txtSerieMaMo" type="text" style="text-transform:uppercase">
+												<input class="form-control" name="txtSerieMaMo" id="txtSerieMaMo" type="text" value="" style="text-transform:uppercase">
 												<input type="hidden" id="txtIdDisMaMo">
 											</div>
 											<div class="col-sm-1">
@@ -376,17 +423,17 @@
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Software:</b></label>
 											<div class="col-sm-3">
-												<input class="form-control" name="txtSoftCL" id="txtSoftCL" type="text" placeholder="Buscar"  style="text-transform:uppercase">
+												<input class="form-control" name="txtSoftCL" id="txtSoftCL" type="text" placeholder="Buscar" value="" style="text-transform:uppercase">
 												<input type="hidden" id="txtIdSofCl">
 												<input type="hidden" id="tipoSoft">
 											</div>
 											<label for="" class="col-sm-1 control-label"><b>Edicion:</b></label>
 											<div class="col-sm-2">
-												<input class="form-control" name="txtSoftEdicion" id="txtSoftEdicion" type="text" style="text-transform:uppercase">
+												<input class="form-control" name="txtSoftEdicion" id="txtSoftEdicion" type="text" value="" style="text-transform:uppercase">
 											</div>
 											<label for="" class="col-sm-1 control-label"><b>Version:</b></label>
 											<div class="col-sm-1">
-												<input class="form-control" name="txtSoftVersion" id="txtSoftVersion" type="text" style="text-transform:uppercase">
+												<input class="form-control" name="txtSoftVersion" id="txtSoftVersion" type="text" value="" style="text-transform:uppercase">
 											</div>
 											
 											
@@ -403,7 +450,7 @@
 										<div id="divLicencia" style="display: none" >
 											<label for="" class="col-sm-1 control-label"><b>Nº Lic:</b></label>
 											<div class="col-sm-5">
-												<input class="form-control" name="txtSoftNroLicencia" id="txtSoftNroLicencia" type="text" style="text-transform:uppercase">
+												<input class="form-control" name="txtSoftNroLicencia" id="txtSoftNroLicencia" type="text" value="" style="text-transform:uppercase">
 											</div>	
 										</div>
 											<button class="btn btn-success " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
@@ -431,7 +478,7 @@
 												</table>
 											</div>
 											<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-											<center><button class="btn btn-primary " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Registrar FICHA</button></center>
+											<center><button class="btn btn-primary " id="btnguardar"> <i class="fa fa-plus" aria-hidden="true"></i> Registrar FICHA</button></center>
 										</div>
 									</div>
 								</div>

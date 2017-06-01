@@ -17,14 +17,110 @@ class Ficha extends TableGateway {
 		return parent::__construct('Ficha', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($descripcion,$tipo,$ficha, $id_marca,$id_modelo) {
+	public function insertar($numero,$fecha,$nompc, $observacion,$id_user, 
+			$id_respfuncionario,$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro,$tblMainboard,$tblRam,$tblRed,$tblSoft,$tblOtro) {
+		try{
+		$connection = $this->dbAdapter->getDriver()->getConnection();
+		$connection->beginTransaction();
+		$idInsert=$this->fichaTecnica($numero,$fecha,$nompc, $observacion,$id_user, $id_respfuncionario,$id_resppatrimonio);
+		$this->microprocesador($idInsert, $tblMicroprocesador);
+//		$this->discoDuro($idInsert,$tblDiscoDuro);
+//		$this->mainboard($idInsert,$tblMainboard);
+//		$this->ram($idInsert,$tblRam);
+//		$this->red($idInsert,$tblRed);
+//		$this->software($idInsert,$tblSoft);
+//		$this->otrosComponentes($idInsert,$tblOtro);
+		$connection->commit();
+			} catch (\Exception $e) {
+				echo $e;
+			}
+		return $datos;
+	}
+	public function fichaTecnica($numero,$fecha,$nompc,$observacion,$id_user, $id_respfuncionario,$id_resppatrimonio) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO disp_soft (descripcion,tipo,ficha,id_marca,id_modelo) "
-						. "VALUES (upper(trim('$descripcion')),upper(trim('$tipo')), ficha='$ficha', id_marca=$id_marca, id_modelo=$id_modelo)");
-		$datos = $insert->execute();
+				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
+						. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+		 $insert->execute();
+		 $datos =$this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+	public function microprocesador($idInsert,$tblMicroprocesador) {
+		
+		$insert = $this->dbAdapter->createStatement(
+				"INSERT INTO ft_compinternos(estructura, id_ficha_tecnica, id_disp_mar_mod)"
+				. "VALUES ('".$tblMicroprocesador['estructura']."', '$idInsert',".$tblMicroprocesador['idMicroprocesador'].")");
+		 $insert->execute();
+		 
 		return $insert;
 	}
+	
+	public function discoDuro($idInsert,$tblDiscoDuro) {
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
+						. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+		 $insert->execute();
+		 $datos =$this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+		public function mainboard($idInsert,$tblMainboard) {
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
+						. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+		 $insert->execute();
+		 $datos =$this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+		public function ram($idInsert,$tblRam) {
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
+						. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+		 $insert->execute();
+		 $datos =$this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+	
+		public function red($idInsert,$tblRed) {
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
+						. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+		 $insert->execute();
+		 $datos =$this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+		public function software($idInsert,$tblSoft) {
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
+						. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+		 $insert->execute();
+		 $datos =$this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+	public function otrosComponentes($idInsert,$tblOtro) {
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
+						. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+		 $insert->execute();
+		 $datos =$this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+	
+	
+	
+	
 	public function modificar($id, $descripcion,$tipo,$ficha, $vigencia,$id_marca,$id_modelo) {
 		$update = $this->dbAdapter->
 				createStatement(
