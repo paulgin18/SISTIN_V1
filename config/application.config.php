@@ -5,6 +5,7 @@ return array(
     'modules' => array(
         
         'Anio',
+
 		'Marca',
 		'Dispositivo',
         'Estado',
@@ -16,7 +17,7 @@ return array(
         'Tipoatencion',
         'Unidad',
         'Accion',
-        
+        'Area',
         'Application',
 
 

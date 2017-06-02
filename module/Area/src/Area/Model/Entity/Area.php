@@ -1,7 +1,6 @@
 <?php
-<?php
 
-namespace Estado\Model\Entity;
+namespace Area\Model\Entity;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
@@ -9,28 +8,28 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
 use Zend\Db\ResultSet\ResultSet;
 
-class Estado extends TableGateway {
+class Area extends TableGateway {
 
 	private $dbAdapter;
 
 	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null) {
 		$this->dbAdapter = $adapter;
-		return parent::__construct('Estado', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
+		return parent::__construct('Area', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($numero,$descripcion) {
+	public function insertar($descripcion) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO estado (numero,descripcion) "
-						. "VALUES ($numero,'$descripcion')");
+				"INSERT INTO area (descripcion) "
+						. "VALUES ('$descripcion')");
 		$datos = $insert->execute();
 		return $datos;
 	}
-	public function modificar($id, $descripcion,$numero) {
+	public function modificar($id, $descripcion) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update estado set descripcion=upper(trim('$descripcion')),numero=$numero"
-						. "where id_estado=$id");
+				"update area set descripcion=upper(trim('$descripcion'))"
+						. "where id_area=$id");
 		$datos = $update->execute();
 		return $update;
 	}
@@ -42,19 +41,19 @@ class Estado extends TableGateway {
 		//$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
 
-		$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_area,descripcion,id_uni_ejec,vigencia FROM area order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado where id_estado=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT id_area,descripcion,id_uni_ejec,vigencia FROM area where id_area=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }
-	  public function buscarEstado($descripcion){
+	  public function buscarArea($descripcion){
         $consulta=$this->dbAdapter->query(
-		"SELECT id_estado as value,numero as cantidad, descripcion as label, vigencia FROM estado where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+		"SELECT id_area as value, descripcion as label,id_uni_ejec as unidadejecutora, vigencia FROM area where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }
@@ -72,7 +71,7 @@ public function eliminar($id) {
    
 	public function eliminar($id,$vigencia) {
 		$delete = $this->dbAdapter->
-				createStatement("UPDATE estado set vigencia=$vigencia where id_estado=$id");
+				createStatement("UPDATE area set vigencia=$vigencia where id_area=$id");
 		$datos = $delete->execute();
 		return $datos;
 	}
