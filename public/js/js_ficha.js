@@ -130,7 +130,7 @@ $(document).on('click', '#btnAnadirDisp', function (event) {
 		} else {
 			if (txtId > 0 && txtIdDisMaMo >= 0) {
 				verificar(txtIdDisMaMo, dispositivo, itemMaMo, txtSerie, chk);
-				test();
+				//test();
 			}
 		}
 	}
@@ -399,7 +399,7 @@ $(document).on('click', '#chkLicencia', function (event) {
 		$('#txtSoftNroLicencia').val("");
 	} else {
 		$('#divLicencia').hide();
-		$('#txtSoftNroLicencia').val("---");
+		$('#txtSoftNroLicencia').val("");
 	}
 });
 
@@ -494,7 +494,7 @@ function test()
 
 
 $(document).on('click', '#btnguardar', function (event) {
-	this.disabled = true;
+	//this.disabled = true;
 	event.preventDefault();
 	var txtFecha = $('#txtFecha').val();
 	var txtNroFicha = $('#txtNroFicha').val();
@@ -514,36 +514,37 @@ $(document).on('click', '#btnguardar', function (event) {
 	var chkCompatible = $('input:checkbox[id=chkCompatible]:checked').val();
 	var chkOpOtros = $('input:checkbox[id=chkOpOtros]:checked').val();
 	var chkGarantia = $('input:checkbox[id=chkGarantia]:checked').val();
-	var tblRed = {'idRed': $("#txtIdRed").val(),
+	var tblRed = ($("#txtIPAdd").val().length >0)?{'id': $("#txtIdRed").val(),
 			'descripcion': $("#txtRed").val(),
-			'serie': $("#txtSerieRed").val(),
-			'mac': $("#txtMac").val(),
-			'ip': $("#txtProxy").val(),
+			'serie': $("#txtSerieRed").val().length>0?$("#txtSerieRed"):null,
+			'mac': $("#txtMac").val().length>0?$("#txtMac").val():null,
+			'ip': $("#txtIPAdd").val().length>0?$("#txtIPAdd").val():null,
 			'puertaEnlace': $("#txtPuertaEnly").val(),
+			'puertos': 0,
 			'proxy': $("#txtProxy").val(),
 			'integrada':  $('input:checkbox[id=chkRedIntegrada]:checked').val(),
 			'red':  $('input:checkbox[id=chkConRed]:checked').val(),
 			'internet':  $('input:checkbox[id=chkConInternet]:checked').val(),
-		};
+		}:null;
 		
-	var tblMicroprocesador = {'idMicroprocesador': $("#txtIdMI").val(),
+	var tblMicroprocesador =($("#txtIdMI").val()>0)? {'idMicroprocesador': $("#txtIdMI").val(),
 			'descripcion': $("#txtMI").val(),
 			'estructura': $('input:radio[id=rbBits]:checked').val(),
-		};
-	var tblDiscoDuro = {'idDiscoDuro': $("#txtIdDD").val(),
+		}:null;
+	var tblDiscoDuro = ($("#txtIdDD").val()>0)?{'idDiscoDuro': $("#txtIdDD").val(),
 			'descripcion': $("#txtDD").val(),
-			'serie': $("#txtSerieDD").val(),
-		};
-	var tblMainboard = {'idMainboard': $("#txtIdMain").val(),
+			'serie': $("#txtSerieDD").val().length>0?$("#txtSerieDD").val():null,
+		}:null;
+	var tblMainboard = ($("#txtIdMain").val()>0)?{'idMainboard': $("#txtIdMain").val(),
 			'descripcion': $("#txtMain").val(),
-			'serie': $("#txtSerieMain").val(),
-		};
+			'serie': $("#txtSerieMain").val().length>0?$("#txtSerieMain").val():null,
+		}:null;
 		
 	var tblOtrosComponentes = $('#tabla_marca tbody tr').map(function (i, row) {
 		return {'id': row.cells[1].textContent,
 			'descripcion': row.cells[2].textContent,
 			'modelo': row.cells[3].textContent,
-			'serie': row.cells[4].textContent,
+			'serie': row.cells[4].textContent.length>0?row.cells[4].textContent:null,
 		};
 	}).get();
 	
@@ -558,8 +559,8 @@ $(document).on('click', '#btnguardar', function (event) {
 			'descripcion': row.cells[4].textContent,
 			'edicion': row.cells[5].textContent,
 			'version': row.cells[6].textContent,
-			'licenciado': row.cells[7].textContent,
-			'nrolicencia': row.cells[8].textContent,
+			'licenciado': row.cells[7].textContent=="Si"?true:false,
+			'nrolicencia': row.cells[8].textContent.length>0?row.cells[8].textContent:null,
 		};
 	}).get();
 	

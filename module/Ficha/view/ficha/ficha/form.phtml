@@ -17,8 +17,8 @@
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control"  id="txtFecha" name="txtFecha" value="<?= date("d") . "/" . date("m") . "/" . date("Y"); ?>" type="hidden" >
-										<input type='date' class="form" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
+										
+										<input type='date' class="form" id="txtFecha" name="txtFecha" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
 									</div>
 									<label class="col-sm-2 control-label"><b>F.T.Nº:</b></label>
 									<div class="col-sm-3">
@@ -147,7 +147,7 @@
 											</div>
 											<label class="col-sm-2 control-label"><b>F. Adquisicion:</b></label>
 											<div class="col-sm-2">
-												<input class="form-control"  id="txtFechaAdquisicion" name="txtFechaAdquisicion" value="" type="date">
+												<input class="form-control"  id="txtFechaAdquisicion" name="txtFechaAdquisicion" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>' type="date">
 											</div>
 											<div id="divAnioGarantia" style="display:none">
 												<label class="col-sm-1 control-label" ><b>Garantia:</b></label>
@@ -344,8 +344,8 @@
 										<div class="form-group">
 											<label class="col-sm-1 control-label"><b>IP v4/v6:</b></label>
 											<div class="col-sm-2">
-												<input type="hidden" class="" name="txtIPAdd" id="txtIPAdd"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="bIPAdd" id="bIPAdd" placeholder="Buscar..." type="text"  value="" style="text-transform:uppercase">
+												<input type="hidden" class="" name="txtIdIPAdd" id="txtIdIPAdd"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtIPAdd" id="txtIPAdd" placeholder="Buscar..." type="text"  value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-1"></div>
 											<label class="col-sm-2 control-label"><b>Puerta Enlace:</b></label>
@@ -435,12 +435,15 @@
 											<div class="col-sm-1">
 												<input class="form-control" name="txtSoftVersion" id="txtSoftVersion" type="text" value="" style="text-transform:uppercase">
 											</div>
-											
+											<label for="" class="col-sm-1 control-label"><b>F. Install:</b></label>
+											<div class="col-sm-1">
+												<input type='date' class="form" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
+											</div>
 											
 										</div>
 										<div class="form-group">
 											<label class="col-sm-1 control-label"><b>Licenciado:</b></label>
-											<div class="col-sm-3">
+											<div class="col-sm-1">
 												<?=
 												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkLicencia" id="chkLicencia" value="1" checked>' :
 																'<input type="checkbox" name="chkLicencia" id="chkLicencia" value="1">' : '<input type="checkbox" id="chkLicencia" name="chkLicencia" value="1"><br>';
@@ -449,9 +452,15 @@
 											
 										<div id="divLicencia" style="display: none" >
 											<label for="" class="col-sm-1 control-label"><b>Nº Lic:</b></label>
-											<div class="col-sm-5">
+											<div class="col-sm-4">
 												<input class="form-control" name="txtSoftNroLicencia" id="txtSoftNroLicencia" type="text" value="" style="text-transform:uppercase">
 											</div>	
+											
+											<label for="" class="col-sm-1 control-label"><b>Vigencia:</b></label>
+											<div class="col-sm-1">
+												<input class="form-control" name="txtAnioVigente" id="txtAnioVigente" placeholder="años" type="text" value="" style="text-transform:uppercase">
+											</div>
+											
 										</div>
 											<button class="btn btn-success " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
 										</div>
