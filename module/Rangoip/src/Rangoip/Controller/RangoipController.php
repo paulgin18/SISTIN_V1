@@ -113,10 +113,10 @@ class RangoipController extends AbstractActionController {
 			$id = $this->getRequest()->getPost('txtId');
 			$vigencia = $this->getRequest()->getPost('txtVigencia');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$estados = new Estado($this->dbAdapter);
+			$rangoips = new Rangoip($this->dbAdapter);
 		
 		   			
-	        $eliminar = $estados->eliminar($id,$vigencia);
+	        $eliminar = $rangoips->eliminar($id,$vigencia);
 			$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
 			$msj = $this->mensaje($eliminar, $tipoConsulta);
 			$response = new JsonModel(array('msj' => $msj, 'error' => $error));
@@ -147,12 +147,12 @@ class RangoipController extends AbstractActionController {
 	}
 
 
-	public function estadoAction() {
+	public function rangoipAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$estados = new Estado($this->dbAdapter);
-		$lista = $estados->lista();
+		$rangoips = new Rangoip($this->dbAdapter);
+		$lista = $rangoips->lista();
 		$viewModel = new ViewModel(array(
-			"estados" => $lista
+			"rangoips" => $lista
 		));
 		return $viewModel;
 	}
