@@ -3,48 +3,58 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/red/red/form/0/1"> Nuevo </a>
+					<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/area/area/form/0/1">Nuevo</a>
                     <ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
                     <div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<h2>Lista de Redes</h2>
+					<h2>Lista de Areas</h2>
                     <table id="datatable" class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th>Descripcion</th>
+								
+								<th>Descripción</th>
 								<th>Unidad Ejecutora</th>
 								<th>Vigencia</th>
-								<th>Accciones</th>
+								<th>Acciones</th>
+							
 								<th style="display:none">c</th>
 							</tr>
 						</thead>
 						<tbody>
+					
 
-							<?php foreach ($this->redes as $red) { ?>
+							<?php foreach ($this->areas as $area) { ?>
 								<tr>
-									<td><?php echo $red['decripcion'] ?></td>
-									<td><?php echo $red['unidadejecutora'] ?></td>
-									<td><?= $red['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
+							
+									<td><?php echo $area['descripcion'] ?></td>
+
+									<td><?php echo $area['id_uni_ejec'] ?></td>
+
+									<td><?= $area['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
-										<a class="btn btn-default" href="<?php echo $this->basePath("red/red/form/1/" . $red['id_red'] .""); ?>">Editar</a>
+										<a class="btn btn-default" href="<?php echo $this->basePath("area/area/form/1/" . $area['id_area'] . ""); ?>">Editar</a>
+										
+										<!--cambio-->
 
-										<?= $red['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Desactivar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+										<?= $area['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 
-										</td>
-									<td id="idCod" style="display:none;"><?= $red['id_red'] ?></td>
+										<!--  hasta aqui -->
+
+									</td>
+									<td id="idCod" style="display:none;"><?= $area['id_area'] ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>
 						<tfoot>
 							<tr>
-								<th>Descripcion</th>
-								<th>UnidadEjecutora</th>
-								<th>Vigencia</th>	
+								<th>Descripción</th>
+								<th>Unidad Ejecutora</th>
+								<th>Vigencia</th>
 								<th>Acciones</th>
-									
+							
 							</tr>
 						</tfoot>
                     </table>
@@ -70,11 +80,15 @@
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/jszip/dist/jszip.min.js"></script>
-<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js">
-</script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
 
-<?=
+</script><?=
 		$this->inlineScript()
 		
-		->prependFile($this->basePath('js/js_red.js'))
+		->prependFile($this->basePath('js/js_area.js'))
 ?>
+
+
+
+
+

@@ -16,8 +16,10 @@ return array(
         'Tipoatencion',
         'Unidad',
         'Accion',
-        
+        'Area',
+
         'Application',
+        
 
 
     ),

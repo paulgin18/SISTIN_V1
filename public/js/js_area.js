@@ -1,12 +1,13 @@
 
-
-var registrar = function (txtNumero,txtDescripcion, txtId) {
+var registrar = function (txtId_Area,txtDescripcion,txtId_Uni_Ejec,txtId) {
 	
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
-		data: {'txtNumero':txtNumero,
+		data: {
+			'txtId_Area':txtId_Area,
 			'txtDescripcion': txtDescripcion,
+			'txtId_Uni_Ejec':txtId_Uni_Ejec,
 			//'chkVigencia': chkVigencia,
 			'txtId': txtId,
 		},
@@ -16,7 +17,7 @@ var registrar = function (txtNumero,txtDescripcion, txtId) {
 			if (elemento.length > 0) {
 		
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../estado";
+						window.location.href = "../../area";
 					});
 				
 			}
@@ -28,26 +29,20 @@ var registrar = function (txtNumero,txtDescripcion, txtId) {
 
 
 $(document).on('click', '#btnguardar', function (event) {
-	alert("s");
 	this.disabled = true;
 	event.preventDefault();
 	
+	var txtId = $('#txtId').val();
+
 	var txtDescripcion = $('#txtDescripcion').val();
 
-	
-	/*
-	if(chkVigencia==1){
-		chkVigencia=true;
-	}else{
-		chkVigencia=false;
-	}
-	
+	var txId_Uni_Ejec =$('#txtId_uni_ejec').val();
 
-	*/
-	var txtId = $('#txtId').val();
-	
-	var txtNumero =$('#txtNumero').val();
-	registrar(txtNumero,txtDescripcion, txtId);
+	alert('descripcion '+txtDescripcion);
+	alert('id area '+txtId);
+	alert('id uni ejecutora '+txId_Uni_Ejec);
+
+	registrar(txtDescripcion,txtId_Uni_Ejec, txtId);
 	//this.disabled=false;
 
 });
@@ -66,6 +61,7 @@ function validar() {
 }
 
 
+
 function eliminar(id, vigencia){
 
 var options = {
@@ -79,15 +75,15 @@ var options = {
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "estado";
+						window.location.href = "area";
 					}) :
 					bootbox.alert(response.msj);
 				$("#btnBorrar").prop('disabled', false);
 		}
 	};
 	$.ajax(options);
-		alert('id eliminar estado '+txtId);
-	alert('txt vigencia '+txtVigencia);
+		//alert('id eliminar area'+txtId);
+	//alert('txt vigencia '+txtVigencia);
 
 }
 
@@ -111,5 +107,3 @@ var eliminar = function ($id,$vigencia){
 	$.ajax(options);
 
 */
-
-

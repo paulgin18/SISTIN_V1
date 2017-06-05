@@ -9,13 +9,11 @@ var registrarred = function (txtDescripcion,txtId,cmbUnidad) {
 		dataType: 'json',
 		success: function (response) {
 			var elemento = response.msj.split(":");
-			if (elemento.length > 0) {
-				
+				if (elemento.length > 0) {
 					bootbox.alert(response.msj, function () {
 						window.location.href = "../../red";
 					});
-				
-			}
+				}
 		}
 	};
 	$.ajax(options);
@@ -28,7 +26,6 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtId = $('#txtId').val(); 
 	var cmbUnidad = $('#cmbUnidad').val(); 
 	
-		
 	registrarred(txtDescripcion, txtId,cmbUnidad);
 	//this.disabled=false;
 
