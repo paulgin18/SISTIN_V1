@@ -16,11 +16,7 @@ return array(
         'Unidad',
         'Red',
         'Accion',
-<<<<<<< HEAD
-        //'Area',
-=======
-        'Area',
->>>>>>> 34199e6eaadba09453a1476f57c937d861f81496
+       'Area',
         'Application',
         
 
