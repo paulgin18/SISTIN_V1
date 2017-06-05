@@ -8,7 +8,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Area\Controller;
+namespace Rangoip\Controller;
 
 require "vendor/autoload.php";
 
@@ -19,10 +19,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
-use Area\Model\Entity\Area;
+use Rangoip\Model\Entity\Rangoip;
 use Zend\MVC\Exception;
 
-class AreaController extends AbstractActionController {
+//use Rangoip\Model\Entity\Rangoip;
+class RangoipController extends AbstractActionController {
 
 	public function indexAction() {
 
@@ -70,24 +71,24 @@ class AreaController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$areas = new Area($this->dbAdapter);
-		$datos = $areas->buscar($cod);
+		$rangoips = new ($this->dbAdapter);
+		$datos = $rangoips->buscar($cod);
 		return $datos;
 	}
 
 	public function registrarAction() {
 		try {
-			$txtId_uni_ejec =$this->getRequest()->getPost('txtId_Uni_Ejec');
+			$numero =$this->getRequest()->getPost('txtNumero');
 			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$areas = new Area($this->dbAdapter);
+			$rangoips = new Rangoip($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $areas->modificar($id,$descripcion,$txtId_uni_ejec);
+				$modificar = $rangoips->modificar($id,$descripcion,$numero);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $areas->insertar($txtId_uni_ejec,$descripcion);
+				$insert = $rangoips->insertar($numero,$descripcion);
 				$msj = $this->mensaje($insert, 0);
 			}
 			//$msj=$this->mensaje($insert);
@@ -113,10 +114,10 @@ class AreaController extends AbstractActionController {
 			$id = $this->getRequest()->getPost('txtId');
 			$vigencia = $this->getRequest()->getPost('txtVigencia');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$areas = new Area($this->dbAdapter);
+			$rangoips = new Rangoip($this->dbAdapter);
 		
 		   			
-	        $eliminar = $areas->eliminar($id,$vigencia);
+	        $eliminar = $rangoips->eliminar($id,$vigencia);
 			$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
 			$msj = $this->mensaje($eliminar, $tipoConsulta);
 			$response = new JsonModel(array('msj' => $msj, 'error' => $error));
@@ -147,12 +148,12 @@ class AreaController extends AbstractActionController {
 	}
 
 
-	public function areaAction() {
+	public function rangoipAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$areas = new Area($this->dbAdapter);
-		$lista = $areas->lista();
+		$rangoips = new Rangoip($this->dbAdapter);
+		$lista = $rangoips->lista();
 		$viewModel = new ViewModel(array(
-			"areas" => $lista
+			"rangoips" => $lista
 		));
 		return $viewModel;
 	}

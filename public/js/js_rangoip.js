@@ -1,13 +1,12 @@
 
-var registrar = function (txtId_Area,txtDescripcion,txtId_Uni_Ejec,txtId) {
+var registrar = function (txtRango_inicial,txtRango_final,txtId) {
 	
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {
-			'txtId_Area':txtId_Area,
-			'txtDescripcion': txtDescripcion,
-			'txtId_Uni_Ejec':txtId_Uni_Ejec,
+			'txtRango_inicial': txtRango_inicial,
+			'txtRango_final':txtRango_final,
 			//'chkVigencia': chkVigencia,
 			'txtId': txtId,
 		},
@@ -17,7 +16,7 @@ var registrar = function (txtId_Area,txtDescripcion,txtId_Uni_Ejec,txtId) {
 			if (elemento.length > 0) {
 		
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../area";
+						window.location.href = "../../rango_ip";
 					});
 				
 			}
@@ -32,17 +31,26 @@ $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
 	
+	var txtRango_inicial = $('#txtRango_inicial').val();
+	var txtRango_final = $('#txtRango_final').val();
+
+	alert('id eliminar area'+txtDescripcion)
+
+	
+	/*
+	if(chkVigencia==1){
+		chkVigencia=true;
+	}else{
+		chkVigencia=false;
+	}
+	
+
+	*/
 	var txtId = $('#txtId').val();
+	
 
-	var txtDescripcion = $('#txtDescripcion').val();
 
-	var txId_Uni_Ejec =$('#txtId_uni_ejec').val();
-
-	alert('descripcion '+txtDescripcion);
-	alert('id area '+txtId);
-	alert('id uni ejecutora '+txId_Uni_Ejec);
-
-	registrar(txtDescripcion,txtId_Uni_Ejec, txtId);
+	registrar(txtRango_inicial,txtRango_final,txtId);
 	//this.disabled=false;
 
 });
@@ -75,7 +83,7 @@ var options = {
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "area";
+						window.location.href = "rango_ip";
 					}) :
 					bootbox.alert(response.msj);
 				$("#btnBorrar").prop('disabled', false);
