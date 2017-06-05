@@ -40,8 +40,7 @@ class Area extends TableGateway {
 	public function lista() {
 		//$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
-
-		$consulta = $this->dbAdapter->query("SELECT id_area,descripcion,id_uni_ejec,vigencia FROM area order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT descripcion,id_uni_ejec,vigencia FROM area ", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}

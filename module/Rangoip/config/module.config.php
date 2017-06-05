@@ -15,7 +15,7 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Estado\Controller\Estadolistado',
+                        'controller' => 'Rangoip\Controller\Rangoiplistado',
                         'action'     => 'index',
                     ),
                 ),
@@ -24,13 +24,13 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'estado' => array(
+            'rangoip' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/estado',
+                    'route'    => '/rangoip',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Estado\Controller',
-                       // 'controller'    => 'Estadolistado',
+                        '__NAMESPACE__' => 'rangoip\Controller',
+                       // 'controller'    => 'rangoiplistado',
                        // 'action'        => 'index',
                     ),
                 ),
@@ -75,7 +75,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             //'Estado\Controller\Estadolistado' => 'Estado\Controller\EstadolistadoController',
-            'Estado\Controller\Estado' => 'Estado\Controller\EstadoController'
+            'Rangoip\Controller\Rangoip' => 'Rangoip\Controller\RangoipController'
         ),
     ),
     'view_manager' => array(
@@ -86,7 +86,7 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'estado/index/index' => __DIR__ . '/../view/rangoip/index/index.phtml',
+            'rangoip/index/index' => __DIR__ . '/../view/rangoip/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),

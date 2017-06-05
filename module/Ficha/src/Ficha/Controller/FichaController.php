@@ -21,31 +21,10 @@ use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
 use Ficha\Model\Entity\Ficha;
 use Marca\Model\Entity\Marca;
+use Anio\Model\Entity\Anio;
 use Zend\MVC\Exception;
 
 class FichaController extends AbstractActionController {
-
-	public function indexAction() {
-
-
-		//INICIO VARIABLES DE SESION
-		// $sessionConfig = new SessionConfig();
-		// $sessionConfig->setOptions(array(
-		//     'remember_me_seconds' => 180,
-		//     'use_cookies' => true,
-		//     'cookie_httponly' => true
-		//     )
-		// );
-		// $sessionManager = new SessionManager($sessionConfig);
-		// $sessionManager->start();
-		// Container::setDefaultManager($sessionManager);
-		// $session = new Container('userdata');
-		// $session->username = 'paul';
-		// $session->sis_userid = '1';
-		//FIN VARIABLES DE SESION
-//        $session = $session->username;
-//        return new ViewModel(array('session' => $session ));
-	}
 
 	public function formAction() {
 		$id = $this->params()->fromRoute("id", null);
@@ -69,45 +48,145 @@ class FichaController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$fichas = new Ficha($this->dbAdapter);
-		$datos = $fichas->buscar($cod);
+		$anios = new Anio($this->dbAdapter);
+		$datos = $anios->buscar($cod);
 		return $datos;
 	}
 
 	public function registrarAction() {
+		$error = 0;
+		$msj = "";
 		try {
-			$descripcion = $this->getRequest()->getPost('txtDescripcion');
-			$tipo = $this->getRequest()->getPost('txtTipo');
-			$ficha = $this->getRequest()->getPost('chkFicha');
-			$vigencia = $this->getRequest()->getPost('chkVigencia');
-			$id_marca = $this->getRequest()->getPost('txtIdMarca');
-			$id_modelo = $this->getRequest()->getPost('txtIdModelo');
-			$id = $this->getRequest()->getPost('txtId');
+//			, , txtAnioNroFicha, txtUnidadOrganica,txtAreaServ,,
+//	,txtIdEquipo, txtFechaAdquisicion,,
+//		txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,, ,
+//	
+					
+			$numero =$this->getRequest()->getPost('txtNroFicha');
+			$fecha = $this->getRequest()->getPost('txtFecha');
+			$nompc = $this->getRequest()->getPost('txtNomPc');
+			$observacion= 'q';
+			$id_user= 1;
+			$id_respfuncionario= $this->getRequest()->getPost('txtRespFuncionario');
+			$id_resppatrimonio= $this->getRequest()->getPost('txtRespPatrimonio');
+			$operativo=$this->getRequest()->getPost('chkOpOtros');
+			$garantia=$this->getRequest()->getPost('chkGarantia');
+			$anioGarantia=$this->getRequest()->getPost('txtAnioGarantia');
+			$compatible=$this->getRequest()->getPost('chkCompatible');
+			
+			$tblMicroprocesador=$this->getRequest()->getPost('tblMicroprocesador');
+			$tblDiscoDuro =$this->getRequest()->getPost('tblDiscoDuro');
+			$tblMainboard=$this->getRequest()->getPost('tblMainboard');
+			$tblRed=$this->getRequest()->getPost('tblRed');
+			$tblRam=$this->getRequest()->getPost('tblRam');
+			$tblSoft=$this->getRequest()->getPost('tblSoftware');
+			$tblOtro=$this->getRequest()->getPost('tblOtrosComponentes');
+			$tblUser=$this->getRequest()->getPost('tblUser');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$fichas = new Ficha($this->dbAdapter);
-			if ($id != '') {
-				$insert = $fichas->modificar($id, $descripcion, $tipo, $ficha, $vigencia, $id_marca, $id_modelo);
-			} else {
-				$insert = $fichas->insertar($descripcion, $tipo, $ficha, $id_marca, $id_modelo);
-			}
-			$msj = $this->mensaje($insert);
+			$ficha = new Ficha($this->dbAdapter);
+			//if ($id != '') {
+//				$modificar = $ficha->modificar($descripcion, $numero, $id);
+//				$msj = $this->mensaje($modificar, 1);
+//			} else {
+				$insertar = $ficha->insertar($numero, $fecha,$nompc,$observacion,$id_user, $id_respfuncionario,$id_resppatrimonio, $tblMicroprocesador,
+						$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro,$tblUser);
+				$msj = $this->mensaje($insertar, 0);
+//			}
 		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
+			
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			switch ($codError[0]) {
+				case 23505:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					break;
+				case 23514:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
+					break;
+				default:
+					$error = explode("DETAIL:", $codError[2]);
+
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+					break;
+			}
+//			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
+//				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
+//			
 		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
 
-	public function mensaje($insert) {
-		if ($insert == true) {
-			$msj = 'REGISTRADO CORRECTAMENTE';
+	public function listadoaniosAction() {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$anios = new Anio($this->dbAdapter);
+		$listadoanios = $anios->lista();
+		$viewModel = new ViewModel(array("anios" => $listadoanios));
+		return $viewModel;
+	}
+
+	public function eliminarAction() {
+		$error = 0;
+		$tipoConsulta = 0;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$anios = new Anio($this->dbAdapter);
+		$cod = $this->getRequest()->getPost('cod');
+		$vigencia = $this->getRequest()->getPost('vigencia');
+		$eliminar = $anios->eliminar($cod, $vigencia);
+		$vigencia == "false" ? $tipoConsulta = 2 : $tipoConsulta = 3;
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
+		$response->setTerminal(true);
+		return $response;
+	}
+
+	public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj = "REGISTRADO CORRECTAMENTE".$valorConsulta;
+					break;
+				case 1:
+					$msj = "MODIFICADO CORRECTAMENTE";
+					break;
+				case 2:
+					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
+					break;
+			}
 		} else {
-			$msj = 'PROBLEMAS';
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO".$valorConsulta."a";
 		}
 		return $msj;
+	}
+
+	public function bserieAction() {
+		$error = 0;
+		$msj = "";
+		try {
+			$serie = $this->getRequest()->getPost('serie');
+			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+			$ficha = new Ficha($this->dbAdapter);
+			$datos = $ficha->buscarSerie($serie);
+			
+		} catch (\Exception $e) {
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			$error = explode("DETAIL:", $codError[2]);
+			$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+			
+		}
+		
+		$response = new JsonModel(array('msj' => $datos['count'], 'error' => $error));
+		$response->setTerminal(true);
+		return $response;
 	}
 
 	public function fichaAction() {
@@ -118,18 +197,6 @@ class FichaController extends AbstractActionController {
 			"fichas" => $lista
 		));
 		return $viewModel;
-	}
-
-	public function buscarMarcaAction() {
-		$descripcion = $this->getRequest()->getQuery('term');
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$marcas = new Marca($this->dbAdapter);
-		$items = $marcas->buscarMarca($descripcion);
-		$response = new JsonModel(
-				$items
-		);
-		$response->setTerminal(true);
-		return $response;
 	}
 
 }

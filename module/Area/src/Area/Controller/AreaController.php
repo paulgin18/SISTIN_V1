@@ -82,12 +82,13 @@ class AreaController extends AbstractActionController {
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+
 			$areas = new Area($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $areas->modificar($id,$descripcion,$txtId_uni_ejec);
+				$modificar = $areas->modificar($id,$descripcion,$id_uni_ejec);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $areas->insertar($txtId_uni_ejec,$descripcion);
+				$insert = $areas->insertar($descripcion);
 				$msj = $this->mensaje($insert, 0);
 			}
 			//$msj=$this->mensaje($insert);

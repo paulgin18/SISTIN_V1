@@ -17,7 +17,7 @@ return array(
         'Unidad',
         'Accion',
         'Area',
-        'Rangoip',
+
         'Application',
         
 

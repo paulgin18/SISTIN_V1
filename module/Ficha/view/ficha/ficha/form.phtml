@@ -5,56 +5,98 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="x_panel">
 						<div class="x_title">
-							<h2><?php echo $this->mantenimiento ?> Ficha Tecnica de Equipos de Computo<small></small></h2>
+							<h2><strong><?php echo $this->mantenimiento ?> Ficha Tecnica de Equipos de Computo</strong><small></small></h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 							</ul>
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
-							<div id="wizard" class="form_wizard wizard_horizontal" >
+							<h2 class="StepTitle"><strong>Datos Generales</strong></h2>
+							<form class="form-horizontal form-label-left">
+								<div class="form-group" >
+									<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
+									<div class="col-sm-4">
+										
+										<input type='date' class="form" id="txtFecha" name="txtFecha" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
+									</div>
+									<label class="col-sm-2 control-label"><b>F.T.Nº:</b></label>
+									<div class="col-sm-3">
+										<input class="form-control "  id="txtNroFicha" name="txtNroFicha"  value="" type="text" >
+									</div>
+									<div class="col-sm-1">
+										<input class="form-control "  id="txtAnioNroFicha"  name="txtAnioNroFicha" value="<?= date("Y"); ?>" type="text" >
+									</div>
+								</div>
+								<div class="form-group" >
+									<label class="col-sm-2 control-label"><b>Unidad Organica:</b></label>
+									<div class="col-sm-4">
+										<input class="form-control "  id="txtUnidadOrganica" autofocus="autofocus" name="txtUnidadOrganica" type="text" value="" style="text-transform:uppercase"  >
+									</div>
+									<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
+									<div class="col-sm-4">
+										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="" style="text-transform:uppercase">
+									</div>
+								</div>
+								<div class="form-group" >
+									<label class="col-sm-2 control-label"><b>Responsable Patrimonio:</b></label>
+									<div class="col-sm-4">
+										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" value="" type="text" style="text-transform:uppercase" >
+									</div>
+									<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
+									<div class="col-sm-4">
+										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario" value="" type="text" style="text-transform:uppercase"	>
+									</div>
+								</div>
+								<div class="form-group" >
+									<label class="col-sm-2 control-label"><b>Equipo:</b></label>
+									<div class="col-sm-4">
+										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="" type="hidden" >
+										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo"  value=""style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
+									</div>
+								</div>
+							</form><br/><hr/>
+						</div>
+					</div>
+					<div class="x_panel">
+						<div class="x_title">
+							<h2><strong>DETALLE FICHA TECNICA</strong><small></small></h2>
+							<ul class="nav navbar-right panel_toolbox">
+								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<div id="wizard" class="form_wizard wizard_horizontal" id="tab" style="display: none" >
 								<ul class="wizard_steps" >
 									<li>
-										<a href="#step-1">
+										<a href="#step-1" id="tab1">
 											<span class="step_no">1</span>
-											<span class="step_descr">
-												Paso 1<br />
-												<small>Datos Generales</small>
+											<span class="step_descr">Paso 1<br />
+												<small>Datos Espeficos</small>
 											</span>
 										</a>
 									</li>
 									<li>
-										<a href="#step-2">
+										<a href="#step-2" id="tab2">
 											<span class="step_no">2</span>
-											<span class="step_descr">
-												Paso 2<br />
-												<small>Datos Especificos</small>
-											</span>
-										</a>
-									</li>
-									<li>
-										<a href="#step-3">
-											<span class="step_no">3</span>
-											<span class="step_descr">
-												Paso 3<br />
+											<span class="step_descr">Paso 2<br />
 												<small>Componentes Internos</small>
 											</span>
 										</a>
 									</li>
 									<li>
-										<a href="#step-4">
-											<span class="step_no">4</span>
-											<span class="step_descr">
-												Paso 4<br />
+										<a href="#step-3" id="tab3">
+											<span class="step_no">3</span>
+											<span class="step_descr">Paso 3<br />
 												<small>Otros Componentes</small>
 											</span>
 										</a>
 									</li>
 									<li>
-										<a href="#step-5">
-											<span class="step_no">1</span>
-											<span class="step_descr">
-												Paso 5<br />
+										<a href="#step-4" id="tab4">
+											<span class="step_no">4</span>
+											<span class="step_descr">Paso 4<br />
 												<small>Software</small>
 											</span>
 										</a>
@@ -62,89 +104,9 @@
 								</ul>
 								<hr>
 								<div id="step-1">
-									<h2 class="StepTitle">Datos Generales</h2>
+									<div id="datosEsp" style="display: none">
+									<h2 class="StepTitle"><strong>Datos Especificos</strong></h2>
 									<form class="form-horizontal form-label-left">
-										<div class="form-group" >
-											<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control"  id="txtFecha" name="txtFecha" value="<?= date("d") . "/" . date("m") . "/" . date("Y");?>" type="hidden" >
-												<label class="form" ><?= date("d") . "/" . date("m") . "/" . date("Y");?></label>
-											</div>
-											<label class="col-sm-2 control-label"><b>F.T.Nº:</b></label>
-											<div class="col-sm-3">
-												<input class="form-control "  id="txtNroFicha" name="txtNroFicha" type="text" >
-											</div>
-											
-											<div class="col-sm-1">
-											<input class="form-control "  id="txtNroFicha"  name="txtNroFicha" value="<?=  date("Y");?>" type="text" >
-											</div>
-										</div>
-										<div class="form-group" >
-											<label class="col-sm-2 control-label"><b>LUGAR:</b></label>
-											<div class="col-sm-4">
-												<select id="cmbGeresa" name="cmbGeresa" class="form-control" required="">
-													<option value="1">GERESA</option>
-													<option value="2">RED</option>
-													<option value="3">MICRORED</option>
-													<option value="4">ESTABLECIMIENTO</option>
-												</select>
-
-											</div>
-											<label class="col-sm-2 control-label"><b>Nombre:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control "  id="txtNombreEstablecimiento" name="txtNombreEstablecimiento" type="text" >
-											</div>
-										</div>
-
-										<div class="form-group" >
-
-											<label class="col-sm-2 control-label"><b>Unidad Organica:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control "  id="txtUnidadOrganica" name="txtUnidadOrganica" type="text" >
-
-											</div>
-											<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" >
-											</div>
-										</div>
-										<div class="form-group" >
-
-											<label class="col-sm-2 control-label"><b>Responsable Patrimonio:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" type="text" >
-
-											</div>
-											<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" type="text" >
-											</div>
-										</div>
-									</form>
-									<br/>
-								</div>
-								<div id="step-2" style="display:none">
-									<h2 class="StepTitle">Datos Especificos</h2>
-									<form class="form-horizontal form-label-left">
-										<div class="form-group">
-											<div class="col-sm-6">
-												<div class="col-sm-5 control-label">
-													<label><input type="radio" name="rbtPC" id="rbtPC" value="d" onclick="getDe('d')"   checked>
-														DESKTOP</label>
-												</div>
-												<div class="col-sm-5 control-label">
-													<label><input type="radio" name="rbtPC" id="rbtPC"  onclick="getDe('l')"  value="l">
-														LAPTOP</label>
-												</div>
-											</div>
-
-											<label class="col-sm-2 control-label"><b>Nombre de PC:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" type="text" >
-
-
-											</div>
-										</div>
 										<div class="form-group">
 											<div id="pcCompatible">
 												<label class="col-sm-2 control-label" for="chkCompatible" ><b>Compatible:</b></label>
@@ -156,112 +118,122 @@
 															'<input type="checkbox" name="chkCompatible" id="chkCompatible" value="1"><br>';
 													?>
 												</div>
+
+											</div>
+											<label class="col-sm-1 control-label" for="chkOpOtros" ><b>Operativo:</b></label>
+											<div class="col-sm-1">
+												<?=
+												$datos != null ? $datos['vigencia'] == true ?
+																'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1" checked>' :
+																'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1">' :
+														'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1"  checked><br>';
+												?>
+											</div>
+											<label class="col-sm-2 control-label" for="chkGarantia" ><b>Garantia:</b></label>
+											<div class="col-sm-1">
+												<?=
+												$datos != null ?
+														$datos['garantia'] == true ?
+																'<input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" checked>' : '<input type="checkbox" name="chkGarantia" id="chkGarantia" value="1">' :
+														'<input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" ><br>';
+												?>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label"><b>Nombre de PC:</b></label>
+											<div class="col-sm-3">
+												<input class="form-control "  id="txtNomPc" name="txtNomPc" type="text"  value="" style="text-transform:uppercase" >
+											</div>
+											<label class="col-sm-2 control-label"><b>F. Adquisicion:</b></label>
+											<div class="col-sm-2">
+												<input class="form-control"  id="txtFechaAdquisicion" name="txtFechaAdquisicion" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>' type="date">
+											</div>
+											<div id="divAnioGarantia" style="display:none">
+												<label class="col-sm-1 control-label" ><b>Garantia:</b></label>
+												<div class="col-sm-1">
+													<input type="text" id="txtAnioGarantia" name="txtAnioGarantia" placeholder="años"  class="form-control"  value="<?= $datos != null ? $datos['aniogarantia'] : ''; ?>">
+
+												</div>
 											</div>
 										</div>
 										<div class="form-group" id="datosPC">
 											<label class="col-sm-2 control-label"><b>Marca:</b></label>
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<input type="hidden" class="" name="txtIdMPc" id="txtIdMPc"  placeholder=""  value="<?= $datos != null ? $datos['id_marca'] : ''; ?>">
-												<input class="form-control " name="txtMarcaPC" id="txtMarcaPC" placeholder="Buscar..." type="text">
+												<input class="form-control " name="txtMarcaPC" id="txtMarcaPC" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Serie:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text" >
+											<div class="col-sm-3">
+												<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text" value="" style="text-transform:uppercase">
+
+											</div>
+											<div class="col-sm-1">
+												<label id='lblNSeriePc' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+												<label  id='lblASeriePc'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 											</div>
 										</div>
 										<div class="form-group" >
 											<label class="col-sm-2 control-label"><b>N° Patrimonial:</b></label>
-											<div class="col-sm-4">
-												<input type="text" name="txtNroPatrimonio" id="txtNroPatrimonio" class="form-control col-md-6 col-xs-10">
+											<div class="col-sm-3">
+												<input type="text" name="txtNroPatrimonio" id="txtNroPatrimonio" value="" class="form-control col-md-6 col-xs-10" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-2"></div>
-											<label class=" control-label"><b></b></label>
-											<div class="col-sm-2">
-												<?=
-												$datos != null ? $datos['operativo'] == true ?
-																'<label for="chkOperativo"><input type="checkbox" name="chkOperativo" id="chkOperativo" value="1" checked/>Operativo</label>' :
-																'<label for="chkOperativo"><input type="checkbox" name="chkOperativo" id="chkOperativo" value="1"/>Operativo</label>' :
-														'<label for="chkOperativo"><input type="checkbox" name="chkOperativo" id="chkOperativo" value="1" checked/>Operativo</label>';
-												?>
 
 
-											</div>
-											<div class="col-sm-2">
-
-
-												<?=
-												$datos != null ? $datos['garantia'] == true ?
-																'<label for="chkGarantia"><input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" checked/>Garantia</label>' :
-																'<label for="chkGarantia"><input type="checkbox" name="chkGarantia" id="chkGarantia" value="1"/>Garantia</label>' :
-														'<label for="chkGarantia"><input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" checked/>Garantia</label>';
-												?>
-											</div>
 										</div>
 										<hr>
+										
+										<h2 class="StepTitle"><strong>S.O.</strong></h2><br/>
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Sistema Operativo:</b></label>
-											<div class="col-sm-4">
+											<div class="col-sm-3">
 												<input type="hidden" class="" name="txtIdSO" id="txtIdSO"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtSO" id="txtSO" placeholder="Buscar..." type="text">
+												<input class="form-control " name="txtSO" id="txtSO" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Nro Licencia:</b></label>
-											<div class="col-sm-4">
-												<input type="text" id="txtLicenciaSO" name="txtLicenciaSO" class="form-control">
+											<div class="col-sm-3">
+												<input type="text" id="txtLicenciaSO" name="txtLicenciaSO" class="form-control" value="" style="text-transform:uppercase">
 											</div>
+											<div class="col-sm-1">
+												<label id='lblNLicenciaSO' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+												<label  id='lblALicenciaSO'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
+											</div>
+											
 										</div>
-										<hr>
-
-									</form>
-									<br/>
-									<br/>
-									<!--div class="form-horizontal form-label-left">
+											<hr/>
+										<h2 class="StepTitle"><strong>Cuentas</strong></h2><br/>
 										<div class="form-group">
-											<label for="" class="col-sm-1 control-label"><b>Disp:</b></label>
-											<div class="col-sm-4">
-												
-												<input class="form-control" name="txtDispositivo2" id="txtDispositivo2" type="text" placeholder="Buscar">										
-												<input type="hidden" id="txtIdDis">	
-												<input type="hidden" id="disp">
-												<input type="hidden" id="mar">
-
-											</div>
-											<label class="col-sm-2 control-label"><b>Marca / Modelo:</b></label>
-											<div class="col-sm-4">
-												<input type="text" id="txtMaMo" name="txtMaMo" class="form-control" placeholder="Buscar" >
-											</div>
-
-										</div>
-										<div class="form-group">
-											<label for="" class="col-sm-1 control-label"><b>Serie:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control" name="txtSerieMaMo" id="txtSerieMaMo" type="text">
-												<input type="hidden" id="txtIdDisMaMo">
-											</div>
-
-											<label class="col-sm-2 control-label"><b>Operativo:</b></label>
+											<label class="col-sm-1 control-label"><b>Tipo:</b></label>
 											<div class="col-sm-2">
-									<?=
-									$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1" checked>' :
-													'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1">' : '<input type="checkbox" name="chkOpOtros"  value="1" checked><br>';
-									?>
-
+											<select class="form-control" id="cmbTipoUser" name="cmbTipoUser">
+												<option value="U">Usuario</option>
+												<option value="A">Administrador</option>
+											</select>
+												</div>
+											<label class="col-sm-1 control-label"><b>Usuario:</b></label>
+											<div class="col-sm-2">
+												<input type="hidden" class="" name="txtIdUsuario" id="txtIdUsuario"  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtUsuario" id="txtUsuario" value="" type="text" style="text-transform:uppercase">
+											</div>
+											<label class="col-sm-1 control-label"><b>Contraseña:</b></label>
+											<div class="col-sm-2">
+												<input type="password" id="txtPass" name="txtPass" value="" class="form-control" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-2">
-												<button class="btn btn-success " id="btnAnadirDisp"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+												<button class="btn btn-success " id="btnAnadirUser"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
 											</div>
 										</div>
 										<div class="form-group">
 											<div class="col-md-12">
-												<table id="tabla_marca" class="table table-striped table-bordered">
+												<table id="tabla_user" class="table table-striped table-bordered">
 													<thead>
 														<tr>
 															<th width="5%">#</th>
 															<th hidden></th>
-															<th width="30%">Dispositivo</th>
+															<th width="20%">Tipo</th>
 															<th hidden></th>
-															<th width="25%">Marca - Modelo</th>
-															<th width="25%">Serie</th>
-															<th width="8%">Operativo</th>
+															<th width="25%">Usuario</th>
+															<th width="25%">Contraseña</th>
 															<th width="30%">Accion</th>
 														</tr>
 													</thead>
@@ -269,90 +241,165 @@
 													</tbody>
 												</table>			
 											</div>
-											<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+											<br/><br/><br/>
 										</div>
-									</div-->								
-
+									</form>
+									<br/>
+									<br/>
+									</div>
 								</div>
-								<div id="step-3" style="display:none">
-									<h2 class="StepTitle">Componenetes Internos</h2><br/>
+								<div id="step-2" >
+									<h2 class="StepTitle"><strong>Componentes Internos</strong></h2><br/>
 									<form class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Microprocesador:</b></label>
 											<div class="col-sm-4">
 												<input type="hidden" class="" name="txtIdMI" id="txtIdMI"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtMI" id="txtMI" placeholder="Buscar..." type="text">
+												<input class="form-control " name="txtMI" id="txtMI" placeholder="Buscar..." type="text" value="" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Estruct(Bits)</b></label>
-											<div class="col-sm-1">
-												<input type="text" id="txtEstPC" name="txtEstPC" class="form-control" placeholder="Bits">
+											<div class="col-sm-2">
+												<input type="radio" name="rbBits" id="rbBits" value="32" checked>x32 <input type="radio" name="rbBits" id="rbBits" value="64" >x64
 											</div>
 										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label"><b>Memoria Ram:</b></label>
-											<div class="col-sm-4">
-												<input type="hidden" class="" name="txtIdMR" id="txtIdMR"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtMR" id="txtMR" placeholder="Buscar..." type="text">
-											</div>
-											<label class="col-sm-2 control-label"><b>Cant. de Tarj Ram:</b></label>
-											<div class="col-sm-1">
-												<input type="text" id="txtCantTrPC" name="txtCantTrPC" class="form-control">
-											</div>
-										</div>
+
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Disco Duro:</b></label>
 											<div class="col-sm-4">
-												<input type="hidden" class="" name="txtIdDD id="txtIdDD"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-													   <input class="form-control " name="txtDD" id="txtDD" placeholder="Buscar..." type="text">
+												<input type="hidden" class="" name="txtIdDD"  id="txtIdDD"   placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>"  >
+												<input class="form-control " name="txtDD" id="txtDD" style="text-transform:uppercase" value="" placeholder="Buscar..." type="text">
 											</div>
 											<label class="col-sm-2 control-label"><b>Serie:</b></label>
-											<div class="col-sm-4">
-												<input type="text" id="txtSerieDD" name="txtSerieDD" class="form-control">
+											<div class="col-sm-3">
+												<input type="text" id="txtSerieDD" name="txtSerieDD" class="form-control" value="" style="text-transform:uppercase">
+											</div>
+											<div class="col-sm-1">
+												<label id='lblNSerieDD' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+												<label  id='lblASerieDD'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label"><b>Maimboard:</b></label>
+											<label class="col-sm-2 control-label"><b>Mainboard:</b></label>
 											<div class="col-sm-4">
 												<input type="hidden" class="" name="txtIdMain" id="txtIdMain"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtMain" id="txtMain" placeholder="Buscar..." type="text">
+												<input class="form-control " name="txtMain" id="txtMain" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
 											</div>
 											<label class="col-sm-2 control-label"><b>Serie:</b></label>
-											<div class="col-sm-4">
-												<input type="text" id="txtSerieMain" name="txtSerieMain" class="form-control">
+											<div class="col-sm-3">
+												<input type="text" id="txtSerieMain" name="txtSerieMain" class="form-control" value="" style="text-transform:uppercase">
+											</div>
+											<div class="col-sm-1">
+												<label id='lblNSerieMain' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+												<label  id='lblASerieMain'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 											</div>
 										</div>
+										<hr>
+										<h2 class="StepTitle"><strong>RAM</strong></h2><br/>
 										<div class="form-group">
-											<label class="col-sm-2 control-label"><b>Red:</b></label>
+											<label class="col-sm-1 control-label"><b>Memoria:</b></label>
 											<div class="col-sm-4">
+												<input type="hidden" class="" name="txtIdMR" id="txtIdMR"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtMR" id="txtMR" placeholder="Buscar..." type="text" value="" style="text-transform:uppercase">
+											</div>
+											<div class="col-sm-2">
+												<button class="btn btn-success " id="btnAnadirRam"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+											</div>
+											<div class="col-md-5">
+												<table id="tabla_ram" class="table table-striped table-bordered">
+													<thead>
+														<tr>
+															<th width="5%">#</th>
+															<th hidden></th>
+															<th width="40%">Dispositivo</th>
+															<th width="10%">Accion</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>			
+											</div>
+										</div>
+										<hr/>
+										<h2 class="StepTitle"><strong>RED</strong></h2><br/>
+										<div class="form-group">
+											<label class="col-sm-1 control-label" for="chkRedIntegrada" ><b>Integrada:</b></label>
+												<div class="col-sm-1">
+													<?=
+													$datos != null ? $datos['inetgrada'] == true ?
+																	'<input type="checkbox" name="chkRedIntegrada" id="chkRedIntegrada" value="1" checked>' :
+																	'<input type="checkbox" name="chkRedIntegrada" id="chkRedIntegrada" value="1">' :
+															'<input type="checkbox" name="chkRedIntegrada" id="chkRedIntegrada" value="1"  ><br>';
+													?>
+												</div>
+											
+											<label class="col-sm-1 control-label" for="chkConRed" ><b>En Red:</b></label>
+												<div class="col-sm-1">
+													<?=
+													$datos != null ? $datos['enred'] == true ?
+																	'<input type="checkbox" name="chkConRed" id="chkConRed" value="1" checked>' :
+																	'<input type="checkbox" name="chkConRed" id="chkConRed" value="1">' :
+															'<input type="checkbox" name="chkConRed" id="chkConRed" value="1" checked  ><br>';
+													?>
+												</div>
+											<label class="col-sm-1 control-label" for="chkConInternet" ><b>Internet:</b></label>
+												<div class="col-sm-1">
+													<?=
+													$datos != null ? $datos['internet'] == true ?
+																	'<input type="checkbox" name="chkConInternet" id="chkConInternet" value="1" checked>' :
+																	'<input type="checkbox" name="chkConInternet" id="chkConInternet" value="1">' :
+															'<input type="checkbox" name="chkConInternet" id="chkConInternet" value="1" checked  ><br>';
+													?>
+												</div>
+										</div>	
+										<div class="form-group">
+											<div id="integrada">
+											<label class="col-sm-1 control-label"><b>Tarjeta:</b></label>
+											<div class="col-sm-3">
 												<input type="hidden" class="" name="txtIdRed" id="txtIdRed"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtRed" id="txtRed" placeholder="Buscar..." type="text">
+												<input class="form-control " name="txtRed" id="txtRed" placeholder="Buscar..." type="text" value="" style="text-transform:uppercase">
 											</div>
-											<label class="col-sm-2 control-label"><b>MAC:</b></label>
-											<div class="col-sm-4">
-												<input type="text" id="txtMac" name="txtMac" class="form-control">
+											<label class="col-sm-1 control-label"><b>Serie:</b></label>
+											<div class="col-sm-3">
+												<input type="text" id="txtSerieRed" name="txtSerieRed" class="form-control" value="" style="text-transform:uppercase">
+											</div>
+											</div>
+											<div class="col-sm-1">
+												<label id='lblNSerieRed' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+												<label  id='lblASerieRed'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
+											</div>
+											<label class="col-sm-1 control-label"><b>MAC:</b></label>
+											<div class="col-sm-3">
+												<input type="text" id="txtMac" name="txtMac" placeholder="0A-0B-0C-AD-D0-D0" class="form-control" value="" style="text-transform:uppercase">
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label"><b>Maimboard:</b></label>
-											<div class="col-sm-4">
-												<input type="hidden" class="" name="txtIdSO" id="txtIdSO"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="bSO" id="bSO" placeholder="Buscar..." type="text">
+											<label class="col-sm-1 control-label"><b>IP v4/v6:</b></label>
+											<div class="col-sm-2">
+												<input type="hidden" class="" name="txtIdIPAdd" id="txtIdIPAdd"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtIPAdd" id="txtIPAdd" placeholder="Buscar..." type="text"  value="" style="text-transform:uppercase">
 											</div>
-											<label class="col-sm-2 control-label"><b>Serie:</b></label>
-											<div class="col-sm-4">
-												<input type="text" id="txtSeriePC" name="txtSeriePC" class="form-control">
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2 control-label"><b>Puerta Enlace:</b></label>
+											<div class="col-sm-2">
+												<input class="form-control" name="txtPuertaEnlance" id="txtPuertaEnlance" type="text" value="" style="text-transform:uppercase">
 											</div>
+											<div class="col-sm-1"></div>
+											<label class="col-sm-2 control-label"><b>Proxy:</b></label>
+											<div class="col-sm-2">
+												<input class="form-control" name="txtProxy" id="txtProxy" type="text" value="" style="text-transform:uppercase">
+											</div>
+
 										</div>
 									</form>
-
+									<br>
 								</div>
-								<div id="step-4" style="display:none">
-									<h2 class="StepTitle">Otros Dispositivos</h2>
+								<div id="step-3" style="display:none">
+									<h2 class="StepTitle"><strong>Otros Componentes</strong></h2>
 									<div class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Disp:</b></label>
 											<div class="col-sm-4">
-												<input class="form-control" name="txtDispositivo" id="txtDispositivo" type="text" placeholder="Buscar">	
+												<input class="form-control" name="txtDispositivo" id="txtDispositivo" type="text" placeholder="Buscar" value="" style="text-transform:uppercase">	
 												<input type="hidden" id="txtIdDis">	
 												<input type="hidden" id="disp">
 												<input type="hidden" id="mar">
@@ -360,24 +407,19 @@
 											</div>
 											<label class="col-sm-2 control-label"><b>Marca / Modelo:</b></label>
 											<div class="col-sm-4">
-												<input type="text" id="txtMaMo" name="txtMaMo" class="form-control" placeholder="Buscar" >
+												
+												<input type="text" id="txtMaMo" name="txtMaMo" class="form-control" placeholder="Buscar" value="" style="text-transform:uppercase">
 											</div>
-
 										</div>
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Serie:</b></label>
 											<div class="col-sm-4">
-												<input class="form-control" name="txtSerieMaMo" id="txtSerieMaMo" type="text">
+												<input class="form-control" name="txtSerieMaMo" id="txtSerieMaMo" type="text" value="" style="text-transform:uppercase">
 												<input type="hidden" id="txtIdDisMaMo">
 											</div>
-
-											<label class="col-sm-2 control-label"><b>Operativo:</b></label>
-											<div class="col-sm-2">
-												<?=
-												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1" checked>' :
-																'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1">' : '<input type="checkbox" name="chkOpOtros"  value="1" checked><br>';
-												?>
-
+											<div class="col-sm-1">
+												<label id='lblNSerieMaMo' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+												<label  id='lblASerieMaMo'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 											</div>
 											<div class="col-sm-2">
 												<button class="btn btn-success " id="btnAnadirDisp"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
@@ -404,42 +446,70 @@
 											</div>
 											<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 										</div>
-									</div>						
-
+									</div>
 								</div>
-								<div id="step-5" style="display:none">
-									<h2 class="StepTitle">Software</h2>
+								<div id="step-4">
+<h2 class="StepTitle"><strong>Software</strong></h2>
 									<div class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Software:</b></label>
-											<div class="col-sm-4">
-												<input class="form-control" name="txtSoftCL" id="txtSoftCL" type="text" placeholder="Buscar" >
+											<div class="col-sm-3">
+												<input class="form-control" name="txtSoftCL" id="txtSoftCL" type="text" placeholder="Buscar" value="" style="text-transform:uppercase">
 												<input type="hidden" id="txtIdSofCl">
 												<input type="hidden" id="tipoSoft">
 											</div>
-											<label class="col-sm-2 control-label"><b>Licenciado:</b></label>
+											<label for="" class="col-sm-1 control-label"><b>Edicion:</b></label>
 											<div class="col-sm-2">
+												<input class="form-control" name="txtSoftEdicion" id="txtSoftEdicion" type="text" value="" style="text-transform:uppercase">
+											</div>
+											<label for="" class="col-sm-1 control-label"><b>Version:</b></label>
+											<div class="col-sm-1">
+												<input class="form-control" name="txtSoftVersion" id="txtSoftVersion" type="text" value="" style="text-transform:uppercase">
+											</div>
+											<label for="" class="col-sm-1 control-label"><b>F. Install:</b></label>
+											<div class="col-sm-1">
+												<input type='date' class="form" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
+											</div>
+											
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label"><b>Licenciado:</b></label>
+											<div class="col-sm-1">
 												<?=
-												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkLicencia" value="1" checked>' :
-																'<input type="checkbox" name="chkLicencia" value="1">' : '<input type="checkbox" name="chkLicencia" value="1" checked><br>';
+												$datos != null ? $datos['vigencia'] == true ? '<input type="checkbox" name="chkLicencia" id="chkLicencia" value="1" checked>' :
+																'<input type="checkbox" name="chkLicencia" id="chkLicencia" value="1">' : '<input type="checkbox" id="chkLicencia" name="chkLicencia" value="1"><br>';
 												?>
 											</div>
-											<div class="col-sm-2">
-												<button class="btn btn-success " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
-
+											
+										<div id="divLicencia" style="display: none" >
+											<label for="" class="col-sm-1 control-label"><b>Nº Lic:</b></label>
+											<div class="col-sm-4">
+												<input class="form-control" name="txtSoftNroLicencia" id="txtSoftNroLicencia" type="text" value="" style="text-transform:uppercase">
+											</div>	
+											
+											<label for="" class="col-sm-1 control-label"><b>Vigencia:</b></label>
+											<div class="col-sm-1">
+												<input class="form-control" name="txtAnioVigente" id="txtAnioVigente" placeholder="años" type="text" value="" style="text-transform:uppercase">
 											</div>
+											
 										</div>
+											<button class="btn btn-success " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+										</div>
+											
 										<div class="form-group">
 											<div class="col-md-12">
 												<table id="tabla_soft" class="table table-striped table-bordered">
 													<thead>
 														<tr>
-															<th width="5%">#</th>
+															<th width="3%">#</th>
 															<th hidden></th>
-															<th width="30%">Tipo Software</th>
+															<th width="15%">Tipo Software</th>
 															<th hidden></th>
-															<th width="25%">Software</th>
-															<th width="25%">Licencia</th>
+															<th width="12%">Software</th>
+															<th width="12%">Edicion</th>
+															<th width="4%">Version</th>
+															<th width="4%">Licenciado</th>
+															<th width="20%">Nº Licencia</th>
 															<th width="30%">Accion</th>
 														</tr>
 													</thead>
@@ -448,33 +518,34 @@
 												</table>
 											</div>
 											<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-											<center><button class="btn btn-primary " id="btnAnadirSoft"> <i class="fa fa-plus" aria-hidden="true"></i> Registrar FICHA</button></center>
+											<center><button class="btn btn-primary " id="btnguardar"> <i class="fa fa-plus" aria-hidden="true"></i> Registrar FICHA</button></center>
 										</div>
 									</div>
 								</div>
-								<!-- End SmartWizard Content -->
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	</div>
 
-		<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
-		<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
-		<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
-		<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-		<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
-		<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-		<script src="<?php echo $this->basePath() ?>/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
-		<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
-	<?php } ?>
+	<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+	<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+<?php } ?>
 
-	<?=
-			$this->inlineScript()
-			->prependFile($this->basePath('js/js_ficha.js'))
-			->prependFile($this->basePath('js/jquery-ui.js'))
-			->prependFile($this->basePath('js/bootbox.js'))
-	?>
+<?=
+		$this->inlineScript()
+		->prependFile($this->basePath('js/js_ficha.js'))
+		->prependFile($this->basePath('js/jquery-ui.js'))
+		->prependFile($this->basePath('js/bootbox.js'))
+?>
 

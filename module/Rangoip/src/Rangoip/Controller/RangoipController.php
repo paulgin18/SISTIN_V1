@@ -22,7 +22,6 @@ use Zend\Db\Adapter\Adapter;
 use Rangoip\Model\Entity\Rangoip;
 use Zend\MVC\Exception;
 
-//use Rangoip\Model\Entity\Rangoip;
 class RangoipController extends AbstractActionController {
 
 	public function indexAction() {
@@ -71,7 +70,7 @@ class RangoipController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$rangoips = new ($this->dbAdapter);
+		$rangoips = new Rangoip($this->dbAdapter);
 		$datos = $rangoips->buscar($cod);
 		return $datos;
 	}
@@ -114,10 +113,10 @@ class RangoipController extends AbstractActionController {
 			$id = $this->getRequest()->getPost('txtId');
 			$vigencia = $this->getRequest()->getPost('txtVigencia');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$rangoips = new Rangoip($this->dbAdapter);
+			$estados = new Estado($this->dbAdapter);
 		
 		   			
-	        $eliminar = $rangoips->eliminar($id,$vigencia);
+	        $eliminar = $estados->eliminar($id,$vigencia);
 			$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
 			$msj = $this->mensaje($eliminar, $tipoConsulta);
 			$response = new JsonModel(array('msj' => $msj, 'error' => $error));
@@ -148,12 +147,12 @@ class RangoipController extends AbstractActionController {
 	}
 
 
-	public function rangoipAction() {
+	public function estadoAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$rangoips = new Rangoip($this->dbAdapter);
-		$lista = $rangoips->lista();
+		$estados = new Estado($this->dbAdapter);
+		$lista = $estados->lista();
 		$viewModel = new ViewModel(array(
-			"rangoips" => $lista
+			"estados" => $lista
 		));
 		return $viewModel;
 	}
