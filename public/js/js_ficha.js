@@ -1,5 +1,11 @@
 $(document).data('tipoDisp', 2);
 
+
+$(document).ready(function () {
+$(".actionBar").hide();
+$(".stepContainer").hide();
+});
+
 var bDispositivo = function (tipoDisp, id, inp) {
 
 	$(inp).autocomplete({
@@ -89,6 +95,30 @@ $("#txtMaMo").focus(function () {
 	}
 });
 
+
+$("#txtFichaMaMo").focus(function () {
+	var id_disp = $('#txtIdEquipo').val();
+	if ($('#txtIdEquipo').val() == '') {
+		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar el dispositivo</b>');
+	} else {
+		$("#txtFichaMaMo").autocomplete({
+			source: '../../../../dispositivo/dispositivo/bMaMoxDisp?id_disp=' + id_disp + '',
+			select: function (event, ui) {
+				$('#txtFichaIdDis').val(ui.item.value);
+				$(this).val(ui.item.label)
+				return false;
+			},
+			autoFocus: false,
+			open: function (event, ui) {
+				$("#txtFichaIdDis").val('');
+			},
+			focus: function (event, ui) {
+				return false;
+			}
+		});
+	}
+});
+
 var bModelo = function () {
 	$("#bModelo").autocomplete({
 		source: '../../buscarmodelo',
@@ -117,9 +147,9 @@ $(document).on('click', '#btnAnadirDisp', function (event) {
 	var txtSerie = $('#txtSerieMaMo').val();
 	var chk = $('input:checkbox[id=chkOpOtros]:checked').val();
 	if (chk == 1) {
-		chk = 'Si';
+		chk = 'SI';
 	} else {
-		chk = 'No';
+		chk = 'NO';
 	}
 	if (dispositivo == '' && txtIdDisMaMo == '') {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar una Dispositivo , Marca y un Modelo</b>');
@@ -301,17 +331,20 @@ $("#txtDispositivo").focus(function () {
 });
 
 function especificos(dato) {
+	
 	if (dato == '2') {
-		alert("3");
 		$("#pcCompatible").show();
 		$("#txtMarcaPC").val("");
 		$("#txtIdMPc").val("");
 		$("#txtSeriePC").val("");
 		$(document).data('tipoDisp', 2);
-		$("#wizard").show();
-		$("#datosEsp").show();
+		$("#divComponentes").hide();
+		$("#step-1").show();
+		$("#stepEspecifico").show();
+		$(".wizard_steps").show();
+		$(".actionBar").show();
+		$(".stepContainer").show();
 	} else if (dato == '1') {
-		alert("1");
 		$('#chkCompatible').prop('checked', false);
 		$("#datosPC").show();
 		$("#pcCompatible").hide();
@@ -319,12 +352,20 @@ function especificos(dato) {
 		$("#txtMarcaPC").val("");
 		$("#txtSeriePC").val("");
 		$(document).data('tipoDisp', 1);
-		$("#wizard").show();
-		$("#datosEsp").show();
-		
+		$("#divComponentes").hide();
+		$("#stepEspecifico").show();
+		$("#step-1").show();
+		$(".stepContainer").show();
+		$(".wizard_steps").show();
+		$(".actionBar").show();
 	}else{
-		alert("3");
-		$("#step-3").show();
+		$("#step-1").hide();
+		$("#stepEspecifico").hide();
+		$(".wizard_steps").hide();
+		$(".actionBar").hide();
+		$(".stepContainer").hide();
+		$(".stepContainer").hide();
+		$("#divComponentes").show();
 	}
 }
 
@@ -334,26 +375,36 @@ $("#txtMI").focus(function () {
 
 
 $("#txtSeriePC").keyup(function () {
-	$(this).val() != '' && $(this).val().length > 0 ?
-			bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc") : '';
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+			bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc") :($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
 });
 
 $("#txtLicenciaSO").keyup(function () {
-	bSerie($(this).val(), '#lblALicenciaSO', "#lblNLicenciaSO");
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+	bSerie($(this).val(), '#lblALicenciaSO', "#lblNLicenciaSO"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
 });
 
 $("#txtSerieDD").keyup(function () {
-	bSerie($(this).val(), '#lblASerieDD', "#lblNSerieDD");
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+	bSerie($(this).val(), '#lblASerieDD', "#lblNSerieDD"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
 });
 
 $("#txtSerieMain").keyup(function () {
-	bSerie($(this).val(), '#lblASerieMain', "#lblNSerieMain");
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+	bSerie($(this).val(), '#lblASerieMain', "#lblNSerieMain"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
 });
 $("#txtSerieRed").keyup(function () {
-	bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed");
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+	bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
 });
 $("#txtSerieMaMo").keyup(function () {
-	bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo");
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+	bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+});
+$("#txtFichaSerieMaMo").keyup(function () {
+
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+	bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
 });
 
 function bSerie(ser, lbla, lbln) {
@@ -418,6 +469,49 @@ $(document).on('click', '#btnModelo', function (event) {
 	$('#id_modelo').val('');
 	$('#bModelo').val('');
 });
+$(document).on('click', '#btnAnadirFichaDisp', function (event) {
+	event.preventDefault();
+	var id = $('#txtFichaIdDis').val();
+	var modelo = $('#txtFichaMaMo').val();
+	var serie = $('#txtFichaSerieMaMo').val();
+	var inventario= $('#txtFichaCodInventario').val();
+	var chk = $('input:checkbox[id=chkOpFichaDisp]:checked').val();
+	if (chk == 1) {
+		chk = 'SI';
+	} else {
+		chk = 'NO';
+	}
+	if (id == '') {
+		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar Marca y  Modelo</b>');
+	} else {
+		insertFichaDisp(id,modelo,serie,inventario,chk);
+		
+	}
+	$("#txtFichaMaMo	").focus();
+	$('input:checkbox[id=chkOpFichaDisp]:checked').val()
+	$('#txtFichaIdDis').val('');
+	$('#txtFichaMaMo').val('');
+	$('#txtFichaSerieMaMo').val('');
+	$('#txtFichaCodInventario').val('');
+});
+
+var insertFichaDisp = function (id, modelo, serie, inventario, chk) {
+	var campo1;
+	$("#tabla_ficha_disp tbody tr").each(function (index) {
+		$(this).children("td").each(function (index2) {
+			switch (index2) {
+				case 1:
+					campo1 = $(this).text();
+					break;
+			}
+		})
+	});
+	if (campo1 === id) {
+		bootbox.alert('<b style="color: #F44336;" >La Marca y el Modelo para el Mismo Dispositvo, ya ha sido ingresado</b>');
+	} else {
+		$("#tabla_ficha_disp > tbody").append('<tr data-id=' + id + ' ><td>#</td><td hidden>' + id + '</td><td>' + modelo + '</td><td>' + serie+ '</td><td>' + inventario + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerMo"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+	};
+}
 
 $(document).on('click', '#chkCompatible', function (event) {
 	var chk = $('input:checkbox[id=chkCompatible]:checked').val();
