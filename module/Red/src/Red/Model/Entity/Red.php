@@ -8,7 +8,6 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
 use Zend\Db\ResultSet\ResultSet;
 
-
 class Red extends TableGateway {
 
 	private $dbAdapter;
@@ -65,6 +64,5 @@ class Red extends TableGateway {
 		$datos = $delete->execute();
 		return $datos;
 	}
-	
-	
+
 }
