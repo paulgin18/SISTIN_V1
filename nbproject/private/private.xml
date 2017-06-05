@@ -5,7 +5,9 @@
         <group>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/src/Ficha/Controller/FichaController.php</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/view/ficha/ficha/ficha.phtml</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/config/application.config.php</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/view/ficha/ficha/form.phtml</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/config/autoload/global.php</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_ficha.js</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/src/Ficha/Model/Entity/Ficha.php</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Dispositivo/src/Dispositivo/Model/Entity/Dispositivo.php</file>

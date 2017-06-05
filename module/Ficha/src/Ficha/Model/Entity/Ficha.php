@@ -17,13 +17,18 @@ class Ficha extends TableGateway {
 		return parent::__construct('Ficha', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, 
-			$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro,$tblUser) {
+	public function insertar($ficha,$numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, 
+			$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
+			$tblOtro,$tblUser,$tblFichaDisp) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
 			$connection->beginTransaction();
 			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio);
+			if($ficha==3){
+				//Solo para Fichas De quipo que no son laptops ni mucho menos desctockp
+			($tblFichaDisp!= null || $tblFichaDisp!= "" )? $this->fichaDisp($idInsert, $tblFichaDisp):"";
+			}else{
 			$tblMicroprocesador != null || $tblMicroprocesador != "" ? $this->microprocesador($idInsert, $tblMicroprocesador) : "";
 			$tblDiscoDuro != null || $tblDiscoDuro != "" ? $this->discoDuro($idInsert, $tblDiscoDuro) : "";
 			$tblMainboard != null || $tblMainboard != "" ? $this->mainboard($idInsert, $tblMainboard) : "";
@@ -32,6 +37,7 @@ class Ficha extends TableGateway {
 			$tblSoft != null || $tblSoft != "" ? $this->software($idInsert, $tblSoft) : "";
 			$tblOtro != null || $tblOtro != "" ? $this->otrosComponentes($idInsert, $tblOtro) : "";
 			$tblUser!= null || $tblUser!= "" ? $this->cuentasUsuario($idInsert, $tblUser) : "";
+			}
 			$connection->commit();
 			$datos = true;
 		} catch (\Exception $e) {
@@ -133,6 +139,18 @@ class Ficha extends TableGateway {
 					. "VALUES ('" . $otro['serie'] . "'," . $otro['id'] . ",$idInsert)");
 			$insert->execute();
 			($otro['serie'] != "" || $otro['serie'] != null || !empty($otro['serie'])) ? $this->insertSerie("S", $otro['serie']) : "";
+		}
+		return $insert;
+	}
+	
+	public function fichaDisp($idInsert, $tblFichaDisp) {
+		foreach ($tblFichaDisp as $fichaDisp) {
+			$insert = $this->dbAdapter->
+					createStatement(
+					"INSERT INTO ft_ocomponentes(serie, id_disp_mar_mod, id_ficha_tecnica,id_inventario,operativo)"
+					. "VALUES ('" . $fichaDisp['serie'] . "'," . $fichaDisp['idDispMarcaModelo'] . ",".$idInsert.",". $fichaDisp['codInventario'].",".$fichaDisp['operativo'].")");
+			$insert->execute();
+			($fichaDisp['serie'] != "" || $fichaDisp['serie'] != null || !empty($fichaDisp['serie'])) ? $this->insertSerie("S", $fichaDisp['serie']) : "";
 		}
 		return $insert;
 	}

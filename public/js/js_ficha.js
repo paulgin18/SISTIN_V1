@@ -344,6 +344,7 @@ function especificos(dato) {
 		$(".wizard_steps").show();
 		$(".actionBar").show();
 		$(".stepContainer").show();
+		$("#ficha").val("2");
 	} else if (dato == '1') {
 		$('#chkCompatible').prop('checked', false);
 		$("#datosPC").show();
@@ -358,6 +359,7 @@ function especificos(dato) {
 		$(".stepContainer").show();
 		$(".wizard_steps").show();
 		$(".actionBar").show();
+		$("#ficha").val("1");
 	}else{
 		$("#step-1").hide();
 		$("#stepEspecifico").hide();
@@ -366,6 +368,7 @@ function especificos(dato) {
 		$(".stepContainer").hide();
 		$(".stepContainer").hide();
 		$("#divComponentes").show();
+		$("#ficha").val("3");
 	}
 }
 
@@ -490,6 +493,8 @@ $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 	$("#txtFichaMaMo	").focus();
 	$('input:checkbox[id=chkOpFichaDisp]:checked').val()
 	$('#txtFichaIdDis').val('');
+	$('#lblASerieMaMo').hide();
+	$('#lblNSerieMaMo').hide();
 	$('#txtFichaMaMo').val('');
 	$('#txtFichaSerieMaMo').val('');
 	$('#txtFichaCodInventario').val('');
@@ -659,6 +664,7 @@ function test()
 
 
 $(document).on('click', '#btnguardar', function (event) {
+	alert("aqui");
 	//this.disabled = true;
 	event.preventDefault();
 	var txtFecha = $('#txtFecha').val();
@@ -676,6 +682,7 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtNroPatrimonio = $('#txtNroPatrimonio').val();
 	var txtIdSO = $('#txtIdSO').val();
 	var txtLicenciaSO = $('#txtLicenciaSO').val();
+	var ficha = $('#ficha').val();
 	var chkCompatible = $('input:checkbox[id=chkCompatible]:checked').val();
 	var chkOpOtros = $('input:checkbox[id=chkOpOtros]:checked').val();
 	var chkGarantia = $('input:checkbox[id=chkGarantia]:checked').val();
@@ -737,22 +744,35 @@ $(document).on('click', '#btnguardar', function (event) {
 			'pass': row.cells[3].textContent,
 		};
 	}).get();
+	
+		var tblFichaDisp = $('#tabla_ficha_disp tbody tr').map(function (i, row) {
+		return {
+			'idDispositivo': $("#txtIdEquipo").val(),
+			'idDispMarcaModelo': row.cells[1].textContent,
+			'serie': row.cells[3].textContent.length > 0 ? row.cells[3].textContent : null,
+			'codInventario': row.cells[4].textContent,
+			'operativo': row.cells[5].textContent == "SI" ? true : false,
+		};
+	}).get();
 			
-	registrar(txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
+	registrar(ficha,txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
 			txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 			txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
-			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser);
+			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser,tblFichaDisp);
 });
 
 
-var registrar = function (txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
+var registrar = function (ficha,txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
 		txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 		txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
-		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser) {
+		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser,tblFichaDisp) {
+			
+			alert("33");
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {'txtNroFicha': txtNroFicha,
+			'ficha': ficha,
 			'txtFecha': txtFecha,
 			'txtAnioNroFicha': txtAnioNroFicha,
 			'txtUnidadOrganica': txtUnidadOrganica,
@@ -778,6 +798,7 @@ var registrar = function (txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrgan
 			'tblMainboard': tblMainboard,
 			'tblRed': tblRed,
 			'tblUser': tblUser,
+			'tblFichaDisp': tblFichaDisp,
 		},
 		dataType: 'json',
 		success: function (response) {

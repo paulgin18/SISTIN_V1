@@ -69,6 +69,7 @@ class FichaController extends AbstractActionController {
 			$id_user= 1;
 			$id_respfuncionario= $this->getRequest()->getPost('txtRespFuncionario');
 			$id_resppatrimonio= $this->getRequest()->getPost('txtRespPatrimonio');
+			$fichapost= $this->getRequest()->getPost('ficha');
 			$operativo=$this->getRequest()->getPost('chkOpOtros');
 			$garantia=$this->getRequest()->getPost('chkGarantia');
 			$anioGarantia=$this->getRequest()->getPost('txtAnioGarantia');
@@ -82,14 +83,15 @@ class FichaController extends AbstractActionController {
 			$tblSoft=$this->getRequest()->getPost('tblSoftware');
 			$tblOtro=$this->getRequest()->getPost('tblOtrosComponentes');
 			$tblUser=$this->getRequest()->getPost('tblUser');
+			$tblFichaDisp=$this->getRequest()->getPost('tblFichaDisp');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
 			//if ($id != '') {
 //				$modificar = $ficha->modificar($descripcion, $numero, $id);
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
-				$insertar = $ficha->insertar($numero, $fecha,$nompc,$observacion,$id_user, $id_respfuncionario,$id_resppatrimonio, $tblMicroprocesador,
-						$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro,$tblUser);
+				$insertar = $ficha->insertar($fichapost,$numero, $fecha,$nompc,$observacion,$id_user, $id_respfuncionario,$id_resppatrimonio, $tblMicroprocesador,
+						$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro,$tblUser,$tblFichaDisp);
 				$msj = $this->mensaje($insertar, 0);
 //			}
 		} catch (\Exception $e) {
