@@ -1,7 +1,7 @@
 $(document).data('tipoDisp', 2);
 
 var bDispositivo = function (tipoDisp, id, inp) {
-		
+
 	$(inp).autocomplete({
 		source: '../../../../dispositivo/dispositivo/buscardispositivo?tipo=' + tipoDisp + '',
 		select: function (event, ui) {
@@ -111,6 +111,7 @@ $(document).on('click', '#btnAnadirDisp', function (event) {
 	event.preventDefault();
 	var txtIdDisMaMo = $('#txtIdDisMaMo').val();
 	var dispositivo = $('#txtDispositivo').val();
+	$("#txtDispositivo").focus();
 	var txtId = $('#txtIdDis').val();
 	var itemMaMo = $('#txtMaMo').val();
 	var txtSerie = $('#txtSerieMaMo').val();
@@ -122,24 +123,29 @@ $(document).on('click', '#btnAnadirDisp', function (event) {
 	}
 	if (dispositivo == '' && txtIdDisMaMo == '') {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar una Dispositivo , Marca y un Modelo</b>');
+		$("#txtDispositivo").focus();
 	} else {
 		if (dispositivo == '') {
 			bootbox.alert('<b style="color: #F44336;" >Debe seleccionar una Dispositivo</b>');
+			$("#txtDispositivo").focus();
 		} else if (txtIdDisMaMo == '') {
 			bootbox.alert('<b style="color: #F44336;" >Debe seleccionar una Marca y modelo</b>');
+			$("#txtDispositivo").focus();
 		} else {
 			if (txtId > 0 && txtIdDisMaMo >= 0) {
 				verificar(txtIdDisMaMo, dispositivo, itemMaMo, txtSerie, chk);
+				$("#txtDispositivo").focus();
 				//test();
+				$('#txtIdDis').val('');
+				$('#txtDispositivo').val('');
+				$('#txtMaMo').val('');
+				$('#txtSerieMaMo').val('');
+				$('#txtIdDisMaMo').val('');
 			}
 		}
 	}
-	
-	$('#txtIdDis').val('');
-	$('#txtDispositivo').val('');
-	$('#txtMaMo').val('');
-	$('#txtSerieMaMo').val('');
-	$('#txtIdDisMaMo').val('');
+
+
 });
 
 $(document).on('click', '#btnAnadirRam', function (event) {
@@ -150,9 +156,37 @@ $(document).on('click', '#btnAnadirRam', function (event) {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar la Memoria Ram</b>');
 	} else {
 		insertarRam(idRam, dispositivo);
+		$("#txtMR").focus();
+		$('#txtMR').val('');
+		$('#txtIdMR').val('');
 	}
-	$('#txtMR').val('');
-	$('#txtIdMR').val('');
+
+
+});
+
+$(document).on('click', '#btnAnadirUser', function (event) {
+	event.preventDefault();
+	var tipo = $('#cmbTipoUser').val();
+	var user = $('#txtUsuario').val();
+	var pass = $('#txtPass').val();
+	if (user == '' && pass == '') {
+		$("#txtUsuario").focus();
+		bootbox.alert('<b style="color: #F44336;" >Debe ingresar el Usuario y Contraseña.</b>');
+	} else {
+		if (user == '') {
+			$("#txtUsuario").focus();
+			bootbox.alert('<b style="color: #F44336;" >Debe ingresar el Usuario.</b>');
+		} else if (pass == '') {
+			$("#txtUsuario").focus();
+			bootbox.alert('<b style="color: #F44336;" >Debe ingresar la Contraseña.</b>');
+		} else {
+			insertarUser(tipo, user, pass);
+			$("#txtUsuario").focus();
+			$('#txtUsuario').val('');
+			$('#txtPass').val('');
+		}
+	}
+	
 });
 
 
@@ -170,9 +204,32 @@ var insertarRam = function (idRam, dispositivo) {
 	});
 	if (campo1 === idRam) {
 		bootbox.alert('<b style="color: #F44336;" >La Ram ya ha sido ingresada</b>');
+
 	} else {
 		$("#tabla_ram > tbody").append(
 				'<tr data-id=' + idRam + ' ><td>#</td><td hidden>' + idRam + '</td><td>' + dispositivo + '</td></td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+	}
+	;
+}
+
+var insertarUser = function (tipo, user, pass) {
+	var campo1;
+	$("#tabla_user tbody tr").each(function (index) {
+		$(this).children("td").each(function (index2) {
+			switch (index2) {
+				case 1:
+					campo1 = $(this).text();
+					
+					break;
+			}
+		})
+	});
+	if (campo1 === user) {
+		bootbox.alert('<b style="color: #F44336;" >El Usuario ya ha sido ingresado</b>');
+
+	} else {
+		$("#tabla_user > tbody").append(
+				'<tr data-id=' + user + '><td>#</td><td hidden>' + user + '</td><td hidden>' + tipo + '</td><td hidden>' + pass + '</td><td>' + (tipo === 'A' ? "Administrador" : "Usuario") + '</td><td>' + user + '</td><td>*****</td></td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
 	;
 }
@@ -188,15 +245,15 @@ $(document).on('click', '#btnAnadirSoft', function (event) {
 		} else {
 			chk = 'No';
 		}
-		insertarSoft($('#txtSoftCL').val(), $('#txtIdSofCl').val(), $('#tipoSoft').val(), chk, $("#txtSoftEdicion").val(), $("#txtSoftVersion").val(),$("#txtSoftNroLicencia").val());
-	}
+		insertarSoft($('#txtSoftCL').val(), $('#txtIdSofCl').val(), $('#tipoSoft').val(), chk, $("#txtSoftEdicion").val(), $("#txtSoftVersion").val(), $("#txtSoftNroLicencia").val());
+		$("#txtSoftCL").focus();
 		$('#txtSoftCL').val('');
 		$('#txtSoftEdicion').val('');
 		$('#txtIdSofCl').val('');
 		$('#tipoSoft').val('');
 		$('#txtSoftVersion').val('');
 		$('#txtSoftNroLicencia').val('');
-	
+	}
 });
 
 
@@ -245,12 +302,16 @@ $("#txtDispositivo").focus(function () {
 
 function especificos(dato) {
 	if (dato == '2') {
+		alert("3");
 		$("#pcCompatible").show();
 		$("#txtMarcaPC").val("");
 		$("#txtIdMPc").val("");
 		$("#txtSeriePC").val("");
 		$(document).data('tipoDisp', 2);
+		$("#wizard").show();
+		$("#datosEsp").show();
 	} else if (dato == '1') {
+		alert("1");
 		$('#chkCompatible').prop('checked', false);
 		$("#datosPC").show();
 		$("#pcCompatible").hide();
@@ -258,6 +319,12 @@ function especificos(dato) {
 		$("#txtMarcaPC").val("");
 		$("#txtSeriePC").val("");
 		$(document).data('tipoDisp', 1);
+		$("#wizard").show();
+		$("#datosEsp").show();
+		
+	}else{
+		alert("3");
+		$("#step-3").show();
 	}
 }
 
@@ -316,6 +383,10 @@ $("#txtDD").focus(function () {
 	bCI(5, '#txtIdDD', '#txtDD');
 });
 
+$("#txtMain").focus(function () {
+	bCI(6, '#txtIdMain', '#txtMain');
+});
+
 function bCI(idDisp, id, des) {
 	$(des).autocomplete({
 		source: '../../../../dispositivo/dispositivo/bMaMoxDisp?id_disp=' + idDisp + '',
@@ -340,7 +411,7 @@ $(document).on('click', '#btnModelo', function (event) {
 	var id_modelo = $('#id_modelo').val();
 	var bitem = $('#bModelo').val();
 	if (id_modelo == '') {
-		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar un Model</b>');
+		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar un Modelo</b>');
 	} else {
 		$("#tabla_modelo > tbody").append('<tr data-id=' + id_modelo + ' ><td>#</td><td hidden>' + id_modelo + '</td><td>' + bitem + '</td><td><button type="button" class="btn btn-danger btn-xs removerMo"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
@@ -460,9 +531,9 @@ var insertarSoft = function (txtSoft, txtId, tipo, chk, edicion, version, nrolic
 			tip = "Software libre";
 		}
 		$("#tabla_soft > tbody").append(
-        '<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td hidden>' + tipo + 
-		'</td><td>' + tip + '</td><td>' + txtSoft + '</td><td>' + edicion + '</td><td>' + version+ 
-		'</td><td>' + chk+ '</td><td>' + nrolicencia + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td hidden>' + tipo +
+				'</td><td>' + tip + '</td><td>' + txtSoft + '</td><td>' + edicion + '</td><td>' + version +
+				'</td><td>' + chk + '</td><td>' + nrolicencia + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
 	;
 }
@@ -470,12 +541,12 @@ var insertarSoft = function (txtSoft, txtId, tipo, chk, edicion, version, nrolic
 
 function test()
 {
-		var tblMarca = {'idMicroprocesador': $("#txtIdMI").val(),
-			'descripcion': $("#txtMI").val(),
-			'estructura': $('input:radio[id=rbBits]:checked').val(),
-		};
+	var tblMarca = {'idMicroprocesador': $("#txtIdMI").val(),
+		'descripcion': $("#txtMI").val(),
+		'estructura': $('input:radio[id=rbBits]:checked').val(),
+	};
 
-	
+
 	alert(JSON.stringify(tblMarca, null, 4));
 }
 
@@ -514,95 +585,105 @@ $(document).on('click', '#btnguardar', function (event) {
 	var chkCompatible = $('input:checkbox[id=chkCompatible]:checked').val();
 	var chkOpOtros = $('input:checkbox[id=chkOpOtros]:checked').val();
 	var chkGarantia = $('input:checkbox[id=chkGarantia]:checked').val();
-	var tblRed = ($("#txtIPAdd").val().length >0)?{'id': $("#txtIdRed").val(),
-			'descripcion': $("#txtRed").val(),
-			'serie': $("#txtSerieRed").val().length>0?$("#txtSerieRed"):null,
-			'mac': $("#txtMac").val().length>0?$("#txtMac").val():null,
-			'ip': $("#txtIPAdd").val().length>0?$("#txtIPAdd").val():null,
-			'puertaEnlace': $("#txtPuertaEnly").val(),
-			'puertos': 0,
-			'proxy': $("#txtProxy").val(),
-			'integrada':  $('input:checkbox[id=chkRedIntegrada]:checked').val(),
-			'red':  $('input:checkbox[id=chkConRed]:checked').val(),
-			'internet':  $('input:checkbox[id=chkConInternet]:checked').val(),
-		}:null;
-		
-	var tblMicroprocesador =($("#txtIdMI").val()>0)? {'idMicroprocesador': $("#txtIdMI").val(),
-			'descripcion': $("#txtMI").val(),
-			'estructura': $('input:radio[id=rbBits]:checked').val(),
-		}:null;
-	var tblDiscoDuro = ($("#txtIdDD").val()>0)?{'idDiscoDuro': $("#txtIdDD").val(),
-			'descripcion': $("#txtDD").val(),
-			'serie': $("#txtSerieDD").val().length>0?$("#txtSerieDD").val():null,
-		}:null;
-	var tblMainboard = ($("#txtIdMain").val()>0)?{'idMainboard': $("#txtIdMain").val(),
-			'descripcion': $("#txtMain").val(),
-			'serie': $("#txtSerieMain").val().length>0?$("#txtSerieMain").val():null,
-		}:null;
-		
+	var tblRed = ($("#txtIPAdd").val().length > 0) ? {
+		'id': $("#txtIdRed").val(),
+		'descripcion': $("#txtRed").val(),
+		'serie': $("#txtSerieRed").val().toString().length > 0 ? $("#txtSerieRed") : null,
+		'mac': $("#txtMac").val().length > 0 ? $("#txtMac").val() : null,
+		'ip': $("#txtIPAdd").val().length > 0 ? $("#txtIPAdd").val() : null,
+		'puertaenlace': $("#txtPuertaEnlance").val(),
+		'puertos': 0,
+		'proxy': $("#txtProxy").val(),
+		'integrada': $('input:checkbox[id=chkRedIntegrada]:checked').val(),
+		'red': $('input:checkbox[id=chkConRed]:checked').val(),
+		'internet': $('input:checkbox[id=chkConInternet]:checked').val(),
+	} : null;
+
+	var tblMicroprocesador = ($("#txtIdMI").val() > 0) ? {'idMicroprocesador': $("#txtIdMI").val(),
+		'descripcion': $("#txtMI").val(),
+		'estructura': $('input:radio[id=rbBits]:checked').val(),
+	} : null;
+	var tblDiscoDuro = ($("#txtIdDD").val() > 0) ? {'idDiscoDuro': $("#txtIdDD").val(),
+		'descripcion': $("#txtDD").val(),
+		'serie': $("#txtSerieDD").val().length > 0 ? $("#txtSerieDD").val() : null,
+	} : null;
+	var tblMainboard = ($("#txtIdMain").val() > 0) ? {'idMainboard': $("#txtIdMain").val(),
+		'descripcion': $("#txtMain").val(),
+		'serie': $("#txtSerieMain").val().length > 0 ? $("#txtSerieMain").val() : null,
+	} : null;
+
 	var tblOtrosComponentes = $('#tabla_marca tbody tr').map(function (i, row) {
 		return {'id': row.cells[1].textContent,
 			'descripcion': row.cells[2].textContent,
 			'modelo': row.cells[3].textContent,
-			'serie': row.cells[4].textContent.length>0?row.cells[4].textContent:null,
+			'serie': row.cells[4].textContent.length > 0 ? row.cells[4].textContent : null,
 		};
 	}).get();
-	
+
 	var tblRam = $('#tabla_ram tbody tr').map(function (i, row) {
 		return {'id': row.cells[1].textContent
 		};
 	}).get();
-	
+
 	var tblSoftware = $('#tabla_soft tbody tr').map(function (i, row) {
 		return {'id': row.cells[1].textContent,
 			'tipo': row.cells[2].textContent,
 			'descripcion': row.cells[4].textContent,
 			'edicion': row.cells[5].textContent,
 			'version': row.cells[6].textContent,
-			'licenciado': row.cells[7].textContent=="Si"?true:false,
-			'nrolicencia': row.cells[8].textContent.length>0?row.cells[8].textContent:null,
+			'licenciado': row.cells[7].textContent == "Si" ? true : false,
+			'nrolicencia': row.cells[8].textContent.length > 0 ? row.cells[8].textContent : null,
 		};
 	}).get();
 	
-	registrar(txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica,txtAreaServ,txtRespPatrimonio,
-	txtRespFuncionario,txtIdEquipo,txtNomPc, txtFechaAdquisicion,txtAnioGarantia,
-	txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,chkCompatible,chkOpOtros, chkGarantia,
-	tblOtrosComponentes,tblRam,tblSoftware,tblMicroprocesador,tblDiscoDuro,tblMainboard,tblRed);
+	var tblUser=  $('#tabla_user tbody tr').map(function (i, row) {
+		return {
+			'user': row.cells[1].textContent,
+			'tipo': row.cells[2].textContent,
+			'pass': row.cells[3].textContent,
+		};
+	}).get();
+			
+	registrar(txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
+			txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
+			txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
+			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser);
 });
 
 
-var registrar = function (txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica,txtAreaServ,txtRespPatrimonio,
-	txtRespFuncionario,txtIdEquipo,txtNomPc, txtFechaAdquisicion,txtAnioGarantia,
-	txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,chkCompatible,chkOpOtros, chkGarantia,
-	tblOtrosComponentes,tblRam,tblSoftware,tblMicroprocesador,tblDiscoDuro,tblMainboard,tblRed) {
+var registrar = function (txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
+		txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
+		txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
+		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser) {
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
-		data: {'txtNroFicha':txtNroFicha,
-			'txtFecha':txtFecha, 
-			'txtAnioNroFicha':txtAnioNroFicha,
-			'txtUnidadOrganica':txtUnidadOrganica,
-			'txtAreaServ':txtAreaServ,
-			'txtRespPatrimonio':txtRespPatrimonio,
-			'txtRespFuncionario':txtRespFuncionario,
-			'txtIdEquipo':txtIdEquipo,
-			'txtNomPc':txtNomPc,
-			'txtFechaAdquisicion':txtFechaAdquisicion,
-			'txtAnioGarantia':txtAnioGarantia,
-			'txtSeriePC':txtSeriePC,
-			'txtNroPatrimonio':txtNroPatrimonio,
-			'txtIdSO':txtIdSO,
-			'txtLicenciaSO':txtLicenciaSO,
-			'chkCompatible':chkCompatible,
-			'chkOpOtros':chkOpOtros,
-			'chkGarantia':chkGarantia,
-			'tblOtrosComponentes':tblOtrosComponentes,
-			'tblRam':tblRam,
-			'tblSoftware':tblSoftware,
-			'tblMicroprocesador':tblMicroprocesador,
-			'tblDiscoDuro':tblDiscoDuro,
-			'tblMainboard':tblMainboard,
-			'tblRed':tblRed,
+		data: {'txtNroFicha': txtNroFicha,
+			'txtFecha': txtFecha,
+			'txtAnioNroFicha': txtAnioNroFicha,
+			'txtUnidadOrganica': txtUnidadOrganica,
+			'txtAreaServ': txtAreaServ,
+			'txtRespPatrimonio': txtRespPatrimonio,
+			'txtRespFuncionario': txtRespFuncionario,
+			'txtIdEquipo': txtIdEquipo,
+			'txtNomPc': txtNomPc,
+			'txtFechaAdquisicion': txtFechaAdquisicion,
+			'txtAnioGarantia': txtAnioGarantia,
+			'txtSeriePC': txtSeriePC,
+			'txtNroPatrimonio': txtNroPatrimonio,
+			'txtIdSO': txtIdSO,
+			'txtLicenciaSO': txtLicenciaSO,
+			'chkCompatible': chkCompatible,
+			'chkOpOtros': chkOpOtros,
+			'chkGarantia': chkGarantia,
+			'tblOtrosComponentes': tblOtrosComponentes,
+			'tblRam': tblRam,
+			'tblSoftware': tblSoftware,
+			'tblMicroprocesador': tblMicroprocesador,
+			'tblDiscoDuro': tblDiscoDuro,
+			'tblMainboard': tblMainboard,
+			'tblRed': tblRed,
+			'tblUser': tblUser,
 		},
 		dataType: 'json',
 		success: function (response) {

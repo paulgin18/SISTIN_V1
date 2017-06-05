@@ -17,7 +17,8 @@ class Ficha extends TableGateway {
 		return parent::__construct('Ficha', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro) {
+	public function insertar($numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, 
+			$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro,$tblUser) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
@@ -30,6 +31,7 @@ class Ficha extends TableGateway {
 			$tblRed != null || $tblRed != "" ? $this->red($idInsert, $tblRed) : "";
 			$tblSoft != null || $tblSoft != "" ? $this->software($idInsert, $tblSoft) : "";
 			$tblOtro != null || $tblOtro != "" ? $this->otrosComponentes($idInsert, $tblOtro) : "";
+			$tblUser!= null || $tblUser!= "" ? $this->cuentasUsuario($idInsert, $tblUser) : "";
 			$connection->commit();
 			$datos = true;
 		} catch (\Exception $e) {
@@ -64,6 +66,7 @@ class Ficha extends TableGateway {
 				"INSERT INTO ft_compinternos(serie, id_ficha_tecnica, id_disp_mar_mod)"
 				. "VALUES ('" . $tblDiscoDuro['serie'] . "', '$idInsert'," . $tblDiscoDuro['idDiscoDuro'] . ")");
 		$insert->execute();
+		($tblDiscoDuro['serie'] != "" || $tblDiscoDuro['serie'] != null|| !empty($tblDiscoDuro['serie'])) ? $this->insertSerie("S", $tblDiscoDuro['serie']) : "";
 		return $insert;
 	}
 
@@ -90,12 +93,18 @@ class Ficha extends TableGateway {
 	}
 
 	public function red($idInsert, $tblRed) {
+		//$p=($tblRed['serie']!=null||$tblRed['serie'] != "" || !empty($tblRed['serie']))?"'".$tblRed['serie']."'":'null';
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO ft_red(serie, mac, puertos, ip, puertaenlace, proxy, integrada,id_disp_mar_mod, id_ficha_tecnica, conectividad)"
-				. "VALUES ('" . $tblRed['serie'] . "','" . $tblRed['mac'] . "'," . $tblRed['puertos'] == 0 ? null : $tblRed['puertos'] . ",'" . $tblRed['ip'] . "','"
-				. $tblRed['puertaEnlace'] . "','" . $tblRed['proxy']
-				. "'," . $tblRed['integrada'] == 1 ? true : false . "," . $tblRed['id'] . "$idInsert)");
+				"INSERT INTO ft_red(serie, mac, puertos,ip, puertaenlace, proxy, id_ficha_tecnica,integrada,id_disp_mar_mod,red, internet)"
+				. "VALUES (" .pg_escape_string(utf8_encode(($tblRed['serie']!=null||$tblRed['serie'] != "" || !empty($tblRed['serie']))?"'".$tblRed['serie']."'":'null')) 
+					. ",'" . $tblRed['mac'] . "',".pg_escape_string(utf8_encode($tblRed['puertos'] == 0 ? 'null' : $tblRed['puertos'])). ",'"
+						. $tblRed['ip'] ."','".$tblRed['puertaenlace']."','". $tblRed['proxy']."',".$idInsert
+						.",".pg_escape_string(utf8_encode($tblRed['integrada'] == 1 ? 'true': 'false'))
+						.",".pg_escape_string(utf8_encode($tblRed['id']>0?$tblRed['id']:"null"))
+					    .",".pg_escape_string(utf8_encode($tblRed['red'] == 1 ? 'true': 'false'))
+					    .",".pg_escape_string(utf8_encode($tblRed['internet'] == 1 ? 'true': 'internet'))
+						.")");
 		$insert->execute();
 		($tblRed['serie'] != "" || $tblRed['serie'] != null || !empty($tblRed['serie'])) ? $this->insertSerie("S", $tblRed['serie']) : "";
 		($tblRed['mac'] != "" || $tblRed['mac'] != null || !empty($tblRed['mac'])) ? $this->insertSerie("M", $tblRed['mac']) : "";
@@ -108,7 +117,7 @@ class Ficha extends TableGateway {
 			$insert = $this->dbAdapter->
 					createStatement(
 					"INSERT INTO ft_software(edicion, version, licenciado, nrolicencia, tipo,id_disp_mar_mod, id_ficha_tecnica) "
-					. "VALUES ('" . $soft['edicion'] . "','" . $soft['version'] . "'," . $soft['licenciado'] . ",'" . $soft['nrolicencia']
+					. "VALUES ('" . $soft['edicion'] . "','" . $soft['version'] . "'," . $soft['licenciado'] . ",'" . $soft['nrolicencia']//
 					. "','" . $soft['tipo'] . "'," . $soft['id'] . ",$idInsert)");
 			$insert->execute();
 			($soft['nrolicencia'] != "" || $soft['nrolicencia'] != null || !empty(soft['nrolicencia'])) ? $this->insertSerie("S", $soft['nrolicencia']) : "";
@@ -124,6 +133,17 @@ class Ficha extends TableGateway {
 					. "VALUES ('" . $otro['serie'] . "'," . $otro['id'] . ",$idInsert)");
 			$insert->execute();
 			($otro['serie'] != "" || $otro['serie'] != null || !empty($otro['serie'])) ? $this->insertSerie("S", $otro['serie']) : "";
+		}
+		return $insert;
+	}
+	
+		public function cuentasUsuario($idInsert, $tblUser) {
+		foreach ($tblUser as $user) {
+			$insert = $this->dbAdapter->
+					createStatement(
+					"INSERT INTO ft_user(tipo, usuario, contrasena, id_ficha_tecnica) "
+					. "VALUES ('" . $user['tipo'] . "','" . $user['user'] . "','" . $user['pass'] . "',".$idInsert.")");
+			$insert->execute();
 		}
 		return $insert;
 	}
@@ -164,7 +184,7 @@ class Ficha extends TableGateway {
 
 	public function buscarSerie($serie) {
 		$consulta = $this->dbAdapter->query(
-				"SELECT count(serie) FROM tmp_serie where serie=upper('$serie')"
+				"SELECT count(smip) FROM tmp_val where upper(smip)=upper('$serie')"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos[0];

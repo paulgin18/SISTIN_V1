@@ -81,6 +81,7 @@ class FichaController extends AbstractActionController {
 			$tblRam=$this->getRequest()->getPost('tblRam');
 			$tblSoft=$this->getRequest()->getPost('tblSoftware');
 			$tblOtro=$this->getRequest()->getPost('tblOtrosComponentes');
+			$tblUser=$this->getRequest()->getPost('tblUser');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
 			//if ($id != '') {
@@ -88,7 +89,7 @@ class FichaController extends AbstractActionController {
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
 				$insertar = $ficha->insertar($numero, $fecha,$nompc,$observacion,$id_user, $id_respfuncionario,$id_resppatrimonio, $tblMicroprocesador,
-						$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro);
+						$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro,$tblUser);
 				$msj = $this->mensaje($insertar, 0);
 //			}
 		} catch (\Exception $e) {

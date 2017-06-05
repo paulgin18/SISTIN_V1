@@ -5,14 +5,14 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="x_panel">
 						<div class="x_title">
-							<h2><?php echo $this->mantenimiento ?> Ficha Tecnica de Equipos de Computo<small></small></h2>
+							<h2><strong><?php echo $this->mantenimiento ?> Ficha Tecnica de Equipos de Computo</strong><small></small></h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 							</ul>
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
-							<h2 class="StepTitle">Datos Generales</h2>
+							<h2 class="StepTitle"><strong>Datos Generales</strong></h2>
 							<form class="form-horizontal form-label-left">
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
@@ -60,14 +60,14 @@
 					</div>
 					<div class="x_panel">
 						<div class="x_title">
-							<h2>DETALLE FICHA TECNICA<small></small></h2>
+							<h2><strong>DETALLE FICHA TECNICA</strong><small></small></h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 							</ul>
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
-							<div id="wizard" class="form_wizard wizard_horizontal" id="tab" style="display: block" >
+							<div id="wizard" class="form_wizard wizard_horizontal" id="tab" style="display: none" >
 								<ul class="wizard_steps" >
 									<li>
 										<a href="#step-1" id="tab1">
@@ -104,7 +104,8 @@
 								</ul>
 								<hr>
 								<div id="step-1">
-									<h2 class="StepTitle">Datos Especificos</h2>
+									<div id="datosEsp" style="display: none">
+									<h2 class="StepTitle"><strong>Datos Especificos</strong></h2>
 									<form class="form-horizontal form-label-left">
 										<div class="form-group">
 											<div id="pcCompatible">
@@ -119,7 +120,6 @@
 												</div>
 
 											</div>
-
 											<label class="col-sm-1 control-label" for="chkOpOtros" ><b>Operativo:</b></label>
 											<div class="col-sm-1">
 												<?=
@@ -138,7 +138,6 @@
 														'<input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" ><br>';
 												?>
 											</div>
-
 										</div>
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Nombre de PC:</b></label>
@@ -184,7 +183,7 @@
 										</div>
 										<hr>
 										
-										<h2 class="StepTitle">Sistema Operativo</h2><br/>
+										<h2 class="StepTitle"><strong>S.O.</strong></h2><br/>
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Sistema Operativo:</b></label>
 											<div class="col-sm-3">
@@ -201,24 +200,56 @@
 											</div>
 											
 										</div>
+											<hr/>
+										<h2 class="StepTitle"><strong>Cuentas</strong></h2><br/>
 										<div class="form-group">
-											<label class="col-sm-2 control-label"><b>Usuario:</b></label>
-											<div class="col-sm-3">
-												<input type="hidden" class="" name="txtIdUsuario" id="txtIdUsuario"  placeholder=""  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
-												<input class="form-control " name="txtUsuario" id="txtUsuario" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
+											<label class="col-sm-1 control-label"><b>Tipo:</b></label>
+											<div class="col-sm-2">
+											<select class="form-control" id="cmbTipoUser" name="cmbTipoUser">
+												<option value="U">Usuario</option>
+												<option value="A">Administrador</option>
+											</select>
+												</div>
+											<label class="col-sm-1 control-label"><b>Usuario:</b></label>
+											<div class="col-sm-2">
+												<input type="hidden" class="" name="txtIdUsuario" id="txtIdUsuario"  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+												<input class="form-control " name="txtUsuario" id="txtUsuario" value="" type="text" style="text-transform:uppercase">
 											</div>
-											<label class="col-sm-2 control-label"><b>Contraseña:</b></label>
-											<div class="col-sm-3">
-												<input type="text" id="txtContraseña" name="txtContraseña" value="" class="form-control" style="text-transform:uppercase">
+											<label class="col-sm-1 control-label"><b>Contraseña:</b></label>
+											<div class="col-sm-2">
+												<input type="password" id="txtPass" name="txtPass" value="" class="form-control" style="text-transform:uppercase">
 											</div>
-											
+											<div class="col-sm-2">
+												<button class="btn btn-success " id="btnAnadirUser"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-12">
+												<table id="tabla_user" class="table table-striped table-bordered">
+													<thead>
+														<tr>
+															<th width="5%">#</th>
+															<th hidden></th>
+															<th width="20%">Tipo</th>
+															<th hidden></th>
+															<th width="25%">Usuario</th>
+															<th width="25%">Contraseña</th>
+															<th width="30%">Accion</th>
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>			
+											</div>
+											<br/><br/><br/>
 										</div>
 									</form>
 									<br/>
 									<br/>
+									</div>
 								</div>
 								<div id="step-2" >
-									<h2 class="StepTitle">Componentes Internos</h2><br/>
+									<h2 class="StepTitle"><strong>Componentes Internos</strong></h2><br/>
 									<form class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label class="col-sm-2 control-label"><b>Microprocesador:</b></label>
@@ -263,7 +294,7 @@
 											</div>
 										</div>
 										<hr>
-										<h2 class="StepTitle">RAM</h2><br/>
+										<h2 class="StepTitle"><strong>RAM</strong></h2><br/>
 										<div class="form-group">
 											<label class="col-sm-1 control-label"><b>Memoria:</b></label>
 											<div class="col-sm-4">
@@ -289,7 +320,7 @@
 											</div>
 										</div>
 										<hr/>
-										<h2 class="StepTitle">RED</h2><br/>
+										<h2 class="StepTitle"><strong>RED</strong></h2><br/>
 										<div class="form-group">
 											<label class="col-sm-1 control-label" for="chkRedIntegrada" ><b>Integrada:</b></label>
 												<div class="col-sm-1">
@@ -350,7 +381,7 @@
 											<div class="col-sm-1"></div>
 											<label class="col-sm-2 control-label"><b>Puerta Enlace:</b></label>
 											<div class="col-sm-2">
-												<input class="form-control" name="txtPuertaEnl" id="txtPuertaEnl" type="text" value="" style="text-transform:uppercase">
+												<input class="form-control" name="txtPuertaEnlance" id="txtPuertaEnlance" type="text" value="" style="text-transform:uppercase">
 											</div>
 											<div class="col-sm-1"></div>
 											<label class="col-sm-2 control-label"><b>Proxy:</b></label>
@@ -363,7 +394,7 @@
 									<br>
 								</div>
 								<div id="step-3" style="display:none">
-									<h2 class="StepTitle">Otros Componentes</h2>
+									<h2 class="StepTitle"><strong>Otros Componentes</strong></h2>
 									<div class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Disp:</b></label>
@@ -418,7 +449,7 @@
 									</div>
 								</div>
 								<div id="step-4">
-<h2 class="StepTitle">Software</h2>
+<h2 class="StepTitle"><strong>Software</strong></h2>
 									<div class="form-horizontal form-label-left">
 										<div class="form-group">
 											<label for="" class="col-sm-1 control-label"><b>Software:</b></label>
