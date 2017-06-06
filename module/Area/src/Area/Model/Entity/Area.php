@@ -20,7 +20,7 @@ class Area extends TableGateway {
 	public function insertar($descripcion, $txtId_uni_ejec) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO area (descripcion,id_uni_ejec) "
+				"INSERT INTO area (descripcion,id_uni_org) "
 						. "VALUES ('$descripcion',$txtId_uni_ejec)");
 		$datos = $insert->execute();
 		return $datos;
@@ -28,7 +28,7 @@ class Area extends TableGateway {
 	public function modificar($id, $descripcion,$id_uni_ejec) {
 		
 		$update = $this->dbAdapter->
-				createStatement("UPDATE area SET descripcion=upper(trim('$descripcion')), id_uni_ejec=$id_uni_ejec WHERE id_area=$id");
+				createStatement("UPDATE area SET descripcion=upper(trim('$descripcion')), id_uni_org=$id_uni_ejec WHERE id_area=$id");
 
 		$datos = $update->execute();
 		return $update;
@@ -40,19 +40,19 @@ class Area extends TableGateway {
 	public function lista() {
 		//$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
-		$consulta = $this->dbAdapter->query("SELECT id_area,descripcion,id_uni_ejec,vigencia FROM area ", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_area,descripcion,id_uni_org,vigencia FROM area ", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_area,descripcion,id_uni_ejec FROM area where id_area=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT id_area,descripcion,id_uni_org FROM area where id_area=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }
 	  public function buscarArea($descripcion){
         $consulta=$this->dbAdapter->query(
-		"SELECT id_area as value, descripcion as label,id_uni_ejec as unidadejecutora, vigencia FROM area where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+		"SELECT id_area as value, descripcion as label,id_uni_org as unidadejecutora, vigencia FROM area where descripcion like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }

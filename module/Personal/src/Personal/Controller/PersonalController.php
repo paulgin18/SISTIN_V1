@@ -8,23 +8,25 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Area\Controller;
+namespace Personal\Controller;
 
 require "vendor/autoload.php";
 
-use Zend\Session\Config\SessionConfigr;
+use Zend\Session\Config\SessionConfig;
 use Zend\Session\Container;
 use Zend\Session\SessionManager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
+use Personal\Model\Entity\Personal;
 use Area\Model\Entity\Area;
 use Zend\MVC\Exception;
 
-class AreaController extends AbstractActionController {
+class PersonalController extends AbstractActionController {
 
 	public function indexAction() {
+
 
 		//INICIO VARIABLES DE SESION
 		// $sessionConfig = new SessionConfig();
@@ -49,104 +51,70 @@ class AreaController extends AbstractActionController {
 		$id = $this->params()->fromRoute("id", null);
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
-			if ($id == 0 ) {
+			if ($id == 0) {
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
 			} else {
-				if ($id == 1 && $cod>0) {
-				$datos = $this->buscar($cod);
-				return new ViewModel(
-						array('mantenimiento' => 'Modificar',
-					'textBoton' => 'Actualizar',
-					'datos' => $datos));
+				if ($id == 1 && $cod > 0) {
+					$datos = $this->buscar($cod);
+					return new ViewModel(
+							array('mantenimiento' => 'Modificar',
+						'textBoton' => 'Actualizar',
+						'datos' => $datos));
 				}
 			}
 		}
 	}
 
-	public function buscarAreaAction() {
-		$descripcion = $this->getRequest()->getQuery('term');
-		//$tipo = $this->getRequest()->getQuery('tipo');
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$areas = new Area($this->dbAdapter);
-		$items = $areas->buscarArea($descripcion);
-		$response = new JsonModel(
-				$items
-		);
-		$response->setTerminal(true);
-		return $response;
-	}
-	
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$areas = new Area($this->dbAdapter);
-		$datos = $areas->buscar($cod);
+		$personals = new Personal($this->dbAdapter);
+		$datos = $personals->buscar($cod);
 		return $datos;
 	}
-	
-	public function buscarAreaCmbAction() {
-		$descripcion = $this->getRequest()->getQuery('term');
-		$unidadEjecutora = 1; // MODIFICA CON SESIONES
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$area = new Area($this->dbAdapter);
-		$items = $area->buscarAreaCmb($descripcion,$unidadEjecutora);
-		$response = new JsonModel(
-				$items
-		);
-		$response->setTerminal(true);
-		return $response;
-	}
+
 
 	public function registrarAction() {
+		$error = 0;
+		$msj = "";
 		try {
-			$txtId_uni_ejec =$this->getRequest()->getPost('txtId_uni_ejec');		
+			$vigencia = $this->getRequest()->getPost('chkVigencia');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-
-			$areas = new Area($this->dbAdapter);
+			$marcas = new Marca($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $areas->modificar($id,$descripcion,$txtId_uni_ejec);
+				$modificar= $marcas->modificar($id, $descripcion);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $areas->insertar($descripcion,$txtId_uni_ejec);
+				$insert = $marcas->insertar($descripcion);
 				$msj = $this->mensaje($insert, 0);
 			}
-			//$msj=$this->mensaje($insert);
-						
 		} catch (\Exception $e) {
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			switch ($codError[0]) {
+				case 23505:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					break;
+				case 23514:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
+					break;
+				default:
+					$error = explode("DETAIL:", $codError[2]);
 
-
-
-			$msj = 'Error: ' . $e->getMessage();
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+					break;
+			}
 		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
 
-
-	public function eliminarAction()
-	{
-	        $error=0;$tipoConsulta = 0;
-			
-			$id = $this->getRequest()->getPost('txtId');
-			$vigencia = $this->getRequest()->getPost('txtVigencia');
-			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$areas = new Area($this->dbAdapter);
-		
-		   			
-	        $eliminar = $areas->eliminar($id,$vigencia);
-			$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
-			$msj = $this->mensaje($eliminar, $tipoConsulta);
-			$response = new JsonModel(array('msj' => $msj, 'error' => $error));
-			$response->setTerminal(true);
-			return $response;
-
-	}
 	public function mensaje($valorConsulta, $tipoConsulta) {
 		if ($valorConsulta == true) {
 			switch ($tipoConsulta) {
@@ -155,7 +123,7 @@ class AreaController extends AbstractActionController {
 					break;
 				case 1:
 					$msj = "MODIFICADO CORRECTAMENTE";
-					break; 
+					break;
 				case 2:
 					$msj = "ELIMINADO CORRECTAMENTE";
 					break;
@@ -169,22 +137,28 @@ class AreaController extends AbstractActionController {
 		return $msj;
 	}
 
-
-	public function areaAction() {
+	public function personalAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$areas = new Area($this->dbAdapter);
-		$lista = $areas->lista();
+		$personals = new Personal($this->dbAdapter);
+		$lista = $personals->lista();
 		$viewModel = new ViewModel(array(
-			"areas" => $lista
+			"personals" => $lista
 		));
 		return $viewModel;
 	}
 
-
+	public function eliminarAction() {
+		$error = 0;$tipoConsulta=0;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$personals = new Personal($this->dbAdapter);
+		$cod = $this->getRequest()->getPost('cod');
+		$vigencia = $this->getRequest()->getPost('vigencia');
+		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+		$eliminar = $personals->eliminar($cod, $vigencia);
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
+		$response->setTerminal(true);
+		return $response;
+	}
 
 }
-
-
-
-
-

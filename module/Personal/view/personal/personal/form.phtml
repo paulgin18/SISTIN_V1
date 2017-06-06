@@ -1,0 +1,86 @@
+<?php if ($mantenimiento != null) { ?>
+	<div class="right_col" role="main" style="min-height: 771px;">
+		<div class="">
+			<div class="clearfix"></div>
+			<div class="row">
+				<div c="" lass="col-md-12 col-sm-12 col-xs-12">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2><?php echo $this->mantenimiento ?> Personal<small></small></h2>
+							<ul class="nav navbar-right panel_toolbox">
+								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<form class="form-horizontal form-label-left" id="formRegistro"  action="javascript:void(0)"  >
+								<br>
+								<div class="form-group ">
+									
+									<div class="form-group">
+									<label class="col-sm-1 control-label"><b>Nombre:</b></label>
+									  <div class="col-sm-4">
+										<input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos != null ? $datos['id_personal'] : ''; ?>">
+
+										<input type="text" id="txtNombre" name="txtNombre" class="form-control" required=""  autofocus="autofocus" value="<?= $datos != null ? $datos['nombre'] : ''; ?>">
+									</div>
+										<label class="col-sm-1 control-label"><b>Apellidos:</b></label>
+										  <div class="col-sm-4">
+										<input type="text" id="txtApellidos" name="txtApellidos" class="form-control" required="" value="<?= $datos != null ? $datos['apellidos'] : ''; ?>">
+										</div>
+									</div>
+
+									<div class="form_group">
+									<label class="col-sm-1 control-label"><b>DNI:</b></label>
+										
+										<div class="col-sm-4">
+										<input type="text" id="txtDNI" name="txtDNI" class="form-control" required=""  value="<?= $datos != null ? $datos['dni'] : ''; ?>">
+										</div>
+									<label class="col-sm-1 control-label"><b>Area:</b></label>	
+										<div class="col-sm-4">
+										
+										<input class="form-control" name="txtArea" id="txtArea" placeholder="Buscar..." style="text-transform:uppercase" type="text">
+										
+										<input type="hidden" id="id_area">	
+										</div>
+
+										
+										</div>
+
+									</div>
+				
+
+								</div>
+								<br>
+								<hr>
+								<div class="form-group">
+									<center><div class="col-sm-9">
+											<button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton ?></button>
+										</div></center>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<?php } ?>
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+
+<?=
+		$this->inlineScript()
+		->prependFile($this->basePath('js/js_personal.js'))
+		->prependFile($this->basePath('js/js_buscar.js'))
+		->prependFile($this->basePath() . '/assets/js/core.min.js')
+?>
+
