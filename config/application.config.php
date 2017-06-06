@@ -17,8 +17,7 @@ return array(
         'Red',
         'Accion',
         'Area',
-		'Personal',
-        'Application',
+		'Application',
         
 
 
