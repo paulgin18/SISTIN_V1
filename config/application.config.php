@@ -16,8 +16,8 @@ return array(
         'Unidad',
         'Red',
         'Accion',
-       'Area',
-        'Application',
+        'Area',
+		'Application',
         
 
 

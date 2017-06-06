@@ -70,6 +70,18 @@ class UnidadController extends AbstractActionController {
 	
 	}
 
+	public function buscarUnidadCmbAction() {
+		$descripcion = $this->getRequest()->getQuery('term');
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$unidad = new Unidad($this->dbAdapter);
+		$items = $unidad->buscarUnidadCmb($descripcion);
+		$response = new JsonModel(
+				$items
+		);
+		$response->setTerminal(true);
+		return $response;
+	}
+	
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$unidades = new Unidad($this->dbAdapter);
@@ -83,21 +95,19 @@ class UnidadController extends AbstractActionController {
 		try {
 			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
+			$numero = $this->getRequest()->getPost('txtNumero');
+			$jerarquia= $this->getRequest()->getPost('txtIdJerarquia');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$unidades = new Unidad($this->dbAdapter);
 			
 			if ($id != '') {
-				$modificar = $unidades->modificar($id,$descripcion);
+				$modificar = $unidades->modificar($id,$descripcion,$numero, $jerarquia);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $unidades->insertar($descripcion);
+				$insert = $unidades->insertar($descripcion,$numero, $jerarquia);
 				$msj = $this->mensaje($insert, 0);
-
 			}
-
-		
-						
 		} catch (\Exception $e) {
 			$error = 1;
 			$codError = explode("(", $e->getMessage());
@@ -116,9 +126,6 @@ class UnidadController extends AbstractActionController {
 					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
 					break;
 			}
-//			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
-//				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
-//			
 		}
 	
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
@@ -139,8 +146,6 @@ class UnidadController extends AbstractActionController {
 			$unidades = new Unidad($this->dbAdapter);
 		
 		    $eliminar = $unidades->eliminar($id,$vigencia);
-			
-
 			//$this->mensajeEliminar($eliminar);
 			
 
@@ -149,32 +154,7 @@ class UnidadController extends AbstractActionController {
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
-
-
-
 	}
-	
-	/*
-	public function mensaje($insert){
-		if ($insert == true) {
-				$msj = 'REGISTRADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
-			}
-			return $msj;
-	}
-
-
-	public function mensajeEliminar($eliminar){
-		if ($eliminar == true) {
-				$msj = 'ELIMINADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
-			}
-			return $msj;
-	}
-
-	*/
 
 	public function mensaje($valorConsulta, $tipoConsulta) {
 		if ($valorConsulta == true) {

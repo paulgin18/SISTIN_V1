@@ -11,6 +11,7 @@
 							</ul>
 							<div class="clearfix"></div>
 						</div>
+						<input type="hidden" id="ficha" value="0">
 						<div class="x_content">
 							<h2 class="StepTitle"><strong>Datos Generales</strong></h2>
 							<form class="form-horizontal form-label-left">
@@ -30,21 +31,24 @@
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Unidad Organica:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtUnidadOrganica" autofocus="autofocus" name="txtUnidadOrganica" type="text" value="" style="text-transform:uppercase"  >
+										<input class="form-control "  id="txtIdUnidadOrganica"  name="txtIdUnidadOrganica" type="hidden" value="" >
+										<input type="text" id="txtUnidadOrganica" name="txtUnidadOrganica" autofocus="autofocus"  class="form-control" style="text-transform:uppercase"  placeholder="BUSCAR" value="">
+										
 									</div>
 									<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="" style="text-transform:uppercase">
+										<input class="form-control "  id="txtIdAreaServ"  name="txtIdAreaServ" type="hidden" value="" >
+										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="" placeholder="BUSCAR" style="text-transform:uppercase">
 									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Responsable Patrimonio:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" value="" type="text" style="text-transform:uppercase" >
+										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" placeholder="BUSCAR"value="" type="text" style="text-transform:uppercase" >
 									</div>
 									<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario" value="" type="text" style="text-transform:uppercase"	>
+										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario" placeholder="BUSCAR" value="" type="text" style="text-transform:uppercase"	>
 									</div>
 								</div>
 								<div class="form-group" >
@@ -79,7 +83,7 @@
 										<input type="text" id="txtFichaMaMo" name="txtFichaMaMo" class="form-control" placeholder="Buscar" value="" style="text-transform:uppercase">
 									</div>
 									<label for="" class="col-sm-2 control-label"><b>Serie:</b></label>
-									<div class="col-sm-4">
+									<div class="col-sm-3">
 										<input class="form-control" name="txtFichaSerieMaMo" id="txtFichaSerieMaMo" type="text" value="" style="text-transform:uppercase">
 										<input type="hidden" id="txtIdDisMaMo">
 									</div>
@@ -87,7 +91,6 @@
 										<label id='lblNSerieMaMo' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
 										<label  id='lblASerieMaMo'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 									</div>
-									
 								</div>
 								<div class="form-group">
 									<label for="" class="col-sm-2 control-label"><b>Cod. Inventario:</b></label>
@@ -127,7 +130,7 @@
 											</tbody>
 										</table>			
 									</div>
-									<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+									<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><center><button class="btn btn-primary " id="btnguardar"> <i class="fa fa-plus" aria-hidden="true"></i> Registrar FICHA</button></center>
 								</div>
 							</div>
 						</div>

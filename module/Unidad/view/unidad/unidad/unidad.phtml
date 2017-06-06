@@ -21,20 +21,15 @@
 							</tr>
 						</thead>
 						<tbody>
-
 							<?php foreach ($this->unidades as $unidad) { ?>
 								<tr>
 									<td><?php echo $unidad['descripcion'] ?></td>
 									<td><?= $unidad['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
-										<a class="btn btn-default"href="<?php echo $this->basePath("unidad/unidad/form/1/" . $unidad['id_uni_ejec'] . ""); ?>">Editar</a>
-
+										<a class="btn btn-default"href="<?php echo $this->basePath("unidad/unidad/form/1/" . $unidad['id_uni_org'] . ""); ?>">Editar</a>
 										<?= $unidad['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Desactivar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
-
 									 </td>
-
-
-									<td id="idCod" style="display:none;"><?= $unidad['id_uni_ejec'] ?></td>
+									<td id="idCod" style="display:none;"><?= $unidad['id_uni_org'] ?></td>
 								</tr>
 							<?php } ?>
 						</tbody>

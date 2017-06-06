@@ -74,6 +74,19 @@ class AreaController extends AbstractActionController {
 		$datos = $areas->buscar($cod);
 		return $datos;
 	}
+	
+	public function buscarAreaCmbAction() {
+		$descripcion = $this->getRequest()->getQuery('term');
+		$unidadEjecutora = 1; // MODIFICA CON SESIONES
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$area = new Area($this->dbAdapter);
+		$items = $area->buscarAreaCmb($descripcion,$unidadEjecutora);
+		$response = new JsonModel(
+				$items
+		);
+		$response->setTerminal(true);
+		return $response;
+	}
 
 	public function registrarAction() {
 		try {
