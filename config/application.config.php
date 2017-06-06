@@ -12,13 +12,12 @@ return array(
         'Modulo', 
 		'Ficha',
         'Mantenimiento',
-        'Red',
         'Tipoatencion',
         'Unidad',
+        'Red',
         'Accion',
         'Area',
-
-        'Application',
+		'Application',
         
 
 
