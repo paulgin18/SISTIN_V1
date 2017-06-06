@@ -21,35 +21,39 @@
 								<th>Acciones</th>
 							
 								<th style="display:none">c</th>
+
 							</tr>
 						</thead>
 						<tbody>
+
 					
 
 							<?php foreach ($this->areas as $area) { ?>
 								<tr>
-							
-									<td><?php echo $area['descripcion'] ?></td>
+				
+									<td><?php echo $area['descripcion'] ?> </td>
 
-									<td><?php echo $area['id_uni_ejec'] ?></td>
+									<td><?php echo $area['id_uni_ejec'] ?> </td>
 
 									<td><?= $area['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
-										<a class="btn btn-default" href="<?php echo $this->basePath("area/area/form/1/" . $area['id_area'] . ""); ?>">Editar</a>
-										
+										<a class="btn btn-default" href="<?php echo $this->basePath("area/area/form/1/".$area['id_area']."" ); ?>">Editar</a>								
 										<!--cambio-->
 
 										<?= $area['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+
 
 										<!--  hasta aqui -->
 
 									</td>
 									<td id="idCod" style="display:none;"><?= $area['id_area'] ?></td>
+								
 								</tr>
 							<?php } ?>
 						</tbody>
 						<tfoot>
 							<tr>
+								
 								<th>Descripción</th>
 								<th>Unidad Ejecutora</th>
 								<th>Vigencia</th>

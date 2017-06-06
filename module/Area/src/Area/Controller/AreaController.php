@@ -26,7 +26,6 @@ class AreaController extends AbstractActionController {
 
 	public function indexAction() {
 
-
 		//INICIO VARIABLES DE SESION
 		// $sessionConfig = new SessionConfig();
 		// $sessionConfig->setOptions(array(
@@ -51,8 +50,6 @@ class AreaController extends AbstractActionController {
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
 			if ($id == 0 ) {
-
-
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
@@ -77,18 +74,17 @@ class AreaController extends AbstractActionController {
 
 	public function registrarAction() {
 		try {
-			$txtId_uni_ejec =$this->getRequest()->getPost('txtId_Uni_Ejec');
-			
+			$txtId_uni_ejec =$this->getRequest()->getPost('txtId_uni_ejec');		
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 
 			$areas = new Area($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $areas->modificar($id,$descripcion,$id_uni_ejec);
+				$modificar = $areas->modificar($id,$descripcion,$txtId_uni_ejec);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $areas->insertar($descripcion);
+				$insert = $areas->insertar($descripcion,$txtId_uni_ejec);
 				$msj = $this->mensaje($insert, 0);
 			}
 			//$msj=$this->mensaje($insert);
