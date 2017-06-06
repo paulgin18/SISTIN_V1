@@ -16,15 +16,26 @@
                         <br>
                         <div class="form-group">
                             <label class="col-sm-2 control-label"><b>Descripción:</b></label>
-                            <div class="col-sm-7">
+                            <div class="col-sm-6">
 							    <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_uni_ejec'] :'';?>">
                                 <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['descripcion'] :'';?>">
-                                    
                             </div>
-
-                            
+							<label class="col-sm-1 control-label"><b>Numero:</b></label>
+                            <div class="col-sm-2">
+                                <input type="text" id="txtNumero" name="txtNumero" class="form-control" value="<?= $datos!=null ? $datos['numero'] :'';?>">
+                            </div>
+                        </div>
+						<br/>
+						<br/>
+						<div class="form-group">
+                            <label class="col-sm-2 control-label"><b>Jerarquia:</b></label>
+                            <div class="col-sm-6">
+							    <input type="hidden" class="" name="txtIdJerarquia" id="txtIdJerarquia"   placeholder=""  value="<?= $datos!=null ? $datos['unidad_ejecutora_id_uni_ejec'] :'';?>">
+                                <input type="text" id="txtJerarquia" name="txtJerarquia" class="form-control" placeholder="BUSCAR" value="<?= $datos!=null ? $datos['unidad_ejecutora'] :'';?>">
+                            </div>
 							
                         </div>
+						<br>
                         <hr>
                         <div class="form-group">
                             <center><div class="col-sm-9">

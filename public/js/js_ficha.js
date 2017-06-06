@@ -96,6 +96,50 @@ $("#txtMaMo").focus(function () {
 });
 
 
+$("#txtUnidadOrganica").focus(function () {
+	
+		$("#txtUnidadOrganica").autocomplete({
+			source: '../../../../unidad/unidad/buscarUnidadCmb',
+			select: function (event, ui) {
+				$('#txtIdUnidadOrganica').val(ui.item.value);
+				$(this).val(ui.item.label)
+				return false;
+			},
+			autoFocus: false,
+			open: function (event, ui) {
+				$("#txtIdUnidadOrganica").val('');
+			},
+			focus: function (event, ui) {
+				return false;
+			}
+		});
+	
+});
+
+$("#txtAreaServ").focus(function () {
+		$("#txtAreaServ").autocomplete({
+			source: '../../../../area/area/buscarAreaCmb',
+			select: function (event, ui) {
+				$('#txtIdUnidadOrganica').val(ui.item.idunidadeorg);
+				$('#txtIdAreaServ').val(ui.item.value);
+				$('#txtUnidadOrganica').val(ui.item.unidadorganica);
+				$(this).val(ui.item.label)
+				return false;
+			},
+			autoFocus: false,
+			open: function (event, ui) {
+				$("#txtIdUnidadOrganica").val('');
+				$("#txtIdAreaServ").val('');
+				$('#txtUnidadOrganica').val('');
+			},
+			focus: function (event, ui) {
+				return false;
+			}
+		});
+	
+});
+
+
 $("#txtFichaMaMo").focus(function () {
 	var id_disp = $('#txtIdEquipo').val();
 	if ($('#txtIdEquipo').val() == '') {

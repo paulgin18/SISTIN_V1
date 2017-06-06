@@ -1,9 +1,11 @@
-var registrarunidad = function (txtDescripcion,txtId) {
+var registrarunidad = function (txtDescripcion,txtId,txtNumero, txtIdJerarquia) {
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {'txtDescripcion': txtDescripcion,
 			'txtId': txtId,
+			'txtNumero':txtNumero,
+			'txtIdJerarquia':txtIdJerarquia,
 		},
 		dataType: 'json',
 		success: function (response) {
@@ -22,15 +24,35 @@ var registrarunidad = function (txtDescripcion,txtId) {
 	$.ajax(options);
 };
 
+$("#txtJerarquia").focus(function () {
+		$("#txtJerarquia").autocomplete({
+			source: '../../buscarUnidadCmb',
+			select: function (event, ui) {
+				$('#txtIdJerarquia').val(ui.item.value);
+				$(this).val(ui.item.label)
+				return false;
+			},
+			autoFocus: false,
+			open: function (event, ui) {
+				$("#txtIdJerarquia").val('');
+			},
+			focus: function (event, ui) {
+				return false;
+			}
+		});
+});
+
 $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
 	var txtDescripcion = $('#txtDescripcion').val();
+	var txtNumero = $('#txtNumero').val();
+	var txtIdJerarquia = $('#txtIdJerarquia').val();
 	var txtId = $('#txtId').val();
 	
 	
 
-	registrarunidad(txtDescripcion, txtId);
+	registrarunidad(txtDescripcion, txtId, txtNumero, txtIdJerarquia);
 	//this.disabled=false;
 
 });
