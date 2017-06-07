@@ -1,16 +1,16 @@
 
-var registrar = function (txtDescripcion,txtId_uni_ejec,txtId) {
+var registrar = function (txtId_Area,txtDescripcion,txtId_Uni_Ejec,txtId) {
 	
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {
+			'txtId_Area':txtId_Area,
 			'txtDescripcion': txtDescripcion,
-			'txtId_uni_ejec':txtId_uni_ejec,
+			'txtId_Uni_Ejec':txtId_Uni_Ejec,
 			//'chkVigencia': chkVigencia,
 			'txtId': txtId,
 		},
-		
 		dataType: 'json',
 		success: function (response) {
 			var elemento = response.msj.split(":");
@@ -23,7 +23,6 @@ var registrar = function (txtDescripcion,txtId_uni_ejec,txtId) {
 			}
 		}
 	};
-
 	$.ajax(options);
 };
 
@@ -37,12 +36,14 @@ $(document).on('click', '#btnguardar', function (event) {
 
 	var txtDescripcion = $('#txtDescripcion').val();
 
-	var txtId_uni_ejec =$('#txtId_uni_ejec').val();
+	var txId_Uni_Ejec =$('#txtId_uni_ejec').val();
 
+	alert('descripcion '+txtDescripcion);
+	alert('id area '+txtId);
+	alert('id uni ejecutora '+txId_Uni_Ejec);
 
-	registrar(txtDescripcion,txtId_uni_ejec, txtId);
+	registrar(txtDescripcion,txtId_Uni_Ejec, txtId);
 	//this.disabled=false;
-	
 
 });
 

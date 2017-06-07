@@ -74,8 +74,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-  
-  
+            //'Estado\Controller\Estadolistado' => 'Estado\Controller\EstadolistadoController',
             'Rangoip\Controller\Rangoip' => 'Rangoip\Controller\RangoipController'
         ),
     ),
