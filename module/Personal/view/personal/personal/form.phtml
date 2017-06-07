@@ -34,14 +34,14 @@
 									<label class="col-sm-1 control-label"><b>DNI:</b></label>
 										
 										<div class="col-sm-4">
-										<input type="text" id="txtDNI" name="txtDNI" class="form-control" required=""  value="<?= $datos != null ? $datos['dni'] : ''; ?>">
+										<input type="text" maxlength="8" id="txtDNI" name="txtDNI" class="form-control" required=""  value="<?= $datos != null ? $datos['dni'] : ''; ?>">
 										</div>
 									<label class="col-sm-1 control-label"><b>Area:</b></label>	
 										<div class="col-sm-4">
 										
-										<input class="form-control" name="txtArea" id="txtArea" placeholder="Buscar..." style="text-transform:uppercase" type="text">
+										<input class="form-control" name="txtArea" id="txtArea" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['descripcion']?>">
 										
-										<input type="hidden" id="id_area">	
+										<input type="hidden" id="<?= $datos['id_area']?>">	
 										</div>
 
 										

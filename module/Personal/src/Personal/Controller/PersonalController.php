@@ -20,7 +20,6 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
 use Personal\Model\Entity\Personal;
-use Area\Model\Entity\Area;
 use Zend\MVC\Exception;
 
 class PersonalController extends AbstractActionController {
@@ -79,16 +78,20 @@ class PersonalController extends AbstractActionController {
 		$error = 0;
 		$msj = "";
 		try {
-			$vigencia = $this->getRequest()->getPost('chkVigencia');
-			$descripcion = $this->getRequest()->getPost('txtDescripcion');
-			$id = $this->getRequest()->getPost('txtId');
+			$id = $this->getRequest()->getPost('txtId');			
+			$nombre = $this->getRequest()->getPost('txtNombre');
+			$apellidos = $this->getRequest()->getPost('txtApellidos');
+			$dni = $this->getRequest()->getPost('txtDNI');
+			$id_area = $this->getRequest()->getPost('id_area');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$marcas = new Marca($this->dbAdapter);
+			$personal = new Personal($this->dbAdapter);
+
+
 			if ($id != '') {
-				$modificar= $marcas->modificar($id, $descripcion);
+				$modificar= $personal->modificar($id, $descripcion);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $marcas->insertar($descripcion);
+				$insert = $personal->insertar($nombre,$apellidos,$dni,$id_area);
 				$msj = $this->mensaje($insert, 0);
 			}
 		} catch (\Exception $e) {

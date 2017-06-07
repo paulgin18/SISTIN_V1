@@ -1,15 +1,18 @@
-var registrar = function (txtDescripcion, txtId) {
+var registrar = function (txtId,txtNombre, txtApellidos,txtDNI,id_area) {
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
-		data: {'txtDescripcion': txtDescripcion,
-			'txtId': txtId,
+		data: {'txtId':txtId,
+			'txtNombre': txtNombre,
+			'txtApellidos': txtApellidos,
+			'txtDNI':txtDNI,
+			'id_area':id_area,
 		},
 		dataType: 'json',
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../marca";
+						window.location.href = "../../personal";
 					})
 					: bootbox.alert(response.msj);
 			$("#btnguardar").prop('disabled', false);
@@ -19,6 +22,7 @@ var registrar = function (txtDescripcion, txtId) {
 	$.ajax(options);
 };
 
+/*
 $(document).submit(function (event) {
 	var val = validar();
 	if (val == true) {
@@ -31,21 +35,25 @@ $(document).submit(function (event) {
 		this.disabled = false;
 	}
 });
+*/
 
+$(document).on('click', '#btnguardar', function (event) {
+	this.disabled = true;
+	event.preventDefault();
+	var txtId = $('#txtId').val(); 
+	var txtNombre = $('#txtNombre').val();
+	var txtApellidos = $('#txtApellidos').val();
+	var txtDNI = $('#txtDNI').val();
+	var id_area = $('#id_area').val();
 
-$(document).ready(function () {
-	$('input').focusout(function () {
-		this.value = this.value.toLocaleUpperCase();
-	});
-	$('#txtDescripcion').valcn(' abcdefghijklmnñopqrstuvwxyzáéiou');
-	$(".descripcion").keyup(function () {
-		if ($(this).val() != "") {
-			$(".error").fadeOut();
-			return false;
-		}
-	});
-  
+	
+	
+	registrar(txtId,txtNombre, txtApellidos,txtDNI,id_area);
+	//this.disabled=false;
+
 });
+
+
 function validar() {
 	    $(".error").remove();
 	        if ($(".descripcion").val() == "") {
@@ -54,6 +62,7 @@ function validar() {
 	        }
 	return true;
 }
+
 
 $("#txtArea").focus(function (){
 	$("#txtArea").autocomplete({
@@ -83,7 +92,7 @@ var eliminar = function ($cod, $vigencia) {
 		dataType: 'json',
 		success: function (response) {
 			(response.error == 0) ? bootbox.alert(response.msj, function () {
-				window.location.href = "marca";
+				window.location.href = "personal";
 			}) :
 					bootbox.alert(response.msj);
 		}

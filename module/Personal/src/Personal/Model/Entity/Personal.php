@@ -17,9 +17,9 @@ class Personal extends TableGateway {
 		return parent::__construct('Personal', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($descripcion) {
+	public function insertar($nombre,$apellidos,$dni,$id_area) {
 		$insert = $this->dbAdapter->
-				createStatement("INSERT INTO personal (descripcion) VALUES (upper(trim('$descripcion')))");
+				createStatement("INSERT INTO personal (nombre,apellidos,dni,id_area) VALUES (upper(trim('$nombre')),upper(trim('$apellidos')),$dni,$id_area)");
 		$datos = $insert->execute();
 		return $datos;
 	}
@@ -38,8 +38,16 @@ class Personal extends TableGateway {
 		return $datos;
 	}
 
+	/*
 	public function buscar($id){
         $consulta=$this->dbAdapter->query("SELECT id_personal, nombre, apellidos, dni, id_area, vigencia FROM personal where id_personal=$id",Adapter::QUERY_MODE_EXECUTE);
+        $datos=$consulta->toArray();
+        return $datos[0];
+    }
+    */
+
+    public function buscar($id){
+        $consulta=$this->dbAdapter->query("SELECT p.id_personal, p.nombre, p.apellidos, p.dni, p.id_area, p.vigencia, a.descripcion FROM personal p inner join area a on p.id_area=a.id_area where p.id_personal=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }
