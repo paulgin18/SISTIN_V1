@@ -377,6 +377,7 @@ $("#txtDispositivo").focus(function () {
 function especificos(dato) {
 	
 	if (dato == '2') {
+		$("#datosDetalleFicha").show()
 		$("#pcCompatible").show();
 		$("#txtMarcaPC").val("");
 		$("#txtIdMPc").val("");
@@ -388,8 +389,10 @@ function especificos(dato) {
 		$(".wizard_steps").show();
 		$(".actionBar").show();
 		$(".stepContainer").show();
+		
 		$("#ficha").val("2");
 	} else if (dato == '1') {
+		$("#datosDetalleFicha").show()
 		$('#chkCompatible').prop('checked', false);
 		$("#datosPC").show();
 		$("#pcCompatible").hide();
@@ -403,8 +406,10 @@ function especificos(dato) {
 		$(".stepContainer").show();
 		$(".wizard_steps").show();
 		$(".actionBar").show();
+		
 		$("#ficha").val("1");
 	}else{
+		$("#datosDetalleFicha").show();
 		$("#step-1").hide();
 		$("#stepEspecifico").hide();
 		$(".wizard_steps").hide();
@@ -516,6 +521,12 @@ $(document).on('click', '#btnModelo', function (event) {
 	$('#id_modelo').val('');
 	$('#bModelo').val('');
 });
+$(document).on('click', '#btnAnadirDAd', function (event) {
+	$("#datosAdquisicion").show();
+	$("#txtPecosa").focus();
+	
+});
+
 $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 	event.preventDefault();
 	var id = $('#txtFichaIdDis').val();
@@ -534,7 +545,7 @@ $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 		insertFichaDisp(id,modelo,serie,inventario,chk);
 		
 	}
-	$("#txtFichaMaMo	").focus();
+	$("#txtFichaMaMo").focus();
 	$('input:checkbox[id=chkOpFichaDisp]:checked').val()
 	$('#txtFichaIdDis').val('');
 	$('#lblASerieMaMo').hide();

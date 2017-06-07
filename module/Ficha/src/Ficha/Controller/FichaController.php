@@ -23,6 +23,7 @@ use Ficha\Model\Entity\Ficha;
 use Marca\Model\Entity\Marca;
 use Anio\Model\Entity\Anio;
 use Zend\MVC\Exception;
+use Zend\File\Transfer\Adapter\Http;
 
 class FichaController extends AbstractActionController {
 
@@ -61,41 +62,40 @@ class FichaController extends AbstractActionController {
 //	,txtIdEquipo, txtFechaAdquisicion,,
 //		txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,, ,
 //	
-					
-			$numero =$this->getRequest()->getPost('txtNroFicha');
+
+			$numero = $this->getRequest()->getPost('txtNroFicha');
 			$fecha = $this->getRequest()->getPost('txtFecha');
 			$nompc = $this->getRequest()->getPost('txtNomPc');
-			$observacion= 'q';
-			$id_user= 1;
-			$id_respfuncionario= $this->getRequest()->getPost('txtRespFuncionario');
-			$id_resppatrimonio= $this->getRequest()->getPost('txtRespPatrimonio');
-			$fichapost= $this->getRequest()->getPost('ficha');
-			$operativo=$this->getRequest()->getPost('chkOpOtros');
-			$garantia=$this->getRequest()->getPost('chkGarantia');
-			$anioGarantia=$this->getRequest()->getPost('txtAnioGarantia');
-			$compatible=$this->getRequest()->getPost('chkCompatible');
-			
-			$tblMicroprocesador=$this->getRequest()->getPost('tblMicroprocesador');
-			$tblDiscoDuro =$this->getRequest()->getPost('tblDiscoDuro');
-			$tblMainboard=$this->getRequest()->getPost('tblMainboard');
-			$tblRed=$this->getRequest()->getPost('tblRed');
-			$tblRam=$this->getRequest()->getPost('tblRam');
-			$tblSoft=$this->getRequest()->getPost('tblSoftware');
-			$tblOtro=$this->getRequest()->getPost('tblOtrosComponentes');
-			$tblUser=$this->getRequest()->getPost('tblUser');
-			$tblFichaDisp=$this->getRequest()->getPost('tblFichaDisp');
+			$observacion = 'q';
+			$id_user = 1;
+			$id_respfuncionario = $this->getRequest()->getPost('txtRespFuncionario');
+			$id_resppatrimonio = $this->getRequest()->getPost('txtRespPatrimonio');
+			$fichapost = $this->getRequest()->getPost('ficha');
+			$operativo = $this->getRequest()->getPost('chkOpOtros');
+			$garantia = $this->getRequest()->getPost('chkGarantia');
+			$anioGarantia = $this->getRequest()->getPost('txtAnioGarantia');
+			$compatible = $this->getRequest()->getPost('chkCompatible');
+
+			$tblMicroprocesador = $this->getRequest()->getPost('tblMicroprocesador');
+			$tblDiscoDuro = $this->getRequest()->getPost('tblDiscoDuro');
+			$tblMainboard = $this->getRequest()->getPost('tblMainboard');
+			$tblRed = $this->getRequest()->getPost('tblRed');
+			$tblRam = $this->getRequest()->getPost('tblRam');
+			$tblSoft = $this->getRequest()->getPost('tblSoftware');
+			$tblOtro = $this->getRequest()->getPost('tblOtrosComponentes');
+			$tblUser = $this->getRequest()->getPost('tblUser');
+			$tblFichaDisp = $this->getRequest()->getPost('tblFichaDisp');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
-			//if ($id != '') {
+//if ($id != '') {
 //				$modificar = $ficha->modificar($descripcion, $numero, $id);
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
-				$insertar = $ficha->insertar($fichapost,$numero, $fecha,$nompc,$observacion,$id_user, $id_respfuncionario,$id_resppatrimonio, $tblMicroprocesador,
-						$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro,$tblUser,$tblFichaDisp);
-				$msj = $this->mensaje($insertar, 0);
+			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp);
+			$msj = $this->mensaje($insertar, 0);
 //			}
 		} catch (\Exception $e) {
-			
+
 			$error = 1;
 			$codError = explode("(", $e->getMessage());
 			$codError = explode("-", $codError[1]);
@@ -130,6 +130,50 @@ class FichaController extends AbstractActionController {
 		return $viewModel;
 	}
 
+	public function subirArchivoAction() {
+$error=0;
+$msj="";
+		$adapter = new Http();
+		$adapter->addValidator('Count', false, array('min' => 0, 'max' => 1))
+				->addValidator('Size', false, array('max' => '5242880'))
+				->addValidator('Extension', false, array('extension' => 'rar', 'case' => true));
+		try {
+			$adapter->setDestination("c:\\files");
+			$files = $adapter->getFileInfo();
+			foreach ($files as $fieldname => $fileinfo) {
+				if (($adapter->isUploaded($fileinfo[name])) && ($adapter->isValid($fileinfo['name']))) {
+					$adapter->receive($fileinfo[name]);
+				}
+			}
+		
+			$response = new JsonModel(array('msj' => $adapter->getMessages() , 'error' => '0'));
+
+		
+		} catch (\Exception $ex) {
+		$error=$ex->getMessage();
+		}
+		$response->setTerminal(true);
+		return $response;
+	}
+
+	function validateAllImg($upload) {
+		$invalid = Array();
+		foreach ($upload->getFileInfo() as $file => $info) {
+			$upload->addValidator('Size', false, 256000)
+					->addValidator('Extension', false, array('jpg', 'jpeg', 'gif', 'png'));
+			if (!$upload->isValid($file))
+				$invalid[] = $file;
+		}
+		return $invalid;
+	}
+
+	function uploadAllImg($upload) {
+		foreach ($upload->getFileInfo() as $file => $info) {
+			$upload->addFilter('Rename', array('target' => APPLICATION_PATH . '/public/img/uploads/page02/' . $info['name'], 'overwrite' => true));
+			$upload->receive($file);
+		}
+	}
+
 	public function eliminarAction() {
 		$error = 0;
 		$tipoConsulta = 0;
@@ -149,7 +193,7 @@ class FichaController extends AbstractActionController {
 		if ($valorConsulta == true) {
 			switch ($tipoConsulta) {
 				case 0:
-					$msj = "REGISTRADO CORRECTAMENTE".$valorConsulta;
+					$msj = "REGISTRADO CORRECTAMENTE" . $valorConsulta;
 					break;
 				case 1:
 					$msj = "MODIFICADO CORRECTAMENTE";
@@ -162,7 +206,7 @@ class FichaController extends AbstractActionController {
 					break;
 			}
 		} else {
-			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO".$valorConsulta."a";
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO" . $valorConsulta . "a";
 		}
 		return $msj;
 	}
@@ -175,17 +219,15 @@ class FichaController extends AbstractActionController {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
 			$datos = $ficha->buscarSerie($serie);
-			
 		} catch (\Exception $e) {
 			$error = 1;
 			$codError = explode("(", $e->getMessage());
 			$codError = explode("-", $codError[1]);
-			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			$msj = "<h3 style = 'color:#ca2727'> ALERTA!</h3><hr>";
 			$error = explode("DETAIL:", $codError[2]);
 			$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
-			
 		}
-		
+
 		$response = new JsonModel(array('msj' => $datos['count'], 'error' => $error));
 		$response->setTerminal(true);
 		return $response;

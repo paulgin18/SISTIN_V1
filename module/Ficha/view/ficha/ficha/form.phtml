@@ -1,4 +1,10 @@
 <?php if ($mantenimiento != null) { ?>
+	<style>
+		.progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+		.bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
+		.percent { position:absolute; display:inline-block; top:3px; left:48%; }
+	</style>
+
 	<div class="right_col" role="main">
 		<div class="">
 			<div class="row">
@@ -33,7 +39,6 @@
 									<div class="col-sm-4">
 										<input class="form-control "  id="txtIdUnidadOrganica"  name="txtIdUnidadOrganica" type="hidden" value="" >
 										<input type="text" id="txtUnidadOrganica" name="txtUnidadOrganica" autofocus="autofocus"  class="form-control" style="text-transform:uppercase"  placeholder="BUSCAR" value="">
-										
 									</div>
 									<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
 									<div class="col-sm-4">
@@ -57,83 +62,136 @@
 										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="" type="hidden" >
 										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo"  value=""style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
 									</div>
+
+									<a class="btn btn-alert" id="btnAnadirDAd" class="col-sm-4"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir Datos de Adquisicion</a>
+
 								</div>
 							</form><br/><hr/>
 						</div>
 					</div>
-					<div class="x_panel">
+					<div id="datosAdquisicion" class="x_panel" style="display:none" >
 						<div class="x_title">
-							<h2><strong>DETALLE FICHA TECNICA</strong><small></small></h2>
+							<h2><strong>DATOS DE ADQUISICIÓN</strong><small></small></h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 							</ul>
 							<div class="clearfix"></div>
 						</div>
-						
+						<input type="hidden" id="ficha" value="0">
+						<div class="x_content" >
+							<form class="form-horizontal form-label-left">
+								<div class="form-group" >
+									<label class="col-sm-1 control-label"><b>Pecosa:</b></label>
+									<div class="col-sm-2">
+										<input type='text' class="form-control" id="txtPecosa" name="txtPecosa" placeholder="Numero" value=''>
+									</div>
+									<label class="col-sm-1 control-label"><b>O.C.</b></label>
+									<div class="col-sm-2">
+										<input class="form-control "  id="txtOrdenC" name="txtOrdenC" placeholder="Numero"  value="" type="text" >
+									</div>
+									<label class="col-sm-1 control-label"><b>O.Serv.</b></label>
+									<div class="col-sm-2">
+										<input class="form-control "  id="txtOrdenS" name="txtOrdenS" placeholder="Numero"  value="" type="text" >
+									</div>
+									<label class="col-sm-1 control-label"><b>Factura.</b></label>
+									<div class="col-sm-2">
+										<input class="form-control "  id="txtFactura" name="txtFactura" placeholder="Numero"  value="" type="text" >
+									</div>
+								</div>
+							</form>
+							<form  class="form-horizontal form-label-left" action="../../subirArchivo" id="frmSubir" name="frmSubir" method="post" enctype="multipart/form-data">
+								<br/>
+								<label class="col-sm-1 control-label">Archivo</label>	
+								<div class="col-sm-4">
+									
+									 <input type="hidden" name="MAX_FILE_SIZE" value="1000000000000000" />
+        <input name="uploadedfile" type="file" />
+    <br />
+								</div>
+								<div class="col-sm-2"><input type="submit" value="Subir"></div>
+								<div class="col-sm-5">
+									<div class="progress">
+										<div class="bar"></div >
+										<div class="percent">0%</div >
+									</div>
+								</div>
+							</form>
+							<br/><hr/>
+						</div>
+					</div>
+					<div class="x_panel">
+						<div class="x_title">
+							<h2><strong>DETALLE FICHA TÉCNICA</strong><small></small></h2>
+							<ul class="nav navbar-right panel_toolbox">
+								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+
 						<div class="x_content">
 							<div id="divComponentes" style="display:none">
-							
-							<div class="form-horizontal form-label-left">
-								<div class="form-group">
+
+								<div class="form-horizontal form-label-left">
+									<div class="form-group">
 										<input type="hidden" id="txtFichaIdDis">	
 										<input type="hidden" id="disp">
 										<input type="hidden" id="mar">
-									<label class="col-sm-2 control-label"><b>Marca / Modelo:</b></label>
-									<div class="col-sm-4">
-										<input type="text" id="txtFichaMaMo" name="txtFichaMaMo" class="form-control" placeholder="Buscar" value="" style="text-transform:uppercase">
+										<label class="col-sm-2 control-label"><b>Marca / Modelo:</b></label>
+										<div class="col-sm-4">
+											<input type="text" id="txtFichaMaMo" name="txtFichaMaMo" class="form-control" placeholder="Buscar" value="" style="text-transform:uppercase">
+										</div>
+										<label for="" class="col-sm-2 control-label"><b>Serie:</b></label>
+										<div class="col-sm-3">
+											<input class="form-control" name="txtFichaSerieMaMo" id="txtFichaSerieMaMo" type="text" value="" style="text-transform:uppercase">
+											<input type="hidden" id="txtIdDisMaMo">
+										</div>
+										<div class="col-sm-1">
+											<label id='lblNSerieMaMo' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+											<label  id='lblASerieMaMo'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
+										</div>
 									</div>
-									<label for="" class="col-sm-2 control-label"><b>Serie:</b></label>
-									<div class="col-sm-3">
-										<input class="form-control" name="txtFichaSerieMaMo" id="txtFichaSerieMaMo" type="text" value="" style="text-transform:uppercase">
-										<input type="hidden" id="txtIdDisMaMo">
+									<div class="form-group">
+										<label for="" class="col-sm-2 control-label"><b>Cod. Inventario:</b></label>
+										<div class="col-sm-4">
+											<input class="form-control" name="txtFichaCodInventario" id="txtFichaCodInventario" type="text" value="" style="text-transform:uppercase">
+											<input type="hidden" id="txtIdDisMaMo">
+										</div>
+										<label class="col-sm-2 control-label" for="chkOpFichaDisp" ><b>Operativo:</b></label>
+										<div class="col-sm-1">
+											<?=
+											$datos != null ? $datos['vigencia'] == true ?
+															'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1" checked>' :
+															'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1">' :
+													'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1"  checked><br>';
+											?>
+										</div>
+										<div class="col-sm-2">
+											<button class="btn btn-success " id="btnAnadirFichaDisp"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+										</div>
 									</div>
-									<div class="col-sm-1">
-										<label id='lblNSerieMaMo' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
-										<label  id='lblASerieMaMo'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
+									<div class="form-group">
+										<div class="col-md-12">
+											<table id="tabla_ficha_disp" class="table table-striped table-bordered">
+												<thead>
+													<tr>
+														<th width="5%">#</th>
+														<th hidden></th>
+														<th width="30%">Marca - Modelo</th>
+														<th hidden></th>
+														<th width="25%">Serie</th>
+														<th width="25%">Inventario</th>
+														<th width="8%">Operativo</th>
+														<th width="30%">Accion</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>			
+										</div>
+										<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><center><button class="btn btn-primary " id="btnguardar"> <i class="fa fa-plus" aria-hidden="true"></i> Registrar FICHA</button></center>
 									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="col-sm-2 control-label"><b>Cod. Inventario:</b></label>
-									<div class="col-sm-4">
-										<input class="form-control" name="txtFichaCodInventario" id="txtFichaCodInventario" type="text" value="" style="text-transform:uppercase">
-										<input type="hidden" id="txtIdDisMaMo">
-									</div>
-									<label class="col-sm-2 control-label" for="chkOpFichaDisp" ><b>Operativo:</b></label>
-												<div class="col-sm-1">
-													<?=
-													$datos != null ? $datos['vigencia'] == true ?
-																	'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1" checked>' :
-																	'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1">' :
-															'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1"  checked><br>';
-													?>
-												</div>
-									<div class="col-sm-2">
-										<button class="btn btn-success " id="btnAnadirFichaDisp"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="col-md-12">
-										<table id="tabla_ficha_disp" class="table table-striped table-bordered">
-											<thead>
-												<tr>
-													<th width="5%">#</th>
-													<th hidden></th>
-													<th width="30%">Marca - Modelo</th>
-													<th hidden></th>
-													<th width="25%">Serie</th>
-													<th width="25%">Inventario</th>
-													<th width="8%">Operativo</th>
-													<th width="30%">Accion</th>
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>			
-									</div>
-									<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><center><button class="btn btn-primary " id="btnguardar"> <i class="fa fa-plus" aria-hidden="true"></i> Registrar FICHA</button></center>
 								</div>
 							</div>
-						</div>
 							<div id="wizard" class="form_wizard wizard_horizontal" id="tab" >
 								<ul class="wizard_steps" style="display: none" >
 									<li>
@@ -614,6 +672,7 @@
 		->prependFile($this->basePath('js/js_ficha.js'))
 		->prependFile($this->basePath('js/jquery-ui.js'))
 		->prependFile($this->basePath('js/bootbox.js'))
+		->prependFile($this->basePath('js/jquery.form.js'))
 ?>
 <script>
 
@@ -622,3 +681,35 @@
 		$("#step-1").hide();
 	});
 </script>
+<script>
+	(function ()
+	{
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+
+		$('#frmSubir').ajaxForm({
+			beforeSend: function () {
+				status.empty();
+				var percentVal = '0%';
+				bar.width(percentVal)
+				percent.html(percentVal);
+			},
+			uploadProgress: function (event, position, total, percentComplete) {
+				var percentVal = percentComplete + '%';
+				bar.width(percentVal)
+				percent.html(percentVal);
+				//console.log(percentVal, position, total);
+			},
+			success: function () {
+				var percentVal = '100%';
+				bar.width(percentVal)
+				percent.html(percentVal);
+			},
+			complete: function (xhr) {
+				status.html(xhr.responseText);
+			}
+		});
+	})();
+</script>
+
