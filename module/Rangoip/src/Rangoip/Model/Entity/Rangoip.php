@@ -1,6 +1,6 @@
 <?php
 
-namespace Estado\Model\Entity;
+namespace Rangoip\Model\Entity;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
@@ -8,28 +8,28 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
 use Zend\Db\ResultSet\ResultSet;
 
-class Estado extends TableGateway {
+class Rangoip extends TableGateway {
 
 	private $dbAdapter;
 
 	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null) {
 		$this->dbAdapter = $adapter;
-		return parent::__construct('Estado', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
+		return parent::__construct('Rangoip', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($numero,$descripcion) {
+	public function insertar($rangoinicial,$rangofinal,$id_area) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO estado (numero,descripcion) "
-						. "VALUES ($numero,'$descripcion')");
+				"INSERT INTO rango_ip (rango_inicial,rango_final,id_area) "
+						. "VALUES ('$rangoinicial','$rangofinal',$id_area)");
 		$datos = $insert->execute();
 		return $datos;
 	}
-	public function modificar($id, $descripcion,$numero) {
+	public function modificar($id, $rangoinicial,$rangofinal,$id_area) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update estado set descripcion=upper(trim('$descripcion')),numero=$numero"
-						. "where id_estado=$id");
+				"update rango_ip set rango_inicial=trim('$rangoinicial'),rango_final=trim('$rango_final'),id_area=trim($id_area)"
+						. "where id_rango=$id");
 		$datos = $update->execute();
 		return $update;
 	}
@@ -41,19 +41,19 @@ class Estado extends TableGateway {
 		//$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
 
-		$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_rango,rango_inicial,rango_final, vigencia FROM rango_ip order by rango_inicial asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado where id_estado=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT r.id_rango, r.rango_inicial, r.rango_final, a.descripcion FROM rango_ip r inner join area a on r.id_area=a.id_area where r.id_rango=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }
-	  public function buscarEstado($descripcion){
+	  public function buscarRango($rangoinicial){
         $consulta=$this->dbAdapter->query(
-		"SELECT id_estado as value,numero as cantidad, descripcion as label, vigencia FROM estado where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+		"SELECT id_rango as value,rango_inicial as rangoinicial, rango_final as rangofinal, vigencia FROM rango_ip where rango_inicial like '%$rangoinicial%'",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }
@@ -71,19 +71,20 @@ public function eliminar($id) {
    
 	public function eliminar($id,$vigencia) {
 		$delete = $this->dbAdapter->
-				createStatement("UPDATE estado set vigencia=$vigencia where id_estado=$id");
+				createStatement("UPDATE rango_ip set vigencia=$vigencia where id_rango=$id");
 		$datos = $delete->execute();
 		return $datos;
 	}
 	
 	//MARCA MODELO ??
-
+	/*
 	public function buscarEstadoModelo($descripcion){
         $consulta=$this->dbAdapter->query(
 				"SELECT id_estado as value,numero as cantidad, descripcion as label, vigencia FROM estado where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }
+    */
 }
 
 

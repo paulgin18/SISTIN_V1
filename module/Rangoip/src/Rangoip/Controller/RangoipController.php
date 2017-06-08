@@ -77,17 +77,18 @@ class RangoipController extends AbstractActionController {
 
 	public function registrarAction() {
 		try {
-			$numero =$this->getRequest()->getPost('txtNumero');
-			
-			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
+			$rangoinicial =$this->getRequest()->getPost('txtRangoInicial');
+			$rangofinal = $this->getRequest()->getPost('txtRangoFinal');
+			$id_area = $this->getRequest()->getPost('id_area');
+
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$rangoips = new Rangoip($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $rangoips->modificar($id,$descripcion,$numero);
+				$modificar = $rangoips->modificar($id,$rangoinicial,$rangofinal,$id_area);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $rangoips->insertar($numero,$descripcion);
+				$insert = $rangoips->insertar($rangoinicial,$rangofinal,$id_area);
 				$msj = $this->mensaje($insert, 0);
 			}
 			//$msj=$this->mensaje($insert);

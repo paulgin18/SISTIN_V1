@@ -1,74 +1,81 @@
-<?php if($mantenimiento!=null ){?>
-<div class="right_col" role="main" style="min-height: 771px;">
-    <div class="">
-        <div class="clearfix"></div>
-        <div class="row">
-            <div c="" lass="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h2><?php echo $this->mantenimiento ?> Estado<small></small></h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        </ul>
-                        <div class="clearfix">
-                            
+<?php if ($mantenimiento != null) { ?>
+    <div class="right_col" role="main" style="min-height: 771px;">
+        <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+                <div c="" lass="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?php echo $this->mantenimiento ?> Rango IPs<small></small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                            </ul>
+                            <div class="clearfix"></div>
                         </div>
-                    </div>
-                    <div class="x_content">
-                        <br>
+                        <div class="x_content">
+                            <form class="form-horizontal form-label-left" id="formRegistro"  action="javascript:void(0)"  >
+                                <br>
+                                <div class="form-group ">
+                                    
+                                    <div class="form-group">
+                                    <label class="col-sm-1 control-label"><b>Rango Inicial:</b></label>
+                                      <div class="col-sm-4">
+                                        <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos != null ? $datos['id_rango'] : ''; ?>">
 
-                        <div class="form-group">
-                                            <label class="col-sm-1 control-label"><b>Número:</b></label>
-                                            <div class="col-sm-2">
-                                                 <input type="hidden" class="" name="txtId" id="txtId"  placeholder="" value="<?=$datos!=null ? $datos ['id_estado'] :'';?>">
-                        <input type="text" id="txtNumero" name="txtNumero" class="form-control" value="<?= $datos !=null ? $datos ['numero'] :'';?>">
-                                            </div>
-                                            <label class="col-sm-1 control-label"><b>Descripción</b></label>
-                                            <div class="col-sm-4">
-                                                <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_estado'] :'';?>">
+                                        <input type="text" id="txtRangoInicial" name="txtRangoInicial" class="form-control" required=""  autofocus="autofocus" value="<?= $datos != null ? $datos['rango_inicial'] : ''; ?>">
+                                    </div>
+                                        <label class="col-sm-1 control-label"><b>Rango Final:</b></label>
+                                          <div class="col-sm-4">
+                                        <input type="text" id="txtRangoFinal" name="txtRangoFinal" class="form-control" required="" value="<?= $datos != null ? $datos['rango_final'] : ''; ?>">
+                                        </div>
+                                    </div>
 
-                                <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['descripcion'] :'';?>">
-                                <input type="hidden" id="idAnio">
-                                            </div>
-                        </div>
-                     
-                      <label class="col-sm-2 control-label"><b>Vigencia:</b></label>
-                            <div class="col-sm-1">
-                                <?= $datos!=null 
-                                    ? $datos['vigencia']==true?'<input type="checkbox" name="chkVigencia" value="1" checked>': 
-                                  '<input type="checkbox" name="chkVigencia" value="1">' :'<input type="checkbox" name="chkVigencia" value="1" checked><br>';?>
-                            </div>
-						 
-                        </div>
-                        <hr>
-                        <div class="form-group">
-                            <center><div class="col-sm-9">
-                                <button type="submit" id="btnguardar" class="btn btn-primary">
-                                <?php echo $this->textBoton?></button>
-                                </div></center>
+                                    <div class="form_group">
+                                    <label class="col-sm-1 control-label"><b>Area:</b></label>
+                                        
+                                        <div class="col-sm-4">
+                                        <input class="form-control" name="txtArea" id="txtArea" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['descripcion']?>">
+                                        
+                                        <input type="hidden" id="<?= $datos['id_area']?>">  
+                                        </div>
+                                  
+                                        
+                                        </div>
+
+                                    </div>
+                
+
+                                </div>
+                                <br>
+                                <hr>
+                                <div class="form-group">
+                                    <center><div class="col-sm-9">
+                                            <button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton ?></button>
+                                        </div></center>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<?php }?>
-    <script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
-    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
-	
+<?php } ?>
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
 
 <?=
-		$this->inlineScript()
-		->prependFile($this->basePath('js/js_estado.js'))
-					->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
-		->prependFile($this->basePath('js/jquery-ui.js'))
-		->prependFile($this->basePath('js/bootbox.js'))
+        $this->inlineScript()
+        ->prependFile($this->basePath('js/js_rangoip.js'))
+        ->prependFile($this->basePath('js/js_buscar.js'))
+        ->prependFile($this->basePath() . '/assets/js/core.min.js')
 ?>
+
