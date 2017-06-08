@@ -18,6 +18,7 @@ return array(
         'Accion',
         'Area',
 		'Personal',
+        'Rangoip',
         'Application',
 
         
