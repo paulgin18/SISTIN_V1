@@ -88,7 +88,7 @@ class PersonalController extends AbstractActionController {
 
 
 			if ($id != '') {
-				$modificar= $personal->modificar($id, $descripcion);
+				$modificar= $personal->modificar($id, $nombre,$apellidos,$dni,$id_area);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $personal->insertar($nombre,$apellidos,$dni,$id_area);

@@ -23,11 +23,11 @@ class Personal extends TableGateway {
 		$datos = $insert->execute();
 		return $datos;
 	}
-	public function modificar($id, $descripcion) {
+	public function modificar($id, $nombre,$apellidos,$dni,$id_area) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update personal set descripcion=upper(trim('$descripcion'))"
-						. "where id_marca=$id");
+				"update personal set nombre=upper(trim('$nombre')),apellidos=upper(trim('$apellidos')), dni=$dni, id_area=$id_area"
+						. "where id_personal=$id");
 		$datos = $update->execute();
 		return $datos;
 	}
