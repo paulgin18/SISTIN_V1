@@ -1,8 +1,8 @@
 <?php if ($mantenimiento != null) { ?>
 	<style>
-		.progress { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
+		.progressBar { position:relative; width:400px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
 		.bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
-		.percent { position:absolute; display:inline-block; top:3px; left:48%; }
+		.percent { position:absolute; display:inline-block; top:-43px; left:48%; }
 	</style>
 
 	<div class="right_col" role="main">
@@ -71,6 +71,7 @@
 					</div>
 					<div id="datosAdquisicion" class="x_panel" style="display:none" >
 						<div class="x_title">
+							
 							<h2><strong>DATOS DE ADQUISICIÓN</strong><small></small></h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -110,9 +111,9 @@
 								</div>
 								<div class="col-sm-2"><input type="submit" value="Subir"></div>
 								<div class="col-sm-5">
-									<div class="progress">
+									<div class="progressBar">
 										<div class="bar"></div >
-										<div class="percent">0%</div >
+										<div class="percent">0</div >
 									</div>
 								</div>
 							</form>

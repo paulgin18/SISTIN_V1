@@ -187,7 +187,7 @@ class Ficha extends TableGateway {
 	public function lista() {
 		$consulta = $this->dbAdapter->query(
 				"SELECT id_ficha_tecnica, numero, fecha, nompc, observacion, fecharegistro, 
-       id_user, id_anio, id_respfuncionario, id_resppatrimonio, serie, 
+       id_user, id_anio, id_respfuncionario, id_resppatrimonio,  
        vigencia  FROM ficha_tecnica order by vigencia desc"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
