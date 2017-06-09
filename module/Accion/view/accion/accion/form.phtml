@@ -20,8 +20,39 @@
 								<label class="col-sm-1 control-label"><b>Tipo:</b></label>
 								<div class="col-sm-2">
 									<input type="hidden" class="" name="txtId" id="txtId"  placeholder="" value="<?= $datos != null ? $datos ['id_accion'] : ''; ?>">
+					
 
-									<input type="text" id="txtTipo" name="txtTipo" autofocus="autofocus" class="form-control" value="<?= $datos != null ? $datos ['tipo'] : ''; ?>">
+			<?php if($this->datos == null) { ?>
+
+
+			<select class="form-control" name="cmbTipo" id="cmbTipo">
+			
+			
+			<option selected value='H' > Hardware</option>
+			<option  value='S' > Software</option>
+			
+			</select>
+
+			<?php 
+			}else{ ?>
+
+			<select class="form-control" name="cmbTipo" id="cmbTipo">
+			<?php foreach ($this->datos as $dato) {
+			echo dato['tipo'];      
+			if($dato['tipo']=='H'){ ?>
+			<option selected value='<?php echo $dato['tipo'];?>' > Hardware</option>
+			<option  value='S' > Software</option>
+			<?php } else
+			{
+				?>
+			<option  value='H' > Hardware</option>
+			<option selected value='<?php echo $dato['tipo'];?>'>Software</option>
+			<?php }
+			} 
+			?>
+			</select>
+			<?php } ?>		
+
 								</div>
 								<label class="col-sm-1 control-label"><b>Descripción:</b></label>
 								<div class="col-sm-4">
