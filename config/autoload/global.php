@@ -22,10 +22,14 @@ return array(
 		'password' =>'120989',
 		'driver' => 'Pdo',
 		// 'schema' => 'sem',
-		//'dsn'=>'pgsql:host=192.168.1.33;port=5432;dbname=bdinventario', 
+		//conexion Geresa
+		'dsn'=>'pgsql:host=192.168.1.33;port=5432;dbname=bdinventario', 
+
+		//'dsn'=>'pgsql:host=localhost;port=5432;dbname=bdinventario5', 
 
 		//conexion local
-		'dsn'=>'pgsql:host=localhost;port=5432;dbname=bdinventario', 
+		//'dsn'=>'pgsql:host=localhost;port=5432;dbname=bdinventario', 
+
 
 	),    
 );

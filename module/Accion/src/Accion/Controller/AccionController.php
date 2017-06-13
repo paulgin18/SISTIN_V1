@@ -91,16 +91,17 @@ class accionController extends AbstractActionController {
 			$vigencia = $this->getRequest()->getPost('chkVigencia');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
-
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+
 			$accions = new Accion($this->dbAdapter);
 			if ($id != '') {
-				$insert = $tipoatencions->modificar($id,$descripcion,$numero, $vigencia );
+				$modificador = $accions->modificar($id,$descripcion,$numero,$vigencia);
+				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $tipoatencions->insertar($numero,$descripcion);
+				$insert = $accions->insertar($tipo,$descripcion);
+				$msj = $this->mensaje($insert, 0);
 			}
-			$msj=$this->mensaje($insert);
-						
+	
 		} catch (\Exception $e) {
 			$msj = 'Error: ' . $e->getMessage();
 		}
