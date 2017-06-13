@@ -21,7 +21,7 @@ class Estado extends TableGateway {
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO estado (numero,descripcion) "
-						. "VALUES ($numero,'$descripcion')");
+						. "VALUES ($numero,upper(trim('$descripcion')))");
 		$datos = $insert->execute();
 		return $datos;
 	}
@@ -41,7 +41,7 @@ class Estado extends TableGateway {
 		//$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
 
-		$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by vigencia desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}

@@ -32,11 +32,13 @@
 
 									<td><?= $estado['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
-										<a class="btn btn-default" href="<?php echo $this->basePath("estado/estado/form/1/" . $estado['id_estado'] . ""); ?>">Editar</a>
-										
-										<!--cambio-->
 
-										<?= $estado['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+
+
+										<a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("estado/estado/form/1/" . $estado['id_estado'] . ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
+
+
+										<?= $estado['vigencia'] == 1 ? "<a class='btn btn-danger btnBorrar' title='Eliminar'><img alt='Eliminar' style='width:19px;' src='../../img/delete.png'></a>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 
 										<!--  hasta aqui -->
 

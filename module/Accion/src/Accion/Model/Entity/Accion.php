@@ -32,7 +32,7 @@ class Accion extends TableGateway {
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_accion,tipo,descripcion, vigencia FROM accion order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_accion,tipo,descripcion, vigencia FROM accion order by vigencia desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
@@ -51,7 +51,7 @@ class Accion extends TableGateway {
 
 
 
-public function eliminar($id) {
+    public function eliminar($id) {
 		$delete = $this->dbAdapter->
 				createStatement(
 				"UPDATE accion  set vigencia=FALSE where id_accion=$id");

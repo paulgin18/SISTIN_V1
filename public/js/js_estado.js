@@ -1,5 +1,3 @@
-
-
 var registrar = function (txtNumero,txtDescripcion, txtId) {
 	
 	var options = {
@@ -7,7 +5,6 @@ var registrar = function (txtNumero,txtDescripcion, txtId) {
 		url: '../../registrar',
 		data: {'txtNumero':txtNumero,
 			'txtDescripcion': txtDescripcion,
-			//'chkVigencia': chkVigencia,
 			'txtId': txtId,
 		},
 		dataType: 'json',
@@ -33,24 +30,28 @@ $(document).on('click', '#btnguardar', function (event) {
 	event.preventDefault();
 	
 	var txtDescripcion = $('#txtDescripcion').val();
-
-	
-	/*
-	if(chkVigencia==1){
-		chkVigencia=true;
-	}else{
-		chkVigencia=false;
-	}
-	
-
-	*/
 	var txtId = $('#txtId').val();
-	
 	var txtNumero =$('#txtNumero').val();
 	registrar(txtNumero,txtDescripcion, txtId);
 	//this.disabled=false;
 
 });
+
+
+
+$(document).ready(function () {
+	$('input').focusout(function () {
+		this.value = this.value.toLocaleUpperCase();
+	});
+	$('#txtDescripcion').valcn(' abcdefghijklmnñopqrstuvwxyzáéiou');
+	$('#txtNumero').valcn('0123456789');
+	
+	$(".numero, .descripcion").keyup(function () {
+		if ($(this).val() != "") {$(".error").fadeOut();return false;}
+	});
+  
+});
+
 
 function validar() {
 	    $(".error").remove();
@@ -86,30 +87,9 @@ var options = {
 		}
 	};
 	$.ajax(options);
-		alert('id eliminar estado '+txtId);
-	alert('txt vigencia '+txtVigencia);
 
 }
 
-/*
 
-var eliminar = function ($id,$vigencia){
-	var options = {
-		type: 'POST',
-		url: 'eliminar',
-		data: {'id_estado': $id,'vigencia':$vigencia,
-		},
-		dataType: 'json',
-		success: function (response) {
-		(response.error == 0) ?
-			bootbox.alert(response.msj, function () {
-				window.location.href = "Seastado";
-			}) :
-			bootbox.alert(response.msj);
-		}
-	};
-	$.ajax(options);
-
-*/
 
 

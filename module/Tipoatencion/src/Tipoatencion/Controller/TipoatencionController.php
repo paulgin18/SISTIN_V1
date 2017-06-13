@@ -98,48 +98,40 @@ class TipoatencionController extends AbstractActionController {
 		return $response;
 	}
 	
-
-	public function eliminarAction(){
-	    try {
-			
-			$id = $this->params()->fromRoute('id');
-			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$tipoatencions = new Tipoatencion($this->dbAdapter);
-			$eliminar = $tipoatencions->eliminar($id);
-			
-			$msj =$this->mensajeEliminar($eliminar);
-			
-
-		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
-		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+public function eliminarAction() {
+		$error=0;$tipoConsulta = 0;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$tipoAtencion = new Tipoatencion($this->dbAdapter);
+		$cod = $this->getRequest()->getPost('cod');
+		$vigencia = $this->getRequest()->getPost('vigencia');
+		$eliminar = $tipoAtencion->eliminar($cod,$vigencia);
+		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
-
 	}
-
-
-
-	public function mensaje($insert){
-		if ($insert == true) {
-				$msj = 'REGISTRADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
+	
+public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj = "REGISTRADO CORRECTAMENTE";
+					break;
+				case 1:
+					$msj = "MODIFICADO CORRECTAMENTE";
+					break;
+				case 2:
+					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
+					break;
 			}
-			return $msj;
-	}
-
-
-public function mensajeEliminar($eliminar){
-		if ($eliminar == true) {
-				$msj = 'ELIMINADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
-			}
-			return $msj;
+		} else {
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
+		}
+		return $msj;
 	}
 
 	public function tipoatencionAction() {

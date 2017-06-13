@@ -32,14 +32,7 @@
                                             </div>
                         </div>
                      
-                      <label class="col-sm-2 control-label"><b>Vigencia:</b></label>
-                            <div class="col-sm-1">
-                                <?= $datos!=null 
-                                    ? $datos['vigencia']==true?'<input type="checkbox" name="chkVigencia" value="1" checked>': 
-                                  '<input type="checkbox" name="chkVigencia" value="1">' :'<input type="checkbox" name="chkVigencia" value="1" checked><br>';?>
-                            </div>
-						 
-                        </div>
+                   
                         <hr>
                         <div class="form-group">
                             <center><div class="col-sm-9">
@@ -55,6 +48,7 @@
 </div>
 
 <?php }?>
+
     <script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
     <script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>

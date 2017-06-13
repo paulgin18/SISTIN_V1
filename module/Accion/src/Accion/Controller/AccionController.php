@@ -49,17 +49,23 @@ class accionController extends AbstractActionController {
 //        return new ViewModel(array('session' => $session ));
 	}
 
-	public function formAction() {
+	public function formAction() 
+	{
 		$id = $this->params()->fromRoute("id", null);
 		$cod = $this->params()->fromRoute("cod", null);
-		if ($id !== null) {
-			if ($id == 0 ) {
+		if ($id !== null) 
+		{
+			if ($id == 0 ) 
+			{
 				
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'datos' => null));
-			} else {
-				if ($id == 1 && $cod>0) {
+			}
+			else
+			{
+				if ($id == 1 && $cod>0)
+				{
 				$datos = $this->buscar($cod);
 				return new ViewModel(
 						array('mantenimiento' => 'Modificar',
@@ -77,18 +83,21 @@ class accionController extends AbstractActionController {
 		return $datos;
 	}
 
-	public function registrarAction() {
+
+
+		public function registrarAction() {
 		try {
-			$tipo =$this->getRequest()->getPost('txtTipo');
+			$tipo =$this->getRequest()->getPost('cmbTipo');
 			$vigencia = $this->getRequest()->getPost('chkVigencia');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
+
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$accions = new Accion($this->dbAdapter);
 			if ($id != '') {
-				$insert = $accions->modificar($id,$descripcion,$tipo, $vigencia );
+				$insert = $tipoatencions->modificar($id,$descripcion,$numero, $vigencia );
 			} else {
-				$insert = $accions->insertar($tipo,$descripcion);
+				$insert = $tipoatencions->insertar($numero,$descripcion);
 			}
 			$msj=$this->mensaje($insert);
 						
@@ -103,49 +112,46 @@ class accionController extends AbstractActionController {
 	}
 
 
-	
 
-	public function eliminarAction(){
-	    try {
-			
-			$id = $this->params()->fromRoute('id');
-			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$accions = new Accion($this->dbAdapter);
-			$eliminar = $accions->eliminar($id);
-			
-			$msj =$this->mensajeEliminar($eliminar);
-			
 
-		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
-		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+
+	public function eliminarAction() {
+		$error=0;$tipoConsulta = 0;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$accions = new Accion($this->dbAdapter);
+
+		$cod = $this->getRequest()->getPost('cod');
+		$vigencia = $this->getRequest()->getPost('vigencia');
+
+		$eliminar = $accions->eliminar($cod,$vigencia);
+		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
-
 	}
-
-
-
-	public function mensaje($insert){
-		if ($insert == true) {
-				$msj = 'REGISTRADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
+	
+public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj = "REGISTRADO CORRECTAMENTE";
+					break;
+				case 1:
+					$msj = "MODIFICADO CORRECTAMENTE";
+					break;
+				case 2:
+					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
+					break;
 			}
-			return $msj;
-	}
-
-
-public function mensajeEliminar($eliminar){
-		if ($eliminar == true) {
-				$msj = 'ELIMINADO CORRECTAMENTE';
-			} else {
-				$msj = 'PROBLEMAS';
-			}
-			return $msj;
+		} else {
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
+		}
+		return $msj;
 	}
 
 	public function accionAction() {

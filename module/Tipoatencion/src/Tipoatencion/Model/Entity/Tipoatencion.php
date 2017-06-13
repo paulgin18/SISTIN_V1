@@ -35,7 +35,7 @@ class Tipoatencion extends TableGateway {
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_tipo_atencion,numero,descripcion, vigencia FROM tipo_atencion order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_tipo_atencion,numero,descripcion, vigencia FROM tipo_atencion order by vigencia desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
@@ -54,10 +54,10 @@ class Tipoatencion extends TableGateway {
 
 
 
-public function eliminar($id) {
+public function eliminar($id,$vigencia) {
 		$delete = $this->dbAdapter->
 				createStatement(
-				"UPDATE tipo_atencion set vigencia=FALSE where id_tipo_atencion=$id");
+				"UPDATE tipo_atencion set vigencia=$vigencia where id_tipo_atencion=$id");
 		$datos = $delete->execute();
 		return $delete;
 	}

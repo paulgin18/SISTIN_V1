@@ -18,6 +18,7 @@
 								<th>Descripción</th>
 								<th>Vigencia</th>
 								<th>Acciones</th>
+								<th style="display:none">c</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -31,13 +32,19 @@
 
 									<td><?= $tipoatencion['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
-										<a class="btn btn-default"href="<?php echo $this->basePath("tipoatencion/tipoatencion/form/1/" . $tipoatencion['id_tipo_atencion'] . ""); ?>">Editar</a>
-										<?= $tipoatencion['vigencia'] == 1 
-												? 
-												"<a class='btn btn-danger' href='" . $this->basePath('tipoatencion/tipoatencion/eliminar/' . $tipoatencion['id_tipo_atencion']) . "'>Eliminar</a></td></i>" 
-											  : "" ?></td>
+
+					<a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("tipoatencion/tipoatencion/form/1/". $tipoatencion['id_tipo_atencion'] . ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
+															<?= $tipoatencion['vigencia'] == 1 	? 									
+						"<a class='btn btn-danger btnBorrar' title='Eliminar'><img alt='Eliminar' style='width:19px;' src='../../img/delete.png'></a>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>"
+
+							 ?>
+
+							 	</td>
+							 	<td id="idCod" style="display:none;"><?= $tipoatencion['id_tipo_atencion'] ?></td>
 								</tr>
-							<?php } ?>
+							<?php 
+								}
+							?>
 						</tbody>
 						<tfoot>
 							<tr>
@@ -74,6 +81,9 @@
 
 
 
-
+<?=
+		$this->inlineScript()
+		->prependFile($this->basePath('js/js_tipoatencion.js'))
+?>
 
 
