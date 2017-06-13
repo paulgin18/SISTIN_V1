@@ -78,6 +78,7 @@ $("#txtMaMo").focus(function () {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar el dispositivo</b>');
 	} else {
 		$("#txtMaMo").autocomplete({
+			
 			source: '../../../../dispositivo/dispositivo/bMaMoxDisp?id_disp=' + id_disp + '',
 			select: function (event, ui) {
 				$('#txtIdDisMaMo').val(ui.item.value);
@@ -99,20 +100,79 @@ $("#txtMaMo").focus(function () {
 $("#txtUnidadOrganica").focus(function () {
 	
 		$("#txtUnidadOrganica").autocomplete({
+			minLength: 0,
 			source: '../../../../unidad/unidad/buscarUnidadCmb',
+			dataType: "json",
 			select: function (event, ui) {
 				$('#txtIdUnidadOrganica').val(ui.item.value);
 				$(this).val(ui.item.label)
 				return false;
 			},
-			autoFocus: false,
+			
 			open: function (event, ui) {
 				$("#txtIdUnidadOrganica").val('');
 			},
 			focus: function (event, ui) {
+				 $(this).val(ui.item.label);
 				return false;
 			}
+			
 		});
+	
+});
+
+
+$("#txtUnidadOrganica").keydown(function () {
+	
+		$("#txtUnidadOrganica").autocomplete({
+			minLength: 0,
+			source: '../../../../unidad/unidad/buscarUnidadCmb',
+			dataType: "json",
+			select: function (event, ui) {
+				$('#txtIdUnidadOrganica').val(ui.item.value);
+				$(this).val(ui.item.label)
+				return false;
+			},
+			
+			open: function (event, ui) {
+				$("#txtIdUnidadOrganica").val('');
+			},
+			focus: function (event, ui) {
+				 $(this).val(ui.item.label);
+				return false;
+			}
+			 
+		});
+	
+});
+
+$("#txtUnidadOrganica").keyup(function () {
+	
+		$("#txtUnidadOrganica").autocomplete({
+			minLength: 0,
+			source: '../../../../unidad/unidad/buscarUnidadCmb',
+			 dataType: "json",
+			select: function (event, ui) {
+				$('#txtIdUnidadOrganica').val(ui.item.value);
+				$(this).val(ui.item.label)
+				return false;
+			},
+			
+			open: function (event, ui) {
+				$("#txtIdUnidadOrganica").val('');
+			},
+			focus: function (event, ui) {
+ $(this).val(ui.item.label);			
+			return false;
+			}
+			
+			
+		}).data("ui-autocomplete")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .data("ui-autocomplete-item", item)
+                    .append("<a>"+item.label + "</a>")
+                    .appendTo(ul);
+            };
 	
 });
 

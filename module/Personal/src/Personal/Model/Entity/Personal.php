@@ -33,7 +33,9 @@ class Personal extends TableGateway {
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_personal, nombre , apellidos, dni, id_area,vigencia FROM personal order by vigencia desc, apellidos asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query(
+				"SELECT p.id_personal, p.nombre, p.apellidos, p.dni, p.id_area, p.vigencia, respatrimonial,a.descripcion FROM personal p inner join area a on p.id_area=a.id_area "
+				. " order by a.descripcion asc, respatrimonial desc, apellidos asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
