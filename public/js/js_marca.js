@@ -1,7 +1,7 @@
 var registrarmarca = function (txtDescripcion,txtId) {
 	var options = {
 		type: 'POST',
-		url: '../../registrarmarca',
+		url: '../../registrar',
 		data: {'txtDescripcion': txtDescripcion,
 			'txtId': txtId,
 		},
@@ -9,7 +9,7 @@ var registrarmarca = function (txtDescripcion,txtId) {
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../listadomarcas";
+						window.location.href = "../../marca";
 					}) :
 					bootbox.alert(response.msj);
 				$("#btnguardar").prop('disabled', false);
@@ -28,6 +28,9 @@ $(document).submit(function (event) {
 		event.preventDefault();
 		var txtDescripcion = $('#txtDescripcion').val();
 		var txtId = $('#txtId').val();
+		
+
+
 		registrarmarca(txtDescripcion,txtId);
 		this.disabled = false;
 	}
@@ -44,6 +47,7 @@ $(document).ready(function () {
 	});
   
 });
+
 
 function validar() {
 	    $(".error").remove();
@@ -68,7 +72,7 @@ var eliminar = function ($cod,$vigencia){
 		success: function (response) {
 		(response.error == 0) ?
 			bootbox.alert(response.msj, function () {
-				window.location.href = "listadomarcas";
+				window.location.href = "marca";
 			}) :
 			bootbox.alert(response.msj);
 		}

@@ -77,7 +77,7 @@ class MarcaController extends AbstractActionController {
 		$error = 0;
 		$msj = "";
 		try {
-			$vigencia = $this->getRequest()->getPost('chkVigencia');
+			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
@@ -98,9 +98,7 @@ class MarcaController extends AbstractActionController {
 				case 23505:
 					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
 					break;
-				case 23514:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
-					break;
+				
 				default:
 					$error = explode("DETAIL:", $codError[2]);
 

@@ -27,8 +27,10 @@
 									<td><?php echo $marca['descripcion'] ?></td>
 									<td><?= $marca['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
-										<a class="btn btn-default"href="<?php echo $this->basePath("marca/marca/form/1/" . $marca['id_marca'] . ""); ?>">Editar</a>
-										<?= $marca['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Eliminar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+										<a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("marca/marca/form/1/" . $marca['id_marca'] . ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
+										
+										<?= $marca['vigencia'] == 1 ? "<a class='btn btn-danger btnBorrar' title='Eliminar'><img alt='Eliminar' style='width:19px;' src='../../img/delete.png'></a>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+
 									</td>
 									<td id="idCod" style="display:none;"><?= $marca['id_marca'] ?></td>
 								</tr>
