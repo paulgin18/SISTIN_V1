@@ -102,32 +102,50 @@ class AreaController extends AbstractActionController {
 	}
 
 	public function registrarAction() {
+		$error = 0;
+		$msj = "";
 		try {
-			$txtId_uni_ejec =$this->getRequest()->getPost('txtId_Uni_Ejec');
+			$id_uni_org =$this->getRequest()->getPost('id_uni_org');
 			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
-			$id = $this->getRequest()->getPost('txtId');
+			$id = $this->getRequest()->getPost('txtId_Area');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 
 			$areas = new Area($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $areas->modificar($id,$descripcion,$id_uni_ejec);
+				$modificar = $areas->modificar($id,$descripcion,$id_uni_org);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $areas->insertar($descripcion);
+				$insert = $areas->insertar($descripcion,$id_uni_org);
 				$msj = $this->mensaje($insert, 0);
 			}
 			//$msj=$this->mensaje($insert);
 						
 		} catch (\Exception $e) {
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			switch ($codError[0]) {
+				case 23505:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					break;
+				
+				default:
+					$error = explode("DETAIL:", $codError[2]);
+
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+					break;
+			}
+//			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
+//				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
+//			
 
 
-
-			$msj = 'Error: ' . $e->getMessage();
+	
 		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+		
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
@@ -173,6 +191,7 @@ class AreaController extends AbstractActionController {
 		return $msj;
 	}
 
+	
 
 	public function areaAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');

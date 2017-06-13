@@ -30,12 +30,13 @@
                                 
                                          
                         </div>
-                                <label class="col-sm-1 control-label"><b>Unidad Ejecutora:</b></label>
-                                <div class="col-sm-2">
-                                              
+                                <label class="col-sm-1 control-label"><b>Unidad Organica:</b></label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" name="txtUnidad" id="txtUnidad" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['unidad_organica']?>">
+                                        
+                                    <input type="hidden" value="<?= $datos['id_uni_org']?>" id="id_uni_org">            
 
-                       <input type="text" id="txtId_uni_ejec" name="txtId_uni_ejec" class="form-control" value="<?= $datos !=null ? $datos ['id_uni_ejec'] :'';?>">
-                                            </div>
+                                 </div>
                                             
 
                      </div>

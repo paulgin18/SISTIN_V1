@@ -70,6 +70,7 @@ class UnidadController extends AbstractActionController {
 	
 	}
 
+	
 	public function buscarUnidadCmbAction() {
 		$descripcion = $this->getRequest()->getQuery('term');
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');

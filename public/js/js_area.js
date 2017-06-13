@@ -1,5 +1,5 @@
 
-var registrar = function (txtId_Area,txtDescripcion,txtId_Uni_Ejec,txtId) {
+var registrar = function (txtId_Area,txtDescripcion,id_uni_org) {
 	
 	var options = {
 		type: 'POST',
@@ -7,9 +7,9 @@ var registrar = function (txtId_Area,txtDescripcion,txtId_Uni_Ejec,txtId) {
 		data: {
 			'txtId_Area':txtId_Area,
 			'txtDescripcion': txtDescripcion,
-			'txtId_Uni_Ejec':txtId_Uni_Ejec,
+			'id_uni_org':id_uni_org,
 			//'chkVigencia': chkVigencia,
-			'txtId': txtId,
+		
 		},
 		dataType: 'json',
 		success: function (response) {
@@ -26,6 +26,24 @@ var registrar = function (txtId_Area,txtDescripcion,txtId_Uni_Ejec,txtId) {
 	$.ajax(options);
 };
 
+$("#txtUnidad").focus(function (){
+	$("#txtUnidad").autocomplete({
+		source: '../../../../unidad/unidad/buscarunidadCmb',
+		select: function (event, ui) {
+			$('#id_uni_org').val(ui.item.value);
+			$(this).val(ui.item.label)
+			return false;
+		},
+		autoFocus: false,
+		open: function (event, ui) {
+			$("#id_area").val('ui.item.value)');
+		},
+		focus: function (event, ui) {
+			return false;
+		}
+	});
+});
+
 
 
 $(document).on('click', '#btnguardar', function (event) {
@@ -36,13 +54,13 @@ $(document).on('click', '#btnguardar', function (event) {
 
 	var txtDescripcion = $('#txtDescripcion').val();
 
-	var txId_Uni_Ejec =$('#txtId_uni_ejec').val();
+	var id_uni_org =$('#id_uni_org').val();
 
-	alert('descripcion '+txtDescripcion);
 	alert('id area '+txtId);
-	alert('id uni ejecutora '+txId_Uni_Ejec);
+	alert('descripcion '+txtDescripcion);
+	alert('id unidad '+id_uni_org);
 
-	registrar(txtDescripcion,txtId_Uni_Ejec, txtId);
+	registrar(txtId,txtDescripcion,id_uni_org);
 	//this.disabled=false;
 
 });

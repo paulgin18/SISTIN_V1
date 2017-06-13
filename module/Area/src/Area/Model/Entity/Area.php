@@ -17,18 +17,18 @@ class Area extends TableGateway {
 		return parent::__construct('Area', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($descripcion, $txtId_uni_ejec) {
+	public function insertar($descripcion, $id_uni_org) {
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO area (descripcion,id_uni_org) "
-						. "VALUES ('$descripcion',$txtId_uni_ejec)");
+						. "VALUES ('$descripcion',$id_uni_org)");
 		$datos = $insert->execute();
 		return $datos;
 	}
-	public function modificar($id, $descripcion,$id_uni_ejec) {
+	public function modificar($id, $descripcion,$id_uni_org) {
 		
 		$update = $this->dbAdapter->
-				createStatement("UPDATE area SET descripcion=upper(trim('$descripcion')), id_uni_org=$id_uni_ejec WHERE id_area=$id");
+				createStatement("UPDATE area SET descripcion=upper(trim('$descripcion')), id_uni_org=$id_uni_org WHERE id_area=$id");
 
 		$datos = $update->execute();
 		return $update;
@@ -40,19 +40,19 @@ class Area extends TableGateway {
 	public function lista() {
 		//$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
-		$consulta = $this->dbAdapter->query("SELECT id_area,descripcion,id_uni_org,vigencia FROM area ", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT a.id_area, a.descripcion, a.id_uni_org, a.id_area, a.vigencia, o.descripcion as unidad_organica FROM area a inner join unidad_organica o on a.id_uni_org=o.id_uni_org", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_area,descripcion,id_uni_org FROM area where id_area=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT a.id_area, a.descripcion, a.id_uni_org, a.id_area, a.vigencia, o.descripcion as unidad_organica FROM area a inner join unidad_organica o on a.id_uni_org=o.id_uni_org where a.id_area=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }
 	  public function buscarArea($descripcion){
         $consulta=$this->dbAdapter->query(
-		"SELECT id_area as value, descripcion as label,id_uni_org as unidadejecutora, vigencia FROM area where descripcion like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);
+		"SELECT id_area as value, descripcion as label,id_uni_org as unidadorganica, vigencia FROM area where descripcion like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }
