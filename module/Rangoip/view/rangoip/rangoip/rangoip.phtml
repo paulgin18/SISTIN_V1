@@ -31,7 +31,7 @@
 
 									<td><?php echo $rangoip['rango_final'] ?></td>
 
-									<td><?php echo $rangoip['id_area'] ?></td>
+									<td><?php echo $rangoip['area'] ?></td>
 
 									<td><?= $rangoip['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
@@ -81,6 +81,9 @@
 <script src="<?php echo $this->basePath() ?>/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/jszip/dist/jszip.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+<script src="<?php echo $this->basePath() ?>/vendors/masked_input_1.4-min"></script>
+
 
 </script><?=
 		$this->inlineScript()

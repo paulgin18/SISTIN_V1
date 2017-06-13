@@ -1,7 +1,7 @@
-var registrar = function (txtDescripcion, txtId) {
+var registrarmarca = function (txtDescripcion,txtId) {
 	var options = {
 		type: 'POST',
-		url: '../../registrar',
+		url: '../../registrarmarca',
 		data: {'txtDescripcion': txtDescripcion,
 			'txtId': txtId,
 		},
@@ -9,11 +9,13 @@ var registrar = function (txtDescripcion, txtId) {
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../marca";
-					})
-					: bootbox.alert(response.msj);
-			$("#btnguardar").prop('disabled', false);
-
+						window.location.href = "../../listadomarcas";
+					}) :
+					bootbox.alert(response.msj);
+				$("#btnguardar").prop('disabled', false);
+		}
+		, error: function () {
+			this.disabled = true;
 		}
 	};
 	$.ajax(options);
@@ -24,53 +26,53 @@ $(document).submit(function (event) {
 	if (val == true) {
 		$("#btnguardar").prop('disabled', true);
 		event.preventDefault();
-		event.preventDefault();
 		var txtDescripcion = $('#txtDescripcion').val();
 		var txtId = $('#txtId').val();
-		registrar(txtDescripcion, txtId);
+		registrarmarca(txtDescripcion,txtId);
 		this.disabled = false;
 	}
 });
-
 
 $(document).ready(function () {
 	$('input').focusout(function () {
 		this.value = this.value.toLocaleUpperCase();
 	});
 	$('#txtDescripcion').valcn(' abcdefghijklmnñopqrstuvwxyzáéiou');
-	$(".descripcion").keyup(function () {
-		if ($(this).val() != "") {
-			$(".error").fadeOut();
-			return false;
-		}
+	
+	$(".marca, .descripcion").keyup(function () {
+		if ($(this).val() != "") {$(".error").fadeOut();return false;}
 	});
   
 });
+
 function validar() {
 	    $(".error").remove();
 	        if ($(".descripcion").val() == "") {
-		            $(".descripcion").focus().after("<span class='error'>Ingrese la descripcion.</span>");
+		            $(".descripcion").focus().after("<span class='error'>Ingrese la descripcion</span>");
 		            return false;
-	        }
-	return true;
+	        } else if ($(".marca").val() == "") {
+		            $(".marca").focus().after("<span class='error'>Ingrese una marca</span>");
+		            return false;
+	        } else {
+		return true;
+	}
 }
 
-var eliminar = function ($cod, $vigencia) {
+var eliminar = function ($cod,$vigencia){
 	var options = {
 		type: 'POST',
 		url: 'eliminar',
-		data: {'cod': $cod, 'vigencia': $vigencia,
+		data: {'cod': $cod,'vigencia':$vigencia,
 		},
 		dataType: 'json',
 		success: function (response) {
-			(response.error == 0) ? bootbox.alert(response.msj, function () {
-				window.location.href = "marca";
+		(response.error == 0) ?
+			bootbox.alert(response.msj, function () {
+				window.location.href = "listadomarcas";
 			}) :
-					bootbox.alert(response.msj);
-		}
-		, error: function () {
-			this.disabled = true;
+			bootbox.alert(response.msj);
 		}
 	};
 	$.ajax(options);
+
 }

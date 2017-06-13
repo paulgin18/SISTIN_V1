@@ -34,9 +34,9 @@
                                     <label class="col-sm-1 control-label"><b>Area:</b></label>
                                         
                                         <div class="col-sm-4">
-                                        <input class="form-control" name="txtArea" id="txtArea" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['descripcion']?>">
+                                        <input class="form-control" name="txtArea" id="txtArea" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['area']?>">
                                         
-                                        <input type="hidden" id="<?= $datos['id_area']?>">  
+                                        <input type="hidden" value="<?= $datos['id_area']?>" id="id_area">  
                                         </div>
                                   
                                         
@@ -63,6 +63,8 @@
 
 <?php } ?>
 <script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+
+
 <script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
 <script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
@@ -76,6 +78,7 @@
         $this->inlineScript()
         ->prependFile($this->basePath('js/js_rangoip.js'))
         ->prependFile($this->basePath('js/js_buscar.js'))
+        ->prependFile($this->basePath('js/masked_input_1.4-min.js'))
         ->prependFile($this->basePath() . '/assets/js/core.min.js')
 ?>
 

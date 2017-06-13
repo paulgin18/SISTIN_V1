@@ -3,9 +3,7 @@ return array(
     // This should be an array of module namespaces used in the application.
     //se añaden los modulos creados, tener en cuenta que el ultimo modulo es el que tomara el layout por default, se pude cambiar variando el orden //pendiente de configuracion aidcional en caso se quiera cambiar de layout dinamicamente
     'modules' => array(
-        
-        'Anio',
-		'Marca',
+        'Anio',	
 		'Dispositivo',
         'Estado',
 		'Modelo',
@@ -16,14 +14,11 @@ return array(
         'Unidad',
         'Red',
         'Accion',
+        'Marca',
         'Area',
 		'Personal',
         'Rangoip',
         'Application',
-
-        
-
-
     ),
 
     // These are various options for the listeners attached to the ModuleManager

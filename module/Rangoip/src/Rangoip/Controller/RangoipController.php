@@ -76,6 +76,8 @@ class RangoipController extends AbstractActionController {
 	}
 
 	public function registrarAction() {
+		$error = 0;
+		$msj = "";
 		try {
 			$id = $this->getRequest()->getPost('txtId');
 			$rangoinicial =$this->getRequest()->getPost('txtRangoInicial');
@@ -94,14 +96,26 @@ class RangoipController extends AbstractActionController {
 			//$msj=$this->mensaje($insert);
 						
 		} catch (\Exception $e) {
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			switch ($codError[0]) {
+				case 23505:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $rangoinicial . "' o  '".$rangofinal."', ya se encuentra en la base de datos.";
+					break;
+			
+				default:
+					$error = explode("DETAIL:", $codError[2]);
 
-
-
-			$msj = 'Error: ' . $e->getMessage();
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+					break;
+			}
+//			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
+//				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
+//			
 		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
@@ -111,8 +125,8 @@ class RangoipController extends AbstractActionController {
 	{
 	        $error=0;$tipoConsulta = 0;
 			
-			$id = $this->getRequest()->getPost('txtId');
-			$vigencia = $this->getRequest()->getPost('txtVigencia');
+			$id = $this->getRequest()->getPost('cod');
+			$vigencia = $this->getRequest()->getPost('vigencia');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$rangoips = new Rangoip($this->dbAdapter);
 		

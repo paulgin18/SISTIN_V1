@@ -9,6 +9,7 @@ var registrar = function (txtId,txtRangoInicial, txtRangoFinal,id_area) {
 		},
 		dataType: 'json',
 		success: function (response) {
+			
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
 						window.location.href = "../../rangoip";
@@ -35,6 +36,24 @@ $(document).submit(function (event) {
 	}
 });
 */
+ 
+ window.onload = function() {
+   MaskedInput({
+      elm: document.getElementById('txtRangoInicial'),
+
+      format: '___.___.___.___',
+      separator: '.'
+   });
+
+    MaskedInput({
+      elm: document.getElementById('txtRangoFinal'),
+
+      format: '___.___.___.___',
+      separator: '.'
+   });
+};
+
+
 
 $("#txtArea").focus(function (){
 	$("#txtArea").autocomplete({
@@ -64,11 +83,6 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtRangoFinal = $('#txtRangoFinal').val();
 	var id_area = $('#id_area').val();
 
-
-	alert('id rango '+txtId);
-	alert('rango inicial '+txtRangoInicial);
-	alert('rango final '+txtRangoFinal);
-	alert('id area '+id_area);
 	
 	registrar(txtId,txtRangoInicial, txtRangoFinal,id_area);
 	//this.disabled=false;
@@ -113,8 +127,9 @@ var eliminar = function ($cod, $vigencia) {
 		},
 		dataType: 'json',
 		success: function (response) {
+			
 			(response.error == 0) ? bootbox.alert(response.msj, function () {
-				window.location.href = "personal";
+				window.location.href = "rangoip";
 			}) :
 					bootbox.alert(response.msj);
 		}
@@ -124,3 +139,7 @@ var eliminar = function ($cod, $vigencia) {
 	};
 	$.ajax(options);
 }
+
+
+
+
