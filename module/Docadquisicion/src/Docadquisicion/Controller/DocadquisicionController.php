@@ -22,7 +22,7 @@ use Zend\Db\Adapter\Adapter;
 use Docadquisicion\Model\Entity\Docadquisicion;
 use Zend\MVC\Exception;
 
-class AnioController extends AbstractActionController {
+class DocadquisicionController extends AbstractActionController {
 
 	public function formAction() {
 		$id = $this->params()->fromRoute("id", null);
