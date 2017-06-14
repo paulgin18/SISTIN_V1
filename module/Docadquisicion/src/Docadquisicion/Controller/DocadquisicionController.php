@@ -46,26 +46,27 @@ class DocadquisicionController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$anios = new Anio($this->dbAdapter);
-		$datos = $anios->buscar($cod);
+		$docadquisicion= new Docadquisicion($this->dbAdapter);
+		$datos = $docadquisicion->buscar($cod);
 		return $datos;
 	}
 
-	public function registraranioAction() {
+	public function registrarAction() {
 		$error = 0;
 		$msj = "";
 		try {
-			$numero = $this->getRequest()->getPost('txtAnio');
+			$abreviatura = $this->getRequest()->getPost('txtAbreviatura');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
-
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$anios = new Anio($this->dbAdapter); 
+			$docadquisicion = new Docadquisicion($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $anios->modificar($descripcion, $numero, $id);
+				$modificar =1;
+				$modificar = $docadquisicion->modificar($descripcion, $abreviatura, $id);
+				$modificar =2;
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insertar = $anios->insertar($descripcion, $numero);
+				$insertar = $docadquisicion->insertar($descripcion, $abreviatura);
 				$msj = $this->mensaje($insertar, 0);
 			}
 		} catch (\Exception $e) {
@@ -75,20 +76,13 @@ class DocadquisicionController extends AbstractActionController {
 			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
 			switch ($codError[0]) {
 				case 23505:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
-					break;
-				case 23514:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $descripcion . "', ya se encuentra en la base de datos.".$modificar;
 					break;
 				default:
 					$error = explode("DETAIL:", $codError[2]);
-
 					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
 					break;
 			}
-//			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
-//				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
-//			
 		}
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
@@ -103,21 +97,15 @@ class DocadquisicionController extends AbstractActionController {
 		return $viewModel;
 	}
 
-	public function fechaAction() {
-		
-		$viewModel = new ViewModel();
-		return $viewModel;
-	}
-
-
 	public function eliminarAction() {
-		$error=0;$tipoConsulta = 0;
+		$error = 0;
+		$tipoConsulta = 0;
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$anios = new Anio($this->dbAdapter);
+		$docadquisicion = new Docadquisicion($this->dbAdapter);
 		$cod = $this->getRequest()->getPost('cod');
 		$vigencia = $this->getRequest()->getPost('vigencia');
-		$eliminar = $anios->eliminar($cod,$vigencia);
-		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+		$eliminar = $docadquisicion->eliminar($cod, $vigencia);
+		$vigencia == "false" ? $tipoConsulta = 2 : $tipoConsulta = 3;
 		$msj = $this->mensaje($eliminar, $tipoConsulta);
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);

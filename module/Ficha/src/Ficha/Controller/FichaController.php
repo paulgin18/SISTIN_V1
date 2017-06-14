@@ -20,6 +20,7 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
 use Ficha\Model\Entity\Ficha;
+use Docadquisicion\Model\Entity\Docadquisicion;
 use Marca\Model\Entity\Marca;
 use Anio\Model\Entity\Anio;
 use Zend\MVC\Exception;
@@ -31,9 +32,14 @@ class FichaController extends AbstractActionController {
 		$id = $this->params()->fromRoute("id", null);
 		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
+			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+			$docAdquisicion = new Docadquisicion($this->dbAdapter);
+			$datosAdquisicion = $docAdquisicion->lista();
+
 			if ($id == 0) {
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
+					'datosAdquisicion'=>$datosAdquisicion,
 					'datos' => null));
 			} else {
 				if ($id == 1 && $cod > 0) {
@@ -41,6 +47,7 @@ class FichaController extends AbstractActionController {
 					return new ViewModel(
 							array('mantenimiento' => 'Modificar',
 						'textBoton' => 'Actualizar',
+								'datosAdquisicion'=>$datosAdquisicion,
 						'datos' => $datos));
 				}
 			}
@@ -131,8 +138,8 @@ class FichaController extends AbstractActionController {
 	}
 
 	public function subirArchivoAction() {
-$error=0;
-$msj="";
+		$error = 0;
+		$msj = "";
 		$adapter = new Http();
 		$adapter->addValidator('Count', false, array('min' => 0, 'max' => 1))
 				->addValidator('Size', false, array('max' => '5242880'))
@@ -145,12 +152,10 @@ $msj="";
 					$adapter->receive($fileinfo[name]);
 				}
 			}
-		
-			$response = new JsonModel(array('msj' => $adapter->getMessages() , 'error' => '0'));
 
-		
+			$response = new JsonModel(array('msj' => $adapter->getMessages(), 'error' => '0'));
 		} catch (\Exception $ex) {
-		$error=$ex->getMessage();
+			$error = $ex->getMessage();
 		}
 		$response->setTerminal(true);
 		return $response;

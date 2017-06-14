@@ -1,16 +1,16 @@
-var registraranio = function (txtDescripcion, txtAnio, txtId) {
+var registrar = function (txtDescripcion, txtAbreviatura, txtId) {
 	var options = {
 		type: 'POST',
-		url: '../../registraranio',
+		url: '../../registrar',
 		data: {'txtDescripcion': txtDescripcion,
-			'txtAnio': txtAnio,
+			'txtAbreviatura': txtAbreviatura,
 			'txtId': txtId,
 		},
 		dataType: 'json',
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../listadoanios";
+						window.location.href = "../../docadquisicion";
 					}) :
 					bootbox.alert(response.msj);
 				$("#btnguardar").prop('disabled', false);
@@ -28,9 +28,9 @@ $(document).submit(function (event) {
 		$("#btnguardar").prop('disabled', true);
 		event.preventDefault();
 		var txtDescripcion = $('#txtDescripcion').val();
-		var txtAnio = $('#txtAnio').val();
+		var txtAbreviatura = $('#txtAbreviatura').val();
 		var txtId = $('#txtId').val();
-		registraranio(txtDescripcion, txtAnio, txtId);
+		registrar(txtDescripcion, txtAbreviatura, txtId);
 		this.disabled = false;
 	}
 });
@@ -39,10 +39,9 @@ $(document).ready(function () {
 	$('input').focusout(function () {
 		this.value = this.value.toLocaleUpperCase();
 	});
-	$('#txtDescripcion').valcn(' abcdefghijklmnñopqrstuvwxyzáéiou');
-	$('#txtAnio').valcn('0123456789');
-	
-	$(".anio, .descripcion").keyup(function () {
+	//$('#txtDescripcion').valcn('abcdefghijklmnñopqrstuvwxyzáéiou');
+	$('#txtAbreviatura').valcn('abcdefghijklmnñopqrstuvwxyzáéiou');
+	$(".abreviatura, .descripcion").keyup(function () {
 		if ($(this).val() != "") {$(".error").fadeOut();return false;}
 	});
   
@@ -51,10 +50,10 @@ $(document).ready(function () {
 function validar() {
 	    $(".error").remove();
 	        if ($(".descripcion").val() == "") {
-		            $(".descripcion").focus().after("<span class='error'>Ingrese la descripcion</span>");
+		            $(".descripcion").focus().after("<span class='error'>Ingrese el nombre del documento</span>");
 		            return false;
-	        } else if ($(".anio").val() == "") {
-		            $(".anio").focus().after("<span class='error'>Ingrese un año</span>");
+	        } else if ($(".abreviatura").val() == "") {
+		            $(".abreviatura").focus().after("<span class='error'>Ingrese una Abreviatura</span>");
 		            return false;
 	        } else {
 		return true;
@@ -71,7 +70,7 @@ var eliminar = function ($cod,$vigencia){
 		success: function (response) {
 		(response.error == 0) ?
 			bootbox.alert(response.msj, function () {
-				window.location.href = "listadoanios";
+				window.location.href = "docadquisicion";
 			}) :
 			bootbox.alert(response.msj);
 		}

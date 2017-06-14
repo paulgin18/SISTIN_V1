@@ -2,8 +2,8 @@ $(document).data('tipoDisp', 2);
 
 
 $(document).ready(function () {
-$(".actionBar").hide();
-$(".stepContainer").hide();
+	$(".actionBar").hide();
+	$(".stepContainer").hide();
 });
 
 var bDispositivo = function (tipoDisp, id, inp) {
@@ -78,7 +78,7 @@ $("#txtMaMo").focus(function () {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar el dispositivo</b>');
 	} else {
 		$("#txtMaMo").autocomplete({
-			
+
 			source: '../../../../dispositivo/dispositivo/bMaMoxDisp?id_disp=' + id_disp + '',
 			select: function (event, ui) {
 				$('#txtIdDisMaMo').val(ui.item.value);
@@ -98,105 +98,105 @@ $("#txtMaMo").focus(function () {
 
 
 $("#txtUnidadOrganica").focus(function () {
-	
-		$("#txtUnidadOrganica").autocomplete({
-			minLength: 0,
-			source: '../../../../unidad/unidad/buscarUnidadCmb',
-			dataType: "json",
-			select: function (event, ui) {
-				$('#txtIdUnidadOrganica').val(ui.item.value);
-				$(this).val(ui.item.label)
-				return false;
-			},
-			
-			open: function (event, ui) {
-				$("#txtIdUnidadOrganica").val('');
-			},
-			focus: function (event, ui) {
-				 $(this).val(ui.item.label);
-				return false;
-			}
-			
-		});
-	
+
+	$("#txtUnidadOrganica").autocomplete({
+		minLength: 0,
+		source: '../../../../unidad/unidad/buscarUnidadCmb',
+		dataType: "json",
+		select: function (event, ui) {
+			$('#txtIdUnidadOrganica').val(ui.item.value);
+			$(this).val(ui.item.label)
+			return false;
+		},
+
+		open: function (event, ui) {
+			$("#txtIdUnidadOrganica").val('');
+		},
+		focus: function (event, ui) {
+			$(this).val(ui.item.label);
+			return false;
+		}
+
+	});
+
 });
 
 
 $("#txtUnidadOrganica").keydown(function () {
-	
-		$("#txtUnidadOrganica").autocomplete({
-			minLength: 0,
-			source: '../../../../unidad/unidad/buscarUnidadCmb',
-			dataType: "json",
-			select: function (event, ui) {
-				$('#txtIdUnidadOrganica').val(ui.item.value);
-				$(this).val(ui.item.label)
-				return false;
-			},
-			
-			open: function (event, ui) {
-				$("#txtIdUnidadOrganica").val('');
-			},
-			focus: function (event, ui) {
-				 $(this).val(ui.item.label);
-				return false;
-			}
-			 
-		});
-	
+
+	$("#txtUnidadOrganica").autocomplete({
+		minLength: 0,
+		source: '../../../../unidad/unidad/buscarUnidadCmb',
+		dataType: "json",
+		select: function (event, ui) {
+			$('#txtIdUnidadOrganica').val(ui.item.value);
+			$(this).val(ui.item.label)
+			return false;
+		},
+
+		open: function (event, ui) {
+			$("#txtIdUnidadOrganica").val('');
+		},
+		focus: function (event, ui) {
+			$(this).val(ui.item.label);
+			return false;
+		}
+
+	});
+
 });
 
 $("#txtUnidadOrganica").keyup(function () {
-	
-		$("#txtUnidadOrganica").autocomplete({
-			minLength: 0,
-			source: '../../../../unidad/unidad/buscarUnidadCmb',
-			 dataType: "json",
-			select: function (event, ui) {
-				$('#txtIdUnidadOrganica').val(ui.item.value);
-				$(this).val(ui.item.label)
-				return false;
-			},
-			
-			open: function (event, ui) {
-				$("#txtIdUnidadOrganica").val('');
-			},
-			focus: function (event, ui) {
- $(this).val(ui.item.label);			
+
+	$("#txtUnidadOrganica").autocomplete({
+		minLength: 0,
+		source: '../../../../unidad/unidad/buscarUnidadCmb',
+		dataType: "json",
+		select: function (event, ui) {
+			$('#txtIdUnidadOrganica').val(ui.item.value);
+			$(this).val(ui.item.label)
 			return false;
-			}
-			
-			
-		}).data("ui-autocomplete")._renderItem = function (ul, item) {
-                return $("<li>")
-                    .data("ui-autocomplete-item", item)
-                    .append("<a>"+item.label + "</a>")
-                    .appendTo(ul);
-            };
-	
+		},
+
+		open: function (event, ui) {
+			$("#txtIdUnidadOrganica").val('');
+		},
+		focus: function (event, ui) {
+			$(this).val(ui.item.label);
+			return false;
+		}
+
+
+	}).data("ui-autocomplete")._renderItem = function (ul, item) {
+		return $("<li>")
+				.data("ui-autocomplete-item", item)
+				.append("<a>" + item.label + "</a>")
+				.appendTo(ul);
+	};
+
 });
 
 $("#txtAreaServ").focus(function () {
-		$("#txtAreaServ").autocomplete({
-			source: '../../../../area/area/buscarAreaCmb',
-			select: function (event, ui) {
-				$('#txtIdUnidadOrganica').val(ui.item.idunidadeorg);
-				$('#txtIdAreaServ').val(ui.item.value);
-				$('#txtUnidadOrganica').val(ui.item.unidadorganica);
-				$(this).val(ui.item.label)
-				return false;
-			},
-			autoFocus: false,
-			open: function (event, ui) {
-				$("#txtIdUnidadOrganica").val('');
-				$("#txtIdAreaServ").val('');
-				$('#txtUnidadOrganica').val('');
-			},
-			focus: function (event, ui) {
-				return false;
-			}
-		});
-	
+	$("#txtAreaServ").autocomplete({
+		source: '../../../../area/area/buscarAreaCmb',
+		select: function (event, ui) {
+			$('#txtIdUnidadOrganica').val(ui.item.idunidadeorg);
+			$('#txtIdAreaServ').val(ui.item.value);
+			$('#txtUnidadOrganica').val(ui.item.unidadorganica);
+			$(this).val(ui.item.label)
+			return false;
+		},
+		autoFocus: false,
+		open: function (event, ui) {
+			$("#txtIdUnidadOrganica").val('');
+			$("#txtIdAreaServ").val('');
+			$('#txtUnidadOrganica').val('');
+		},
+		focus: function (event, ui) {
+			return false;
+		}
+	});
+
 });
 
 
@@ -282,6 +282,45 @@ $(document).on('click', '#btnAnadirDisp', function (event) {
 
 });
 
+$(document).on('click', '#btnAnadirDocumento', function (event) {
+	event.preventDefault();
+	var txtId = $('#cmbDocumento').val();
+	var documento = $('#txtDocumento').val();
+	var fecha = $('#txtFechaDoc').val();
+	$("#txtDocumento").focus();
+	if (documento == '') {
+		bootbox.alert('<b style="color: #F44336;" >Debe Ingresar el Numero del Documento</b>');
+		$("#txtDocumento").focus();
+	} else {
+		if (txtId > 0) {
+			verificarDocumento(txtId, documento, fecha);
+			$("#txtDocumento").focus();
+			$('#txtDocumento').val('');
+		}
+	}
+});
+
+var verificarDocumento = function (txtId, documento, fecha){
+	var campo1;
+	$("#tabla_documento tbody tr").each(function (index) {
+		$(this).children("td").each(function (index2) {
+			switch (index2) {
+				case 1:
+					campo1 = $(this).text();
+					break;
+			}
+		})
+	});
+	if (campo1 === txtId) {
+		bootbox.alert('<b style="color: #F44336;" >El tipo de documento ya ha sido ingresado</b>');
+	} else {
+		$("#tabla_documento > tbody").append(
+				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td>'+$("#cmbDocumento option:selected").text()+'</td><td>' + documento + '</td><td>' + fecha + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+	}
+	;
+}
+
+
 $(document).on('click', '#btnAnadirRam', function (event) {
 	event.preventDefault();
 	var idRam = $('#txtIdMR').val();
@@ -320,7 +359,7 @@ $(document).on('click', '#btnAnadirUser', function (event) {
 			$('#txtPass').val('');
 		}
 	}
-	
+
 });
 
 
@@ -353,7 +392,7 @@ var insertarUser = function (tipo, user, pass) {
 			switch (index2) {
 				case 1:
 					campo1 = $(this).text();
-					
+
 					break;
 			}
 		})
@@ -435,7 +474,7 @@ $("#txtDispositivo").focus(function () {
 });
 
 function especificos(dato) {
-	
+
 	if (dato == '2') {
 		$("#datosDetalleFicha").show()
 		$("#pcCompatible").show();
@@ -449,7 +488,7 @@ function especificos(dato) {
 		$(".wizard_steps").show();
 		$(".actionBar").show();
 		$(".stepContainer").show();
-		
+
 		$("#ficha").val("2");
 	} else if (dato == '1') {
 		$("#datosDetalleFicha").show()
@@ -466,9 +505,9 @@ function especificos(dato) {
 		$(".stepContainer").show();
 		$(".wizard_steps").show();
 		$(".actionBar").show();
-		
+
 		$("#ficha").val("1");
-	}else{
+	} else {
 		$("#datosDetalleFicha").show();
 		$("#step-1").hide();
 		$("#stepEspecifico").hide();
@@ -488,35 +527,35 @@ $("#txtMI").focus(function () {
 
 $("#txtSeriePC").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc") :($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 
 $("#txtLicenciaSO").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-	bSerie($(this).val(), '#lblALicenciaSO', "#lblNLicenciaSO"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblALicenciaSO', "#lblNLicenciaSO") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 
 $("#txtSerieDD").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-	bSerie($(this).val(), '#lblASerieDD', "#lblNSerieDD"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieDD', "#lblNSerieDD") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 
 $("#txtSerieMain").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-	bSerie($(this).val(), '#lblASerieMain', "#lblNSerieMain"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieMain', "#lblNSerieMain") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 $("#txtSerieRed").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-	bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 $("#txtSerieMaMo").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-	bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 $("#txtFichaSerieMaMo").keyup(function () {
 
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-	bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo"):($('#lblASerieMaMo').hide(),$('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 
 function bSerie(ser, lbla, lbln) {
@@ -584,7 +623,7 @@ $(document).on('click', '#btnModelo', function (event) {
 $(document).on('click', '#btnAnadirDAd', function (event) {
 	$("#datosAdquisicion").show();
 	$("#txtPecosa").focus();
-	
+
 });
 
 $(document).on('click', '#btnAnadirFichaDisp', function (event) {
@@ -592,7 +631,7 @@ $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 	var id = $('#txtFichaIdDis').val();
 	var modelo = $('#txtFichaMaMo').val();
 	var serie = $('#txtFichaSerieMaMo').val();
-	var inventario= $('#txtFichaCodInventario').val();
+	var inventario = $('#txtFichaCodInventario').val();
 	var chk = $('input:checkbox[id=chkOpFichaDisp]:checked').val();
 	if (chk == 1) {
 		chk = 'SI';
@@ -602,8 +641,8 @@ $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 	if (id == '') {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar Marca y  Modelo</b>');
 	} else {
-		insertFichaDisp(id,modelo,serie,inventario,chk);
-		
+		insertFichaDisp(id, modelo, serie, inventario, chk);
+
 	}
 	$("#txtFichaMaMo").focus();
 	$('input:checkbox[id=chkOpFichaDisp]:checked').val()
@@ -629,8 +668,9 @@ var insertFichaDisp = function (id, modelo, serie, inventario, chk) {
 	if (campo1 === id) {
 		bootbox.alert('<b style="color: #F44336;" >La Marca y el Modelo para el Mismo Dispositvo, ya ha sido ingresado</b>');
 	} else {
-		$("#tabla_ficha_disp > tbody").append('<tr data-id=' + id + ' ><td>#</td><td hidden>' + id + '</td><td>' + modelo + '</td><td>' + serie+ '</td><td>' + inventario + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerMo"><i class="fa fa-fw fa-close"></i></button></td></tr>');
-	};
+		$("#tabla_ficha_disp > tbody").append('<tr data-id=' + id + ' ><td>#</td><td hidden>' + id + '</td><td>' + modelo + '</td><td>' + serie + '</td><td>' + inventario + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerMo"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+	}
+	;
 }
 
 $(document).on('click', '#chkCompatible', function (event) {
@@ -851,16 +891,16 @@ $(document).on('click', '#btnguardar', function (event) {
 			'nrolicencia': row.cells[8].textContent.length > 0 ? row.cells[8].textContent : null,
 		};
 	}).get();
-	
-	var tblUser=  $('#tabla_user tbody tr').map(function (i, row) {
+
+	var tblUser = $('#tabla_user tbody tr').map(function (i, row) {
 		return {
 			'user': row.cells[1].textContent,
 			'tipo': row.cells[2].textContent,
 			'pass': row.cells[3].textContent,
 		};
 	}).get();
-	
-		var tblFichaDisp = $('#tabla_ficha_disp tbody tr').map(function (i, row) {
+
+	var tblFichaDisp = $('#tabla_ficha_disp tbody tr').map(function (i, row) {
 		return {
 			'idDispositivo': $("#txtIdEquipo").val(),
 			'idDispMarcaModelo': row.cells[1].textContent,
@@ -869,20 +909,20 @@ $(document).on('click', '#btnguardar', function (event) {
 			'operativo': row.cells[5].textContent == "SI" ? true : false,
 		};
 	}).get();
-			
-	registrar(ficha,txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
+
+	registrar(ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
 			txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 			txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
-			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser,tblFichaDisp);
+			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser, tblFichaDisp);
 });
 
 
-var registrar = function (ficha,txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
+var registrar = function (ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
 		txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 		txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
-		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,tblUser,tblFichaDisp) {
-			
-			alert("33");
+		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser, tblFichaDisp) {
+
+	alert("33");
 	var options = {
 		type: 'POST',
 		url: '../../registrar',

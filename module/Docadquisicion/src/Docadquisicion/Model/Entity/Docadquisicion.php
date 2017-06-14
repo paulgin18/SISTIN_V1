@@ -17,40 +17,48 @@ class Docadquisicion extends TableGateway {
 		return parent::__construct('Anio', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($descripcion, $numero) {
+	public function insertar($descripcion, $abreviatura) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO anio (descripcion, numero) "
+				"INSERT INTO doc_adquisicion (descripcion, abreviatura) "
 						. "VALUES "
-						. "(upper(trim('$descripcion')),$numero)");
+						. "(upper(trim('$descripcion')),upper(trim('$abreviatura')))");
 		$datos = $insert->execute();
 		return $datos;
 	}
 	
-	public function modificar($descripcion, $numero,$id) {
+	public function modificar($descripcion, $abreveviatura,$id) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"update anio set descripcion=upper(trim('$descripcion')), numero=$numero "
-						. "where id_anio=$id");
+				"update doc_adquisicion set descripcion=upper(trim('$descripcion')), abreviatura=upper(trim('$abreveviatura'))"
+						. "where id_doc_adquisicion=$id");
 		$datos = $insert->execute();
 		return $datos;
 	}
 
 
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_doc_adquisicion, abreveviatura, descripcion, vigencia, fecha_registro FROM doc_adquisicion order by vigencia desc, descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT id_doc_adquisicion, abreviatura, descripcion, vigencia, fecha_registro FROM doc_adquisicion order by vigencia desc, descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT * FROM anio where  id_anio=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT id_doc_adquisicion, abreviatura, descripcion, vigencia, fecha_registro FROM doc_adquisicion  where  id_doc_adquisicion=$id",Adapter::QUERY_MODE_EXECUTE);
+        $datos=$consulta->toArray();
+        return $datos[0];
+    } 
+	
+	public function buscarDescripcion($descripcion){
+        $consulta=$this->dbAdapter->query(
+				"SELECT id_doc_adquisicion as value, (abreviatura || ' - '||escripcion) as label FROM doc_adquisicion  "
+		        ."where (descripcion like upper('%$descripcion%')or abreviatura like upper('%$descripcion%'))");
         $datos=$consulta->toArray();
         return $datos[0];
     } 
 	
 	public function eliminar($id,$vigencia){
-		$insert = $this->dbAdapter->createStatement("update anio set vigencia=$vigencia where id_anio=$id");
+		$insert = $this->dbAdapter->createStatement("update doc_adquisicion set vigencia=$vigencia where id_doc_adquisicion=$id");
 		$datos = $insert->execute();
 		return $datos;
     } 

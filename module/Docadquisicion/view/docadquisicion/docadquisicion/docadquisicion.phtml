@@ -3,7 +3,7 @@
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<div class="x_panel">
 				<div class="x_title">
-					<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/anio/anio/form/0/1">Nuevo</a>
+					<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/docadquisicion/docadquisicion/form/0/1">Nuevo</a>
                     <ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
@@ -19,9 +19,9 @@
 							<?php foreach ($this->docadquisicion as $doc) { ?>
 								<tr>
 									<td><?php echo $doc['descripcion'] ?></td>
-									<td><?php echo $doc['abreveviatura'] ?></td>
+									<td><?php echo $doc['abreviatura'] ?></td>
 									<td><?= $doc['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
-									<td><a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("anio/anio/form/1/" . $doc['id_doc_adquisicion'] . ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
+									<td><a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("docadquisicion/docadquisicion/form/1/" . $doc['id_doc_adquisicion'] . ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
 									<?= $doc['vigencia'] == 1 ? "<a class='btn btn-danger btnBorrar' title='Eliminar'><img alt='Eliminar' style='width:19px;' src='../../img/delete.png'></a>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 									</td>
 									<td id="idCod" style="display:none;"><?= $doc['id_doc_adquisicion'] ?></td>

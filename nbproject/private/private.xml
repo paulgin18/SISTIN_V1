@@ -3,30 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/view/ficha/ficha/ficha.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/config/application.config.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Personal/src/Personal/Model/Entity/Personal.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/src/Ficha/Model/Entity/Ficha.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Personal/view/personal/personal/personal.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/index.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Anio/view/anio/anio/listadoanios.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/assets/css/core.css</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Personal/config/module.config.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Dispositivo/src/Dispositivo/Model/Entity/Dispositivo.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Marca/src/Marca/Controller/MarcaController.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Marca/view/marca/marca/form.phtml</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/src/Ficha/Controller/FichaController.php</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/view/ficha/ficha/form.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/config/autoload/global.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Marca/Module.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Personal/view/personal/personal/form.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Marca/src/Marca/Model/Entity/Marca.php</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Docadquisicion/src/Docadquisicion/Model/Entity/Docadquisicion.php</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_ficha.js</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Red/src/Red/Model/Entity/Red.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Marca/view/marca/marca/marca.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Application/view/layout/layout.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Red/view/red/red/red.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Marca/config/module.config.php</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Docadquisicion/view/docadquisicion/docadquisicion/docadquisicion.phtml</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Anio/view/anio/anio/listadoanios.phtml</file>
         </group>
     </open-files>
 </project-private>
