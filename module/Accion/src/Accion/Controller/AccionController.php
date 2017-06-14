@@ -88,14 +88,13 @@ class accionController extends AbstractActionController {
 		public function registrarAction() {
 		try {
 			$tipo =$this->getRequest()->getPost('cmbTipo');
-			$vigencia = $this->getRequest()->getPost('chkVigencia');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 
 			$accions = new Accion($this->dbAdapter);
 			if ($id != '') {
-				$modificador = $accions->modificar($id,$descripcion,$numero,$vigencia);
+				$modificar = $accions->modificar($id,$tipo,$descripcion);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $accions->insertar($tipo,$descripcion);

@@ -25,7 +25,7 @@ class Accion extends TableGateway {
 		$datos = $insert->execute();
 		return $insert;
 	}
-	public function modificar($id, $descripcion,$tipo) {
+	public function modificar($id,$tipo,$descripcion) {
 		$update = $this->dbAdapter->createStatement("UPDATE accion SET descripcion=upper(trim('$descripcion')), tipo='$tipo' WHERE id_accion=$id");
 		$datos = $update->execute();
 		return $update;
