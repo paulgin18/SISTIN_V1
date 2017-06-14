@@ -1,0 +1,57 @@
+<?php if ($mantenimiento != null) { ?>
+	<div class="right_col" role="main" style="min-height: 771px;">
+	    <div class="">
+	        <div class="clearfix"></div>
+	        <div class="row">
+	            <div class="col-md-12 col-sm-12 col-xs-12">
+	                <div class="x_panel">
+	                    <div class="x_title">
+	                        <h2><?php echo $this->mantenimiento ?> Doc. Adquisicion <small></small></h2>
+	                        <ul class="nav navbar-right panel_toolbox">
+	                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+	                        </ul>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                    <div class="x_content">
+							<form class="form-horizontal form-label-left" id="formRegistro"  action="javascript:void(0)"  >
+								<div class="form-group">
+									<label for="" class="col-sm-1 control-label"><b>Abreviatura:</b></label>
+									<div class="col-sm-2">
+										<input type="hidden" class="" name="txtId" id="txtId"   placeholder="" value="<?= $datos != null ? $datos['id_doc_adquisicion'] : ''; ?>">
+										<input type="text" minlength="4" id="txtAbreviatura"   class='form-control  abreviatura'  required=""  autofocus="autofocus"  placeholder="" value="<?= $datos != null ? $datos['abreviatura'] : ''; ?>"  maxlength="4">
+									</div>
+									<label for="" class="col-sm-1 control-label">Documento</label>
+									<div class="col-sm-8">
+										<input type="text" id="txtDescripcion" name="txtDescripcion" class='form-control descripcion' required="" value="<?= $datos != null ? $datos['descripcion'] : ''; ?>" maxlength="300" />	
+									</div>
+								</div>
+	                        <hr>
+	                        <div class="form-group">
+	                            <center><div class="col-sm-9">
+										<button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton ?></button>
+	                                </div></center>
+	                        </div>
+							</form>
+						</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+<?php } ?>
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+
+<?=
+		$this->inlineScript()
+		->prependFile($this->basePath('js/js_anio.js'))
+	
+?>

@@ -8,7 +8,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Marca\Controller;
+namespace Docadquisicion\Controller;
 
 require "vendor/autoload.php";
 
@@ -19,32 +19,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
-use Marca\Model\Entity\Marca;
+use Docadquisicion\Model\Entity\Docadquisicion;
 use Zend\MVC\Exception;
 
-class MarcaController extends AbstractActionController {
-
-	public function indexAction() {
-
-
-		//INICIO VARIABLES DE SESION
-		// $sessionConfig = new SessionConfig();
-		// $sessionConfig->setOptions(array(
-		//     'remember_me_seconds' => 180,
-		//     'use_cookies' => true,
-		//     'cookie_httponly' => true
-		//     )
-		// );
-		// $sessionManager = new SessionManager($sessionConfig);
-		// $sessionManager->start();
-		// Container::setDefaultManager($sessionManager);
-		// $session = new Container('userdata');
-		// $session->username = 'paul';
-		// $session->sis_userid = '1';
-		//FIN VARIABLES DE SESION
-//        $session = $session->username;
-//        return new ViewModel(array('session' => $session ));
-	}
+class DocadquisicionController extends AbstractActionController {
 
 	public function formAction() {
 		$id = $this->params()->fromRoute("id", null);
@@ -68,26 +46,27 @@ class MarcaController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$marcas = new Marca($this->dbAdapter);
-		$datos = $marcas->buscar($cod);
+		$anios = new Anio($this->dbAdapter);
+		$datos = $anios->buscar($cod);
 		return $datos;
 	}
 
-	public function registrarAction() {
+	public function registraranioAction() {
 		$error = 0;
 		$msj = "";
 		try {
-			
+			$numero = $this->getRequest()->getPost('txtAnio');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$id = $this->getRequest()->getPost('txtId');
+
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$marcas = new Marca($this->dbAdapter);
+			$anios = new Anio($this->dbAdapter); 
 			if ($id != '') {
-				$modificar= $marcas->modificar($id, $descripcion);
+				$modificar = $anios->modificar($descripcion, $numero, $id);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $marcas->insertar($descripcion);
-				$msj = $this->mensaje($insert, 0);
+				$insertar = $anios->insertar($descripcion, $numero);
+				$msj = $this->mensaje($insertar, 0);
 			}
 		} catch (\Exception $e) {
 			$error = 1;
@@ -98,14 +77,48 @@ class MarcaController extends AbstractActionController {
 				case 23505:
 					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
 					break;
-				
+				case 23514:
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
+					break;
 				default:
 					$error = explode("DETAIL:", $codError[2]);
 
 					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
 					break;
 			}
+//			Statement could not be executed (23505 - 7 - ERROR: llave duplicada viola restricción de
+//				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
+//			
 		}
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
+		$response->setTerminal(true);
+		return $response;
+	}
+
+	public function DocadquisicionAction() {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$docadquisicion = new Docadquisicion($this->dbAdapter);
+		$lista = $docadquisicion->lista();
+		$viewModel = new ViewModel(array("docadquisicion" => $lista));
+		return $viewModel;
+	}
+
+	public function fechaAction() {
+		
+		$viewModel = new ViewModel();
+		return $viewModel;
+	}
+
+
+	public function eliminarAction() {
+		$error=0;$tipoConsulta = 0;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$anios = new Anio($this->dbAdapter);
+		$cod = $this->getRequest()->getPost('cod');
+		$vigencia = $this->getRequest()->getPost('vigencia');
+		$eliminar = $anios->eliminar($cod,$vigencia);
+		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
+		$msj = $this->mensaje($eliminar, $tipoConsulta);
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
@@ -131,30 +144,6 @@ class MarcaController extends AbstractActionController {
 			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
 		}
 		return $msj;
-	}
-
-	public function marcaAction() {
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$marcas = new Marca($this->dbAdapter);
-		$lista = $marcas->lista();
-		$viewModel = new ViewModel(array(
-			"marcas" => $lista
-		));
-		return $viewModel;
-	}
-
-	public function eliminarAction() {
-		$error = 0;$tipoConsulta=0;
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$marcas = new Marca($this->dbAdapter);
-		$cod = $this->getRequest()->getPost('cod');
-		$vigencia = $this->getRequest()->getPost('vigencia');
-		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
-		$eliminar = $marcas->eliminar($cod, $vigencia);
-		$msj = $this->mensaje($eliminar, $tipoConsulta);
-		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
-		$response->setTerminal(true);
-		return $response;
 	}
 
 }

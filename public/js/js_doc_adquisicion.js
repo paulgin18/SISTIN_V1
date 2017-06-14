@@ -1,15 +1,16 @@
-var registrarmarca = function (txtDescripcion,txtId) {
+var registraranio = function (txtDescripcion, txtAnio, txtId) {
 	var options = {
 		type: 'POST',
-		url: '../../registrar',
+		url: '../../registraranio',
 		data: {'txtDescripcion': txtDescripcion,
+			'txtAnio': txtAnio,
 			'txtId': txtId,
 		},
 		dataType: 'json',
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../marca";
+						window.location.href = "../../listadoanios";
 					}) :
 					bootbox.alert(response.msj);
 				$("#btnguardar").prop('disabled', false);
@@ -27,11 +28,9 @@ $(document).submit(function (event) {
 		$("#btnguardar").prop('disabled', true);
 		event.preventDefault();
 		var txtDescripcion = $('#txtDescripcion').val();
+		var txtAnio = $('#txtAnio').val();
 		var txtId = $('#txtId').val();
-		
-
-
-		registrarmarca(txtDescripcion,txtId);
+		registraranio(txtDescripcion, txtAnio, txtId);
 		this.disabled = false;
 	}
 });
@@ -41,21 +40,21 @@ $(document).ready(function () {
 		this.value = this.value.toLocaleUpperCase();
 	});
 	$('#txtDescripcion').valcn(' abcdefghijklmnñopqrstuvwxyzáéiou');
+	$('#txtAnio').valcn('0123456789');
 	
-	$(".marca, .descripcion").keyup(function () {
+	$(".anio, .descripcion").keyup(function () {
 		if ($(this).val() != "") {$(".error").fadeOut();return false;}
 	});
   
 });
-
 
 function validar() {
 	    $(".error").remove();
 	        if ($(".descripcion").val() == "") {
 		            $(".descripcion").focus().after("<span class='error'>Ingrese la descripcion</span>");
 		            return false;
-	        } else if ($(".marca").val() == "") {
-		            $(".marca").focus().after("<span class='error'>Ingrese una marca</span>");
+	        } else if ($(".anio").val() == "") {
+		            $(".anio").focus().after("<span class='error'>Ingrese un año</span>");
 		            return false;
 	        } else {
 		return true;
@@ -72,7 +71,7 @@ var eliminar = function ($cod,$vigencia){
 		success: function (response) {
 		(response.error == 0) ?
 			bootbox.alert(response.msj, function () {
-				window.location.href = "marca";
+				window.location.href = "listadoanios";
 			}) :
 			bootbox.alert(response.msj);
 		}
