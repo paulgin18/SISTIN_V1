@@ -19,7 +19,7 @@ class Ficha extends TableGateway {
 
 	public function insertar($ficha,$numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, 
 			$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
-			$tblOtro,$tblUser,$tblFichaDisp) {
+			$tblOtro,$tblUser,$tblFichaDisp,$tblFichaDocAdquisicion,$tblArchivo) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
@@ -37,6 +37,8 @@ class Ficha extends TableGateway {
 			$tblSoft != null || $tblSoft != "" ? $this->software($idInsert, $tblSoft) : "";
 			$tblOtro != null || $tblOtro != "" ? $this->otrosComponentes($idInsert, $tblOtro) : "";
 			$tblUser!= null || $tblUser!= "" ? $this->cuentasUsuario($idInsert, $tblUser) : "";
+			$tblFichaDocAdquisicion!= null || $tblFichaDocAdquisicion!= "" ? $this->docAdquisicion($idInsert, $tblFichaDocAdquisicion) : "";
+			$tblArchivo!= null || $tblArchivo!= "" ? $this->archivo($idInsert, $tblArchivo) : "";
 			}
 			$connection->commit();
 			$datos = true;
@@ -130,7 +132,7 @@ class Ficha extends TableGateway {
 		}
 		return $insert;
 	}
-
+	
 	public function otrosComponentes($idInsert, $tblOtro) {
 		foreach ($tblOtro as $otro) {
 			$insert = $this->dbAdapter->
@@ -142,6 +144,27 @@ class Ficha extends TableGateway {
 		}
 		return $insert;
 	}
+	
+	public function docAdquisicion($idInsert, $tblFichaDocAdquisicion) {
+		foreach ($tblFichaDocAdquisicion as $Documento) {
+			$insert = $this->dbAdapter->
+					createStatement(
+					"INSERT INTO ft_adquisicion(nro_doc, fecha_doc, id_doc_adquisicion,id_ficha_tecnica)"
+					. "VALUES ('" . $Documento['nro_doc'] . "','" . $Documento['fecha_doc'] . "',".$Documento['id_doc_adquisicion'].",$idInsert)");
+			$insert->execute();
+		}
+		return $insert;
+	}
+	
+	public function archivo($idInsert, $tblArchivo) {
+			$insert = $this->dbAdapter->
+					createStatement(
+					"INSERT INTO ft_archivo(ruta, id_ficha_tecnica)"
+					. "VALUES ('" . $tblArchivo['ruta'] . "',$idInsert)");
+			$insert->execute();
+		return $insert;
+	}
+	
 	
 	public function fichaDisp($idInsert, $tblFichaDisp) {
 		foreach ($tblFichaDisp as $fichaDisp) {

@@ -28,5 +28,11 @@ return array(
 		'dsn'=>'pgsql:host=localhost;port=5432;dbname=bdinventario', 
 
 	),    
+	 'module_layouts' => array(
+       'Application' => 'layout/layout.phtml',
+       'Usuario'=> 'layout/layoutUser.phtml',
+       'Backend' => 'layout/layout2.phtml',
+   ),
 );
+
 

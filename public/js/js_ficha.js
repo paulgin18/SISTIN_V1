@@ -302,7 +302,7 @@ $(document).on('click', '#btnAnadirDocumento', function (event) {
 
 var verificarDocumento = function (txtId, documento, fecha){
 	var campo1;
-	$("#tabla_documento tbody tr").each(function (index) {
+	$("#tabla_adquisicion tbody tr").each(function (index) {
 		$(this).children("td").each(function (index2) {
 			switch (index2) {
 				case 1:
@@ -910,19 +910,34 @@ $(document).on('click', '#btnguardar', function (event) {
 		};
 	}).get();
 
+var tblFichaAd = $('#tabla_adquisicion tbody tr').map(function (i, row) {
+		return {
+			'id_doc_adquisicion': row.cells[1].textContent,
+			'nro_doc': row.cells[3].textContent,
+			'fecha_doc': row.cells[4].textContent,
+			'id_doc_adquisicion': row.cells[3].textContent.length > 0 ? row.cells[3].textContent : null,
+		};
+	}).get();
+	
+	var tblArchivo = (
+		 $("#uploadedfile").val() > 0) ? {
+		'ruta': $("#txtSerieMain").val().length > 0 ? $("#uploadedfile").val() : "null"} : null;
+
+
 	registrar(ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
 			txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 			txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
-			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser, tblFichaDisp);
+			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,
+			tblUser, tblFichaDisp,tblFichaAd,tblArchivo);
 });
 
 
 var registrar = function (ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
 		txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 		txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
-		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser, tblFichaDisp) {
+		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser,
+		tblFichaDisp,tblFichaAd,tblArchivo) {
 
-	alert("33");
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
@@ -954,6 +969,8 @@ var registrar = function (ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnid
 			'tblRed': tblRed,
 			'tblUser': tblUser,
 			'tblFichaDisp': tblFichaDisp,
+			'tblFichaAd': tblFichaAd,
+			'tblArchivo': tblArchivo,
 		},
 		dataType: 'json',
 		success: function (response) {

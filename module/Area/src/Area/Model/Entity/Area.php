@@ -50,6 +50,16 @@ class Area extends TableGateway {
         $datos=$consulta->toArray();
         return $datos[0];
     }
+	
+		public function buscarAreaCmb($descripcion, $idUnidadEjecutora) {
+		$consulta = $this->dbAdapter->query(
+				"SELECT id_area as value, a.descripcion as label,a.id_uni_org as idunidadeorg,ua.descripcion unidadorganica, a.vigencia , ua.id_uni_org FROM area a"
+				. " inner join unidad_organica ua on a.id_uni_org=ua.id_uni_org "
+				. " where a.vigencia=true and ua.id_uni_org=$idUnidadEjecutora and upper(a.descripcion) like upper('%$descripcion%')", Adapter::QUERY_MODE_EXECUTE);
+		$datos = $consulta->toArray();
+		return $datos;
+	}
+	
 	  public function buscarArea($descripcion){
         $consulta=$this->dbAdapter->query(
 		"SELECT id_area as value, descripcion as label,id_uni_org as unidadorganica, vigencia FROM area where descripcion like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);

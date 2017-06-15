@@ -37,14 +37,18 @@ class Docadquisicion extends TableGateway {
 	}
 
 
-	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_doc_adquisicion, abreviatura, descripcion, vigencia, fecha_registro FROM doc_adquisicion order by vigencia desc, descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+	public function lista($vigencia) {
+		$where="";
+		($vigencia=="true"|| $vigencia=="false")?$where=" where vigencia=$vigencia":" ";
+		$consulta = $this->dbAdapter->query("SELECT id_doc_adquisicion, abreviatura, descripcion, vigencia, fecha_registro FROM doc_adquisicion$where order by vigencia desc, descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
-	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_doc_adquisicion, abreviatura, descripcion, vigencia, fecha_registro FROM doc_adquisicion  where  id_doc_adquisicion=$id",Adapter::QUERY_MODE_EXECUTE);
+	public function buscar($id, $vigencia){
+		$where="";
+		($vigencia=="true"|| $vigencia=="false")?$where=" and vigencia=$vigencia":"";
+        $consulta=$this->dbAdapter->query("SELECT id_doc_adquisicion, abreviatura, descripcion, vigencia, fecha_registro FROM doc_adquisicion  where id_doc_adquisicion=".$id."".$where,Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     } 
@@ -52,7 +56,7 @@ class Docadquisicion extends TableGateway {
 	public function buscarDescripcion($descripcion){
         $consulta=$this->dbAdapter->query(
 				"SELECT id_doc_adquisicion as value, (abreviatura || ' - '||escripcion) as label FROM doc_adquisicion  "
-		        ."where (descripcion like upper('%$descripcion%')or abreviatura like upper('%$descripcion%'))");
+		        ."where (descripcion like upper('%$descripcion%')or abreviatura like upper('%$descripcion%')) ");
         $datos=$consulta->toArray();
         return $datos[0];
     } 

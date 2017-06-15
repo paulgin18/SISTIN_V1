@@ -28,9 +28,6 @@ $(document).submit(function (event) {
 		event.preventDefault();
 		var txtDescripcion = $('#txtDescripcion').val();
 		var txtId = $('#txtId').val();
-		
-
-
 		registrarmarca(txtDescripcion,txtId);
 		this.disabled = false;
 	}

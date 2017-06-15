@@ -34,7 +34,7 @@ class DocadquisicionController extends AbstractActionController {
 					'datos' => null));
 			} else {
 				if ($id == 1 && $cod > 0) {
-					$datos = $this->buscar($cod);
+					$datos = $this->buscar($cod,1);
 					return new ViewModel(
 							array('mantenimiento' => 'Modificar',
 						'textBoton' => 'Actualizar',
@@ -47,7 +47,7 @@ class DocadquisicionController extends AbstractActionController {
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$docadquisicion= new Docadquisicion($this->dbAdapter);
-		$datos = $docadquisicion->buscar($cod);
+		$datos = $docadquisicion->buscar($cod,1);
 		return $datos;
 	}
 
@@ -92,7 +92,7 @@ class DocadquisicionController extends AbstractActionController {
 	public function DocadquisicionAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$docadquisicion = new Docadquisicion($this->dbAdapter);
-		$lista = $docadquisicion->lista();
+		$lista = $docadquisicion->lista(1);
 		$viewModel = new ViewModel(array("docadquisicion" => $lista));
 		return $viewModel;
 	}

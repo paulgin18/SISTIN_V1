@@ -34,8 +34,7 @@ class FichaController extends AbstractActionController {
 		if ($id !== null) {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$docAdquisicion = new Docadquisicion($this->dbAdapter);
-			$datosAdquisicion = $docAdquisicion->lista();
-
+			$datosAdquisicion = $docAdquisicion->lista("true");
 			if ($id == 0) {
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
@@ -92,17 +91,20 @@ class FichaController extends AbstractActionController {
 			$tblOtro = $this->getRequest()->getPost('tblOtrosComponentes');
 			$tblUser = $this->getRequest()->getPost('tblUser');
 			$tblFichaDisp = $this->getRequest()->getPost('tblFichaDisp');
+			$tblFichaAd = $this->getRequest()->getPost('tblFichaAd');
+			$tblArchivo = $this->getRequest()->getPost('tblArchivo');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
 //if ($id != '') {
 //				$modificar = $ficha->modificar($descripcion, $numero, $id);
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
-			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp);
+			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario,
+				$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft,
+				$tblOtro, $tblUser, $tblFichaDisp,$tblFichaAd,$tblArchivo);
 			$msj = $this->mensaje($insertar, 0);
 //			}
 		} catch (\Exception $e) {
-
 			$error = 1;
 			$codError = explode("(", $e->getMessage());
 			$codError = explode("-", $codError[1]);
@@ -112,7 +114,7 @@ class FichaController extends AbstractActionController {
 					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
 					break;
 				case 23514:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> La Ficha de  '" . $numero . "' debe ser mayor que 2017.";
 					break;
 				default:
 					$error = explode("DETAIL:", $codError[2]);
@@ -129,20 +131,13 @@ class FichaController extends AbstractActionController {
 		return $response;
 	}
 
-	public function listadoaniosAction() {
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$anios = new Anio($this->dbAdapter);
-		$listadoanios = $anios->lista();
-		$viewModel = new ViewModel(array("anios" => $listadoanios));
-		return $viewModel;
-	}
-
+	
 	public function subirArchivoAction() {
 		$error = 0;
 		$msj = "";
 		$adapter = new Http();
 		$adapter->addValidator('Count', false, array('min' => 0, 'max' => 1))
-				->addValidator('Size', false, array('max' => '5242880'))
+				->addValidator('Size', false, array('max' => '5242880000000'))
 				->addValidator('Extension', false, array('extension' => 'rar', 'case' => true));
 		try {
 			$adapter->setDestination("c:\\files");
