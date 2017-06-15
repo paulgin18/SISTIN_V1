@@ -10,6 +10,9 @@ class LoginForm extends Form
     public function __construct($name = null)
      {
         parent::__construct($name);
+		   
+        //Definimos los filtros del formulario, instanciamos el objeto de validaciones
+      //  $this->setInputFilter(new \Usuario\Form\Validator());
          
       // $this->setInputFilter(new \Modulo\Form\AddUsuarioValidator());
          
@@ -20,20 +23,26 @@ class LoginForm extends Form
         ));
          
         $this->add(array(
-            'name' => 'email',
+            'name' => 'username',
             'attributes' => array(
-                'type' => 'email',
+                'type' => 'text',
+				'placeholder'=>'Usuario',
                 'class' => 'input form-control',
-                'required'=>'required'
-            )
+                'required'=>'required',
+				'style'=>'text-transform: uppercase',
+            ),
+			
+			
         ));
          
          $this->add(array(
             'name' => 'password',
             'attributes' => array(
                 'type' => 'password',
+				'placeholder'=>'Contraseña',
                 'class' => 'input form-control',
-                'required'=>'required'
+                'required'=>'required',
+				'style'=>'text-transform: uppercase',
             )
         ));
           

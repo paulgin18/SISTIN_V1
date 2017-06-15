@@ -1,32 +1,52 @@
-<h1>Login en Zend Framework 2</h1>
-<hr/>
- 
 <?php
 $this->headTitle("Login usuarios");
 $form = $this->form;
 $form->prepare();
 echo $this->form()->openTag($form);
 ?>
-<div class="form_element">
-<?php
-    $email = $form->get('email');
-    echo "Correo: ".$this->formInput($email);
-    if(isset($error["email"])){
-      echo $error["email"]['emailAddressInvalidHostname'];
-    }
-?>
+
+
+      
+<div class="form-header">
+	<div class="app-brand"><span class="highlight">GERESA LAMBAYEQUE</span>
+		<br/>
+		<center><img src="../../img/logo.png" WIDTH="178" HEIGHT="180" ALT="GERESA"></center></div>
 </div>
-<div class="form_element">
-<?php
-    $pass = $form->get('password');
-    echo "Contraseña: ".$this->formInput($pass);
-    echo $this->formElementErrors($pass);
-?>
+<form action="verificar.php" method="POST">
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon1">
+			<i class="fa fa-user" aria-hidden="true"></i></span>
+
+
+		<?php
+		$userName = $form->get('username');
+		echo $this->formInput($userName);
+		  echo $this->formElementErrors($userName);
+		if (isset($error["username"])) {
+			echo $error["username"]['emailAddressInvalidHostname'];
+		}
+		?>
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon" id="basic-addon2">
+			<i class="fa fa-key" aria-hidden="true"></i></span>
+		<?php
+		$pass = $form->get('password');
+		echo  $this->formInput($pass);
+		echo $this->formElementErrors($pass);
+		?>
+	</div>
+	<div class="text-center">
+
+		<?php
+		echo $this->flashMessenger()->render();
+
+		echo $this->formElement($form->get('submit'));
+		echo $this->form()->closeTag();
+		?>
+	</div>
+</form>
+
+<div class="form-line">
+
 </div>
- 
-<?php 
-echo $this->flashMessenger()->render();
- 
-echo $this->formElement($form->get('submit'));
-echo $this->form()->closeTag(); 
-?>

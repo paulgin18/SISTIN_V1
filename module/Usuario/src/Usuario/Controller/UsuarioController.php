@@ -31,15 +31,11 @@ use Zend\Authentication\Adapter\DbTable as AuthAdapter;
 //Componentes de autenticación
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
-
-//Incluir modelos
-
-//Incluir formularios
 use Usuario\Form\LoginForm;
 
 class UsuarioController extends AbstractActionController {
 
-	private $dbAdapter;
+	//private $dbAdapter;
 	private $auth;
 
 	public function __construct() {
@@ -62,11 +58,13 @@ class UsuarioController extends AbstractActionController {
 
 		//DbAdapter
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		
+		
 
 		//Creamos el formulario de login
 		$form = new LoginForm("form");
 
-		//Si nos llegan datos por post
+		//Si nos llegan datos por post	
 		if ($this->getRequest()->isPost()) {
 
 			/* Creamos la autenticación a la que le pasamos:
@@ -75,7 +73,7 @@ class UsuarioController extends AbstractActionController {
 			  3. El campo de la bd que hará de username
 			  4. El campo de la bd que hará de contraseña
 			 */
-			$authAdapter = new AuthAdapter($this->dbAdapter, 'usuarios', 'email', 'password'
+			$authAdapter = new AuthAdapter($this->dbAdapter, 'usuarios', 'username', 'password'
 			);
 
 			/*
