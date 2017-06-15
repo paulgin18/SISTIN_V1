@@ -93,9 +93,6 @@ class EstadoController extends AbstractActionController {
 			//$msj=$this->mensaje($insert);
 						
 		} catch (\Exception $e) {
-
-
-
 			$msj = 'Error: ' . $e->getMessage();
 		}
 		$response = new JsonModel(

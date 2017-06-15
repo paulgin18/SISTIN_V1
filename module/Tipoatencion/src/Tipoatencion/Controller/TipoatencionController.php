@@ -82,11 +82,13 @@ class TipoatencionController extends AbstractActionController {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$tipoatencions = new Tipoatencion($this->dbAdapter);
 			if ($id != '') {
-				$insert = $tipoatencions->modificar($id,$descripcion,$numero, $vigencia );
+				$modificar = $tipoatencions->modificar($id,$descripcion,$numero, $vigencia );
+					$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $tipoatencions->insertar($numero,$descripcion);
+				$msj = $this->mensaje($insert, 0);
 			}
-			$msj=$this->mensaje($insert);
+		
 						
 		} catch (\Exception $e) {
 			$msj = 'Error: ' . $e->getMessage();
