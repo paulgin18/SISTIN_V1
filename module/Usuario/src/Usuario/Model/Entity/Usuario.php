@@ -1,6 +1,5 @@
 <?php
-
-namespace Anio\Model\Entity;
+namespace Usuario\Model\Entity;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
@@ -8,7 +7,7 @@ use Zend\Db\Sql\Select;
 
 use Zend\Db\ResultSet\ResultSet;
 
-class Anio extends TableGateway {
+class Usuario extends TableGateway {
 
 	private $dbAdapter;
 
@@ -43,10 +42,18 @@ class Anio extends TableGateway {
 		return $datos;
 	}
 
-	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT * FROM anio where  id_anio=$id",Adapter::QUERY_MODE_EXECUTE);
+	public function login($usuario,$pass){
+		try{
+        $consulta=$this->dbAdapter->query(
+			"SELECT id_user, usuario, password, vigencia, fecha_registro, fecha_actualizacion,"
+			. " id_personal, id_rol rol, id_unidad_ejecutora dependencia from usuario where usuario='$usuario'",
+				Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
-        return $datos[0];
+		count($datos)=='0'?$consulta=array('usuario'=>null):$consulta=$datos[0];
+        return $consulta;
+		} catch (\Exception $e) {
+			echo "ERROR".$e;
+		}
     } 
 	
 	public function eliminar($id,$vigencia){

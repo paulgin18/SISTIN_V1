@@ -121,6 +121,34 @@ $("#txtUnidadOrganica").focus(function () {
 
 });
 
+$("#txtRespFuncionario").focus(function () {
+
+	$("#txtRespFuncionario").autocomplete({
+		minLength: 0,
+		source: '../../../../personal/personal/buscarFuncionario',
+		dataType: "json",
+		select: function (event, ui) {
+			$('#txtIdRespFuncionario').val(ui.item.value);
+			$(this).val(ui.item.label);
+			$("#txtRespPatrimonio").val(ui.item.respatrimonial.split("\\")[1]);
+			$("#txtIdRespPatrimonio").val(ui.item.respatrimonial.split("\\")[0]);
+			$("#txtAreaServ").val(ui.item.respatrimonial.split("\\")[0]);
+			
+			return false;
+		},
+
+		open: function (event, ui) {
+			$("#txtIdUnidadOrganica").val('');
+		},
+		focus: function (event, ui) {
+			$(this).val(ui.item.label);
+			return false;
+		}
+
+	});
+
+});
+
 
 $("#txtUnidadOrganica").keydown(function () {
 
@@ -147,6 +175,37 @@ $("#txtUnidadOrganica").keydown(function () {
 });
 
 $("#txtUnidadOrganica").keyup(function () {
+
+	$("#txtUnidadOrganica").autocomplete({
+		minLength: 0,
+		source: '../../../../unidad/unidad/buscarUnidadCmb',
+		dataType: "json",
+		select: function (event, ui) {
+			$('#txtIdUnidadOrganica').val(ui.item.value);
+			$(this).val(ui.item.label)
+			return false;
+		},
+
+		open: function (event, ui) {
+			$("#txtIdUnidadOrganica").val('');
+		},
+		focus: function (event, ui) {
+			$(this).val(ui.item.label);
+			return false;
+		}
+
+
+	}).data("ui-autocomplete")._renderItem = function (ul, item) {
+		return $("<li>")
+				.data("ui-autocomplete-item", item)
+				.append("<a>" + item.label + "</a>")
+				.appendTo(ul);
+	};
+
+});
+
+
+$("#txtUnidadOrganica").on("click",function () {
 
 	$("#txtUnidadOrganica").autocomplete({
 		minLength: 0,
@@ -314,7 +373,7 @@ var verificarDocumento = function (txtId, documento, fecha){
 	if (campo1 === txtId) {
 		bootbox.alert('<b style="color: #F44336;" >El tipo de documento ya ha sido ingresado</b>');
 	} else {
-		$("#tabla_documento > tbody").append(
+		$("#tabla_adquisicion > tbody").append(
 				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td>'+$("#cmbDocumento option:selected").text()+'</td><td>' + documento + '</td><td>' + fecha + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
 	;
@@ -915,13 +974,14 @@ var tblFichaAd = $('#tabla_adquisicion tbody tr').map(function (i, row) {
 			'id_doc_adquisicion': row.cells[1].textContent,
 			'nro_doc': row.cells[3].textContent,
 			'fecha_doc': row.cells[4].textContent,
-			'id_doc_adquisicion': row.cells[3].textContent.length > 0 ? row.cells[3].textContent : null,
+			
 		};
 	}).get();
 	
-	var tblArchivo = (
-		 $("#uploadedfile").val() > 0) ? {
-		'ruta': $("#txtSerieMain").val().length > 0 ? $("#uploadedfile").val() : "null"} : null;
+	var tblArchivo = ($("#uploadedfile").val().length > 0) ? {
+		
+		'ruta': $("#uploadedfile").val(),
+	} : null;
 
 
 	registrar(ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
@@ -937,7 +997,8 @@ var registrar = function (ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnid
 		txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
 		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser,
 		tblFichaDisp,tblFichaAd,tblArchivo) {
-
+			alert($("#uploadedfile").val());
+alert(JSON.stringify(tblArchivo, null, 4));
 	var options = {
 		type: 'POST',
 		url: '../../registrar',

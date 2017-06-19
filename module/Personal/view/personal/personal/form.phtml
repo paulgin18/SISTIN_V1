@@ -49,10 +49,10 @@
 
 									</div>
 								<div class="form_group">
-								<label class="col-sm-1 control-label" for="chkResponsable" ><b>Responsable:</b></label>
+								<label class="col-sm-1 control-label" for="chkResponsable" ><b>Responsable Patrimonial:</b></label>
 										<div class="col-sm-1">
 											<?=
-											$datos != null ? $datos['vigencia'] == true ?
+											$datos != null ? $datos['respatrimonial'] == true ?
 															'<input type="checkbox" name="chkResponsable" id="chkResponsable" value="1" checked>' :
 															'<input type="checkbox" name="chkResponsable" id="chkResponsable" value="1">' :
 													'<input type="checkbox" name="chkResponsable" id="chkResponsable" value="1" ><br>';

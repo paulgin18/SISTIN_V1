@@ -72,7 +72,20 @@ class PersonalController extends AbstractActionController {
 		$datos = $personals->buscar($cod);
 		return $datos;
 	}
-
+	public function buscarFuncionarioAction() {
+		
+		$descripcion = $this->getRequest()->getQuery('term');
+		 $sesion=new Container('sesion');
+		$unidad_ejecutora = $sesion->datos->id_unidad_ejecutora;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$personal = new Personal($this->dbAdapter);
+		$items = $personal->buscarFuncionario($descripcion, $unidad_ejecutora);
+		$response = new JsonModel(
+				$items
+		);
+		$response->setTerminal(true);
+		return $response;
+	}
 
 	public function registrarAction() {
 		$error = 0;
@@ -83,15 +96,16 @@ class PersonalController extends AbstractActionController {
 			$apellidos = $this->getRequest()->getPost('txtApellidos');
 			$dni = $this->getRequest()->getPost('txtDNI');
 			$id_area = $this->getRequest()->getPost('id_area');
+			$responsable= $this->getRequest()->getPost('responsable');
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$personal = new Personal($this->dbAdapter);
 
 
 			if ($id != '') {
-				$modificar= $personal->modificar($id, $nombre,$apellidos,$dni,$id_area);
+				$modificar= $personal->modificar($id, $nombre,$apellidos,$dni,$id_area,$responsable);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $personal->insertar($nombre,$apellidos,$dni,$id_area);
+				$insert = $personal->insertar($nombre,$apellidos,$dni,$id_area,$responsable);
 				$msj = $this->mensaje($insert, 0);
 			}
 		} catch (\Exception $e) {

@@ -234,13 +234,19 @@ class FichaController extends AbstractActionController {
 	}
 
 	public function fichaAction() {
+		$session = new Container('sesion');
+		if($session->datos!=null){
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$fichas = new Ficha($this->dbAdapter);
 		$lista = $fichas->lista();
 		$viewModel = new ViewModel(array(
 			"fichas" => $lista
 		));
+		var_dump($session->datos);
 		return $viewModel;
+		}else{
+			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+		}
 	}
 
 }

@@ -2,7 +2,12 @@
 <html lang="en">
 	<head>
 		<?php
-		echo $this->headMeta()
+
+		use Zend\Session\Container;
+		
+$session = new Container('sesion');
+		if($session->datos!=null){
+echo $this->headMeta()
 				->appendName('viewport', 'width=device-width, initial-scale=1.0')
 				->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
 		?>
@@ -11,32 +16,19 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimal-ui">-->
 
 		<meta name="description" content="SISTEMA DE INVENTARIO - GERESA"> 
+
 		<!--<link rel="shortcut icon" sizes="196x196" href="assets/images/logo.png">-->
 		<?php echo $this->headTitle('SISTIN')->setSeparator(' - ')->setAutoEscape(false) ?>
-
-
 		<link href="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-		
 		<link href="<?php echo $this->basePath() ?>/css/autcomplete_style.css" rel="stylesheet">
 		<link href="<?php echo $this->basePath() ?>/css/jquery-ui.css" rel="stylesheet">
-		<!-- Font Awesome -->
 		<link href="<?php echo $this->basePath() ?>/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-		<!-- NProgress -->
 		<link href="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.css" rel="stylesheet">
-		<!-- iCheck -->
 		<link href="<?php echo $this->basePath() ?>/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-
-		<!-- bootstrap-progressbar -->
 		<link href="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-		<!-- JQVMap -->
 		<link href="<?php echo $this->basePath() ?>/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
-		<!-- bootstrap-daterangepicker -->
 		<link href="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
-		<!-- Custom Theme Style -->
 		<link href="<?php echo $this->basePath() ?>/build/css/custom.min.css" rel="stylesheet">
-
-
 		<script src="<?php echo $this->basePath() ?>/libs/bower/breakpoints.js/dist/breakpoints.min.js"></script>
 
 	</head>
@@ -46,7 +38,7 @@
 				<div class="col-md-3 left_col">
 					<div class="left_col scroll-view">
 						<div class="navbar nav_title" style="border: 0;">
-							<a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>SISTIN - GERESA</span></a>
+							<a href="<?= $this->basePath() ?> " class="site_title"><i class="fa fa-paw"></i> <span>SISTIN</span></a>
 						</div>
 						<div class="clearfix"></div>
 						<!-- menu profile quick info -->
@@ -56,7 +48,12 @@
 							</div>
 							<div class="profile_info">
 								<span>Bienvenido,</span>
-								<h2>Paul Gonzales</h2>
+								<h2><?php
+									$session = new Container('sesion');
+									//var_dump($session->datos);
+									echo!is_string($session) ? $session->datos->usuario : "NO LOGUEADO";
+									?></h2>
+
 							</div>
 						</div>
 						<!-- /menu profile quick info -->
@@ -70,48 +67,48 @@
 								<ul class="nav side-menu">
 									<li><a><i class="fa fa-home"></i> Inicio <span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
-											
-											<li><a href="<?php echo $this->basePath()?>/anio/anio/listadoanios">Anio</a></li>
-											<li><a href="<?php echo $this->basePath()?>/ficha/ficha/ficha">Ficha Tecnica</a></li>
-											
-											
-											
+
+											<li><a href="<?php echo $this->basePath() ?>/anio/anio/listadoanios">Anio</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/ficha/ficha/ficha">Ficha Tecnica</a></li>
+
+
+
 										</ul>
 									</li>
 									<li><a><i class="fa fa-edit"></i> Conf. Unidades <span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
-										    <li><a href="<?php echo $this->basePath()?>/red/red/red">Unidad Ejecutora</a></li>
-												<li><a href="<?php echo $this->basePath()?>/unidad/unidad/unidad">Unidad Organica</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/red/red/red">Unidad Ejecutora</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/unidad/unidad/unidad">Unidad Organica</a></li>
 										</ul>
 									</li>
 									<li><a><i class="fa fa-edit"></i> Conf. Areas<span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
-										    <li><a href="<?php echo $this->basePath()?>/area/area/area">Area </a></li>
-											<li><a href="<?php echo $this->basePath()?>/rangoip/rangoip/rangoip">Rango de IPs </a></li>
+											<li><a href="<?php echo $this->basePath() ?>/area/area/area">Area </a></li>
+											<li><a href="<?php echo $this->basePath() ?>/rangoip/rangoip/rangoip">Rango de IPs </a></li>
 										</ul>
 									</li>
 									<li><a><i class="fa fa-desktop"></i> Conf. Dispositivos <span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
-											<li><a href="<?php echo $this->basePath()?>/marca/marca/marca">Marca</a></li>
-											<li><a href="<?php echo $this->basePath()?>/modelo/modelo/modelo">Modelo</a></li>
-											<li><a href="<?php echo $this->basePath()?>/dispositivo/dispositivo/dispositivo">Dispositivo</a></li>
-											
+											<li><a href="<?php echo $this->basePath() ?>/marca/marca/marca">Marca</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/modelo/modelo/modelo">Modelo</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/dispositivo/dispositivo/dispositivo">Dispositivo</a></li>
+
 										</ul>
 									</li>
 									<li><a><i class="fa fa-edit"></i> Conf. Actas<span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
-										    <li><a href="<?php echo $this->basePath()?>/docadquisicion/docadquisicion/docadquisicion">Adquisicion</a></li>
-										    <li><a href="<?php echo $this->basePath()?>/accion/accion/accion">Accion</a></li>
-											<li><a href="<?php echo $this->basePath()?>/estado/estado/estado">Estado</a></li>
-											<li><a href="<?php echo $this->basePath()?>/tipoatencion/tipoatencion/tipoatencion">Tipo de Atencion </a></li>
+											<li><a href="<?php echo $this->basePath() ?>/docadquisicion/docadquisicion/docadquisicion">Adquisicion</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/accion/accion/accion">Accion</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/estado/estado/estado">Estado</a></li>
+											<li><a href="<?php echo $this->basePath() ?>/tipoatencion/tipoatencion/tipoatencion">Tipo de Atencion </a></li>
 										</ul>
 									</li>
 									<li><a><i class="fa fa-edit"></i> Conf. Usuario<span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
-										    <li><a href="<?php echo $this->basePath()?>/personal/personal/personal"> Personal </a></li>
+											<li><a href="<?php echo $this->basePath() ?>/personal/personal/personal"> Personal </a></li>
 										</ul>
 									</li>
-									
+
 
 									<!--li><a><i class="fa fa-edit"></i> Formularios <span class="fa fa-chevron-down"></span></a>
 										<ul class="nav child_menu">
@@ -216,7 +213,7 @@
 							<a data-toggle="tooltip" data-placement="top" title="Lock">
 								<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
 							</a>
-							<a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+							<a data-toggle="tooltip" data-placement="top" href="<?= $this->basePath("usuario/usuario/cerrar") ?>" title="Cerrar Session" href="login.html">
 								<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
 							</a>
 						</div>
@@ -237,10 +234,10 @@
 							</ul>
 
 
-					    <div class="nav navbar-nav navbar-right" align="right">
-			
+							<div class="nav navbar-nav navbar-right" align="right">
 
-					  </div>
+
+							</div>
 
 							<ul class="nav navbar-nav navbar-right">
 								<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
@@ -318,15 +315,18 @@
 
 			</div>
 		</div>
-		
-				</body>
-				</html>
-				
-			
+
+	</body>
+</html>
+
+
 <script type="text/javascript" src="<?php echo $this->basePath() ?>/js/bootbox.js"></script>
 <script type="text/javascript" src="<?php echo $this->basePath() ?>//js/js_general.js"></script>
 <script type="text/javascript" src="<?php echo $this->basePath() ?>/js/js_valnumlet.js"></script>
 <script type="text/javascript" src="<?php echo $this->basePath() ?>/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
 
-		
-	
+
+		<?php }else{
+						
+header('Location: ./public/');
+		} ?>
