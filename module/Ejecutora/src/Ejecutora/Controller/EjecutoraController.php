@@ -8,7 +8,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Red\Controller;
+namespace Ejecutora\Controller;
 
 require "vendor/autoload.php";
 
@@ -19,11 +19,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
-use Red\Model\Entity\Red;
-use Unidad\Model\Entity\Unidad;
+use Ejecutora\Model\Entity\Ejecutora;
 use Zend\MVC\Exception;
 
-class RedController extends AbstractActionController {
+class EjecutoraController extends AbstractActionController {
 
 	public function indexAction() {
 
@@ -50,57 +49,34 @@ class RedController extends AbstractActionController {
 	//metodo relacionado con el tipo de formulario que se abre
 	//puede ser el formulario de Insertar o Modificar 
 	public function formAction() {
-		$id = $this->params()->fromRoute("id", null); // editar o insertar 0=insertar y 1=modificar 
-		$cod = $this->params()->fromRoute("cod", null); //recupera el id de bd
-		
+		$id = $this->params()->fromRoute("id", null);
+		$cod = $this->params()->fromRoute("cod", null);
 		if ($id !== null) {
-			if ($id == 0 ) {
-
-				//ESTABLECE UNA CONEXION CON LA BD Y OBTIENE LA LISTA
-		$this->dbAdapter = $this->getServiceLocator() -> get('Zend\Db\Adapter');		
-		$unidades = new Unidad($this->dbAdapter);
-		$lista = $unidades->lista();
-				//RETORNA UN NUEVO MODELO AGREGANDO LA VARIABLE UNIDADES Q CONTIENE LA LISTA
+			if ($id == 0) {
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
-					"unidades" => $lista,
 					'datos' => null));
-
 			} else {
-				//condicion para editar un registro cod= es el id de la base de datos
-				if ($id == 1 && $cod>0) {
-				$this->dbAdapter = $this->getServiceLocator() -> get('Zend\Db\Adapter');		
-				$unidades = new Unidad($this->dbAdapter);
-				$lista = $unidades->lista();
-
-				$datos = $this->buscarRed($cod);
-
-				return new ViewModel(
-					    // la variable mantenimiento de la vista, cambia a Modificar
-						array('mantenimiento' => 'Modificar',
-					'textBoton' => 'Actualizar',
-					"unidades" => $lista, //contiene una lista de las unidades ejecutoras
-					'datos' => $datos)); // contiene un registro buscado de las redes
+				if ($id == 1 && $cod > 0) {
+					$datos = $this->buscar($cod);
+					return new ViewModel(
+							array('mantenimiento' => 'Modificar',
+						'textBoton' => 'Actualizar',
+						'datos' => $datos));
 				}
 			}
 		}
 	}
 
      
-	public function buscarRed($cod) {
+	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$redes = new Red($this->dbAdapter);
-		$datos = $redes->buscar($cod);
+		$ejecutoras = new Ejecutora($this->dbAdapter);
+		$datos = $ejecutoras->buscar($cod);
 		return $datos;
 	}
-	
 
-	public function buscarUnidad(){
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$unid=ades|  new Unidad($this->dbAdapter);
-		$datos = $redes->buscar($cod);
-		return $datos;
-	}
+
 
 	//metodo encargado de la accion de Insertar o Actualizar se relaciona 
 	// con el formulario 
@@ -108,23 +84,20 @@ class RedController extends AbstractActionController {
 		$error = 0;
 		$msj = "";
 		try {
-			
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
+			$numero = $this->getRequest()->getPost('txtNumero');
+			
 			$id = $this->getRequest()->getPost('txtId');
-			$cmbUnidad = $this->getRequest()->getPost('cmbUnidad');
+
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$redes = new Red($this->dbAdapter);
+			$ejecutoras = new Ejecutora($this->dbAdapter); 
 			if ($id != '') {
-				$modificar = $redes->modificar($id,$descripcion);
+				$modificar = $ejecutoras->modificar($descripcion, $numero, $id);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $redes->insertar($descripcion,$cmbUnidad);
-				$msj = $this->mensaje($insert, 0);
-
+				$insertar = $ejecutoras->insertar($descripcion, $numero);
+				$msj = $this->mensaje($insertar, 0);
 			}
-
-	
-						
 		} catch (\Exception $e) {
 			$error = 1;
 			$codError = explode("(", $e->getMessage());
@@ -132,11 +105,9 @@ class RedController extends AbstractActionController {
 			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
 			switch ($codError[0]) {
 				case 23505:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $descripcion . "', ya se encuentra en la base de datos.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
 					break;
-				case 23514:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $descripcion . "' debe ser mayor que 2017.";
-					break;
+			
 				default:
 					$error = explode("DETAIL:", $codError[2]);
 
@@ -153,25 +124,21 @@ class RedController extends AbstractActionController {
 	}
 
 	public function eliminarAction(){
-	    $error=0;$tipoConsulta = 0;
-			
-			$id = $this->getRequest()->getPost('txtId');
-			$vigencia = $this->getRequest()->getPost('txtVigencia');
-			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$redes = new Red($this->dbAdapter);
-		
-		   			
-$eliminar = $redes->eliminar($id,$vigencia);
+		$error=0;$tipoConsulta = 0;
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$ejecutoras = new Ejecutora($this->dbAdapter);
+		$cod = $this->getRequest()->getPost('cod');
+		$vigencia = $this->getRequest()->getPost('vigencia');
+		$eliminar = $ejecutoras->eliminar($cod,$vigencia);
 		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
 		$msj = $this->mensaje($eliminar, $tipoConsulta);
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
-		return $response;
-
-
+		return $response;   
 		
 
 	}
+
 	public function mensaje($valorConsulta, $tipoConsulta) {
 		if ($valorConsulta == true) {
 			switch ($tipoConsulta) {
@@ -194,15 +161,16 @@ $eliminar = $redes->eliminar($id,$vigencia);
 		return $msj;
 	}
 
-
-	public function redAction() {
+	public function ejecutoraAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$redes = new Red($this->dbAdapter);
-		$lista = $redes->lista();
+		$ejecutoras = new Ejecutora($this->dbAdapter);
+		$lista = $ejecutoras->lista();
 		$viewModel = new ViewModel(array(
-			"redes" => $lista
+			"ejecutoras" => $lista
 		));
 		return $viewModel;
 	}
 
+
+	
 }

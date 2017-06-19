@@ -15,12 +15,12 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'red' => array(
+            'ejecutora' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/red',
+                    'route'    => '/ejecutora',
                     'defaults' => array (
-                        '__NAMESPACE__' => 'Red\Controller',
+                        '__NAMESPACE__' => 'Ejecutora\Controller',
                        
                     ),
                 ),
@@ -64,7 +64,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Red\Controller\Red' => 'Red\Controller\RedController'
+            'Ejecutora\Controller\Ejecutora' => 'Ejecutora\Controller\EjecutoraController'
         ),
     ),
     'view_manager' => array(
@@ -75,7 +75,7 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'red/index/index' => __DIR__ . '/../view/red/index/index.phtml',
+            'ejecutora/index/index' => __DIR__ . '/../view/ejecutora/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
