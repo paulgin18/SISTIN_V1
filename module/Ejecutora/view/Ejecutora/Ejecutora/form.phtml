@@ -6,58 +6,44 @@
             <div c="" lass="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><?php echo $this->mantenimiento ?> Red<small></small></h2>
+                        <h2><?php echo $this->mantenimiento ?> Unidad Ejecutora <small></small></h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <br>
-
-                        <label class="col-sm-2 control-label"> <b>Unidades Ejecutoras:</b></label>
-                        
-                           
-                        <div class="col-sm-4">
-
-                            <select class="form-control" name="cmbUnidad" id="cmbUnidad"> 
-                            <?php foreach ($this->unidades as $unidad) { ?>      
-
-                                <?= $datos['id_uni_ejec']==$unidad['id_uni_ejec'] ? 
-                                '<option selected
-                                 value='. $unidad['id_uni_ejec'] .'>'
-                                 . $unidad['descripcion'].'
-                                </option>' :
-
-                                '<option 
-                                 value='. $unidad['id_uni_ejec'] .'>'
-                                 . $unidad['descripcion'].'
-                                </option>';?>     
-
-                                
-                            <?php } ?>
-                            </select>
-                            
-                         </div> 
-                        
-
+  
                         <div class="form-group">
-                            <br>
-                            <br>
-                            <br>
 
                             <label class="col-sm-2 control-label"><b>Descripcion:</b></label>
                             
 
                             <div class="col-sm-7">
-							    <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_red'] :'';?>">
+							    <input type="hidden" class="" name="txtId" id="txtId"  placeholder=""  value="<?= $datos!=null ? $datos['id_unidad_ejecutora'] :'';?>">
                                 <!–El mismo input es para ambos para insertar y para modificar->
-                                <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['decripcion'] :'';?>">
+                                <input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control" value="<?= $datos!=null ? $datos['descripcion'] :'';?>">
                                     
                             </div>
 
+                            <br>
+                            <br>
+                            <br>
+
+                             <label class="col-sm-2 control-label"><b>Numero:</b></label>
+                            
+
+                            <div class="col-sm-7">
+                               
+                                <!–El mismo input es para ambos para insertar y para modificar->
+                                <input type="text" id="txtNumero" name="txtNumero" class="form-control" value="<?= $datos!=null ? $datos['numero'] :'';?>">
+                                    
+                            </div>
+
+
                          
                         </div>
+
                         <hr>
                         <div class="form-group">
                             <br>
@@ -85,7 +71,7 @@
 
 <?=
 		$this->inlineScript()
-		->prependFile($this->basePath('js/js_red.js'))
+		->prependFile($this->basePath('js/js_ejecutora.js'))
 					->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
 		->prependFile($this->basePath('js/jquery-ui.js'))
 		->prependFile($this->basePath('js/bootbox.js'))

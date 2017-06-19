@@ -12,7 +12,7 @@ return array(
         'Mantenimiento',
         'Tipoatencion',
         'Unidad',
-        'Red',
+        'Ejecutora',
         'Accion',
         'Marca',
         'Area',

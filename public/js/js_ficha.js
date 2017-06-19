@@ -132,8 +132,10 @@ $("#txtRespFuncionario").focus(function () {
 			$(this).val(ui.item.label);
 			$("#txtRespPatrimonio").val(ui.item.respatrimonial.split("\\")[1]);
 			$("#txtIdRespPatrimonio").val(ui.item.respatrimonial.split("\\")[0]);
-			$("#txtAreaServ").val(ui.item.respatrimonial.split("\\")[0]);
-			
+			$("#txtAreaServ").val(ui.item.area);
+			$("#txtIdAreaServ").val(ui.item.id_area);
+			$("#txtIdUnidadOrganica").val(ui.item.id_uni_org);
+			$("#txtUnidadOrganica").val(ui.item.unidad_organica);
 			return false;
 		},
 
