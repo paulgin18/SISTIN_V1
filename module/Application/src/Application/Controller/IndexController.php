@@ -38,7 +38,8 @@ class IndexController extends AbstractActionController {
 		if (!is_string($datos)) {
 			 $sesion=new Container('sesion');
 			 !$sesion->datos?$sesion->datos=$datos:"";
-			
+			$numeroFicha = new Container('numero');
+			$numeroFicha->datos=null;
 			return new ViewModel(array("datos" => $sesion->datos));
 		} else {
 			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');

@@ -35,18 +35,32 @@ class FichaController extends AbstractActionController {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$docAdquisicion = new Docadquisicion($this->dbAdapter);
 			$datosAdquisicion = $docAdquisicion->lista("true");
+			$session = new Container('sesion');
+			$numeroFicha = new Container('numero');
+			
 			if ($id == 0) {
-				return new ViewModel(array('mantenimiento' => 'Crear',
-					'textBoton' => 'Guardar',
-					'datosAdquisicion'=>$datosAdquisicion,
-					'datos' => null));
+				$fichas = new Ficha($this->dbAdapter);
+				$numero=2;
+				if($numeroFicha->datos==null){
+					$numero = $fichas->obtenerNumero($session->datos->id_user,$session->datos->id_unidad_ejecutora );
+					$numeroFicha->datos= (object)array("numero"=>$numero);
+				
+				}else{
+					$numero=$numeroFicha->datos->numero;
+				}
+				//}while($numeroFicha->datos->numero!=null);
+				
+				return new ViewModel(array('mantenimiento' => 'Crear', 'textBoton' => 'Guardar',
+					'datosAdquisicion' => $datosAdquisicion,
+					'datos' => null,
+					'nro'=>$numero));
 			} else {
 				if ($id == 1 && $cod > 0) {
 					$datos = $this->buscar($cod);
 					return new ViewModel(
 							array('mantenimiento' => 'Modificar',
 						'textBoton' => 'Actualizar',
-								'datosAdquisicion'=>$datosAdquisicion,
+						'datosAdquisicion' => $datosAdquisicion,
 						'datos' => $datos));
 				}
 			}
@@ -99,9 +113,7 @@ class FichaController extends AbstractActionController {
 //				$modificar = $ficha->modificar($descripcion, $numero, $id);
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
-			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario,
-				$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft,
-				$tblOtro, $tblUser, $tblFichaDisp,$tblFichaAd,$tblArchivo);
+			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp, $tblFichaAd, $tblArchivo);
 			$msj = $this->mensaje($insertar, 0);
 //			}
 		} catch (\Exception $e) {
@@ -131,7 +143,6 @@ class FichaController extends AbstractActionController {
 		return $response;
 	}
 
-	
 	public function subirArchivoAction() {
 		$error = 0;
 		$msj = "";
@@ -235,16 +246,17 @@ class FichaController extends AbstractActionController {
 
 	public function fichaAction() {
 		$session = new Container('sesion');
-		if($session->datos!=null){
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$fichas = new Ficha($this->dbAdapter);
-		$lista = $fichas->lista();
-		$viewModel = new ViewModel(array(
-			"fichas" => $lista
-		));
-		var_dump($session->datos);
-		return $viewModel;
-		}else{
+		if ($session->datos != null) {
+			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+			$fichas = new Ficha($this->dbAdapter);
+
+			$lista = $fichas->lista();
+			$viewModel = new ViewModel(array(
+				"fichas" => $lista,
+			));
+			//var_dump($session->datos);
+			return $viewModel;
+		} else {
 			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 		}
 	}

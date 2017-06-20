@@ -4,7 +4,7 @@
 		<?php
 
 		use Zend\Session\Container;
-		
+use Zend\Mvc\Controller;
 $session = new Container('sesion');
 		if($session->datos!=null){
 echo $this->headMeta()
@@ -328,5 +328,5 @@ echo $this->headMeta()
 
 		<?php }else{
 						
-header('Location: ./public/');
+return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 		} ?>

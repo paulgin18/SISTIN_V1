@@ -33,6 +33,7 @@ use Usuario\Model\Entity\Usuario;
 class UsuarioController extends AbstractActionController {
 
 	private $auth;
+
 	public function __construct() {
 		$this->auth = new AuthenticationService();
 	}
@@ -42,11 +43,11 @@ class UsuarioController extends AbstractActionController {
 	}
 
 	public function loginAction() {
-		
+
 		$auth = $this->auth;
 		$identi = $auth->getStorage()->read();
 		if ($identi != false && $identi != null) {
-			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() );
+			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl());
 		}
 		$form = new LoginForm("form");
 		$request = $this->getRequest();
@@ -79,7 +80,7 @@ class UsuarioController extends AbstractActionController {
 					$auth->getStorage()->write($authAdapter->getResultRowObject());
 					//return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/dentro');
 					//return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() );
-					return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() );
+					return $this->redirect()->toUrl($this->getRequest()->getBaseUrl());
 				} else {
 					$this->flashMessenger()->addMessage("Credenciales incorrectas, intentalo de nuevo");
 					return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
@@ -95,7 +96,7 @@ class UsuarioController extends AbstractActionController {
 		);
 	}
 
-		public function sesion() {
+	public function sesion() {
 		$identi = $this->auth->getStorage()->read();
 		if ($identi != false && $identi != null) {
 			$datos = $identi;
@@ -105,7 +106,7 @@ class UsuarioController extends AbstractActionController {
 		}
 		return $datos;
 	}
-	
+
 	public function dentroAction() {
 		$identi = $this->auth->getStorage()->read();
 		if ($identi != false && $identi != null) {
@@ -121,11 +122,14 @@ class UsuarioController extends AbstractActionController {
 	}
 
 	public function cerrarAction() {
-		
+
 		//$this->auth->clearIdentity();
 		$session = new Container('session');
- $session->getManager()->destroy();
- var_dump($session->datos);
+		$numero = new Container('numero');
+		$session->getManager()->destroy();
+		$numero->getManager()->destroy();
+		var_dump($session->datos);
 		return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 	}
+
 }

@@ -61,7 +61,7 @@ class Personal extends TableGateway {
 				. " a.id_uni_org,(select u.descripcion unidad_organica from area ar "
 				. " inner join unidad_organica u on ar.id_uni_org=u.id_uni_org where ar.id_area=a.id_area)  from personal p "
 				. " inner join area a on p.id_area=p.id_area "
-				. " where (apellidos || ' ' || nombre) like '%$descripcion%' "
+				. " where (apellidos || ' ' || nombre) like upper(trim('%$descripcion%')) "
 				. " and a.id_uni_org=(select id_uni_org from unidad_organica uor inner join unidad_ejecutora ue on uor.id_unidad_ejecutora=ue.id_unidad_ejecutora "
 				. " where ue.id_unidad_ejecutora=$unidad_ejecutora and id_uni_org=fu_ounidadorganica(p.id_area))",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
