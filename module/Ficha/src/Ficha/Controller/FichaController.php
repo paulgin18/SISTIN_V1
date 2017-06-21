@@ -37,7 +37,7 @@ class FichaController extends AbstractActionController {
 			$datosAdquisicion = $docAdquisicion->lista("true");
 			$session = new Container('sesion');
 			$numeroFicha = new Container('numero');
-			
+			if($session->datos!=null){
 			if ($id == 0) {
 				$fichas = new Ficha($this->dbAdapter);
 				$numero=2;
@@ -63,6 +63,9 @@ class FichaController extends AbstractActionController {
 						'datosAdquisicion' => $datosAdquisicion,
 						'datos' => $datos));
 				}
+			}
+			}else{
+				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 			}
 		}
 	}

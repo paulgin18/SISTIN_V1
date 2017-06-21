@@ -21,14 +21,14 @@ class Rangoip extends TableGateway {
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO rango_ip (rango_inicial,rango_final,id_area) "
-						. "VALUES ('$rangoinicial','$rangofinal',$id_area)");
+						. "VALUES ('".str_replace("_","",$rangoinicial)."','".str_replace("_","",$rangofinal)."',$id_area)");
 		$datos = $insert->execute();
 		return $datos;
 	}
 	public function modificar($id, $rangoinicial,$rangofinal,$id_area) {
 		$update = $this->dbAdapter->
 				createStatement(
-				"update rango_ip set rango_inicial=trim('$rangoinicial'),rango_final=trim('$rangofinal'),id_area=$id_area"
+				"update rango_ip set rango_inicial='".str_replace("_","",trim($rangoinicial))."',rango_final='	".str_replace("_","",trim($rangofinal))."',id_area=$id_area"
 						. "where id_rango=$id");
 		$datos = $update->execute();
 		return $update;

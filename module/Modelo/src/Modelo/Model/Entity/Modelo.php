@@ -48,7 +48,7 @@ class Modelo extends TableGateway {
 	
 	public function buscarModelo($descripcion){
         $consulta=$this->dbAdapter->query(
-				"SELECT id_modelo as value, descripcion ||' - ' || coalesce(capacidad,'') as label, vigencia FROM modelo where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+				"SELECT id_modelo as value, descripcion ||' - ' || coalesce(capacidad,'') as label, vigencia FROM modelo where descripcion like upper(trim('%$descripcion%'))",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }

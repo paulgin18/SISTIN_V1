@@ -45,7 +45,7 @@ class Marca extends TableGateway {
     }
 	  public function buscarMarca($descripcion){
         $consulta=$this->dbAdapter->query(
-		"SELECT id_marca as value, descripcion as label, vigencia FROM marca where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+		"SELECT id_marca as value, descripcion as label, vigencia FROM marca where descripcion like upper(trim('%$descripcion%'))",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }
@@ -53,7 +53,7 @@ class Marca extends TableGateway {
 	
 	public function buscarMarcaModelo($descripcion){
         $consulta=$this->dbAdapter->query(
-				"SELECT id_marca as value, descripcion as label, vigencia FROM marca where descripcion like '%$descripcion%'",Adapter::QUERY_MODE_EXECUTE);
+				"SELECT id_marca as value, descripcion as label, vigencia FROM marca where descripcion like upper(trim('%$descripcion%'))",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }

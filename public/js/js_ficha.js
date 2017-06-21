@@ -650,6 +650,9 @@ $("#txtMain").focus(function () {
 	bCI(6, '#txtIdMain', '#txtMain');
 });
 
+$("#txtRed").focus(function () {
+	bCI(7, '#txtIdRed', '#txtRed');
+});
 function bCI(idDisp, id, des) {
 	$(des).autocomplete({
 		source: '../../../../dispositivo/dispositivo/bMaMoxDisp?id_disp=' + idDisp + '',
