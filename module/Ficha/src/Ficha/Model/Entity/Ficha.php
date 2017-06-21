@@ -17,28 +17,26 @@ class Ficha extends TableGateway {
 		return parent::__construct('Ficha', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($ficha,$numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, 
-			$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
-			$tblOtro,$tblUser,$tblFichaDisp,$tblFichaDocAdquisicion,$tblArchivo) {
+	public function insertar($ficha, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp, $tblFichaDocAdquisicion, $tblArchivo) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
 			$connection->beginTransaction();
 			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio);
-			if($ficha==3){
+			if ($ficha == 3) {
 				//Solo para Fichas De quipo que no son laptops ni mucho menos desctockp
-			($tblFichaDisp!= null || $tblFichaDisp!= "" )? $this->fichaDisp($idInsert, $tblFichaDisp):"";
-			}else{
-			$tblMicroprocesador != null || $tblMicroprocesador != "" ? $this->microprocesador($idInsert, $tblMicroprocesador) : "";
-			$tblDiscoDuro != null || $tblDiscoDuro != "" ? $this->discoDuro($idInsert, $tblDiscoDuro) : "";
-			$tblMainboard != null || $tblMainboard != "" ? $this->mainboard($idInsert, $tblMainboard) : "";
-			$tblRam != null || $tblRam != "" ? $this->ram($idInsert, $tblRam) : "";
-			$tblRed != null || $tblRed != "" ? $this->red($idInsert, $tblRed) : "";
-			$tblSoft != null || $tblSoft != "" ? $this->software($idInsert, $tblSoft) : "";
-			$tblOtro != null || $tblOtro != "" ? $this->otrosComponentes($idInsert, $tblOtro) : "";
-			$tblUser!= null || $tblUser!= "" ? $this->cuentasUsuario($idInsert, $tblUser) : "";
-			$tblFichaDocAdquisicion!= null || $tblFichaDocAdquisicion!= "" ? $this->docAdquisicion($idInsert, $tblFichaDocAdquisicion) : "";
-			$tblArchivo!= null || $tblArchivo!= "" ? $this->archivo($idInsert, $tblArchivo) : "";
+				($tblFichaDisp != null || $tblFichaDisp != "" ) ? $this->fichaDisp($idInsert, $tblFichaDisp) : "";
+			} else {
+				$tblMicroprocesador != null || $tblMicroprocesador != "" ? $this->microprocesador($idInsert, $tblMicroprocesador) : "";
+				$tblDiscoDuro != null || $tblDiscoDuro != "" ? $this->discoDuro($idInsert, $tblDiscoDuro) : "";
+				$tblMainboard != null || $tblMainboard != "" ? $this->mainboard($idInsert, $tblMainboard) : "";
+				$tblRam != null || $tblRam != "" ? $this->ram($idInsert, $tblRam) : "";
+				$tblRed != null || $tblRed != "" ? $this->red($idInsert, $tblRed) : "";
+				$tblSoft != null || $tblSoft != "" ? $this->software($idInsert, $tblSoft) : "";
+				$tblOtro != null || $tblOtro != "" ? $this->otrosComponentes($idInsert, $tblOtro) : "";
+				$tblUser != null || $tblUser != "" ? $this->cuentasUsuario($idInsert, $tblUser) : "";
+				$tblFichaDocAdquisicion != null || $tblFichaDocAdquisicion != "" ? $this->docAdquisicion($idInsert, $tblFichaDocAdquisicion) : "";
+				$tblArchivo != null || $tblArchivo != "" ? $this->archivo($idInsert, $tblArchivo) : "";
 			}
 			$connection->commit();
 			$datos = true;
@@ -74,7 +72,7 @@ class Ficha extends TableGateway {
 				"INSERT INTO ft_compinternos(serie, id_ficha_tecnica, id_disp_mar_mod)"
 				. "VALUES ('" . $tblDiscoDuro['serie'] . "', '$idInsert'," . $tblDiscoDuro['idDiscoDuro'] . ")");
 		$insert->execute();
-		($tblDiscoDuro['serie'] != "" || $tblDiscoDuro['serie'] != null|| !empty($tblDiscoDuro['serie'])) ? $this->insertSerie("S", $tblDiscoDuro['serie']) : "";
+		($tblDiscoDuro['serie'] != "" || $tblDiscoDuro['serie'] != null || !empty($tblDiscoDuro['serie'])) ? $this->insertSerie("S", $tblDiscoDuro['serie']) : "";
 		return $insert;
 	}
 
@@ -84,7 +82,7 @@ class Ficha extends TableGateway {
 				"INSERT INTO ft_compinternos(serie, id_ficha_tecnica, id_disp_mar_mod)"
 				. "VALUES ('" . ($tblMainboard['serie'] != null || $tblMainboard['serie'] != '') ? $tblMainboard['serie'] : 'Sin Serie' . "', '$idInsert'," . $tblMainboard['idMainboard'] . ")");
 		$insert->execute();
-		($tblMainboard['serie'] != "" || $tblMainboard['serie'] != null|| !empty($tblMainboard['serie'])) ? $this->insertSerie("S", $tblMainboard['serie']) : "";
+		($tblMainboard['serie'] != "" || $tblMainboard['serie'] != null || !empty($tblMainboard['serie'])) ? $this->insertSerie("S", $tblMainboard['serie']) : "";
 
 		return $insert;
 	}
@@ -105,18 +103,18 @@ class Ficha extends TableGateway {
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO ft_red(serie, mac, puertos,ip, puertaenlace, proxy, id_ficha_tecnica,integrada,id_disp_mar_mod,red, internet)"
-				. "VALUES (" .pg_escape_string(utf8_encode(($tblRed['serie']!=null||$tblRed['serie'] != "" || !empty($tblRed['serie']))?"'".$tblRed['serie']."'":'null')) 
-					. ",'" . $tblRed['mac'] . "',".pg_escape_string(utf8_encode($tblRed['puertos'] == 0 ? 'null' : $tblRed['puertos'])). ",'"
-						. $tblRed['ip'] ."','".$tblRed['puertaenlace']."','". $tblRed['proxy']."',".$idInsert
-						.",".pg_escape_string(utf8_encode($tblRed['integrada'] == 1 ? 'true': 'false'))
-						.",".pg_escape_string(utf8_encode($tblRed['id']>0?$tblRed['id']:"null"))
-					    .",".pg_escape_string(utf8_encode($tblRed['red'] == 1 ? 'true': 'false'))
-					    .",".pg_escape_string(utf8_encode($tblRed['internet'] == 1 ? 'true': 'internet'))
-						.")");
+				. "VALUES (" . pg_escape_string(utf8_encode(($tblRed['serie'] != null || $tblRed['serie'] != "" || !empty($tblRed['serie'])) ? "'" . $tblRed['serie'] . "'" : 'null'))
+				. ",'" . $tblRed['mac'] . "'," . pg_escape_string(utf8_encode($tblRed['puertos'] == 0 ? 'null' : $tblRed['puertos'])) . ",'"
+				. $tblRed['ip'] . "','" . $tblRed['puertaenlace'] . "','" . $tblRed['proxy'] . "'," . $idInsert
+				. "," . pg_escape_string(utf8_encode($tblRed['integrada'] == 1 ? 'true' : 'false'))
+				. "," . pg_escape_string(utf8_encode($tblRed['id'] > 0 ? $tblRed['id'] : "null"))
+				. "," . pg_escape_string(utf8_encode($tblRed['red'] == 1 ? 'true' : 'false'))
+				. "," . pg_escape_string(utf8_encode($tblRed['internet'] == 1 ? 'true' : 'internet'))
+				. ")");
 		$insert->execute();
 		($tblRed['serie'] != "" || $tblRed['serie'] != null || !empty($tblRed['serie'])) ? $this->insertSerie("S", $tblRed['serie']) : "";
 		($tblRed['mac'] != "" || $tblRed['mac'] != null || !empty($tblRed['mac'])) ? $this->insertSerie("M", $tblRed['mac']) : "";
-		($tblRed['ip'] != "" || $tblRed['ip'] != null|| !empty($tblRed['ip'])) ? $this->insertSerie("I", $tblRed['ip']) : "";
+		($tblRed['ip'] != "" || $tblRed['ip'] != null || !empty($tblRed['ip'])) ? $this->insertSerie("I", $tblRed['ip']) : "";
 		return $insert;
 	}
 
@@ -132,7 +130,7 @@ class Ficha extends TableGateway {
 		}
 		return $insert;
 	}
-	
+
 	public function otrosComponentes($idInsert, $tblOtro) {
 		foreach ($tblOtro as $otro) {
 			$insert = $this->dbAdapter->
@@ -144,46 +142,45 @@ class Ficha extends TableGateway {
 		}
 		return $insert;
 	}
-	
+
 	public function docAdquisicion($idInsert, $tblFichaDocAdquisicion) {
 		foreach ($tblFichaDocAdquisicion as $Documento) {
 			$insert = $this->dbAdapter->
 					createStatement(
 					"INSERT INTO ft_adquisicion(nro_doc, fecha_doc, id_doc_adquisicion,id_ficha_tecnica)"
-					. "VALUES ('" . $Documento['nro_doc'] . "','" . $Documento['fecha_doc'] . "',".$Documento['id_doc_adquisicion'].",$idInsert)");
+					. "VALUES ('" . $Documento['nro_doc'] . "','" . $Documento['fecha_doc'] . "'," . $Documento['id_doc_adquisicion'] . ",$idInsert)");
 			$insert->execute();
 		}
 		return $insert;
 	}
-	
+
 	public function archivo($idInsert, $tblArchivo) {
-			$insert = $this->dbAdapter->
-					createStatement(
-					"INSERT INTO ft_archivo(ruta, id_ficha_tecnica)"
-					. "VALUES ('" . $tblArchivo['ruta'] . "',$idInsert)");
-			$insert->execute();
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ft_archivo(ruta, id_ficha_tecnica)"
+				. "VALUES ('" . $tblArchivo['ruta'] . "',$idInsert)");
+		$insert->execute();
 		return $insert;
 	}
-	
-	
+
 	public function fichaDisp($idInsert, $tblFichaDisp) {
 		foreach ($tblFichaDisp as $fichaDisp) {
 			$insert = $this->dbAdapter->
 					createStatement(
 					"INSERT INTO ft_ocomponentes(serie, id_disp_mar_mod, id_ficha_tecnica,id_inventario,operativo)"
-					. "VALUES ('" . $fichaDisp['serie'] . "'," . $fichaDisp['idDispMarcaModelo'] . ",".$idInsert.",". $fichaDisp['codInventario'].",".$fichaDisp['operativo'].")");
+					. "VALUES ('" . $fichaDisp['serie'] . "'," . $fichaDisp['idDispMarcaModelo'] . "," . $idInsert . "," . $fichaDisp['codInventario'] . "," . $fichaDisp['operativo'] . ")");
 			$insert->execute();
 			($fichaDisp['serie'] != "" || $fichaDisp['serie'] != null || !empty($fichaDisp['serie'])) ? $this->insertSerie("S", $fichaDisp['serie']) : "";
 		}
 		return $insert;
 	}
-	
-		public function cuentasUsuario($idInsert, $tblUser) {
+
+	public function cuentasUsuario($idInsert, $tblUser) {
 		foreach ($tblUser as $user) {
 			$insert = $this->dbAdapter->
 					createStatement(
 					"INSERT INTO ft_user(tipo, usuario, contrasena, id_ficha_tecnica) "
-					. "VALUES ('" . $user['tipo'] . "','" . $user['user'] . "','" . $user['pass'] . "',".$idInsert.")");
+					. "VALUES ('" . $user['tipo'] . "','" . $user['user'] . "','" . $user['pass'] . "'," . $idInsert . ")");
 			$insert->execute();
 		}
 		return $insert;
@@ -209,8 +206,8 @@ class Ficha extends TableGateway {
 
 	public function lista() {
 		$consulta = $this->dbAdapter->query(
-				"SELECT id_ficha_tecnica, numero, fecha, nompc, observacion, fecharegistro, 
-       id_user, id_anio, id_respfuncionario, id_resppatrimonio,  
+				"SELECT id_ficha_tecnica, numero, fecha_inv, nompc, observacion, fecha_registro, 
+       id_user,   id_unidad_ejecutora,fecha_instalacion
        vigencia  FROM ficha_tecnica order by vigencia desc"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
@@ -231,6 +228,50 @@ class Ficha extends TableGateway {
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos[0];
+	}
+
+	public function obtenerNumero($user, $dependencia) {
+		$numero = 0;
+		$consulta = $this->dbAdapter->query(
+				"select (coalesce(numero,0)+1) numero from tmp_ficha where id_uni_org=$dependencia order by numero desc limit 1"
+				, Adapter::QUERY_MODE_EXECUTE);
+		$datos = $consulta->toArray();
+
+		if (count($datos) === 0) {
+			$numero = $this->insertNumero(-1, $user, $dependencia);
+		} else {
+			$consulta = $this->dbAdapter->query(
+					"select numero from tmp_ficha where id_user=$user and id_uni_org=$dependencia and registro='false' order by numero desc limit 1"
+					, Adapter::QUERY_MODE_EXECUTE);
+			$datos2 = $consulta->toArray();
+			if (count($datos2) == 0) {
+				$numero = $this->insertNumero($datos[0], $user, $dependencia);
+			} else {
+				$numero = $datos2[0];
+			}
+		}
+
+		return $numero;
+	}
+
+	public function insertNumero($cod, $user, $dependencia) {
+
+		$d = 0;
+		$numero = 0;
+		if ($cod == -1) {
+			$sql = "1,$user,$dependencia";
+			$numero = array('numero' => 1);
+		} else {
+			$d = $cod['numero'];
+			$sql = "$d,$user,$dependencia";
+			$numero = array('numero' => $d);
+		}
+		$insert = $this->dbAdapter->createStatement(
+				"INSERT INTO tmp_ficha(numero, id_user, id_uni_org)"
+				. " VALUES ($sql)");
+		$insert->execute();
+
+		return $numero;
 	}
 
 }

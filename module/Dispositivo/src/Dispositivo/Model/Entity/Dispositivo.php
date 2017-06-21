@@ -90,9 +90,9 @@ class Dispositivo extends TableGateway {
 		$v=explode("/",$tipo);
 		$sql="";
 		if(isset($v[1])){ 
-			$sql="SELECT id_disp_soft as value, descripcion as label, * FROM disp_soft where descripcion like upper('%$descripcion%') and tipo='$v[0]'";
+			$sql="SELECT id_disp_soft as value, descripcion as label, * FROM disp_soft where descripcion like upper(trim('%$descripcion%')) and tipo='$v[0]'";
 		}else{
-			$sql="SELECT id_disp_soft as value, descripcion as label, * FROM disp_soft where descripcion like upper('%$descripcion%') and tipo='$tipo'";
+			$sql="SELECT id_disp_soft as value, descripcion as label, * FROM disp_soft where descripcion like upper(trim('%$descripcion%')) and tipo='$tipo'";
 		}
 		$consulta = $this->dbAdapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
@@ -109,7 +109,7 @@ class Dispositivo extends TableGateway {
 				$sql . " from disp_mar_mod dpmm "
 				. " inner join marca m on dpmm.id_marca=m.id_marca"
 				. " inner join modelo mo on dpmm.id_modelo=mo.id_modelo"
-				. " where (m.descripcion || ' / ' || mo.descripcion || COALESCE (('-'|| mo.capacidad),'')) like upper('%$descripcion%') and dpmm.vigencia='true' and id_disp_soft=$id_disp ", Adapter::QUERY_MODE_EXECUTE);
+				. " where (m.descripcion || ' / ' || mo.descripcion || COALESCE (('-'|| mo.capacidad),'')) like upper(trim('%$descripcion%')) and dpmm.vigencia='true' and id_disp_soft=$id_disp ", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
@@ -119,7 +119,7 @@ class Dispositivo extends TableGateway {
 				"Select id_disp_mar_mod as value, m.descripcion as label from disp_mar_mod dpmm "
 				. " inner join marca m on dpmm.id_marca=m.id_marca"
 				. " inner join modelo mo on dpmm.id_modelo=mo.id_modelo"
-				. " where m.descripcion like upper('%$descripcion%') and dpmm.vigencia='true' and id_disp_soft=$id_disp", Adapter::QUERY_MODE_EXECUTE);
+				. " where m.descripcion like upper(trim('%$descripcion%')) and dpmm.vigencia='true' and id_disp_soft=$id_disp", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
@@ -133,7 +133,7 @@ class Dispositivo extends TableGateway {
 		}
 		$sql = "Select id_disp_mar_mod as value, s.descripcion as label, s.tipo as tipo from disp_mar_mod dpmm "
 				. " inner join disp_soft s on dpmm.id_disp_soft=s.id_disp_soft"
-				. " where s.descripcion like upper('%$descripcion%') and  dpmm.vigencia='true' and ". $sql2;
+				. " where s.descripcion like upper(trim('%$descripcion%')) and  dpmm.vigencia='true' and ". $sql2;
 
 		$consulta = $this->dbAdapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();

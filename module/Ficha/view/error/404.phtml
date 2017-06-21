@@ -11,7 +11,7 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="x_panel">
 						<div class="x_title">
-							<h2><strong><?php echo $this->mantenimiento;?> Ficha Tecnica de Equipos de Computo</strong><small></small></h2>
+							<h2><strong><?php echo $this->mantenimiento ?> Ficha Tecnica de Equipos de Computo</strong><small></small></h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 							</ul>
@@ -22,47 +22,40 @@
 							<h2 class="StepTitle"><strong>Datos Generales</strong></h2>
 							<form class="form-horizontal form-label-left">
 								<div class="form-group" >
-									<label class="col-sm-2 control-label"><b>Nº Ficha:</b></label>
-									<div class="col-sm-4">
-										<input class="form-control "  align=\"right\"  id="txtNroFicha" name="txtNroFicha"  value=" <?=date("Y")." - ".str_pad($nro['numero'], 7, '0', STR_PAD_LEFT)?>" type="text" >
-									</div>
-								</div>
-								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
 									<div class="col-sm-4">
 										<input type='date' class="form" id="txtFecha" name="txtFecha" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
 									</div>
-									<label class="col-sm-2 control-label"><b>Fecha_Inst:</b></label>
-									<div class="col-sm-4">
-										<input type='date' class="form" id="txtFechaInstalacion" name="txtFechaInstalacion" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
+									<label class="col-sm-2 control-label"><b>F.T.Nº:</b></label>
+									<div class="col-sm-3">
+										<input class="form-control "  id="txtNroFicha" name="txtNroFicha"  value="" type="text" >
 									</div>
-									
-									<!--div class="col-sm-1">
+									<div class="col-sm-1">
 										<input class="form-control "  id="txtAnioNroFicha"  name="txtAnioNroFicha" value="<?= date("Y"); ?>" type="text" >
-									</div-->
+									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Unidad Organica:</b></label>
 									<div class="col-sm-4">
 										<input class="form-control "  id="txtIdUnidadOrganica"  name="txtIdUnidadOrganica" type="hidden" value="" >
-										<input type="text" id="txtUnidadOrganica" name="txtUnidadOrganica"  disabled  class="form-control" style="text-transform:uppercase"  value="">
+										<input type="text" id="txtUnidadOrganica" name="txtUnidadOrganica" autofocus="autofocus"  class="form-control" style="text-transform:uppercase"  placeholder="BUSCAR" value="">
 									</div>
 									<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
 									<div class="col-sm-4">
 										<input class="form-control "  id="txtIdAreaServ"  name="txtIdAreaServ" type="hidden" value="" >
-										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="" disabled  style="text-transform:uppercase">
+										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="" placeholder="BUSCAR" style="text-transform:uppercase">
 									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Responsable Patrimonio:</b></label>
 									<div class="col-sm-4">
 										<input class="form-control "  id="txtIdRespPatrimonio" name="txtIdRespPatrimonio" placeholder="BUSCAR"value="" type="hidden" style="text-transform:uppercase" >
-										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" disabled value="" type="text" style="text-transform:uppercase" >
+										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" placeholder="BUSCAR"value="" type="text" style="text-transform:uppercase" >
 									</div>
 									<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
 									<div class="col-sm-4">
 										<input class="form-control "  id="txtIdRespFuncionario" name="txtIdRespFuncionario" placeholder="BUSCAR" value="" type="hidden" style="text-transform:uppercase"	>
-										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario" autofocus="autofocus" placeholder="BUSCAR" value="" type="text" style="text-transform:uppercase"	>
+										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario" placeholder="BUSCAR" value="" type="text" style="text-transform:uppercase"	>
 									</div>
 								</div>
 								<div class="form-group" >

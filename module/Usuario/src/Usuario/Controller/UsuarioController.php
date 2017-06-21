@@ -21,105 +21,73 @@ use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
 use Anio\Model\Entity\Anio;
 use Zend\MVC\Exception;
-
-
 use Zend\Validator;
 use Zend\I18n\Validator as I18nValidator;
-
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Authentication\Adapter\DbTable as AuthAdapter;
-//Componentes de autenticación
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
 use Usuario\Form\LoginForm;
+use Usuario\Model\Entity\Usuario;
 
 class UsuarioController extends AbstractActionController {
 
-	//private $dbAdapter;
 	private $auth;
 
 	public function __construct() {
-		//Cargamos el servicio de autenticación en el constructor
 		$this->auth = new AuthenticationService();
 	}
 
 	public function indexAction() {
-		//Vamos a utilizar otros métodos
 		return new ViewModel();
 	}
 
 	public function loginAction() {
-		//
+
 		$auth = $this->auth;
 		$identi = $auth->getStorage()->read();
 		if ($identi != false && $identi != null) {
-			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuarios/dentro');
+			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl());
 		}
-
-		//DbAdapter
-		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		
-		
-
-		//Creamos el formulario de login
 		$form = new LoginForm("form");
-
-		//Si nos llegan datos por post	
+		$request = $this->getRequest();
 		if ($this->getRequest()->isPost()) {
+			$user = $request->getPost('username');
+			$pass = $request->getPost('password');
+			$bcrypt = new Bcrypt();
+//echo $securePass = $bcrypt->create($pass);
+//
+//$securePass = $securePass;
+//$password = 'admin';//pass arriba;
+//
+//if ($bcrypt->verify($password, $securePass)) {
+//    echo "The password is correct! \n";
+//} else {
+//    echo "The password is NOT correct.\n";
+//}
 
-			/* Creamos la autenticación a la que le pasamos:
-			  1. La conexión a la base de datos
-			  2. La tabla de la base de datos
-			  3. El campo de la bd que hará de username
-			  4. El campo de la bd que hará de contraseña
-			 */
-			$authAdapter = new AuthAdapter($this->dbAdapter, 'usuarios', 'username', 'password'
-			);
-
-			/*
-			  Podemos hacer lo mismo de esta manera:
-			  $authAdapter = new AuthAdapter($dbAdapter);
-			  $authAdapter
-			  ->setTableName('users')
-			  ->setIdentityColumn('username')
-			  ->setCredentialColumn('password');
-			 */
-
-			/*
-			  En el caso de que la contraseña en la db este cifrada
-			  tenemos que utilizar el mismo algoritmo de cifrado
-			 */
-			$bcrypt = new Bcrypt(array(
-				'salt' => 'aleatorio_salt_pruebas_victor',
-				'cost' => 5));
-
-			$securePass = $bcrypt->create($this->request->getPost("password"));
-
-			//Establecemos como datos a autenticar los que nos llegan del formulario
-			$authAdapter->setIdentity($this->getRequest()->getPost("email"))
-					->setCredential($securePass);
-
-
-			//Le decimos al servicio de autenticación que el adaptador
-			$auth->setAdapter($authAdapter);
-
-			//Le decimos al servicio de autenticación que lleve a cabo la identificacion
-			$result = $auth->authenticate();
-
-			//Si el resultado del login es falso, es decir no son correctas las credenciales
-			if ($authAdapter->getResultRowObject() == false) {
-
-				//Crea un mensaje flash y redirige
-				$this->flashMessenger()->addMessage("Credenciales incorrectas, intentalo de nuevo");
-				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuarios/login');
+			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+			$usuario = new Usuario($this->dbAdapter);
+			$datos = $usuario->login($user, $pass);
+			if ($datos['usuario'] != null) {
+				$passBd = $datos['password'];
+				if ($bcrypt->verify($pass, $passBd)) {
+					$authAdapter = new AuthAdapter($this->dbAdapter, 'usuario', 'usuario', 'password');
+					$authAdapter->setIdentity($datos['usuario'])
+							->setCredential($datos['password']);
+					$auth->setAdapter($authAdapter);
+					$auth->authenticate($authAdapter);
+					$auth->getStorage()->write($authAdapter->getResultRowObject());
+					//return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/dentro');
+					//return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() );
+					return $this->redirect()->toUrl($this->getRequest()->getBaseUrl());
+				} else {
+					$this->flashMessenger()->addMessage("Credenciales incorrectas, intentalo de nuevo");
+					return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+				}
 			} else {
-
-				// Le decimos al servicio que guarde en una sesión 
-				// el resultado del login cuando es correcto
-				$auth->getStorage()->write($authAdapter->getResultRowObject());
-
-				//Nos redirige a una pagina interior
-				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuarios/dentro');
+				$this->flashMessenger()->addMessage("Credenciales incorrectas, intentalo de nuevo");
+				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 			}
 		}
 
@@ -128,14 +96,24 @@ class UsuarioController extends AbstractActionController {
 		);
 	}
 
-	public function dentroAction() {
-		//Leemos el contenido de la sesión
+	public function sesion() {
 		$identi = $this->auth->getStorage()->read();
-
 		if ($identi != false && $identi != null) {
 			$datos = $identi;
 		} else {
 			$datos = "No estas identificado";
+			//return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+		}
+		return $datos;
+	}
+
+	public function dentroAction() {
+		$identi = $this->auth->getStorage()->read();
+		if ($identi != false && $identi != null) {
+			$datos = $identi;
+		} else {
+			$datos = "No estas identificado";
+			//return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 		}
 
 		return new ViewModel(
@@ -144,9 +122,14 @@ class UsuarioController extends AbstractActionController {
 	}
 
 	public function cerrarAction() {
-		//Cerramos la sesión borrando los datos de la sesión.
-		$this->auth->clearIdentity();
-		return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuarios/login');
+
+		//$this->auth->clearIdentity();
+		$session = new Container('session');
+		$numero = new Container('numero');
+		$session->getManager()->destroy();
+		$numero->getManager()->destroy();
+		var_dump($session->datos);
+		return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 	}
 
 }

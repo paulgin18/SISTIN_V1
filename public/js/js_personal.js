@@ -1,4 +1,5 @@
-var registrar = function (txtId,txtNombre, txtApellidos,txtDNI,id_area) {
+var registrar = function (txtId,txtNombre, txtApellidos,txtDNI,id_area,responsable) {
+	alert(responsable);
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
@@ -7,6 +8,7 @@ var registrar = function (txtId,txtNombre, txtApellidos,txtDNI,id_area) {
 			'txtApellidos': txtApellidos,
 			'txtDNI':txtDNI,
 			'id_area':id_area,
+			'responsable':responsable==1?true:false,
 		},
 		dataType: 'json',
 		success: function (response) {
@@ -45,10 +47,11 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtApellidos = $('#txtApellidos').val();
 	var txtDNI = $('#txtDNI').val();
 	var id_area = $('#id_area').val();
+	var responsable= $('input:checkbox[id=chkResponsable]:checked').val()
 
 	
 	
-	registrar(txtId,txtNombre, txtApellidos,txtDNI,id_area);
+	registrar(txtId,txtNombre, txtApellidos,txtDNI,id_area,responsable);
 	//this.disabled=false;
 
 });
