@@ -23,7 +23,7 @@ return array(
 		'driver' => 'Pdo',
 		// 'schema' => 'sem',
 		//conexion Geresa
-		'dsn'=>'pgsql:host=192.168.1.35;port=5432;dbname=bdinventario', 
+		'dsn'=>'pgsql:host=127.0.0.1;port=5432;dbname=bdinventario', 
 
 		//'dsn'=>'pgsql:host=localhost;port=5432;dbname=bdinventario5', 
 

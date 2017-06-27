@@ -15,12 +15,12 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'anio' => array(
+            'rol' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/anio',
+                    'route'    => '/rol',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Anio\Controller',
+                        '__NAMESPACE__' => 'Rol\Controller',
                     ),
                 ),
                 'may_terminate' => true,
@@ -63,7 +63,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Anio\Controller\Anio' => 'Anio\Controller\AnioController'
+            'Rol\Controller\Rol' => 'Rol\Controller\RolController'
         ),
     ),
     'view_manager' => array(
@@ -74,7 +74,7 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'anio/index/index' => __DIR__ . '/../view/anio/index/index.phtml',
+            'rol/index/index' => __DIR__ . '/../view/rol/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),

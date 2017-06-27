@@ -20,6 +20,7 @@ return array(
         'Rangoip',
 		'Docadquisicion',
 		'Usuario',
+        'Rol',
         'Application',
     ),
 

@@ -8,7 +8,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Anio\Controller;
+namespace Rol\Controller;
 
 require "vendor/autoload.php";
 
@@ -19,10 +19,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Db\Adapter\Adapter;
-use Anio\Model\Entity\Anio;
+use Rol\Model\Entity\Rol;
 use Zend\MVC\Exception;
 
-class AnioController extends AbstractActionController {
+class RolController extends AbstractActionController {
 
 	public function formAction() {
 		$id = $this->params()->fromRoute("id", null);
@@ -46,26 +46,27 @@ class AnioController extends AbstractActionController {
 
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$anios = new Anio($this->dbAdapter);
-		$datos = $anios->buscar($cod);
+		$roles = new Rol($this->dbAdapter);
+		$datos = $roles->buscar($cod);
 		return $datos;
 	}
 
-	public function registraranioAction() {
+	public function registrarAction() {
 		$error = 0;
 		$msj = "";
 		try {
-			$numero = $this->getRequest()->getPost('txtAnio');
+			$nombre = $this->getRequest()->getPost('txtNombre');
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
+		
 			$id = $this->getRequest()->getPost('txtId');
 
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$anios = new Anio($this->dbAdapter); 
+			$roles = new Rol($this->dbAdapter); 
 			if ($id != '') {
-				$modificar = $anios->modificar($descripcion, $numero, $id);
+				$modificar = $roles->modificar($nombre,$descripcion, $id);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insertar = $anios->insertar($descripcion, $numero);
+				$insertar = $roles->insertar($nombre, $descripcion);
 				$msj = $this->mensaje($insertar, 0);
 			}
 		} catch (\Exception $e) {
@@ -75,11 +76,9 @@ class AnioController extends AbstractActionController {
 			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
 			switch ($codError[0]) {
 				case 23505:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $nombre . "', ya se encuentra en la base de datos.";
 					break;
-				case 23514:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
-					break;
+				
 				default:
 					$error = explode("DETAIL:", $codError[2]);
 
@@ -95,28 +94,23 @@ class AnioController extends AbstractActionController {
 		return $response;
 	}
 
-	public function listadoaniosAction() {
+	public function rolAction() {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$anios = new Anio($this->dbAdapter);
-		$listadoanios = $anios->lista();
-		$viewModel = new ViewModel(array("anios" => $listadoanios));
+		$roles = new Rol($this->dbAdapter);
+		$listadoroles = $roles->lista();
+		$viewModel = new ViewModel(array("roles" => $listadoroles));
 		return $viewModel;
 	}
 
-	public function fechaAction() {
-		
-		$viewModel = new ViewModel();
-		return $viewModel;
-	}
-
+	
 
 	public function eliminarAction() {
 		$error=0;$tipoConsulta = 0;
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$anios = new Anio($this->dbAdapter);
+		$roles = new Rol($this->dbAdapter);
 		$cod = $this->getRequest()->getPost('cod');
 		$vigencia = $this->getRequest()->getPost('vigencia');
-		$eliminar = $anios->eliminar($cod,$vigencia);
+		$eliminar = $roles->eliminar($cod,$vigencia);
 		$vigencia=="false" ? $tipoConsulta=2:$tipoConsulta=3;
 		$msj = $this->mensaje($eliminar, $tipoConsulta);
 		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
