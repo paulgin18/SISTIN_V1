@@ -17,12 +17,17 @@ class Ficha extends TableGateway {
 		return parent::__construct('Ficha', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($ficha, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp, $tblFichaDocAdquisicion, $tblArchivo) {
+	public function insertar($ficha, $numero, $fecha, $nompc, $observacion, $idUser, $id_respfuncionario, 
+			$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
+			$tblOtro, $tblUser, $tblFichaDisp, $tblFichaDocAdquisicion, $tblArchivo,$tblPersonal) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
 			$connection->beginTransaction();
-			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio);
+			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser, $id_respfuncionario, $id_resppatrimonio);
+			$tblPersonal!= null || $tblPersonal != "" ? $this->personal($idInsert, $tblPersonal) : "";
+			$tblFechaInventario=$this->fechaInventario($idInsert, $idUser);
+			
 			if ($ficha == 3) {
 				//Solo para Fichas De quipo que no son laptops ni mucho menos desctockp
 				($tblFichaDisp != null || $tblFichaDisp != "" ) ? $this->fichaDisp($idInsert, $tblFichaDisp) : "";
@@ -46,14 +51,32 @@ class Ficha extends TableGateway {
 		return $datos;
 	}
 
-	public function fichaTecnica($numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio) {
+	public function fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser, $id_respfuncionario, $id_resppatrimonio) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO ficha_tecnica(numero, fecha,nompc,observacion,id_user, id_respfuncionario, id_resppatrimonio) "
-				. "VALUES ($numero, '$fecha','$nompc', '$observacion',$id_user, $id_respfuncionario, $id_resppatrimonio)");
+				"INSERT INTO ficha_tecnica(numero, fecha_inv,nompc,observacion,id_user) "
+				. "VALUES ($numero, '$fecha','$nompc', '$observacion',$idUser)");
 		$insert->execute();
 		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
 		return $datos;
+	}
+	public function fechaInventario($idFichaTecnica, $idUser) {
+		$insert = $this->dbAdapter->
+				createStatement(
+				"INSERT INTO ft_fecha_inv(fecha_inventario, id_user)VALUES ($idFichaTecnica, $idUser)");
+		$insert->execute();
+		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+	}
+	
+	public function personal($idInsert, $tblPersonal) {
+
+		$insert = $this->dbAdapter->createStatement(
+				"INSERT INTO ft_compinternos(estructura, id_ficha_tecnica, id_disp_mar_mod)"
+				. "VALUES ('" . $tblMicroprocesador['estructura'] . "', '$idInsert'," . $tblMicroprocesador['idMicroprocesador'] . ")");
+		$insert->execute();
+
+		return $insert;
 	}
 
 	public function microprocesador($idInsert, $tblMicroprocesador) {
