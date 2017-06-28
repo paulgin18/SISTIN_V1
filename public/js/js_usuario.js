@@ -1,22 +1,22 @@
-var registrar = function (txtId,txtNombre, txtApellidoPaterno,txtApellidoMaterno,txtDNI,id_area,responsable) {
-	
+var registrar = function (txtId,txtUsuario,txtPassword,txtPersonal,txtRol,txtEjecutora) {
+	alert(responsable);
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {'txtId':txtId,
-			'txtNombre': txtNombre,
-			'txtApellidoPaterno': txtApellidoPaterno,
-			'txtApellidoMaterno': txtApellidoMaterno,
-			'txtDNI':txtDNI,
-			'id_area':id_area,
+			'txtUsuario': txtUsuario,
+			'txtPassword': txtPassword,
+			'txtPersonal':txtPersonal,
+			'txtRol':txtRol,
+			'txtEjecutora':txtEjecutora,
 			'responsable':responsable==1?true:false,
 		},
 		dataType: 'json',
 		success: function (response) {
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
-						window.location.href = "../../personal";
-					})
+						window.location.href = "../../usuario";
+					})txtEjecutora,
 					: bootbox.alert(response.msj);
 			$("#btnguardar").prop('disabled', false);
 
@@ -24,7 +24,6 @@ var registrar = function (txtId,txtNombre, txtApellidoPaterno,txtApellidoMaterno
 	};
 	$.ajax(options);
 };
-
 
 /*
 $(document).submit(function (event) {
@@ -46,15 +45,14 @@ $(document).on('click', '#btnguardar', function (event) {
 	event.preventDefault();
 	var txtId = $('#txtId').val(); 
 	var txtNombre = $('#txtNombre').val();
-	var txtApellidoPaterno = $('#txtApellidoPaterno').val();
-	var txtApellidoMaterno = $('#txtApellidoMaterno').val();
+	var txtApellidos = $('#txtApellidos').val();
 	var txtDNI = $('#txtDNI').val();
 	var id_area = $('#id_area').val();
 	var responsable= $('input:checkbox[id=chkResponsable]:checked').val()
 
 	
 	
-	registrar(txtId,txtNombre, txtApellidoPaterno,txtApellidoMaterno,txtDNI,id_area,responsable);
+	registrar(txtId,txtNombre, txtApellidos,txtDNI,id_area,responsable);
 	//this.disabled=false;
 
 });

@@ -24,9 +24,20 @@
 
 										<input type="text" id="txtNombre" name="txtNombre" class="form-control" required=""  autofocus="autofocus" value="<?= $datos != null ? $datos['nombre'] : ''; ?>">
 									</div>
-										<label class="col-sm-1 control-label"><b>Apellidos:</b></label>
+										<label class="col-sm-1 control-label"><b>Apellido Paterno:</b></label>
 										  <div class="col-sm-4">
-										<input type="text" id="txtApellidos" name="txtApellidos" class="form-control" required="" value="<?= $datos != null ? $datos['apellidos'] : ''; ?>">
+										<input type="text" id="txtApellidoPaterno" name="txtApellidoPaterno" class="form-control" required="" value="<?= $datos != null ? $datos['apellido_paterno'] : ''; ?>">
+										</div>
+
+									
+									</div>
+
+
+									<div class="form_group">
+									<label class="col-sm-1 control-label"><b>Apellido Materno:</b></label>
+										
+										<div class="col-sm-4">
+										<input type="text" id="txtApellidoMaterno" name="txtApellidoMaterno" class="form-control" required=""  value="<?= $datos != null ? $datos['apellido_materno'] : ''; ?>">
 										</div>
 									</div>
 
@@ -36,6 +47,9 @@
 										<div class="col-sm-4">
 										<input type="text" maxlength="8" id="txtDNI" name="txtDNI" class="form-control" required=""  value="<?= $datos != null ? $datos['dni'] : ''; ?>">
 										</div>
+										</br>
+										</br>
+									</br>
 									<label class="col-sm-1 control-label"><b>Area:</b></label>	
 										<div class="col-sm-4">
 										

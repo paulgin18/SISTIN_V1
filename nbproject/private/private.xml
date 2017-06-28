@@ -3,20 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Application/view/application/index/index.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Dispositivo/view/dispositivo/dispositivo/form.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Modelo/src/Modelo/Model/Entity/Modelo.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/view/ficha/ficha/ficha.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Rangoip/src/Rangoip/Model/Entity/Rangoip.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Application/src/Application/Controller/IndexController.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Personal/src/Personal/Model/Entity/Personal.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/src/Ficha/Model/Entity/Ficha.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Personal/src/Personal/Controller/PersonalController.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Dispositivo/src/Dispositivo/Model/Entity/Dispositivo.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/src/Ficha/Controller/FichaController.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Ficha/view/ficha/ficha/form.phtml</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Marca/src/Marca/Model/Entity/Marca.php</file>
-            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/js/js_ficha.js</file>
+            <file>file:/C:/xampp/htdocs/SISTIN_V1/public/build/css/custom.css</file>
             <file>file:/C:/xampp/htdocs/SISTIN_V1/module/Application/view/layout/layout.phtml</file>
         </group>
     </open-files>

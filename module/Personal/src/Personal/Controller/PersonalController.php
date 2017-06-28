@@ -66,16 +66,17 @@ class PersonalController extends AbstractActionController {
 		}
 	}
 
+
 	public function buscar($cod) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$personals = new Personal($this->dbAdapter);
 		$datos = $personals->buscar($cod);
 		return $datos;
 	}
+
 	public function buscarFuncionarioAction() {
-		
 		$descripcion = $this->getRequest()->getQuery('term');
-		 $sesion=new Container('sesion');
+		$sesion=new Container('sesion');
 		$unidad_ejecutora = $sesion->datos->id_unidad_ejecutora;
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$personal = new Personal($this->dbAdapter);
@@ -87,13 +88,15 @@ class PersonalController extends AbstractActionController {
 		return $response;
 	}
 
+
 	public function registrarAction() {
 		$error = 0;
 		$msj = "";
 		try {
 			$id = $this->getRequest()->getPost('txtId');			
 			$nombre = $this->getRequest()->getPost('txtNombre');
-			$apellidos = $this->getRequest()->getPost('txtApellidos');
+			$apellido_paterno = $this->getRequest()->getPost('txtApellidoPaterno');
+			$apellido_materno = $this->getRequest()->getPost('txtApellidoMaterno');
 			$dni = $this->getRequest()->getPost('txtDNI');
 			$id_area = $this->getRequest()->getPost('id_area');
 			$responsable= $this->getRequest()->getPost('responsable');
@@ -102,10 +105,10 @@ class PersonalController extends AbstractActionController {
 
 
 			if ($id != '') {
-				$modificar= $personal->modificar($id, $nombre,$apellidos,$dni,$id_area,$responsable);
+				$modificar= $personal->modificar($id, $nombre,$apellido_paterno,$apellido_materno,$dni,$id_area,$responsable);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
-				$insert = $personal->insertar($nombre,$apellidos,$dni,$id_area,$responsable);
+				$insert = $personal->insertar($nombre,$apellido_paterno,$apellido_materno,$dni,$id_area,$responsable);
 				$msj = $this->mensaje($insert, 0);
 			}
 		} catch (\Exception $e) {
@@ -115,11 +118,9 @@ class PersonalController extends AbstractActionController {
 			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
 			switch ($codError[0]) {
 				case 23505:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $dni. "', ya se encuentra en la base de datos.";
 					break;
-				case 23514:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El año '" . $numero . "' debe ser mayor que 2017.";
-					break;
+			
 				default:
 					$error = explode("DETAIL:", $codError[2]);
 
