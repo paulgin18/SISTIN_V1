@@ -4,6 +4,7 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
+use Zend\Crypt\Password\Bcrypt;
 
 use Zend\Db\ResultSet\ResultSet;
 
@@ -13,15 +14,18 @@ class Usuario extends TableGateway {
 
 	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null) {
 		$this->dbAdapter = $adapter;
-		return parent::__construct('Anio', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
+		return parent::__construct('Usuario', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($descripcion, $numero) {
+	public function insertar($usuario, $password,$id_personal, $id_rol, $id_unidad_ejecutora) {
+		$bcrypt = new Bcrypt();
+		$securePass = $bcrypt->create($password);
+
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO anio (descripcion, numero) "
+				"INSERT INTO usuario (usuario, password,id_personal,id_rol,id_unidad_ejecutora) "
 						. "VALUES "
-						. "(upper(trim('$descripcion')),$numero)");
+						. "(upper(trim('$usuario')),$securePass,id_personal,id_rol,id_unidad_ejecutora)");
 		$datos = $insert->execute();
 		return $datos;
 	}

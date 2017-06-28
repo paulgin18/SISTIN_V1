@@ -1,0 +1,79 @@
+<?php if ($mantenimiento != null) { ?>
+	<div class="right_col" role="main" style="min-height: 771px;">
+	    <div class="">
+	        <div class="clearfix"></div>
+	        <div class="row">
+	            <div class="col-md-12 col-sm-12 col-xs-12">
+	                <div class="x_panel">
+	                    <div class="x_title">
+	                        <h2><?php echo $this->mantenimiento ?> Usuario <small></small></h2>
+	                        <ul class="nav navbar-right panel_toolbox">
+	                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+	                        </ul>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                    <div class="x_content">
+							<form class="form-horizontal form-label-left" id="formRegistro"  action="javascript:void(0)"  >
+								<div class="form-group">
+									<label for="" class="col-sm-1 control-label"><b>Usuario:</b></label>
+									<div class="col-sm-2">
+										<input type="hidden" class="" name="txtId" id="txtId"   placeholder="" value="<?= $datos != null ? $datos['id_anio'] : ''; ?>">
+										<input type="text" minlength="4" id="txtUsuario"   class='form-control  usuario'  required=""  autofocus="autofocus" value="<?= $datos != null ? $datos['usuario'] : ''; ?>"  maxlength="4">
+									</div>
+									<label for="" class="col-sm-1 control-label">Password</label>
+									<div class="col-sm-8">
+										<input ype="text" id="txtPassword" name="txtPassword" class='form-control password' required="" style="text-transform: uppercase" value="<?= $datos != null ? $datos['password'] : ''; ?>" maxlength="300" />	
+									</div>
+									<label class="col-sm-1 control-label"><b>Personal</b></label>	
+										<div class="col-sm-4">
+										
+										<input class="form-control" name="txtPersonal" id="txtPersonal" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['descripcion']?>">
+
+										<input type="hidden" value="<?= $datos['id_personal']?>" id="id_personal">	
+										</div>
+									<label class="col-sm-1 control-label"><b>Rol</b></label>	
+										<div class="col-sm-4">
+										
+										<input class="form-control" name="txtRol" id="txtRol" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['descripcion']?>">
+
+										<input type="hidden" value="<?= $datos['id_rol']?>" id="id_rol">	
+										</div>
+									<label class="col-sm-1 control-label"><b>Unidad Ejecutora</b></label>	
+										<div class="col-sm-4">
+										
+										<input class="form-control" name="txtEjecutora" id="txtEjecutora" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['descripcion']?>">
+
+										<input type="hidden" value="<?= $datos['id_unidad_ejecutora']?>" id="id_unidad_ejecutora">	
+										</div>
+
+								</div>
+	                        <hr>
+	                        <div class="form-group">
+	                            <center><div class="col-sm-9">
+										<button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton ?></button>
+	                                </div></center>
+	                        </div>
+							</form>
+						</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+<?php } ?>
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+
+<?=
+		$this->inlineScript()
+		->prependFile($this->basePath('js/js_anio.js'))
+	
+?>
