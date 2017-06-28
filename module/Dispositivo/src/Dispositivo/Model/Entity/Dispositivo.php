@@ -127,7 +127,7 @@ class Dispositivo extends TableGateway {
 	public function bSofDisp($descripcion, $tipo) {
 		$sql2 = "";
 		if ($tipo == 1) {
-			$sql2 = " (tipo='SC' or tipo='SM' or tipo='SL')";
+			$sql2 = " (tipo='SC' or tipo='SM' or tipo='SL' or tipo='SO')";
 		} else {
 			$sql2 = " tipo='$tipo'";
 		}

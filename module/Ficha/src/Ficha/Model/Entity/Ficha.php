@@ -17,17 +17,17 @@ class Ficha extends TableGateway {
 		return parent::__construct('Ficha', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($ficha, $numero, $fecha, $nompc, $observacion, $idUser, $id_respfuncionario, 
-			$id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
-			$tblOtro, $tblUser, $tblFichaDisp, $tblFichaDocAdquisicion, $tblArchivo,$tblPersonal) {
+	public function insertar($ficha, $numero, $fecha, $nompc, $observacion, $idUser,
+			 $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
+			$tblOtro, $tblUser, $tblFichaDisp, $tblFichaDocAdquisicion, $tblArchivo,$tblPersonal,
+			$tblDatosEsp,$fechaInstalacion,$idEquipo) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
 			$connection->beginTransaction();
-			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser, $id_respfuncionario, $id_resppatrimonio);
-			$tblPersonal!= null || $tblPersonal != "" ? $this->personal($idInsert, $tblPersonal) : "";
+			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser,$fechaInstalacion,$idEquipo);
+			$tblPersonal!= null || $tblPersonal != "" ? $this->personal($idInsert, $tblPersonal,$idUser) : "";
 			$tblFechaInventario=$this->fechaInventario($idInsert, $idUser);
-			
 			if ($ficha == 3) {
 				//Solo para Fichas De quipo que no son laptops ni mucho menos desctockp
 				($tblFichaDisp != null || $tblFichaDisp != "" ) ? $this->fichaDisp($idInsert, $tblFichaDisp) : "";
@@ -42,6 +42,7 @@ class Ficha extends TableGateway {
 				$tblUser != null || $tblUser != "" ? $this->cuentasUsuario($idInsert, $tblUser) : "";
 				$tblFichaDocAdquisicion != null || $tblFichaDocAdquisicion != "" ? $this->docAdquisicion($idInsert, $tblFichaDocAdquisicion) : "";
 				$tblArchivo != null || $tblArchivo != "" ? $this->archivo($idInsert, $tblArchivo) : "";
+				$$tblDatosEsp != null || $tblDatosEsp != "" ? $this->datosEspecificos($idInsert, $tblDatosEsp) : "";
 			}
 			$connection->commit();
 			$datos = true;
@@ -51,11 +52,11 @@ class Ficha extends TableGateway {
 		return $datos;
 	}
 
-	public function fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser, $id_respfuncionario, $id_resppatrimonio) {
+	public function fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser, $fechaInstalacion,$idEquipo) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO ficha_tecnica(numero, fecha_inv,nompc,observacion,id_user) "
-				. "VALUES ($numero, '$fecha','$nompc', '$observacion',$idUser)");
+				"INSERT INTO ficha_tecnica(numero, fecha_inv,nompc,observacion,id_user,fecha_instalacion,id_disp_soft) "
+				. "VALUES ($numero, '$fecha','$nompc', '$observacion',$idUser,'$fechaInstalacion',$idEquipo)");
 		$insert->execute();
 		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
 		return $datos;
@@ -69,11 +70,23 @@ class Ficha extends TableGateway {
 		return $datos;
 	}
 	
-	public function personal($idInsert, $tblPersonal) {
+	public function datosEspecificos($idInsert, $tblPersonal) {
 
 		$insert = $this->dbAdapter->createStatement(
-				"INSERT INTO ft_compinternos(estructura, id_ficha_tecnica, id_disp_mar_mod)"
-				. "VALUES ('" . $tblMicroprocesador['estructura'] . "', '$idInsert'," . $tblMicroprocesador['idMicroprocesador'] . ")");
+				"INSERT INTO ft_compinternos(id_respfuncionario, id_user, id_reppatrimonio,id_area,id_uni_org,id_ficha_tecnica)"
+				."VALUES (" . $tblPersonal['resFuncionario'] . ",".$idUser.",". $tblPersonal['resPatrimonio'] . ",". $tblPersonal['areaServ'] . ",". $tblPersonal['unidadOrganica'] 
+				. ",".$idInsert.")");
+		$insert->execute();
+
+		return $insert;
+	}
+	
+	public function personal($idInsert, $tblPersonal,$idUser) {
+
+		$insert = $this->dbAdapter->createStatement(
+				"INSERT INTO ft_compinternos(id_respfuncionario, id_user, id_reppatrimonio,id_area,id_uni_org,id_ficha_tecnica)"
+				."VALUES (" . $tblPersonal['resFuncionario'] . ",".$idUser.",". $tblPersonal['resPatrimonio'] . ",". $tblPersonal['areaServ'] . ",". $tblPersonal['unidadOrganica'] 
+				. ",".$idInsert.")");
 		$insert->execute();
 
 		return $insert;

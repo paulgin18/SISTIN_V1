@@ -82,40 +82,27 @@ class FichaController extends AbstractActionController {
 		$msj = "";
 		$session = new Container('sesion');
 		try {
-
-//	,txtIdEquipo, txtFechaAdquisicion,,
-//		txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,
-//	
-			$fecha_inst = $this->getRequest()->getPost('txtFechaInstalacion');
-			
-
-
 			$numero = $this->getRequest()->getPost('txtNroFicha');
-			$fecha = $this->getRequest()->getPost('txtFecha');
-			$nompc = $this->getRequest()->getPost('txtNomPc');
-			
-			$observacion = 'q';
-			$id_user = $session->datos->id_user;;
 			$fichapost = $this->getRequest()->getPost('ficha');
-			$operativo = $this->getRequest()->getPost('chkOpOtros');
-			$garantia = $this->getRequest()->getPost('chkGarantia');
-			$anioGarantia = $this->getRequest()->getPost('txtAnioGarantia');
-			$compatible = $this->getRequest()->getPost('chkCompatible');
-			
-			
-			$tblPersonal= $this->getRequest()->getPost('tblPersonal');
+			$fecha = $this->getRequest()->getPost('txtFecha');
+			$idEquipo = $this->getRequest()->getPost('txtIdEquipo');
+			$nompc = $this->getRequest()->getPost('txtNomPc');
+			$tblOtro = $this->getRequest()->getPost('tblOtrosComponentes');
+			$tblRam = $this->getRequest()->getPost('tblRam');
+			$tblSoft = $this->getRequest()->getPost('tblSoftware');
 			$tblMicroprocesador = $this->getRequest()->getPost('tblMicroprocesador');
 			$tblDiscoDuro = $this->getRequest()->getPost('tblDiscoDuro');
 			$tblMainboard = $this->getRequest()->getPost('tblMainboard');
 			$tblRed = $this->getRequest()->getPost('tblRed');
-			$tblRam = $this->getRequest()->getPost('tblRam');
-			$tblSoft = $this->getRequest()->getPost('tblSoftware');
-			$tblOtro = $this->getRequest()->getPost('tblOtrosComponentes');
 			$tblUser = $this->getRequest()->getPost('tblUser');
 			$tblFichaDisp = $this->getRequest()->getPost('tblFichaDisp');
 			$tblFichaAd = $this->getRequest()->getPost('tblFichaAd');
 			$tblArchivo = $this->getRequest()->getPost('tblArchivo');
-			
+			$tblPersonal= $this->getRequest()->getPost('tblPersonal');
+			$tblDatosEsp= $this->getRequest()->getPost('tblDatosEsp');
+			$fechaInstalacion= $this->getRequest()->getPost('txtFechaInstalacion');
+			$observacion= $this->getRequest()->getPost('txtObservacion');
+			$id_user = $session->datos->id_user;;
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
 //if ($id != '') {
@@ -123,10 +110,10 @@ class FichaController extends AbstractActionController {
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
 			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, 
-					$id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, 
+					$id_user,  $tblMicroprocesador, 
 					$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, 
-					$tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal
-					);
+					$tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal,$tblDatosEsp,$fechaInstalacion,
+					$idEquipo);
 			
 			$msj = $this->mensaje($insertar, 0);
 //			}

@@ -66,6 +66,13 @@
 									</div>
 								</div>
 								<div class="form-group" >
+									<label class="col-sm-2 control-label"><b>Observación:</b></label>
+									<div class="col-sm-10">
+										<input class="form-control " name="txtObservacion" id="txtObservacion" value="" type="text" >
+										
+									</div>
+								</div>
+								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Equipo:</b></label>
 									<div class="col-sm-4">
 										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="" type="hidden" >
@@ -177,8 +184,8 @@
 											<input type="hidden" id="txtIdDisMaMo">
 										</div>
 										<div class="col-sm-1">
-											<label id='lblNSerieMaMo' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
-											<label  id='lblASerieMaMo'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
+											<label id='lblNSerieMaMo2' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+											<label  id='lblASerieMaMo2'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 										</div>
 									</div>
 									<div class="form-group">
@@ -308,7 +315,6 @@
 													<label class="col-sm-1 control-label" ><b>Garantia:</b></label>
 													<div class="col-sm-1">
 														<input type="text" id="txtAnioGarantia" name="txtAnioGarantia" placeholder="años"  class="form-control"  value="<?= $datos != null ? $datos['aniogarantia'] : ''; ?>">
-
 													</div>
 												</div>
 											</div>
@@ -321,7 +327,6 @@
 												<label class="col-sm-2 control-label"><b>Serie:</b></label>
 												<div class="col-sm-3">
 													<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text" value="" style="text-transform:uppercase">
-
 												</div>
 												<div class="col-sm-1">
 													<label id='lblNSeriePc' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
@@ -334,12 +339,8 @@
 													<input type="text" name="txtNroPatrimonio" id="txtNroPatrimonio" value="" class="form-control col-md-6 col-xs-10" style="text-transform:uppercase">
 												</div>
 												<div class="col-sm-2"></div>
-
-
 											</div>
-											<hr>
-
-											<h2 class="StepTitle"><strong>S.O.</strong></h2><br/>
+											<!--h2 class="StepTitle"><strong>S.O.</strong></h2><br/>
 											<div class="form-group">
 												<label class="col-sm-2 control-label"><b>Sistema Operativo:</b></label>
 												<div class="col-sm-3">
@@ -355,7 +356,7 @@
 													<label  id='lblALicenciaSO'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
 												</div>
 
-											</div>
+											</div-->
 											<hr/>
 											<h2 class="StepTitle"><strong>Cuentas</strong></h2><br/>
 											<div class="form-group">
@@ -397,6 +398,7 @@
 														</tbody>
 													</table>			
 												</div>
+												<br/><br/><br/>
 												<br/><br/><br/>
 											</div>
 										</form>
@@ -641,7 +643,11 @@
 												<label for="" class="col-sm-1 control-label"><b>Nº Lic:</b></label>
 												<div class="col-sm-4">
 													<input class="form-control" name="txtSoftNroLicencia" id="txtSoftNroLicencia" type="text" value="" style="text-transform:uppercase">
-												</div>	
+												</div>
+												<div class="col-sm-1">
+												<label id='lblNSerieSoft' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
+												<label  id='lblASerieSoft'style='display: none'> <img src="../../../../img/check.png" width="20px" height="20px" ></label>
+											</div>
 
 												<label for="" class="col-sm-1 control-label"><b>Vigencia:</b></label>
 												<div class="col-sm-1">

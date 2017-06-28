@@ -207,7 +207,7 @@ $("#txtUnidadOrganica").keyup(function () {
 });
 
 
-$("#txtUnidadOrganica").on("click",function () {
+$("#txtUnidadOrganica").on("click", function () {
 
 	$("#txtUnidadOrganica").autocomplete({
 		minLength: 0,
@@ -361,7 +361,7 @@ $(document).on('click', '#btnAnadirDocumento', function (event) {
 	}
 });
 
-var verificarDocumento = function (txtId, documento, fecha){
+var verificarDocumento = function (txtId, documento, fecha) {
 	var campo1;
 	$("#tabla_adquisicion tbody tr").each(function (index) {
 		$(this).children("td").each(function (index2) {
@@ -376,7 +376,7 @@ var verificarDocumento = function (txtId, documento, fecha){
 		bootbox.alert('<b style="color: #F44336;" >El tipo de documento ya ha sido ingresado</b>');
 	} else {
 		$("#tabla_adquisicion > tbody").append(
-				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td>'+$("#cmbDocumento option:selected").text()+'</td><td>' + documento + '</td><td>' + fecha + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+				'<tr data-id=' + txtId + ' ><td>#</td><td hidden>' + txtId + '</td><td>' + $("#cmbDocumento option:selected").text() + '</td><td>' + documento + '</td><td>' + fecha + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
 	;
 }
@@ -610,13 +610,26 @@ $("#txtSerieRed").keyup(function () {
 			bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
 $("#txtSerieMaMo").keyup(function () {
+	var labelA, labelN;
+	if ($("#txtFichaIdDis").val().trim().length > 0) {
+		labelA = "#lblASerieMaMo2";
+		labelN = "#lblNSerieMaMo2";
+	} else {
+		labelA = "#lblASerieMaMo";
+		labelN = "#lblNSerieMaMo";
+	}
+
+	$(this).val() != '' || $(this).val().toString().length > 0 ?
+			bSerie($(this).val(), labelA, labelN) : ($(labelA).hide(), $(labelN).hide());
+});
+$("#txtFichaSerieMaMo").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
 			bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
 });
-$("#txtFichaSerieMaMo").keyup(function () {
 
+$("#txtSoftNroLicencia").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieSoft', "#lblNSerieSoft") : ($('#lblASerieSoft').hide(), $('#lblNSerieSoft').hide());
 });
 
 function bSerie(ser, lbla, lbln) {
@@ -818,7 +831,7 @@ var verificar = function (txtIdDisMaMo, dispositivo, itemMaMo, txtSerie, chk) {
 		bootbox.alert('<b style="color: #F44336;" >El dispositivo ya ha sido ingresado</b>');
 	} else {
 		$("#tabla_marca > tbody").append(
-				'<tr data-id=' + txtIdDisMaMo + ' ><td>#</td><td hidden>' + txtIdDisMaMo + '</td><td>' + dispositivo + '</td><td>' + itemMaMo + '</td><td>' + txtSerie + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+				'<tr data-id=' + txtIdDisMaMo + ' ><td>#</td><td hidden>' + txtIdDisMaMo + '</td><td>' + dispositivo + '</td><td>' + itemMaMo + '</td><td>' + txtSerie + '</td><td>SI</td><td><button type="button" class="btn btn-danger btn-xs removerM"><i class="fa fa-fw fa-close"></i></button></td></tr>');
 	}
 	;
 }
@@ -886,34 +899,40 @@ $(document).on('click', '#btnguardar', function (event) {
 	alert("aqui");
 	//this.disabled = true;
 	event.preventDefault();
-	var txtFecha = $('#txtFecha').val();
 	var txtNroFicha = $('#txtNroFicha').val();
-	var txtAnioNroFicha = $('#txtAnioNroFicha').val();
-	var txtUnidadOrganica = $('#txtUnidadOrganica').val();
-	var txtAreaServ = $('#txtAreaServ').val();
-	var txtRespPatrimonio = $('#txtRespPatrimonio').val();
-	var txtRespFuncionario = $('#txtRespFuncionario').val();
-	var txtIdEquipo = $('#txtIdEquipo').val();
+	var txtFecha = $('#txtFecha').val();
 	var txtNomPc = $('#txtNomPc').val();
-	var txtFechaAdquisicion = $('#txtFechaAdquisicion').val();
-	var txtAnioGarantia = $('#txtAnioGarantia').val();
-	var txtSeriePC = $('#txtSeriePC').val();
-	var txtNroPatrimonio = $('#txtNroPatrimonio').val();
-	var txtIdSO = $('#txtIdSO').val();
-	var txtLicenciaSO = $('#txtLicenciaSO').val();
+	var txtFechaInstalacion = $('#txtFechaInstalacion').val();
+	var txtObservacion = $('#txtObservacion').val();
+	var txtIdEquipo = $('#txtIdEquipo').val();
 	var ficha = $('#ficha').val();
-	var chkCompatible = $('input:checkbox[id=chkCompatible]:checked').val();
-	var chkOpOtros = $('input:checkbox[id=chkOpOtros]:checked').val();
-	var chkGarantia = $('input:checkbox[id=chkGarantia]:checked').val();
-	
-	
-	var tblPersonal=($("#txtIdRespFuncionario").val().length > 0) ? {
+
+	//  var txtAnioNroFicha = $('#txtAnioNroFicha').val();
+	//var txtFechaAdquisicion = $('#txtFechaAdquisicion').val();
+//	var txtAnioGarantia = $('#txtAnioGarantia').val();
+	//var txtSeriePC = $('#txtSeriePC').val();
+	//var txtNroPatrimonio = $('#txtNroPatrimonio').val();
+	//var txtIdSO = $('#txtIdSO').val();
+	//var txtLicenciaSO = $('#txtLicenciaSO').val();
+	var tblDatosEsp = {
+		'chkCompatible': $('input:checkbox[id=chkCompatible]:checked').val(),
+		'Marca': $('#txtIdMPc').val(),
+		'seriePC': $('#txtSeriePC').val(),
+		'chkOpOtros': $('input:checkbox[id=chkOpOtros]:checked').val(),
+		'chkGarantia': $('input:checkbox[id=chkGarantia]:checked').val(),
+		'fechaAdquisicion': $('#txtFechaAdquisicion').val(),
+		'anioGarantia': $('#txtAnioGarantia').val(),
+		'nroPatrimonio': $('#txtNroPatrimonio').val(),
+
+	};
+
+	var tblPersonal = ($("#txtIdRespFuncionario").val().length > 0) ? {
 		'unidadOrganica': $("#txtIdUnidadOrganica").val(),
 		'areaServ': $("#txtIdAreaServ").val(),
 		'resPatrimonio': $("#txtIdRespPatrimonio").val(),
 		'resFuncionario': $("#txtIdRespFuncionario").val()
 	} : null;
-	
+
 	var tblRed = ($("#txtIPAdd").val().length > 0) ? {
 		'id': $("#txtIdRed").val(),
 		'descripcion': $("#txtRed").val(),
@@ -983,58 +1002,42 @@ $(document).on('click', '#btnguardar', function (event) {
 		};
 	}).get();
 
-var tblFichaAd = $('#tabla_adquisicion tbody tr').map(function (i, row) {
+	var tblFichaAd = $('#tabla_adquisicion tbody tr').map(function (i, row) {
 		return {
 			'id_doc_adquisicion': row.cells[1].textContent,
 			'nro_doc': row.cells[3].textContent,
 			'fecha_doc': row.cells[4].textContent,
-			
+
 		};
 	}).get();
-	
+
 	var tblArchivo = ($("#uploadedfile").val().length > 0) ? {
-		
+
 		'ruta': $("#uploadedfile").val(),
 	} : null;
 
 
-	registrar(ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
-			txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
-			txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
+	registrar(ficha, txtNroFicha, txtFecha,
+			txtIdEquipo, txtNomPc,
 			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,
-			tblUser, tblFichaDisp,tblFichaAd,tblArchivo,tblPersonal);
+			tblUser, tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion);
 });
 
 
-var registrar = function (ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnidadOrganica, txtAreaServ, txtRespPatrimonio,
-		txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
-		txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
+var registrar = function (ficha, txtNroFicha, txtFecha,
+		txtIdEquipo, txtNomPc,
 		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser,
-		tblFichaDisp,tblFichaAd,tblArchivo,tblPersonal) {
-			alert($("#uploadedfile").val());
-alert(JSON.stringify(tblArchivo, null, 4));
+		tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion) {
+	alert($("#uploadedfile").val());
+	alert(JSON.stringify(tblArchivo, null, 4));
 	var options = {
 		type: 'POST',
 		url: '../../registrar',
 		data: {'txtNroFicha': txtNroFicha,
 			'ficha': ficha,
 			'txtFecha': txtFecha,
-			'txtAnioNroFicha': txtAnioNroFicha,
-			'txtUnidadOrganica': txtUnidadOrganica,
-			'txtAreaServ': txtAreaServ,
-			'txtRespPatrimonio': txtRespPatrimonio,
-			'txtRespFuncionario': txtRespFuncionario,
 			'txtIdEquipo': txtIdEquipo,
 			'txtNomPc': txtNomPc,
-			'txtFechaAdquisicion': txtFechaAdquisicion,
-			'txtAnioGarantia': txtAnioGarantia,
-			'txtSeriePC': txtSeriePC,
-			'txtNroPatrimonio': txtNroPatrimonio,
-			'txtIdSO': txtIdSO,
-			'txtLicenciaSO': txtLicenciaSO,
-			'chkCompatible': chkCompatible,
-			'chkOpOtros': chkOpOtros,
-			'chkGarantia': chkGarantia,
 			'tblOtrosComponentes': tblOtrosComponentes,
 			'tblRam': tblRam,
 			'tblSoftware': tblSoftware,
@@ -1047,6 +1050,9 @@ alert(JSON.stringify(tblArchivo, null, 4));
 			'tblFichaAd': tblFichaAd,
 			'tblArchivo': tblArchivo,
 			'tblPersonal': tblPersonal,
+			'tblDatosEsp': tblDatosEsp,
+			'fechaInstalacion': txtFechaInstalacion,
+			'observacion': txtObservacion,
 		},
 		dataType: 'json',
 		success: function (response) {
