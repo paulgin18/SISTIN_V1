@@ -20,7 +20,7 @@ class Personal extends TableGateway {
 
 	public function insertar($nombre,$apellidos,$dni,$id_area,$responsable) {
 		$insert = $this->dbAdapter->
-				createStatement("INSERT INTO personal (nombre,apellidos,dni,id_area,respatrimonial) VALUES (upper(trim('$nombre')),upper(trim('$apellidos')),$dni,$id_area,$responsable)");
+				createStatement("INSERT INTO personal (nombre,apellido_paterno,apellido_materno,dni,id_area,respatrimonial) VALUES (upper(trim('$nombre')),upper(trim('$apellidos')),$dni,$id_area,$responsable)");
 		$datos = $insert->execute();
 		return $datos;
 	}

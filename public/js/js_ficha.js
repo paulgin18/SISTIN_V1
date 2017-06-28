@@ -905,6 +905,15 @@ $(document).on('click', '#btnguardar', function (event) {
 	var chkCompatible = $('input:checkbox[id=chkCompatible]:checked').val();
 	var chkOpOtros = $('input:checkbox[id=chkOpOtros]:checked').val();
 	var chkGarantia = $('input:checkbox[id=chkGarantia]:checked').val();
+	
+	
+	var tblPersonal=($("#txtIdRespFuncionario").val().length > 0) ? {
+		'unidadOrganica': $("#txtIdUnidadOrganica").val(),
+		'areaServ': $("#txtIdAreaServ").val(),
+		'resPatrimonio': $("#txtIdRespPatrimonio").val(),
+		'resFuncionario': $("#txtIdRespFuncionario").val()
+	} : null;
+	
 	var tblRed = ($("#txtIPAdd").val().length > 0) ? {
 		'id': $("#txtIdRed").val(),
 		'descripcion': $("#txtRed").val(),
@@ -993,7 +1002,7 @@ var tblFichaAd = $('#tabla_adquisicion tbody tr').map(function (i, row) {
 			txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 			txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
 			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,
-			tblUser, tblFichaDisp,tblFichaAd,tblArchivo);
+			tblUser, tblFichaDisp,tblFichaAd,tblArchivo,tblPersonal);
 });
 
 
@@ -1001,7 +1010,7 @@ var registrar = function (ficha, txtNroFicha, txtFecha, txtAnioNroFicha, txtUnid
 		txtRespFuncionario, txtIdEquipo, txtNomPc, txtFechaAdquisicion, txtAnioGarantia,
 		txtSeriePC, txtNroPatrimonio, txtIdSO, txtLicenciaSO, chkCompatible, chkOpOtros, chkGarantia,
 		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser,
-		tblFichaDisp,tblFichaAd,tblArchivo) {
+		tblFichaDisp,tblFichaAd,tblArchivo,tblPersonal) {
 			alert($("#uploadedfile").val());
 alert(JSON.stringify(tblArchivo, null, 4));
 	var options = {
@@ -1037,6 +1046,7 @@ alert(JSON.stringify(tblArchivo, null, 4));
 			'tblFichaDisp': tblFichaDisp,
 			'tblFichaAd': tblFichaAd,
 			'tblArchivo': tblArchivo,
+			'tblPersonal': tblPersonal,
 		},
 		dataType: 'json',
 		success: function (response) {

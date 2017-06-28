@@ -25,7 +25,7 @@ use Marca\Model\Entity\Marca;
 use Anio\Model\Entity\Anio;
 use Zend\MVC\Exception;
 use Zend\File\Transfer\Adapter\Http;
-
+ 
 class FichaController extends AbstractActionController {
 
 	public function formAction() {
@@ -42,7 +42,7 @@ class FichaController extends AbstractActionController {
 				$fichas = new Ficha($this->dbAdapter);
 				$numero=2;
 				if($numeroFicha->datos==null){
-					$numero = $fichas->obtenerNumero($session->datos->id_user,$session->datos->id_unidad_ejecutora );
+					$numero = $fichas->obtenerNumero($session->datos->id_user,$session->datos->id_unidad_ejecutora);
 					$numeroFicha->datos= (object)array("numero"=>$numero);
 				
 				}else{
@@ -80,25 +80,30 @@ class FichaController extends AbstractActionController {
 	public function registrarAction() {
 		$error = 0;
 		$msj = "";
+		$session = new Container('sesion');
 		try {
-//			, , txtAnioNroFicha, txtUnidadOrganica,txtAreaServ,,
+
 //	,txtIdEquipo, txtFechaAdquisicion,,
-//		txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,, ,
+//		txtSeriePC,txtNroPatrimonio,txtIdSO,txtLicenciaSO,
 //	
+			$fecha_inst = $this->getRequest()->getPost('txtFechaInstalacion');
+			
+
 
 			$numero = $this->getRequest()->getPost('txtNroFicha');
 			$fecha = $this->getRequest()->getPost('txtFecha');
 			$nompc = $this->getRequest()->getPost('txtNomPc');
+			
 			$observacion = 'q';
-			$id_user = 1;
-			$id_respfuncionario = $this->getRequest()->getPost('txtRespFuncionario');
-			$id_resppatrimonio = $this->getRequest()->getPost('txtRespPatrimonio');
+			$id_user = $session->datos->id_user;;
 			$fichapost = $this->getRequest()->getPost('ficha');
 			$operativo = $this->getRequest()->getPost('chkOpOtros');
 			$garantia = $this->getRequest()->getPost('chkGarantia');
 			$anioGarantia = $this->getRequest()->getPost('txtAnioGarantia');
 			$compatible = $this->getRequest()->getPost('chkCompatible');
-
+			
+			
+			$tblPersonal= $this->getRequest()->getPost('tblPersonal');
 			$tblMicroprocesador = $this->getRequest()->getPost('tblMicroprocesador');
 			$tblDiscoDuro = $this->getRequest()->getPost('tblDiscoDuro');
 			$tblMainboard = $this->getRequest()->getPost('tblMainboard');
@@ -110,13 +115,19 @@ class FichaController extends AbstractActionController {
 			$tblFichaDisp = $this->getRequest()->getPost('tblFichaDisp');
 			$tblFichaAd = $this->getRequest()->getPost('tblFichaAd');
 			$tblArchivo = $this->getRequest()->getPost('tblArchivo');
+			
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
 //if ($id != '') {
 //				$modificar = $ficha->modificar($descripcion, $numero, $id);
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
-			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp, $tblFichaAd, $tblArchivo);
+			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, 
+					$id_user, $id_respfuncionario, $id_resppatrimonio, $tblMicroprocesador, 
+					$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, 
+					$tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal
+					);
+			
 			$msj = $this->mensaje($insertar, 0);
 //			}
 		} catch (\Exception $e) {
