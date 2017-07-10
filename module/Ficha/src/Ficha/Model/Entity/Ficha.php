@@ -20,14 +20,15 @@ class Ficha extends TableGateway {
 	public function insertar($ficha, $numero, $fecha, $nompc, $observacion, $idUser,
 			 $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
 			$tblOtro, $tblUser, $tblFichaDisp, $tblFichaDocAdquisicion, $tblArchivo,$tblPersonal,
-			$tblDatosEsp,$fechaInstalacion,$idEquipo) {
+			$tblDatosEsp,$fechaInstalacion,$idEquipo,$unidad_org) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
 			$connection->beginTransaction();
 			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser,$fechaInstalacion,$idEquipo);
 			$tblPersonal!= null || $tblPersonal != "" ? $this->personal($idInsert, $tblPersonal,$idUser) : "";
-			$tblFechaInventario=$this->fechaInventario($idInsert, $idUser);
+			$tblFechaInventario=$this->fechaInventario($fecha,$idInsert, $idUser);
+			$tblDatosEsp != null || $tblDatosEsp != "" ? $this->datosEspecificos($idInsert, $tblDatosEsp) : "";
 			if ($ficha == 3) {
 				//Solo para Fichas De quipo que no son laptops ni mucho menos desctockp
 				($tblFichaDisp != null || $tblFichaDisp != "" ) ? $this->fichaDisp($idInsert, $tblFichaDisp) : "";
@@ -42,63 +43,77 @@ class Ficha extends TableGateway {
 				$tblUser != null || $tblUser != "" ? $this->cuentasUsuario($idInsert, $tblUser) : "";
 				$tblFichaDocAdquisicion != null || $tblFichaDocAdquisicion != "" ? $this->docAdquisicion($idInsert, $tblFichaDocAdquisicion) : "";
 				$tblArchivo != null || $tblArchivo != "" ? $this->archivo($idInsert, $tblArchivo) : "";
-				$$tblDatosEsp != null || $tblDatosEsp != "" ? $this->datosEspecificos($idInsert, $tblDatosEsp) : "";
+				
 			}
-			$connection->commit();
+			$this->actualizarnro($numero,$unidad_org);
 			$datos = true;
+			$connection->commit();
 		} catch (\Exception $e) {
 			echo $e;
 		}
 		return $datos;
 	}
 
+	public function actualizarnro($numero,$unidad_org) {
+		$numero= split("-", $numero);
+		$nro=(int)$numero[1];
+		
+		$insert = $this->dbAdapter->
+				createStatement(
+				"UPDATE tmp_ficha set registro=true where numero=$nro and id_uni_org=$unidad_org");
+var_dump($insert->getSql());
+		$insert->execute();
+		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
+		return $datos;
+		
+	}
 	public function fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser, $fechaInstalacion,$idEquipo) {
+		
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO ficha_tecnica(numero, fecha_inv,nompc,observacion,id_user,fecha_instalacion,id_disp_soft) "
-				. "VALUES ($numero, '$fecha','$nompc', '$observacion',$idUser,'$fechaInstalacion',$idEquipo)");
+				. "VALUES ('$numero', '$fecha','$nompc', '$observacion',$idUser,'$fechaInstalacion',$idEquipo)");
+
+//var_dump($insert->getSql());
 		$insert->execute();
 		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
 		return $datos;
 	}
-	public function fechaInventario($idFichaTecnica, $idUser) {
+	public function fechaInventario($fecha,$idInsert, $idUser) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO ft_fecha_inv(fecha_inventario, id_user)VALUES ($idFichaTecnica, $idUser)");
+				"INSERT INTO ft_fecha_inv(fecha_inventario, id_ficha_tecnica,id_user)VALUES ('$fecha',$idInsert, $idUser)");
 		$insert->execute();
 		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
 		return $datos;
 	}
 	
-	public function datosEspecificos($idInsert, $tblPersonal) {
-
+	public function datosEspecificos($idInsert, $tblDatosEsp) {
+		
 		$insert = $this->dbAdapter->createStatement(
-				"INSERT INTO ft_compinternos(id_respfuncionario, id_user, id_reppatrimonio,id_area,id_uni_org,id_ficha_tecnica)"
-				."VALUES (" . $tblPersonal['resFuncionario'] . ",".$idUser.",". $tblPersonal['resPatrimonio'] . ",". $tblPersonal['areaServ'] . ",". $tblPersonal['unidadOrganica'] 
+				"INSERT INTO ft_datos_especificos(compatible, id_marca, serie,operativo,garantia,fecha_adquision,anio_garantia,nropratrimonial,id_ficha_tecnica)"
+				."VALUES (" .$tblDatosEsp['chkCompatible'] . ",".$tblDatosEsp['marca'].",'". $tblDatosEsp['seriePC'] . "',". $tblDatosEsp['chkOpOtros'] .","
+				.$tblDatosEsp['chkGarantia']. ",'". $tblDatosEsp['fechaAdquisicion']."',".$tblDatosEsp['anioGarantia'].",".$tblDatosEsp['nroPatrimonio']
 				. ",".$idInsert.")");
 		$insert->execute();
-
+//COALESCE(".$tblDatosEsp['marca'].",null)
 		return $insert;
 	}
 	
 	public function personal($idInsert, $tblPersonal,$idUser) {
-
 		$insert = $this->dbAdapter->createStatement(
-				"INSERT INTO ft_compinternos(id_respfuncionario, id_user, id_reppatrimonio,id_area,id_uni_org,id_ficha_tecnica)"
+				"INSERT INTO ft_resp_area(id_respfuncionario, id_user, id_reppatrimonio,id_area,id_uni_org,id_ficha_tecnica)"
 				."VALUES (" . $tblPersonal['resFuncionario'] . ",".$idUser.",". $tblPersonal['resPatrimonio'] . ",". $tblPersonal['areaServ'] . ",". $tblPersonal['unidadOrganica'] 
 				. ",".$idInsert.")");
 		$insert->execute();
-
 		return $insert;
 	}
 
 	public function microprocesador($idInsert, $tblMicroprocesador) {
-
 		$insert = $this->dbAdapter->createStatement(
 				"INSERT INTO ft_compinternos(estructura, id_ficha_tecnica, id_disp_mar_mod)"
 				. "VALUES ('" . $tblMicroprocesador['estructura'] . "', '$idInsert'," . $tblMicroprocesador['idMicroprocesador'] . ")");
 		$insert->execute();
-
 		return $insert;
 	}
 
@@ -119,7 +134,6 @@ class Ficha extends TableGateway {
 				. "VALUES ('" . ($tblMainboard['serie'] != null || $tblMainboard['serie'] != '') ? $tblMainboard['serie'] : 'Sin Serie' . "', '$idInsert'," . $tblMainboard['idMainboard'] . ")");
 		$insert->execute();
 		($tblMainboard['serie'] != "" || $tblMainboard['serie'] != null || !empty($tblMainboard['serie'])) ? $this->insertSerie("S", $tblMainboard['serie']) : "";
-
 		return $insert;
 	}
 
@@ -201,10 +215,13 @@ class Ficha extends TableGateway {
 
 	public function fichaDisp($idInsert, $tblFichaDisp) {
 		foreach ($tblFichaDisp as $fichaDisp) {
+			$fa= empty($fichaDisp['fadquisicion'])? pg_escape_string(utf8_encode('null')):"'".$fichaDisp['fadquisicion']."'";
+			$fr= empty($fichaDisp['frenovacion'])? pg_escape_string(utf8_encode('null')):"'".$fichaDisp['frenovacion']."'";
+			
 			$insert = $this->dbAdapter->
 					createStatement(
-					"INSERT INTO ft_ocomponentes(serie, id_disp_mar_mod, id_ficha_tecnica,id_inventario,operativo)"
-					. "VALUES ('" . $fichaDisp['serie'] . "'," . $fichaDisp['idDispMarcaModelo'] . "," . $idInsert . "," . $fichaDisp['codInventario'] . "," . $fichaDisp['operativo'] . ")");
+					"INSERT INTO ft_ocomponentes(serie, id_disp_mar_mod, id_ficha_tecnica,id_inventario,operativo,imei,fecha_renovacion,fecha_adquisicion)"
+					. "VALUES ('" . $fichaDisp['serie'] . "'," . $fichaDisp['idDispMarcaModelo'] . "," . $idInsert . ",'" . $fichaDisp['codInventario'] . "'," . $fichaDisp['operativo'] . ",'" . $fichaDisp['imei'] . "'," . $fr . "," . $fa . ")");
 			$insert->execute();
 			($fichaDisp['serie'] != "" || $fichaDisp['serie'] != null || !empty($fichaDisp['serie'])) ? $this->insertSerie("S", $fichaDisp['serie']) : "";
 		}
@@ -243,7 +260,7 @@ class Ficha extends TableGateway {
 	public function lista() {
 		$consulta = $this->dbAdapter->query(
 				"SELECT id_ficha_tecnica, numero, fecha_inv, nompc, observacion, fecha_registro, 
-       id_user,   id_unidad_ejecutora,fecha_instalacion
+       id_user,   id_unidad_ejecutora,fecha_instalacion,
        vigencia  FROM ficha_tecnica order by vigencia desc"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
@@ -272,12 +289,12 @@ class Ficha extends TableGateway {
 				"select (coalesce(numero,0)+1) numero from tmp_ficha where id_uni_org=$dependencia order by numero desc limit 1"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-
+var_dump($datos);
 		if (count($datos) === 0) {
 			$numero = $this->insertNumero(-1, $user, $dependencia);
 		} else {
 			$consulta = $this->dbAdapter->query(
-					"select numero from tmp_ficha where id_user=$user and id_uni_org=$dependencia and registro='false' order by numero desc limit 1"
+					"select numero from tmp_ficha where id_uni_org=$dependencia and registro='false' order by numero desc limit 1"
 					, Adapter::QUERY_MODE_EXECUTE);
 			$datos2 = $consulta->toArray();
 			if (count($datos2) == 0) {
@@ -295,15 +312,15 @@ class Ficha extends TableGateway {
 		$d = 0;
 		$numero = 0;
 		if ($cod == -1) {
-			$sql = "1,$user,$dependencia";
-			$numero = array('numero' => 1);
+			$sql = "1,$dependencia";
+			$numero = array('numero' => $cod['numero']);
 		} else {
 			$d = $cod['numero'];
-			$sql = "$d,$user,$dependencia";
+			$sql = "$d,$dependencia";
 			$numero = array('numero' => $d);
 		}
 		$insert = $this->dbAdapter->createStatement(
-				"INSERT INTO tmp_ficha(numero, id_user, id_uni_org)"
+				"INSERT INTO tmp_ficha(numero,  id_uni_org)"
 				. " VALUES ($sql)");
 		$insert->execute();
 

@@ -25,8 +25,8 @@
 
 							<?php foreach ($this->fichas as $ficha) { ?>
 								<tr>
-									<td><?php echo $ficha['fecharegistro'] ?></td>
-									<td><?php echo $ficha['fecha'] ?></td>
+									<td><?php echo $ficha['fecha_registro'] ?></td>
+									<td><?php echo $ficha['fecha_inv'] ?></td>
 									<td><?php echo $ficha['numero'] ?></td>
 
 									<td><?= $ficha['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>

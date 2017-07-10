@@ -1,13 +1,10 @@
 $(document).data('tipoDisp', 2);
-
-
 $(document).ready(function () {
 	$(".actionBar").hide();
 	$(".stepContainer").hide();
 });
 
 var bDispositivo = function (tipoDisp, id, inp) {
-
 	$(inp).autocomplete({
 		source: '../../../../dispositivo/dispositivo/buscardispositivo?tipo=' + tipoDisp + '',
 		select: function (event, ui) {
@@ -15,6 +12,34 @@ var bDispositivo = function (tipoDisp, id, inp) {
 			$(this).val(ui.item.label)
 			if (inp == "#txtEquipo") {
 				especificos(ui.item.value);
+			}
+			if (ui.item.label == "TELEFONO" || ui.item.label == "TELEFONO CELULAR") {
+				$("#divDatosNuevo").hide();
+				$("#divTelefono").show();
+				if (ui.item.label == "TELEFONO") {
+					$("#FECHAAD").show();
+					$("#FECHAREN").show();
+					$("#IMEI").hide();
+					$("#tblIMEI").hide();
+					$("#tblFAdquisicion").show();
+					$("#tblFRenovacion").show();
+				} else if (ui.item.label == "TELEFONO CELULAR") {
+					$("#IMEI").show();
+					$("#FECHAAD").show();
+					$("#FECHAREN").show();
+					$("#tblIMEI").show();
+					$("#tblFAdquisicion").show();
+					$("#tblFRenovacion").show();
+				} 
+			} else {
+				$("#divDatosNuevo").show();
+				$("#divTelefono").hide();
+					$("#IMEI").hide();
+					$("#FECHAAD").hide();
+					$("#FECHAREN").hide();
+					$("#tblIMEI").hide();
+					$("#tblFAdquisicion").hide();
+					$("#tblFRenovacion").hide();
 			}
 			return false;
 		},
@@ -588,30 +613,30 @@ $("#txtMI").focus(function () {
 
 $("#txtSeriePC").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASeriePc', "#lblNSeriePc") : ($('#lblASeriePc').hide(), $('#lblNSeriePc').hide());
 });
 
 $("#txtLicenciaSO").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblALicenciaSO', "#lblNLicenciaSO") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblALicenciaSO', "#lblNLicenciaSO") : ($('#lblALicenciaSO').hide(), $('#lblNLicenciaSO').hide());
 });
 
 $("#txtSerieDD").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblASerieDD', "#lblNSerieDD") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieDD', "#lblNSerieDD") : ($('#lblASerieDD').hide(), $('#lblNSerieDD').hide());
 });
 
 $("#txtSerieMain").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblASerieMain', "#lblNSerieMain") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieMain', "#lblNSerieMain") : ($('#lblASerieMain').hide(), $('#lblNSerieMain').hide());
 });
 $("#txtSerieRed").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieRed', "#lblNSerieRed") : ($('#lblASerieRed').hide(), $('#lblNSerieRed').hide());
 });
 $("#txtSerieMaMo").keyup(function () {
 	var labelA, labelN;
-	if ($("#txtFichaIdDis").val().trim().length > 0) {
+	if ($("#txtFichaIdDis").val().trim().length > 0||$("#txtFichaIdDis").val()>0	) {
 		labelA = "#lblASerieMaMo2";
 		labelN = "#lblNSerieMaMo2";
 	} else {
@@ -624,7 +649,7 @@ $("#txtSerieMaMo").keyup(function () {
 });
 $("#txtFichaSerieMaMo").keyup(function () {
 	$(this).val() != '' || $(this).val().toString().length > 0 ?
-			bSerie($(this).val(), '#lblASerieMaMo', "#lblNSerieMaMo") : ($('#lblASerieMaMo').hide(), $('#lblNSerieMaMo').hide());
+			bSerie($(this).val(), '#lblASerieMaMo2', "#lblNSerieMaMo2") : ($('#lblASerieMaMo2').hide(), $('#lblNSerieMaMo2').hide());
 });
 
 $("#txtSoftNroLicencia").keyup(function () {
@@ -710,6 +735,9 @@ $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 	var serie = $('#txtFichaSerieMaMo').val();
 	var inventario = $('#txtFichaCodInventario').val();
 	var chk = $('input:checkbox[id=chkOpFichaDisp]:checked').val();
+	var imei = $('#txtIMEI').val();
+	var fechaRenovacion = $('#txtFRCel').val();
+	var fechaAdquisicion = $('#txtFACel').val();
 	if (chk == 1) {
 		chk = 'SI';
 	} else {
@@ -718,20 +746,45 @@ $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 	if (id == '') {
 		bootbox.alert('<b style="color: #F44336;" >Debe seleccionar Marca y  Modelo</b>');
 	} else {
-		insertFichaDisp(id, modelo, serie, inventario, chk);
-
+		insertFichaDisp(id, modelo, serie, inventario, chk, imei, fechaRenovacion, fechaAdquisicion);
 	}
+
 	$("#txtFichaMaMo").focus();
 	$('input:checkbox[id=chkOpFichaDisp]:checked').val()
 	$('#txtFichaIdDis').val('');
 	$('#lblASerieMaMo').hide();
+	$('#lblASerieMaMo2').hide();
 	$('#lblNSerieMaMo').hide();
+	$('#lblNSerieMaMo2').hide();
 	$('#txtFichaMaMo').val('');
+	$('#txtFACel').val('');
+	$('#txtFRCel').val('');
+	$('#txtIMEI').val('');
 	$('#txtFichaSerieMaMo').val('');
 	$('#txtFichaCodInventario').val('');
 });
 
-var insertFichaDisp = function (id, modelo, serie, inventario, chk) {
+var insertFichaDisp = function (id, modelo, serie, inventario, chk, imei, fechaRenovacion, fechaAdquisicion) {
+	var d = 0;
+	var tblIM=0;
+	var tblFa=0;
+	var tblFr=0;
+	$("#txtEquipo").val() == "TELEFONO CELULAR" ? d = 1 :
+			$("#txtEquipo").val() == "TELEFONO" ? d = 2 : d = 0;
+	if (d == 1) {
+		tblIM='<td id="tblIMEI" name="tblIMEI" style="display:block">' + imei + '</td>';;
+		tblFa='<td id="tblFAdquisicion" name="tblFAdquisicion" style="display:'+tblFa+'">' + fechaAdquisicion  + '</td>';
+		tblFr='<td id="tblFRenovacion" name="tblFRenovacion" >' + fechaRenovacion  + '</td>';
+	} else if (d == 2) {
+		tblIM='<td id="tblIMEI" name="tblIMEI" style="display:none">null</td>';
+		tblFa='<td id="tblFAdquisicion" name="tblFAdquisicion" style="display:'+tblFa+'">' + fechaAdquisicion  + '</td>';
+		tblFr='<td id="tblFRenovacion" name="tblFRenovacion" >' + fechaRenovacion  + '</td>';
+	} else if (d == 0) {
+		tblIM='<td id="tblIMEI" name="tblIMEI" style="display:none">null</td>';
+		tblFa='<td id="tblFAdquisicion" name="tblFAdquisicion" style="display:none">null</td>';
+		tblFr='<td id="tblFRenovacion" name="tblFRenovacion" style="display:none">null</td>';
+	}
+
 	var campo1;
 	$("#tabla_ficha_disp tbody tr").each(function (index) {
 		$(this).children("td").each(function (index2) {
@@ -745,9 +798,23 @@ var insertFichaDisp = function (id, modelo, serie, inventario, chk) {
 	if (campo1 === id) {
 		bootbox.alert('<b style="color: #F44336;" >La Marca y el Modelo para el Mismo Dispositvo, ya ha sido ingresado</b>');
 	} else {
-		$("#tabla_ficha_disp > tbody").append('<tr data-id=' + id + ' ><td>#</td><td hidden>' + id + '</td><td>' + modelo + '</td><td>' + serie + '</td><td>' + inventario + '</td><td>' + chk + '</td><td><button type="button" class="btn btn-danger btn-xs removerMo"><i class="fa fa-fw fa-close"></i></button></td></tr>');
+		var dato='<tr data-id=' + id + ' >'
+				+'<td>#</td>'
+				+'<td hidden>' + id + '</td>'
+				+'<td>' + modelo +'</td>'
+		        +'<td>' + serie + '</td>'
+				+'<td>' + inventario + '</td>'
+				+ tblIM;
+
+		$("#tabla_ficha_disp > tbody").append(dato+tblFa+tblFr
+				//+ '<td id="tblFAdquisicion" name="tblFAdquisicion" style="display:'+tblFa+'">' + fechaAdquisicion + '</td>'
+				//+ '<td id="tblFAdquisicion" name="tblFAdquisicion" style="display:'+tblFa+'">' + fechaAdquisicion + '</td>'
+//				+ '<td id="tblFRenovacion" name="tblFRenovacion" style="display:'+tblFr+'">'+ fechaRenovacion + '</td>'
+				+ '<td>' + chk + '</td>'
+				+ '<td><button type="button" class="btn btn-danger btn-xs removerMo"><i class="fa fa-fw fa-close"></i></button></td>'
+				+ '</tr>');
 	}
-	;
+	
 }
 
 $(document).on('click', '#chkCompatible', function (event) {
@@ -906,6 +973,7 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtObservacion = $('#txtObservacion').val();
 	var txtIdEquipo = $('#txtIdEquipo').val();
 	var ficha = $('#ficha').val();
+	var unidad_org=$("#txtIdUnidadOrganica").val()>0?$("#txtIdUnidadOrganica").val():$("#txtIdNroUniOrg").val();
 
 	//  var txtAnioNroFicha = $('#txtAnioNroFicha').val();
 	//var txtFechaAdquisicion = $('#txtFechaAdquisicion').val();
@@ -915,14 +983,14 @@ $(document).on('click', '#btnguardar', function (event) {
 	//var txtIdSO = $('#txtIdSO').val();
 	//var txtLicenciaSO = $('#txtLicenciaSO').val();
 	var tblDatosEsp = {
-		'chkCompatible': $('input:checkbox[id=chkCompatible]:checked').val(),
-		'Marca': $('#txtIdMPc').val(),
+		'chkCompatible': $('input:checkbox[id=chkCompatible]:checked').val() == 1 ? true : false,
+		'marca': $('#txtIdMPc').val() > 0 ? $('#txtIdMPc').val() : "null",
 		'seriePC': $('#txtSeriePC').val(),
-		'chkOpOtros': $('input:checkbox[id=chkOpOtros]:checked').val(),
-		'chkGarantia': $('input:checkbox[id=chkGarantia]:checked').val(),
+		'chkOpOtros': $('input:checkbox[id=chkOpOtros]:checked').val() == 1 ? true : false,
+		'chkGarantia': $('input:checkbox[id=chkGarantia]:checked').val() == 1 ? true : false,
 		'fechaAdquisicion': $('#txtFechaAdquisicion').val(),
-		'anioGarantia': $('#txtAnioGarantia').val(),
-		'nroPatrimonio': $('#txtNroPatrimonio').val(),
+		'anioGarantia': $('#txtAnioGarantia').val() > 0 ? $('#txtAnioGarantia').val() : "null",
+		'nroPatrimonio': $('#txtNroPatrimonio').val().trim().length > 0 ? $('#txtNroPatrimonio').val() : "null",
 
 	};
 
@@ -998,7 +1066,10 @@ $(document).on('click', '#btnguardar', function (event) {
 			'idDispMarcaModelo': row.cells[1].textContent,
 			'serie': row.cells[3].textContent.length > 0 ? row.cells[3].textContent : null,
 			'codInventario': row.cells[4].textContent,
-			'operativo': row.cells[5].textContent == "SI" ? true : false,
+			'imei': row.cells[5].textContent.length > 0 ? row.cells[5].textContent : '',
+			'fadquisicion': row.cells[6].textContent.length > 0 ? row.cells[6].textContent : null,
+			'frenovacion': row.cells[7].textContent.length > 0 ? row.cells[7].textContent : null,
+			'operativo': row.cells[8].textContent == "SI" ? 'true': 'false',
 		};
 	}).get();
 
@@ -1020,14 +1091,14 @@ $(document).on('click', '#btnguardar', function (event) {
 	registrar(ficha, txtNroFicha, txtFecha,
 			txtIdEquipo, txtNomPc,
 			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,
-			tblUser, tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion);
+			tblUser, tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion,unidad_org);
 });
 
 
 var registrar = function (ficha, txtNroFicha, txtFecha,
 		txtIdEquipo, txtNomPc,
 		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser,
-		tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion) {
+		tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion,unidad_org) {
 	alert($("#uploadedfile").val());
 	alert(JSON.stringify(tblArchivo, null, 4));
 	var options = {
@@ -1053,6 +1124,7 @@ var registrar = function (ficha, txtNroFicha, txtFecha,
 			'tblDatosEsp': tblDatosEsp,
 			'fechaInstalacion': txtFechaInstalacion,
 			'observacion': txtObservacion,
+			'unidad_org': unidad_org,
 		},
 		dataType: 'json',
 		success: function (response) {

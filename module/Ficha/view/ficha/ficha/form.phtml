@@ -11,7 +11,7 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="x_panel">
 						<div class="x_title">
-							<h2><strong><?php echo $this->mantenimiento;?> Ficha Tecnica de Equipos de Computo</strong><small></small></h2>
+							<h2><strong><?php echo $this->mantenimiento;?> Ficha Tecnica de Equipos</strong><small></small></h2>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 							</ul>
@@ -22,11 +22,18 @@
 							<h2 class="StepTitle"><strong>Datos Generales</strong></h2>
 							<form class="form-horizontal form-label-left">
 								<div class="form-group" >
+									<label class="col-sm-2 control-label"><b>Equipo:</b></label>
+									<div class="col-sm-4">
+										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="" type="hidden" >
+										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo"  value=""style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
+									</div>
 									<label class="col-sm-2 control-label"><b>Nº Ficha:</b></label>
 									<div class="col-sm-4">
 										<input class="form-control "  align=\"right\"  id="txtNroFicha" name="txtNroFicha"  value=" <?=date("Y")." - ".str_pad($nro['numero'], 7, '0', STR_PAD_LEFT)?>" type="text" >
+										<input class="form-control "  align=\"right\"  id="txtIdNroUniOrg" name="txtIdNroUniOrg"  value="<?= $this->uni_org?>" type="text" >
 									</div>
 								</div>
+								<div id="divDatosNuevo" style="display:none" >
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
 									<div class="col-sm-4">
@@ -73,13 +80,10 @@
 									</div>
 								</div>
 								<div class="form-group" >
-									<label class="col-sm-2 control-label"><b>Equipo:</b></label>
-									<div class="col-sm-4">
-										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="" type="hidden" >
-										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo"  value=""style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
-									</div>
+									
 									<a class="btn btn-alert" id="btnAnadirDAd" class="col-sm-4"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir Datos de Adquisicion</a>
 								</div>
+									</div>
 							</form><br/><hr/>
 						</div>
 					</div>
@@ -203,8 +207,32 @@
 													'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1"  checked><br>';
 											?>
 										</div>
-										<div class="col-sm-2">
-											<button class="btn btn-success " id="btnAnadirFichaDisp"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
+										
+									</div>
+									<div class="form-group" id="divTelefono" style="display:none" >
+										<div id="IMEI" style="display:none">
+										<label class="col-sm-2 control-label"><b>IMEI:</b></label>
+										<div class="col-sm-4">
+											<input type="text" id="txtIMEI" name="txtIMEI" class="form-control"  value="" style="text-transform:uppercase">
+										</div>
+										</div>
+										<div id="FECHAAD" style="display:none">										
+											<label for="" class="col-sm-2 control-label"><b>Fecha de adquisición:</b></label>
+										<div class="col-sm-3">
+											<input class="form-control" name="txtFACel" id="txtFACel" type="date" value="">
+										</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div id="FECHAREN" style="display:none">
+										<label class="col-sm-2 control-label"><b>Fecha de renovación:</b></label>
+										<div class="col-sm-3">
+											<input class="form-control" name="txtFRCel" id="txtFRCel" type="date" value="">
+										</div>
+										</div>
+										<label for="" class="col-sm-2 control-label"><b></b></label>
+										<div class="col-sm-3">
+											<button  class="btn btn-success " id="btnAnadirFichaDisp"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir</button>
 										</div>
 									</div>
 									<div class="form-group">
@@ -215,9 +243,11 @@
 														<th width="5%">#</th>
 														<th hidden></th>
 														<th width="30%">Marca - Modelo</th>
-														<th hidden></th>
 														<th width="25%">Serie</th>
 														<th width="25%">Inventario</th>
+														<th width="25%" id="tblIMEI" name="tblIMEI" style="display:none" >IMEI</th>
+														<th width="25%" id="tblFAdquisicion" name="tblFAdquisicion" style="display:none">F.Adquisición</th>
+														<th width="25%" id="tblFRenovacion" name="tblFRenovacion" style="display:none">F.Renovación</th>
 														<th width="8%">Operativo</th>
 														<th width="30%">Accion</th>
 													</tr>

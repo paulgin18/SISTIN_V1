@@ -41,19 +41,25 @@ class FichaController extends AbstractActionController {
 			if ($id == 0) {
 				$fichas = new Ficha($this->dbAdapter);
 				$numero=2;
+				$uni_org=$session->datos->id_unidad_ejecutora;
+				
+				var_dump($uni_org);
+				
 				if($numeroFicha->datos==null){
 					$numero = $fichas->obtenerNumero($session->datos->id_user,$session->datos->id_unidad_ejecutora);
-					$numeroFicha->datos= (object)array("numero"=>$numero);
+					$numeroFicha->datos= (object)array("numero"=>$numero,"uni_org"=>$session->datos->id_unidad_ejecutora);
 				
 				}else{
 					$numero=$numeroFicha->datos->numero;
+					$uni_org=$numeroFicha->datos->uni_org;
 				}
 				//}while($numeroFicha->datos->numero!=null);
 				
 				return new ViewModel(array('mantenimiento' => 'Crear', 'textBoton' => 'Guardar',
 					'datosAdquisicion' => $datosAdquisicion,
 					'datos' => null,
-					'nro'=>$numero));
+					'nro'=>$numero,
+					'uni_org'=>$uni_org));
 			} else {
 				if ($id == 1 && $cod > 0) {
 					$datos = $this->buscar($cod);
@@ -100,8 +106,9 @@ class FichaController extends AbstractActionController {
 			$tblArchivo = $this->getRequest()->getPost('tblArchivo');
 			$tblPersonal= $this->getRequest()->getPost('tblPersonal');
 			$tblDatosEsp= $this->getRequest()->getPost('tblDatosEsp');
-			$fechaInstalacion= $this->getRequest()->getPost('txtFechaInstalacion');
+			$fechaInstalacion= $this->getRequest()->getPost('fechaInstalacion');
 			$observacion= $this->getRequest()->getPost('txtObservacion');
+			$unidad_org= $this->getRequest()->getPost('unidad_org');
 			$id_user = $session->datos->id_user;;
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
@@ -113,7 +120,7 @@ class FichaController extends AbstractActionController {
 					$id_user,  $tblMicroprocesador, 
 					$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, 
 					$tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal,$tblDatosEsp,$fechaInstalacion,
-					$idEquipo);
+					$idEquipo,$unidad_org);
 			
 			$msj = $this->mensaje($insertar, 0);
 //			}
