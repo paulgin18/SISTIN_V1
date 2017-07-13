@@ -17,6 +17,8 @@
 								<th>F.Registro</th>
 								<th>F.Inventario</th>
 								<th>Numero</th>
+								<th>Dispositivo</th>
+								<th>Funcionario</th>
 								<th>Vigencia</th>
 								<th>Acciones</th>
 							</tr>
@@ -28,14 +30,13 @@
 									<td><?php echo $ficha['fecha_registro'] ?></td>
 									<td><?php echo $ficha['fecha_inv'] ?></td>
 									<td><?php echo $ficha['numero'] ?></td>
+									<td><?php echo $ficha['dispositivo'] ?></td>
+									<td><?php echo $ficha['funcionario'] ?></td>
 
 									<td><?= $ficha['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
-									<td>
-										<a class="btn btn-default"href="<?php echo $this->basePath("ficha/ficha/form/1/" . $ficha['id_ficha_tecnica'] . ""); ?>">Editar</a>
-										<?= $ficha['vigencia'] == 1 
-												? 
-												"<a class='btn btn-danger' href='" . $this->basePath('ficha/ficha/' . $ficha['id_ficha_tecnica']) . "'>Eliminar</a></td></i>" 
-											  : "" ?></td>
+									<td><a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("ficha/ficha/edit/1/" . $ficha['id_ficha_tecnica']."-". $ficha['id_disp_soft']. ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
+										<?= $ficha['vigencia'] == 1 ? "<a class='btn btn-danger btnBorrar' title='Eliminar'><img alt='Eliminar' style='width:19px;' src='../../img/delete.png'></a>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+									</td>
 								</tr>
 							<?php } ?>
 						</tbody>
@@ -44,6 +45,8 @@
 								<th>F.Registro</th>
 								<th>F.Inventario</th>
 								<th>Numero</th>
+								<th>Dispositivo</th>
+								<th>Funcionario</th>
 								<th>Vigencia</th>
 								<th>Acciones</th>
 							</tr>

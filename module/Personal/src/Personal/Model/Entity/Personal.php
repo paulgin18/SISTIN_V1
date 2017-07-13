@@ -58,13 +58,13 @@ class Personal extends TableGateway {
 
 	public function buscarFuncionario($descripcion, $unidad_ejecutora){
         $consulta=$this->dbAdapter->query(
-		"Select id_personal as value,(apellido_paterno ||' '||apellido_materno ||' ' || nombre) as label, fu_orespatrimonial(fu_ounidadorganica(p.id_area),p.id_area)respatrimonial,a.id_area, a.descripcion area,"
+		"Select id_personal as value,(apellido_paterno ||' '||apellido_materno ||' ' || nombre) as label, fu_brespatrimonial(fu_bunidadorganica(p.id_area),p.id_area)respatrimonial,a.id_area, a.descripcion area,"
 				. " a.id_uni_org,(select u.descripcion unidad_organica from area ar "
 				. " inner join unidad_organica u on ar.id_uni_org=u.id_uni_org where ar.id_area=a.id_area)  from personal p "
 				. " inner join area a on p.id_area=p.id_area "
 				. " where (apellido_paterno ||' '||apellido_materno ||' ' || nombre) like upper(trim('%$descripcion%')) "
 				. " and a.id_uni_org=(select id_uni_org from unidad_organica uor inner join unidad_ejecutora ue on uor.id_unidad_ejecutora=ue.id_unidad_ejecutora "
-				. " where ue.id_unidad_ejecutora=$unidad_ejecutora and id_uni_org=fu_ounidadorganica(p.id_area))",Adapter::QUERY_MODE_EXECUTE);
+				. " where ue.id_unidad_ejecutora=$unidad_ejecutora and id_uni_org=fu_bunidadorganica(p.id_area))",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }

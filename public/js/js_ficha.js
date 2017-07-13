@@ -1001,18 +1001,19 @@ $(document).on('click', '#btnguardar', function (event) {
 		'resFuncionario': $("#txtIdRespFuncionario").val()
 	} : null;
 
-	var tblRed = ($("#txtIPAdd").val().length > 0) ? {
+
+	var tblRed = ($("#txtIPAdd").val().length> 0) ? {
 		'id': $("#txtIdRed").val(),
 		'descripcion': $("#txtRed").val(),
-		'serie': $("#txtSerieRed").val().toString().length > 0 ? $("#txtSerieRed") : null,
+		'serie': $("#txtSerieRed").val().length > 0 ? $("#txtSerieRed").val() : null,
 		'mac': $("#txtMac").val().length > 0 ? $("#txtMac").val() : null,
 		'ip': $("#txtIPAdd").val().length > 0 ? $("#txtIPAdd").val() : null,
 		'puertaenlace': $("#txtPuertaEnlance").val(),
 		'puertos': 0,
 		'proxy': $("#txtProxy").val(),
-		'integrada': $('input:checkbox[id=chkRedIntegrada]:checked').val(),
-		'red': $('input:checkbox[id=chkConRed]:checked').val(),
-		'internet': $('input:checkbox[id=chkConInternet]:checked').val(),
+		'integrada': $('input:checkbox[id=chkRedIntegrada]:checked').val()==1?'true':false,
+		'red': $('input:checkbox[id=chkConRed]:checked').val()==1?'true':false,
+		'internet': $('input:checkbox[id=chkConInternet]:checked').val()==1?'true':false,
 	} : null;
 
 	var tblMicroprocesador = ($("#txtIdMI").val() > 0) ? {'idMicroprocesador': $("#txtIdMI").val(),

@@ -49,7 +49,7 @@ class Ficha extends TableGateway {
 			$datos = true;
 			$connection->commit();
 		} catch (\Exception $e) {
-			echo $e;
+			//echo $e;
 		}
 		return $datos;
 	}
@@ -61,12 +61,12 @@ class Ficha extends TableGateway {
 		$insert = $this->dbAdapter->
 				createStatement(
 				"UPDATE tmp_ficha set registro=true where numero=$nro and id_uni_org=$unidad_org");
-var_dump($insert->getSql());
+//var_dump($insert->getSql());
 		$insert->execute();
 		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('ficha_tecnica_id_ficha_tecnica_seq');
 		return $datos;
-		
 	}
+	
 	public function fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser, $fechaInstalacion,$idEquipo) {
 		
 		$insert = $this->dbAdapter->
@@ -93,8 +93,8 @@ var_dump($insert->getSql());
 		$insert = $this->dbAdapter->createStatement(
 				"INSERT INTO ft_datos_especificos(compatible, id_marca, serie,operativo,garantia,fecha_adquision,anio_garantia,nropratrimonial,id_ficha_tecnica)"
 				."VALUES (" .$tblDatosEsp['chkCompatible'] . ",".$tblDatosEsp['marca'].",'". $tblDatosEsp['seriePC'] . "',". $tblDatosEsp['chkOpOtros'] .","
-				.$tblDatosEsp['chkGarantia']. ",'". $tblDatosEsp['fechaAdquisicion']."',".$tblDatosEsp['anioGarantia'].",".$tblDatosEsp['nroPatrimonio']
-				. ",".$idInsert.")");
+				.$tblDatosEsp['chkGarantia']. ",'". $tblDatosEsp['fechaAdquisicion']."',".$tblDatosEsp['anioGarantia'].",'".$tblDatosEsp['nroPatrimonio']
+				. "',".$idInsert.")");
 		$insert->execute();
 //COALESCE(".$tblDatosEsp['marca'].",null)
 		return $insert;
@@ -128,10 +128,17 @@ var_dump($insert->getSql());
 	}
 
 	public function mainboard($idInsert, $tblMainboard) {
+		$sql="INSERT INTO ft_compinternos(serie, id_ficha_tecnica, id_disp_mar_mod)"
+				. "VALUES (".($tblMainboard['serie'] != "" || $tblMainboard['serie'] != null || !empty($tblMainboard['serie']))
+				?"'".$tblMainboard['serie'].","
+				:""
+				
+				.", '$idInsert'," . $tblMainboard['idMainboard'] . ")";
+		
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO ft_compinternos(serie, id_ficha_tecnica, id_disp_mar_mod)"
-				. "VALUES ('" . ($tblMainboard['serie'] != null || $tblMainboard['serie'] != '') ? $tblMainboard['serie'] : 'Sin Serie' . "', '$idInsert'," . $tblMainboard['idMainboard'] . ")");
+				. "VALUES ('".$tblMainboard['serie'] ."', '$idInsert'," . $tblMainboard['idMainboard'] . ")");
 		$insert->execute();
 		($tblMainboard['serie'] != "" || $tblMainboard['serie'] != null || !empty($tblMainboard['serie'])) ? $this->insertSerie("S", $tblMainboard['serie']) : "";
 		return $insert;
@@ -145,6 +152,7 @@ var_dump($insert->getSql());
 					. "VALUES ('$idInsert'," . $ram['id'] . ")");
 			$insert->execute();
 		}
+		echo "aaa";
 		return $insert;
 	}
 
@@ -153,13 +161,13 @@ var_dump($insert->getSql());
 		$insert = $this->dbAdapter->
 				createStatement(
 				"INSERT INTO ft_red(serie, mac, puertos,ip, puertaenlace, proxy, id_ficha_tecnica,integrada,id_disp_mar_mod,red, internet)"
-				. "VALUES (" . pg_escape_string(utf8_encode(($tblRed['serie'] != null || $tblRed['serie'] != "" || !empty($tblRed['serie'])) ? "'" . $tblRed['serie'] . "'" : 'null'))
-				. ",'" . $tblRed['mac'] . "'," . pg_escape_string(utf8_encode($tblRed['puertos'] == 0 ? 'null' : $tblRed['puertos'])) . ",'"
+				. "VALUES ('" . $tblRed['serie']
+				. "','" . $tblRed['mac'] . "'," . pg_escape_string(utf8_encode($tblRed['puertos'] == 0 ? 'null' : $tblRed['puertos'])) . ",'"
 				. $tblRed['ip'] . "','" . $tblRed['puertaenlace'] . "','" . $tblRed['proxy'] . "'," . $idInsert
 				. "," . pg_escape_string(utf8_encode($tblRed['integrada'] == 1 ? 'true' : 'false'))
 				. "," . pg_escape_string(utf8_encode($tblRed['id'] > 0 ? $tblRed['id'] : "null"))
 				. "," . pg_escape_string(utf8_encode($tblRed['red'] == 1 ? 'true' : 'false'))
-				. "," . pg_escape_string(utf8_encode($tblRed['internet'] == 1 ? 'true' : 'internet'))
+				. "," . pg_escape_string(utf8_encode($tblRed['internet'] == 1 ? 'true' : 'false'))
 				. ")");
 		$insert->execute();
 		($tblRed['serie'] != "" || $tblRed['serie'] != null || !empty($tblRed['serie'])) ? $this->insertSerie("S", $tblRed['serie']) : "";
@@ -176,7 +184,7 @@ var_dump($insert->getSql());
 					. "VALUES ('" . $soft['edicion'] . "','" . $soft['version'] . "'," . $soft['licenciado'] . ",'" . $soft['nrolicencia']//
 					. "','" . $soft['tipo'] . "'," . $soft['id'] . ",$idInsert)");
 			$insert->execute();
-			($soft['nrolicencia'] != "" || $soft['nrolicencia'] != null || !empty(soft['nrolicencia'])) ? $this->insertSerie("S", $soft['nrolicencia']) : "";
+			($soft['nrolicencia'] != "" || $soft['nrolicencia'] != null || !empty($soft['nrolicencia'])) ? $this->insertSerie("S", $soft['nrolicencia']) : "";
 		}
 		return $insert;
 	}
@@ -259,9 +267,9 @@ var_dump($insert->getSql());
 
 	public function lista() {
 		$consulta = $this->dbAdapter->query(
-				"SELECT id_ficha_tecnica, numero, fecha_inv, nompc, observacion, fecha_registro, 
-       id_user,   id_unidad_ejecutora,fecha_instalacion,
-       vigencia  FROM ficha_tecnica order by vigencia desc"
+				"SELECT id_ficha_tecnica, numero, fecha_inv, nompc, observacion, fecha_registro,id_disp_soft,
+					fu_bdispositivo(id_disp_soft) dispositivo, fu_brespfuncionanrio(id_ficha_tecnica) funcionario,
+					id_user,id_unidad_ejecutora,fecha_instalacion,vigencia  FROM ficha_tecnica order by vigencia desc"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
@@ -289,7 +297,7 @@ var_dump($insert->getSql());
 				"select (coalesce(numero,0)+1) numero from tmp_ficha where id_uni_org=$dependencia order by numero desc limit 1"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-var_dump($datos);
+//var_dump($datos);
 		if (count($datos) === 0) {
 			$numero = $this->insertNumero(-1, $user, $dependencia);
 		} else {
@@ -313,7 +321,7 @@ var_dump($datos);
 		$numero = 0;
 		if ($cod == -1) {
 			$sql = "1,$dependencia";
-			$numero = array('numero' => $cod['numero']);
+			$numero = array('numero' => 1);
 		} else {
 			$d = $cod['numero'];
 			$sql = "$d,$dependencia";

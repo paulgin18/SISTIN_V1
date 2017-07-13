@@ -25,7 +25,7 @@ use Marca\Model\Entity\Marca;
 use Anio\Model\Entity\Anio;
 use Zend\MVC\Exception;
 use Zend\File\Transfer\Adapter\Http;
- 
+
 class FichaController extends AbstractActionController {
 
 	public function formAction() {
@@ -37,40 +37,66 @@ class FichaController extends AbstractActionController {
 			$datosAdquisicion = $docAdquisicion->lista("true");
 			$session = new Container('sesion');
 			$numeroFicha = new Container('numero');
-			if($session->datos!=null){
-			if ($id == 0) {
-				$fichas = new Ficha($this->dbAdapter);
-				$numero=2;
-				$uni_org=$session->datos->id_unidad_ejecutora;
-				
-				var_dump($uni_org);
-				
-				if($numeroFicha->datos==null){
-					$numero = $fichas->obtenerNumero($session->datos->id_user,$session->datos->id_unidad_ejecutora);
-					$numeroFicha->datos= (object)array("numero"=>$numero,"uni_org"=>$session->datos->id_unidad_ejecutora);
-				
-				}else{
-					$numero=$numeroFicha->datos->numero;
-					$uni_org=$numeroFicha->datos->uni_org;
+			if ($session->datos != null) {
+				if ($id == 0) {
+					$fichas = new Ficha($this->dbAdapter);
+					$numero = 2;
+					$uni_org = $session->datos->id_unidad_ejecutora;
+
+					//var_dump($uni_org);
+
+					if ($numeroFicha->datos == null) {
+						$numero = $fichas->obtenerNumero($session->datos->id_user, $session->datos->id_unidad_ejecutora);
+						$numeroFicha->datos = (object) array("numero" => $numero, "uni_org" => $session->datos->id_unidad_ejecutora);
+					} else {
+						$numero = $numeroFicha->datos->numero;
+						$uni_org = $numeroFicha->datos->uni_org;
+					}
+					//}while($numeroFicha->datos->numero!=null);
+
+					return new ViewModel(array('mantenimiento' => 'Crear', 'textBoton' => 'Guardar',
+						'datosAdquisicion' => $datosAdquisicion,
+						'datos' => null,
+						'nro' => $numero,
+						'uni_org' => $uni_org));
+				} else {
+					if ($id == 1 && $cod > 0) {
+
+						$cod = explode("-", $cod);
+						$datos = $this->buscar($cod[1]);
+						return new ViewModel(
+								array('mantenimiento' => 'Modificar',
+							'textBoton' => 'Actualizar',
+							'datosAdquisicion' => $datosAdquisicion,
+							'datos' => $datos));
+					}
 				}
-				//}while($numeroFicha->datos->numero!=null);
-				
-				return new ViewModel(array('mantenimiento' => 'Crear', 'textBoton' => 'Guardar',
-					'datosAdquisicion' => $datosAdquisicion,
-					'datos' => null,
-					'nro'=>$numero,
-					'uni_org'=>$uni_org));
 			} else {
+				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+			}
+		}
+	}
+
+	public function editAction() {
+		$id = $this->params()->fromRoute("id", null);
+		$cod = $this->params()->fromRoute("cod", null);
+		if ($id !== null) {
+			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+			$docAdquisicion = new Docadquisicion($this->dbAdapter);
+			$datosAdquisicion = $docAdquisicion->lista("true");
+			$session = new Container('sesion');
+			$numeroFicha = new Container('numero');
+			if ($session->datos != null) {
 				if ($id == 1 && $cod > 0) {
-					$datos = $this->buscar($cod);
+					$cod = explode("-", $cod);
+					$datos = $this->buscar($cod[1]);
 					return new ViewModel(
 							array('mantenimiento' => 'Modificar',
 						'textBoton' => 'Actualizar',
 						'datosAdquisicion' => $datosAdquisicion,
 						'datos' => $datos));
 				}
-			}
-			}else{
+			} else {
 				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 			}
 		}
@@ -104,24 +130,21 @@ class FichaController extends AbstractActionController {
 			$tblFichaDisp = $this->getRequest()->getPost('tblFichaDisp');
 			$tblFichaAd = $this->getRequest()->getPost('tblFichaAd');
 			$tblArchivo = $this->getRequest()->getPost('tblArchivo');
-			$tblPersonal= $this->getRequest()->getPost('tblPersonal');
-			$tblDatosEsp= $this->getRequest()->getPost('tblDatosEsp');
-			$fechaInstalacion= $this->getRequest()->getPost('fechaInstalacion');
-			$observacion= $this->getRequest()->getPost('txtObservacion');
-			$unidad_org= $this->getRequest()->getPost('unidad_org');
-			$id_user = $session->datos->id_user;;
+			$tblPersonal = $this->getRequest()->getPost('tblPersonal');
+			$tblDatosEsp = $this->getRequest()->getPost('tblDatosEsp');
+			$fechaInstalacion = $this->getRequest()->getPost('fechaInstalacion');
+			$observacion = $this->getRequest()->getPost('txtObservacion');
+			$unidad_org = $this->getRequest()->getPost('unidad_org');
+			$id_user = $session->datos->id_user;
+			;
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$ficha = new Ficha($this->dbAdapter);
 //if ($id != '') {
 //				$modificar = $ficha->modificar($descripcion, $numero, $id);
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
-			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, 
-					$id_user,  $tblMicroprocesador, 
-					$tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, 
-					$tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal,$tblDatosEsp,$fechaInstalacion,
-					$idEquipo,$unidad_org);
-			
+			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal, $tblDatosEsp, $fechaInstalacion, $idEquipo, $unidad_org);
+
 			$msj = $this->mensaje($insertar, 0);
 //			}
 		} catch (\Exception $e) {

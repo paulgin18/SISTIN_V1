@@ -32,6 +32,14 @@ return array(
 
 
 	),    
+	'db2' =>array(
+		'username' => 'user_geresa',
+		'password' =>'user_geresa2017',
+		'driver' => 'Pdo',
+		'schema' => 'remoto',
+		'dsn'=>'pgsql:host=172.16.0.152;port=5432;dbname=siganew', 
+	),    
+	
 	 'module_layouts' => array(
        'Application' => 'layout/layout.phtml',
        'Usuario'=> 'layout/layoutUser.phtml',
