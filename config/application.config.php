@@ -21,7 +21,9 @@ return array(
 		'Docadquisicion',
 		'Usuario',
         'Rol',
+        'Situacion',
         'Application',
+
     ),
 
     // These are various options for the listeners attached to the ModuleManager

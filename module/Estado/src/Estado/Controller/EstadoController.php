@@ -26,7 +26,6 @@ class EstadoController extends AbstractActionController {
 
 	public function indexAction() {
 
-
 		//INICIO VARIABLES DE SESION
 		// $sessionConfig = new SessionConfig();
 		// $sessionConfig->setOptions(array(
@@ -105,6 +104,7 @@ class EstadoController extends AbstractActionController {
 
 	public function eliminarAction()
 	{
+		
 	        $error=0;$tipoConsulta = 0;
 			
 			$id = $this->getRequest()->getPost('txtId');

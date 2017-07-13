@@ -87,7 +87,7 @@ class DispositivoController extends AbstractActionController {
 		$response->setTerminal(true);
 		return $response;
 	}
-
+ 
 	public function bSofDispAction() {
 		$descripcion = $this->getRequest()->getQuery('term');
 		$tipo = $this->getRequest()->getQuery('tipo');

@@ -140,4 +140,12 @@ class Dispositivo extends TableGateway {
 		return $datos;
 	}
 
+	public function buscarDispositivoCmb($descripcion) {
+		$sql="";
+			$sql="SELECT id_disp_soft as value, descripcion as label, * FROM disp_soft where (descripcion like upper('%$descripcion%'))"
+					. " and vigencia=".pg_escape_string(utf8_encode('true'));
+		$consulta = $this->dbAdapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
+		$datos = $consulta->toArray();
+		return $datos;
+	}
 }

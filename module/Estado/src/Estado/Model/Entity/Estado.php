@@ -11,7 +11,7 @@ use Zend\Db\ResultSet\ResultSet;
 class Estado extends TableGateway {
 
 	private $dbAdapter;
-
+			
 	public function __construct(Adapter $adapter = null, $databaseSchema = null, ResultSet $selectResultPrototype = null) {
 		$this->dbAdapter = $adapter;
 		return parent::__construct('Estado', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
