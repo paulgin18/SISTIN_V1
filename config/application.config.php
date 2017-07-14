@@ -19,9 +19,10 @@ return array(
 		'Personal',
         'Rangoip',
 		'Docadquisicion',
-		'Usuario',
+        'Usuario',
         'Rol',
         'Situacion',
+        'User',
         'Application',
 
     ),

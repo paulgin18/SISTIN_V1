@@ -77,6 +77,18 @@ class EjecutoraController extends AbstractActionController {
 	}
 
 
+	public function buscarEjecutoraAction() {
+		$descripcion = $this->getRequest()->getQuery('term');
+		//$tipo = $this->getRequest()->getQuery('tipo');
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$ejecutoras = new Ejecutora($this->dbAdapter);
+		$items = $ejecutoras->buscarEjecutora($descripcion);
+		$response = new JsonModel(
+				$items
+		);
+		$response->setTerminal(true);
+		return $response;
+	}
 
 	//metodo encargado de la accion de Insertar o Actualizar se relaciona 
 	// con el formulario 

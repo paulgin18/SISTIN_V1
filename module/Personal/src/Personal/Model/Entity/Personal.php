@@ -68,6 +68,13 @@ $ejecquery = pg_query($this->con, $consulta);
         return $datos[0];
     }
 
+    public function buscarPersonal($descripcion){
+        $consulta=$this->dbAdapter->query(
+		"SELECT id_personal as value, (apellido_paterno ||' '||apellido_materno ||' ' || nombre) as label, vigencia FROM personal where (apellido_paterno ||' '||apellido_materno ||' ' || nombre) like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);
+        $datos=$consulta->toArray();        
+        return $datos;    
+    }
+
 	public function buscarFuncionario($descripcion, $unidad_ejecutora){
         $consulta=$this->dbAdapter->query(
 		"Select id_personal as value,(apellido_paterno ||' '||apellido_materno ||' ' || nombre) as label, fu_brespatrimonial(fu_bunidadorganica(p.id_area),p.id_area)respatrimonial,a.id_area, a.descripcion area,"

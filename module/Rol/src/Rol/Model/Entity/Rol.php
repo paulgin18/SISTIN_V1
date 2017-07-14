@@ -48,6 +48,14 @@ class Rol extends TableGateway {
         $datos=$consulta->toArray();
         return $datos[0];
     } 
+
+     public function buscarRol($descripcion){
+        $consulta=$this->dbAdapter->query(
+		"SELECT id_rol as value, descripcion as label, vigencia FROM rol where descripcion like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);
+        $datos=$consulta->toArray();        
+        return $datos;    
+    }
+
 	
 	public function eliminar($id,$vigencia){
 		$insert = $this->dbAdapter->createStatement("update rol set vigencia=$vigencia where id_rol=$id");

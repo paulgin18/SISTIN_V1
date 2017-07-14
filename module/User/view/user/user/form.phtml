@@ -1,0 +1,90 @@
+<?php if ($mantenimiento != null) { ?>
+	<div class="right_col" role="main" style="min-height: 771px;">
+	    <div class="">
+	        <div class="clearfix"></div>
+	        <div class="row">
+	            <div class="col-md-12 col-sm-12 col-xs-12">
+	                <div class="x_panel">
+	                    <div class="x_title">
+	                        <h2><?php echo $this->mantenimiento ?> Usuario <small></small></h2>
+	                        <ul class="nav navbar-right panel_toolbox">
+	                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+	                        </ul>
+	                        <div class="clearfix"></div>
+	                    </div>
+	                    <div class="x_content">
+							<form class="form-horizontal form-label-left" id="formRegistro"  action="javascript:void(0)"  >
+								<div class="form-group">
+									<label for="" class="col-sm-1 control-label"><b>Usuario:</b></label>
+									<div class="col-sm-4">
+										<input type="hidden" class="" name="txtIdUser" id="txtIdUser"   placeholder="" value="<?= $datos != null ? $datos['id_user'] : ''; ?>">
+										<input type="text" minlength="4" id="txtUsuario"   class='form-control  usuario'  required=""  autofocus="autofocus" value="<?= $datos != null ? $datos['usuario'] : ''; ?>"  maxlength="100">
+									</div>
+									<label for="" class="col-sm-1 control-label"><b>Password:</b></label>
+									<div class="col-sm-4">
+									
+										<input type="password" minlength="4" id="txtPassword"   class='form-control  password'  required=""  autofocus="autofocus" value="<?= $datos != null ? $datos['password'] : ''; ?>"  maxlength="100">
+									</div>
+									<br>
+									<br>
+									<br>
+									<label for="" class="col-sm-1 control-label">Personal:</label>
+									<div class="col-sm-4">
+										<input class="form-control" name="txtPersonal" id="txtPersonal" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['personal']?>">
+
+										<input type="hidden" value="<?= $datos['id_personal']?>" id="id_personal">	
+									</div>
+									
+									
+									<label for="" class="col-sm-1 control-label">Rol:</label>
+									<div class="col-sm-4">
+										<input class="form-control" name="txtRol" id="txtRol" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['rol']?>">
+
+										<input type="hidden" value="<?= $datos['id_rol']?>" id="id_rol">	
+									</div>
+									<br>
+									<br>
+									<br>
+									<label for="" class="col-sm-1 control-label">Unidad Ejecutora:</label>
+									<div class="col-sm-4">
+										<input class="form-control" name="txtEjecutora" id="txtEjecutora" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['ejecutora']?>">
+
+										<input type="hidden" value="<?= $datos['id_unidad_ejecutora']?>" id="id_unidad_ejecutora">	
+									</div>
+								</div>
+	                        <hr>
+	                        <div class="form-group">
+	                            <center><div class="col-sm-9">
+										<button type="submit" id="btnguardar" class="btn btn-primary"><?php echo $this->textBoton ?></button>
+	                                </div></center>
+	                        </div>
+							</form>
+						</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+<?php } ?>
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+
+	
+
+<?=
+		$this->inlineScript()
+		->prependFile($this->basePath('js/js_user.js'))
+		->prependFile($this->basePath() . '/libs/bower/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')
+		->prependFile($this->basePath('js/jquery-ui.js'))
+		->prependFile($this->basePath('js/bootbox.js'))
+		->prependFile($this->basePath('js/js_buscar.js'))
+		->prependFile($this->basePath() . '/assets/js/core.min.js')
+?>
