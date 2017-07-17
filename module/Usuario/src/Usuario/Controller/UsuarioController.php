@@ -56,6 +56,7 @@ class UsuarioController extends AbstractActionController {
 			$pass = $request->getPost('password');
 			$bcrypt = new Bcrypt();
 		 //$securePass = $bcrypt->create($pass);
+			
 
 //
 //$securePass = $securePass;
