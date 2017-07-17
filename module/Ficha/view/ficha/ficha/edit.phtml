@@ -4,8 +4,7 @@
 		.bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
 		.percent { position:absolute; display:inline-block; top:-43px; left:48%; }
 	</style>
-
-	<div class="right_col" role="main">
+<div class="right_col" role="main">
 		<div class="">
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-xs-12">
@@ -17,31 +16,39 @@
 							</ul>
 							<div class="clearfix"></div>
 						</div>
-						<input type="hidden" id="ficha" value="0">
+						<input type="hidden" id="txtIdficha" value="<?=$datosFicha['id_ficha_tecnica']?>">
 						<div class="x_content">
 							<h2 class="StepTitle"><strong>Datos Generales</strong></h2>
 							<form class="form-horizontal form-label-left">
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Equipo:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="" type="hidden" >
-										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo"  value=""style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
+										<input class="form-control " name="txtIdEquipo" id="txtIdEquipo" value="<?=$datosFicha['id_disp_soft']?>" type="hidden" >
+										<input class="form-control  ui-autocomplete-input" name="txtEquipo" id="txtEquipo" value="<?=$datosFicha['dispositivo']?>" value=""style="text-transform:uppercase" placeholder="Buscar..." type="text" autocomplete="off">
 									</div>
 									<label class="col-sm-2 control-label"><b>Nº Ficha:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  align=\"right\"  id="txtNroFicha" name="txtNroFicha"  value=" <?=date("Y")." - ".str_pad($nro['numero'], 7, '0', STR_PAD_LEFT)?>" type="text" >
+										<input class="form-control "  align=\"right\"  id="txtNroFicha" name="txtNroFicha"  value="<?=$datosFicha['numero']?>" type="hidden" >
+										<label align=\"right\" ><?=$datosFicha['numero']?></label>
 										<input class="form-control "  align=\"right\"  id="txtIdNroUniOrg" name="txtIdNroUniOrg"  value="<?= $this->uni_org?>" type="hidden" >
 									</div>
 								</div>
-								<div id="divDatosNuevo" style="display:none" >
+								<div id="divDatosNuevo" >
 								<div class="form-group" >
+									
 									<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
 									<div class="col-sm-4">
-										<input type='date' class="form" id="txtFecha" name="txtFecha" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
+									<?php
+										$fechaInv=explode("-",$datosFechaInv['fecha_inventario']);
+									?>
+										<input type='date' class="form" id="txtFecha" name="txtFecha" value='<?= ( $fechaInv[0] . "-" . $fechaInv[1] . "-" .$fechaInv[2])?>'>
 									</div>
 									<label class="col-sm-2 control-label"><b>Fecha_Inst:</b></label>
 									<div class="col-sm-4">
-										<input type='date' class="form" id="txtFechaInstalacion" name="txtFechaInstalacion" value='<?= (date("Y") . "-" . date("m") . "-" . date("d")); ?>'>
+									<?php
+										$fechaIns=explode("-",$datosFicha['fecha_instalacion']);
+									?>
+										<input type='date' class="form" id="txtFechaInstalacion" name="txtFechaInstalacion" value='<?= ($fechaIns[0] . "-" . $fechaIns[1] . "-" . $fechaIns[2]); ?>'>
 									</div>
 									
 									<!--div class="col-sm-1">
@@ -51,37 +58,36 @@
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Unidad Organica:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtIdUnidadOrganica"  name="txtIdUnidadOrganica" type="hidden" value="" >
+										<input class="form-control "  id="txtIdUnidadOrganica"  name="txtIdUnidadOrganica" type="hidden" value="<?=$datosRespArea['id_uni_org']?>" >
 										<input type="text" id="txtUnidadOrganica" name="txtUnidadOrganica"  disabled  class="form-control" style="text-transform:uppercase"  value="">
 									</div>
 									<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtIdAreaServ"  name="txtIdAreaServ" type="hidden" value="" >
-										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="" disabled  style="text-transform:uppercase">
+										<input class="form-control "  id="txtIdAreaServ"  name="txtIdAreaServ" type="hidden" value="<?=$datosRespArea['id_area']?>" >
+										<input class="form-control "  id="txtAreaServ" name="txtAreaServ" type="text" value="<?=$datosRespArea['area']?>"  disabled  style="text-transform:uppercase">
 									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Responsable Patrimonio:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtIdRespPatrimonio" name="txtIdRespPatrimonio" placeholder="BUSCAR"value="" type="hidden" style="text-transform:uppercase" >
-										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" disabled value="" type="text" style="text-transform:uppercase" >
+										<input class="form-control "  id="txtIdRespPatrimonio" name="txtIdRespPatrimonio" placeholder="BUSCAR"value="<?=$datosRespArea['id_reppatrimonio']?>"  type="hidden" style="text-transform:uppercase" >
+										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" disabled value="<?php $res=explode("\\",$datosRespArea['respatrimonial']);echo $res[1]?>" type="text" style="text-transform:uppercase" >
 									</div>
 									<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtIdRespFuncionario" name="txtIdRespFuncionario" placeholder="BUSCAR" value="" type="hidden" style="text-transform:uppercase"	>
-										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario"  placeholder="BUSCAR" value="" type="text" style="text-transform:uppercase"	>
+										<input class="form-control "  id="txtIdRespFuncionario" name="txtIdRespFuncionario" placeholder="BUSCAR" value="<?=$datosRespArea['id_respfuncionario']?>" type="hidden" style="text-transform:uppercase"	>
+										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario"  placeholder="BUSCAR" value="<?=$datosRespArea['funcionario']?>" type="text" style="text-transform:uppercase"	>
 									</div>
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Observación:</b></label>
 									<div class="col-sm-10">
-										<input class="form-control " name="txtObservacion" id="txtObservacion" value="" type="text" >
+										<input class="form-control " name="txtObservacion" id="txtObservacion" value="<?=$datosFicha['observacion']?>" type="text" >
 										
 									</div>
 								</div>
 								<div class="form-group" >
-									
-									<a class="btn btn-alert" id="btnAnadirDAd" class="col-sm-4"> <i class="fa fa-plus" aria-hidden="true"></i> Añadir Datos de Adquisicion</a>
+									<a class="btn btn-alert" id="btnAnadirEditDAd" class="col-sm-4"> <i class="fa fa-plus" aria-hidden="true"></i> Ver Datos de Adquisicion</a>
 								</div>
 									</div>
 							</form><br/><hr/>
@@ -103,7 +109,7 @@
 									<label class="col-sm-1 control-label"><b>Documento:</b></label>
 									<div class="col-sm-3">
 										<select id="cmbDocumento" class="form-control"name="cmbDocumento">
-												<?php foreach ($this->datosAdquisicion as $datosAdquisicion) { ?>
+												<?php foreach ($this->docAdquisicion  as $datosAdquisicion) { ?>
 											<option value="<?php echo $datosAdquisicion['id_doc_adquisicion'] ?>"><?php echo $datosAdquisicion['abreviatura'] ?> - <?php echo $datosAdquisicion['descripcion'] ?></option>
 												<?php } ?>
 										</select>
@@ -123,6 +129,7 @@
 								
 								<div class="form-group">
 										<div class="col-md-12">
+											
 											<table id="tabla_adquisicion"  class="table table-striped table-bordered">
 												<thead>
 													<tr style="background: #e1e4e8">
@@ -132,9 +139,28 @@
 														<th hidden></th>
 														<th width="25%">Numero</th>
 														<th width="25%">Fecha</th>
+														<th width="25%">Adjunto</th>
+														<th width="25%">Vigencia</th>
 														<th width="30%">Accion</th>
 													</tr>
 												</thead>
+												<tbody id="datosBDAd" name="datosBDAd">
+													
+												</tbody>
+											</table>
+											
+											<table id="tabla_adquisicion"  class="table table-striped table-bordered">
+												<!--<thead>
+													<tr style="background: #e1e4e8">
+														<th width="5%">#</th>
+														<th hidden></th>
+														<th width="30%">Documento</th>
+														<th hidden></th>
+														<th width="25%">Numero</th>
+														<th width="25%">Fecha</th>
+														<th width="30%">Accion</th>
+													</tr>
+												</thead>-->
 												<tbody>
 												</tbody>
 											</table>			
@@ -164,6 +190,7 @@
 					<div class="x_panel">
 						<div class="x_title">
 							<h2><strong>DETALLE FICHA TÉCNICA</strong><small></small></h2>
+									<a class="btn btn-alert" id="btnAnadirDetaFicha" class="col-sm-4"> <i class="fa fa-plus" aria-hidden="true"></i> Ver Detalle</a>
 							<ul class="nav navbar-right panel_toolbox">
 								<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
 							</ul>
@@ -305,7 +332,7 @@
 													<label class="col-sm-2 control-label" for="chkCompatible" ><b>Compatible:</b></label>
 													<div class="col-sm-1">
 														<?=
-														$datos != null ? $datos['compatible'] == true ?
+														$datosEspecifico!= null ? $datosEspecifico['compatible'] == true ?
 																		'<input type="checkbox" name="chkCompatible" id="chkCompatible" value="1" checked>' :
 																		'<input type="checkbox" name="chkCompatible" id="chkCompatible" value="1">' :
 																'<input type="checkbox" name="chkCompatible" id="chkCompatible" value="1"><br>';
@@ -316,7 +343,7 @@
 												<label class="col-sm-1 control-label" for="chkOpOtros" ><b>Operativo:</b></label>
 												<div class="col-sm-1">
 													<?=
-													$datos != null ? $datos['vigencia'] == true ?
+													$datosEspecifico != null ? $datosEspecifico['operativo'] == true ?
 																	'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1" checked>' :
 																	'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1">' :
 															'<input type="checkbox" name="chkOpOtros" id="chkOpOtros" value="1"  checked><br>';
@@ -325,8 +352,8 @@
 												<label class="col-sm-2 control-label" for="chkGarantia" ><b>Garantia:</b></label>
 												<div class="col-sm-1">
 													<?=
-													$datos != null ?
-															$datos['garantia'] == true ?
+													$datosEspecifico != null ?
+															$datosEspecifico['garantia'] == true ?
 																	'<input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" checked>' : '<input type="checkbox" name="chkGarantia" id="chkGarantia" value="1">' :
 															'<input type="checkbox" name="chkGarantia" id="chkGarantia" value="1" ><br>';
 													?>
@@ -335,7 +362,7 @@
 											<div class="form-group">
 												<label class="col-sm-2 control-label"><b>Nombre de PC:</b></label>
 												<div class="col-sm-3">
-													<input class="form-control "  id="txtNomPc" name="txtNomPc" type="text"  value="" style="text-transform:uppercase" >
+													<input class="form-control "  id="txtNomPc" name="txtNomPc" type="text"  value="<?=$datosFicha['nompc']?>" style="text-transform:uppercase" >
 												</div>
 												<label class="col-sm-2 control-label"><b>F. Adquisicion:</b></label>
 												<div class="col-sm-2">
@@ -344,19 +371,19 @@
 												<div id="divAnioGarantia" style="display:none">
 													<label class="col-sm-1 control-label" ><b>Garantia:</b></label>
 													<div class="col-sm-1">
-														<input type="text" id="txtAnioGarantia" name="txtAnioGarantia" placeholder="años"  class="form-control"  value="<?= $datos != null ? $datos['aniogarantia'] : ''; ?>">
+														<input type="text" id="txtAnioGarantia" name="txtAnioGarantia" placeholder="años"  class="form-control"  value="<?= $datosEspecifico != null ? $datosEspecifico ['anio_garantia'] : ''; ?>">
 													</div>
 												</div>
 											</div>
 											<div class="form-group" id="datosPC">
 												<label class="col-sm-2 control-label"><b>Marca:</b></label>
 												<div class="col-sm-3">
-													<input type="hidden" class="" name="txtIdMPc" id="txtIdMPc"  placeholder=""  value="<?= $datos != null ? $datos['id_marca'] : ''; ?>">
-													<input class="form-control " name="txtMarcaPC" id="txtMarcaPC" placeholder="Buscar..." value="" type="text" style="text-transform:uppercase">
+													<input type="hidden" class="" name="txtIdMPc" id="txtIdMPc"  placeholder=""  value="<?= $datosEspecifico!= null ? $datosEspecifico['id_marca'] : ''; ?>">
+													<input class="form-control " name="txtMarcaPC" id="txtMarcaPC" placeholder="Buscar..." value="<?=$datosEspecifico['marca']?>" type="text" style="text-transform:uppercase">
 												</div>
 												<label class="col-sm-2 control-label"><b>Serie:</b></label>
 												<div class="col-sm-3">
-													<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text" value="" style="text-transform:uppercase">
+													<input class="form-control "  id="txtSeriePC" name="txtSeriePC" type="text" value="<?=$datosEspecifico['serie']?>" style="text-transform:uppercase">
 												</div>
 												<div class="col-sm-1">
 													<label id='lblNSeriePc' style="color:red; display: none" > <img src="../../../../img/uncheck.png" width="20px" height="20px" >Ya Existe!</label>
@@ -399,7 +426,7 @@
 												</div>
 												<label class="col-sm-1 control-label"><b>Usuario:</b></label>
 												<div class="col-sm-2">
-													<input type="hidden" class="" name="txtIdUsuario" id="txtIdUsuario"  value="<?= $datos != null ? $datos['id_disp_soft'] : ''; ?>">
+													<input type="hidden" class="" name="txtIdUsuario" id="txtIdUsuario"  value="">
 													<input class="form-control " name="txtUsuario" id="txtUsuario" value="" type="text" style="text-transform:uppercase">
 												</div>
 												<label class="col-sm-1 control-label"><b>Contraseña:</b></label>

@@ -564,9 +564,6 @@ function especificos(dato) {
 	if (dato == '2') {
 		$("#datosDetalleFicha").show()
 		$("#pcCompatible").show();
-		$("#txtMarcaPC").val("");
-		$("#txtIdMPc").val("");
-		$("#txtSeriePC").val("");
 		$(document).data('tipoDisp', 2);
 		$("#divComponentes").hide();
 		$("#step-1").show();
@@ -591,7 +588,7 @@ function especificos(dato) {
 		$(".stepContainer").show();
 		$(".wizard_steps").show();
 		$(".actionBar").show();
-
+		$("#txtSeriePC").val("");
 		$("#ficha").val("1");
 	} else {
 		$("#datosDetalleFicha").show();
@@ -727,6 +724,47 @@ $(document).on('click', '#btnAnadirDAd', function (event) {
 	$("#txtPecosa").focus();
 
 });
+
+$(document).on('click', '#btnAnadirEditDAd', function (event) {
+	$("#datosAdquisicion").show();
+	$("#txtPecosa").focus();
+	datosEspecificos();
+});
+
+$(document).on('click', '#btnAnadirDetaFicha', function (event) {
+	
+especificos($("#txtIdEquipo").val());
+});
+
+
+function datosEspecificos(){
+	var options = {
+		type: 'POST',
+		url: '../../datosEspecificos',
+		data: {'id': $("#txtIdficha").val(),
+		},
+		dataType: 'html',
+		success: function (response) {
+			$("#datosBDAd").html(response);
+		}
+	};
+	$.ajax(options);
+}
+
+function docAdquisicion(){
+	var options = {
+		type: 'POST',
+		url: '../../documentos',
+		data: {'id': $("#txtIdficha").val(),
+		},
+		dataType: 'html',
+		success: function (response) {
+			$("#datosBDAd").html(response);
+		}
+	};
+	$.ajax(options);
+}
+
 
 $(document).on('click', '#btnAnadirFichaDisp', function (event) {
 	event.preventDefault();
@@ -1100,8 +1138,8 @@ var registrar = function (ficha, txtNroFicha, txtFecha,
 		txtIdEquipo, txtNomPc,
 		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser,
 		tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion,unidad_org) {
-	alert($("#uploadedfile").val());
-	alert(JSON.stringify(tblArchivo, null, 4));
+	//alert($("#uploadedfile").val());
+	//alert(JSON.stringify(tblArchivo, null, 4));
 	var options = {
 		type: 'POST',
 		url: '../../registrar',

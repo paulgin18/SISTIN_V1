@@ -16,7 +16,7 @@ var registrar = function (txtId,txtUsuario,txtPassword,txtPersonal,txtRol,txtEje
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
 						window.location.href = "../../usuario";
-					})txtEjecutora,
+					})
 					: bootbox.alert(response.msj);
 			$("#btnguardar").prop('disabled', false);
 

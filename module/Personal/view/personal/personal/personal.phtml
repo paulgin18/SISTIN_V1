@@ -1,3 +1,10 @@
+<?php
+//echo $_SERVER['SCRIPT_NAME'];
+include_once("config/autoload/conexion.php");
+$obcon= new Conexion("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
+$consulta = "select * from remoto.view_personas";
+$ejecquery = pg_query($obcon->getConexion(), $consulta);
+?>
 <div class="right_col" role="main">
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12">
@@ -25,8 +32,18 @@
 							</tr>
 						</thead>
 						<tbody>
+							
+ <?php 
+ while ($reg = pg_fetch_assoc($ejecquery)){
+  echo "<tr>
+    <td>".$reg['pers_id']."</td>
+    <td>".$reg['pers_apellpaterno']."".$reg['pers_apellmaterno']."".$reg['pers_nombres ']."</td>
+		<td>".$reg['pers_dni']."</td>
+   </tr>";
+  }
+ ?>
 
-							<?php foreach ($this->personals as $personal) { ?>
+							<!--<?php foreach ($this->personals as $personal) { ?>
 								<tr>
 									<td><?php echo $personal['descripcion'] ?></td>
 									<td><?php echo $personal['apellido_paterno'] ?>  <?php echo $personal['apellido_materno'] ?> <?php echo $personal['nombre'] ?> </td>
@@ -39,7 +56,7 @@
 									</td>
 									<td id="idCod" style="display:none;"><?= $personal['id_personal'] ?></td>
 								</tr>
-							<?php } ?>
+							<?php } ?>-->
 						</tbody>
 						<tfoot>
 							<tr>

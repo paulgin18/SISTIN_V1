@@ -83,18 +83,43 @@ class FichaController extends AbstractActionController {
 		if ($id !== null) {
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$docAdquisicion = new Docadquisicion($this->dbAdapter);
-			$datosAdquisicion = $docAdquisicion->lista("true");
+			$docAdquisicion = $docAdquisicion->lista("true");
 			$session = new Container('sesion');
 			$numeroFicha = new Container('numero');
 			if ($session->datos != null) {
 				if ($id == 1 && $cod > 0) {
 					$cod = explode("-", $cod);
-					$datos = $this->buscar($cod[1]);
+					$datosFicha = $this->buscarFicha($cod[0],0,null);
+				if($cod[0]==1 || $cod[0]=2){
+					
+					$datosArchivo = $this->buscarFicha($datosFicha["id_ficha_tecnica"],2,null);
+					$datosCompInterno= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,3);
+					$datosEspecifico= $this->buscarFicha($datosFicha["id_ficha_tecnica"],4,null);
+					$datosOComponentes= $this->buscarFicha($datosFicha["id_ficha_tecnica"],5,null);
+					$datosRed= $this->buscarFicha($datosFicha["id_ficha_tecnica"],6,null);
+					$datosRespArea= $this->buscarFicha($datosFicha["id_ficha_tecnica"],7,null);
+					$datosSoftware= $this->buscarFicha($datosFicha["id_ficha_tecnica"],8,null);
+					$datosUser= $this->buscarFicha($datosFicha["id_ficha_tecnica"],9,null);
+					$datosFechaInv= $this->buscarFicha($datosFicha["id_ficha_tecnica"],10,null);
+				}
+					
+				var_dump($datosEspecifico);
 					return new ViewModel(
 							array('mantenimiento' => 'Modificar',
 						'textBoton' => 'Actualizar',
-						'datosAdquisicion' => $datosAdquisicion,
-						'datos' => $datos));
+						'datosFicha' => $datosFicha,
+							'docAdquisicion' => $docAdquisicion ,
+							'datosArchivo' => $datosArchivo,
+							'datosCompInterno' => $datosCompInterno,
+							'datosEspecifico' => $datosEspecifico,
+							//'datosAdquisicion' => $datosAdquisicion,
+							'datosOComponentes' => $datosOComponentes,
+							'datosRed' => $datosRed,
+							'datosRespArea' => $datosRespArea,
+							'datosSoftware' => $datosSoftware,
+							'datosUser' => $datosUser,
+							'datosFechaInv' => $datosFechaInv,
+							));
 				}
 			} else {
 				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
@@ -102,13 +127,56 @@ class FichaController extends AbstractActionController {
 		}
 	}
 
-	public function buscar($cod) {
+	public function buscarFicha($cod,$tipo,$codDisp) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-		$anios = new Anio($this->dbAdapter);
-		$datos = $anios->buscar($cod);
-		return $datos;
+		$ficha = new Ficha($this->dbAdapter);
+		switch ($tipo){
+			case 0:$datos = $ficha->buscarFicha($cod);
+				   return $datos;
+			case 1:$datos = $ficha->bAdquisicion($cod);
+				   return $datos;
+			case 2:$datos = $ficha->bArchivo($cod);
+				   return $datos;
+			case 3:$datos = $ficha->bComponenteInterno($cod,$codDisp);
+				   return $datos;
+			case 4:$datos = $ficha->bDatosEspecificos($cod);
+				   return $datos;
+			case 5:$datos = $ficha->bOComponenentes($cod);
+				   return $datos;
+			case 6:$datos = $ficha->bRed($cod);
+				   return $datos;
+			case 7:$datos = $ficha->bResArea($cod);
+				   return $datos;
+			case 8:$datos = $ficha->bSoftware($cod);
+				   return $datos;
+			case 9:$datos = $ficha->bUser($cod);
+				   return $datos;
+			case 10:$datos = $ficha->bFechaInventario($cod);
+				   return $datos;
+		
+		}
+		
 	}
 
+	public function documentosAction() {
+		$id= $this->getRequest()->getPost('id');
+		$datosAdquisicion = $this->buscarFicha($id,1,null);
+		
+		$envio ="0";
+		foreach ($datosAdquisicion as $dAquisicion) { 
+			$envio=$envio."<tr data-id=".$dAquisicion['id_doc_adquisicion'].">"
+					. "<td>#</td><td hidden>".$dAquisicion['id_doc_adquisicion']."</td>"
+					. "<td>".$dAquisicion['doc']."</td>"
+					. "<td>".$dAquisicion['nro_doc']."</td>"
+					. "<td>".$dAquisicion['fecha_doc']."</td>"
+					. "<td>sin Adjunto</td>"
+					. "<td>".$dAquisicion['vigencia']."</td>"
+					. "<td><button type='button' class='btn btn-danger btn-xs removerM'><i class='fa fa-fw fa-close'></i></button></td>"
+					. "</tr>";
+				} 
+				echo $envio;
+				return $envio;
+	}
 	public function registrarAction() {
 		$error = 0;
 		$msj = "";
@@ -291,5 +359,6 @@ class FichaController extends AbstractActionController {
 			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 		}
 	}
+
 
 }

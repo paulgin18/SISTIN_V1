@@ -55,6 +55,18 @@ class Personal extends TableGateway {
         $datos=$consulta->toArray();
         return $datos[0];
     }
+    public function buscarPersonalsiga($descripcion){
+//require "cnn.php";
+$con=null;
+//$obcon= new cnn("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
+   $this->con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017'");
+$consulta = "select pers_id as value,(a.pers_apellpaterno || ' '|| a.pers_apellmaterno ||' '|| a.pers_nombres) as label from remoto.view_personas"
+		. "where (a.pers_apellpaterno || ' '|| a.pers_apellmaterno ||' '|| a.pers_nombres) like Upper('%$descripcion%')";
+$ejecquery = pg_query($this->con, $consulta);
+
+        $datos=$ejecquery->toArray();
+        return $datos[0];
+    }
 
 	public function buscarFuncionario($descripcion, $unidad_ejecutora){
         $consulta=$this->dbAdapter->query(

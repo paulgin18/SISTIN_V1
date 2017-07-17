@@ -1,0 +1,37 @@
+<?php
+echo $_SERVER['SCRIPT_NAME'];
+include_once("config/autoload/conexion.php");
+
+// creamos el un objeto de la clase Conexion con sus respectivos parametros
+$obcon= new Conexion("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
+$consulta = "select * from remoto.view_personas";
+$ejecquery = pg_query($obcon->getConexion(), $consulta);
+?>
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ 
+<head>
+ <title>sin título</title>
+ <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+ <meta name="generator" content="Geany 0.20" />
+</head>
+ 
+<body>
+ <table border='1'>
+ <tr>
+ <td>ID</td><td>Nombre</td>
+ </tr>
+ <?php 
+ while ($reg = pg_fetch_assoc($ejecquery)){
+  echo "<tr>
+    <td>".$reg['pers_id']."</td>
+    <td>".$reg['pers_apellpaterno']."</td>
+   </tr>";
+  }
+ ?>
+ </table>
+ <h2> Consulta Exitosa! </h2>
+ 
+</body>
+</html>

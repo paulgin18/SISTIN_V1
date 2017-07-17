@@ -69,8 +69,7 @@ function validar() {
 	return true;
 }
 
-
-$("#txtArea").focus(function (){
+$(function () {
 	$("#txtArea").autocomplete({
 		source: '../../../../area/area/buscararea',
 		select: function (event, ui) {
@@ -85,8 +84,26 @@ $("#txtArea").focus(function (){
 		focus: function (event, ui) {
 			return false;
 		}
-	});
 });
+
+$("#txtPersonal").autocomplete({
+		source: '../../../../personal/personal/buscapersonalsiga',
+		select: function (event, ui) {
+			$('#id_area').val(ui.item.value);
+			$(this).val(ui.item.label)
+			return false;
+		},
+		autoFocus: false,
+		open: function (event, ui) {
+			$("#id_area").val('');
+		},
+		focus: function (event, ui) {
+			return false;
+		}
+});
+	
+});
+
 
 
 var eliminar = function ($cod, $vigencia) {

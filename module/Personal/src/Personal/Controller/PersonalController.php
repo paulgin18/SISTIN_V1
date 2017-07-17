@@ -73,6 +73,17 @@ class PersonalController extends AbstractActionController {
 		$datos = $personals->buscar($cod);
 		return $datos;
 	}
+	public function buscapersonalsigaAction() {
+		$descripcion = $this->getRequest()->getQuery('term');
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$personal= new Personal($this->dbAdapter);
+		$items = $personal->buscarPersonalsiga($descripcion);
+		$response = new JsonModel(
+				$items
+		);
+		$response->setTerminal(true);
+		return $response;
+	}
 
 	public function buscarFuncionarioAction() {
 		$descripcion = $this->getRequest()->getQuery('term');
