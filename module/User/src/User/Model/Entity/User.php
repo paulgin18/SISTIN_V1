@@ -19,7 +19,7 @@ class User extends TableGateway {
 	}
 
 	public function insertar($user, $password,$id_personal,$id_rol,$id_ejecutora) {
-		
+		//bb
 		$insert = $this->dbAdapter->
 				createStatement("INSERT INTO usuario (usuario,password,id_personal,id_rol,id_unidad_ejecutora ) VALUES (upper(trim('$user')),'$password',$id_personal,$id_rol,$id_ejecutora)");
 		$datos = $insert->execute();
