@@ -60,7 +60,7 @@ class UserController extends AbstractActionController {
 			$user = $this->getRequest()->getPost('txtUsuario');
 			$password = $this->getRequest()->getPost('txtPassword');
 			$bcrypt = new Bcrypt();
-			$securePass = $bcrypt->create('$password');
+			$securePass = $bcrypt->create($password);
 			$id_personal = $this->getRequest()->getPost('txtIdPersonal');
 			$id_rol = $this->getRequest()->getPost('txtIdRol');
 			$id_ejecutora = $this->getRequest()->getPost('txtIdEjecutora');

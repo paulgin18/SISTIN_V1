@@ -55,7 +55,8 @@ class UsuarioController extends AbstractActionController {
 			$user = $request->getPost('username');
 			$pass = $request->getPost('password');
 			$bcrypt = new Bcrypt();
-//echo $securePass = $bcrypt->create($pass);
+		 //$securePass = $bcrypt->create($pass);
+
 //
 //$securePass = $securePass;
 //$password = 'admin';//pass arriba;
@@ -72,6 +73,12 @@ class UsuarioController extends AbstractActionController {
 			if ($datos['usuario'] != null) {
 				$passBd = $datos['password'];
 				if ($bcrypt->verify($pass, $passBd)) {
+					//var_dump($securePass);
+					//var_dump($pass);
+					//var_dump($passBd);
+					//var_dump($bcrypt->verify($pass, $passBd));
+//break;
+
 					$authAdapter = new AuthAdapter($this->dbAdapter, 'usuario', 'usuario', 'password');
 					$authAdapter->setIdentity($datos['usuario'])
 							->setCredential($datos['password']);

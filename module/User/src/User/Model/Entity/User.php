@@ -19,6 +19,7 @@ class User extends TableGateway {
 	}
 
 	public function insertar($user, $password,$id_personal,$id_rol,$id_ejecutora) {
+		
 		$insert = $this->dbAdapter->
 				createStatement("INSERT INTO usuario (usuario,password,id_personal,id_rol,id_unidad_ejecutora ) VALUES (upper(trim('$user')),'$password',$id_personal,$id_rol,$id_ejecutora)");
 		$datos = $insert->execute();
@@ -26,6 +27,7 @@ class User extends TableGateway {
 	}
 	
 	public function modificar($user, $password,$id_personal,$id_rol,$id_ejecutora,$id_user) {
+		
 		$insert = $this->dbAdapter->
 				createStatement("update usuario set usuario=upper(trim('$user')), password='$password', id_personal=$id_personal,  
 					id_rol=$id_rol, id_unidad_ejecutora=$id_ejecutora"

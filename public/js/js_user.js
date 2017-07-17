@@ -12,6 +12,7 @@ var registraruser = function (txtUsuario,txtPassword,txtIdPersonal,txtIdRol,txtI
 		},
 		dataType: 'json',
 		success: function (response) {
+			alert(txtPassword);
 			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
 						window.location.href = "../../user";
