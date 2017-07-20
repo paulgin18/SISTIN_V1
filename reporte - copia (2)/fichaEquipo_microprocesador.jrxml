@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaEquipo_microprocesador" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="647b24eb-bd3f-43e5-ad35-d16de34be953">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pid" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT fi.id_detalle_ficha, trim(fi.serie) serie, (trim(fi.estructura) || ' bits' )estructura, fi.vigencia,
+fi.aniogarantia,fi.id_ficha_tecnica, fi.id_disp_mar_mod,
+dm.id_marca, fu_bmarca(dm.id_marca::int) marca, dm.id_modelo, trim(fu_bmodelo(dm.id_modelo::int)) modelo, id_disp_soft, trim(fu_bdispositivo(id_disp_soft::int)) dispositivo, (fu_bmarca(dm.id_marca::int)||' / '||trim(fu_bmodelo(dm.id_modelo::int)))marcamodelo FROM ft_compinternos fi
+inner join disp_mar_mod dm on fi.id_disp_mar_mod=dm.id_disp_mar_mod
+ where dm.id_disp_soft=3 and fi.vigencia=true and id_ficha_tecnica=$P{pid}]]>
+	</queryString>
+	<field name="id_detalle_ficha" class="java.lang.Long"/>
+	<field name="serie" class="java.lang.String">
+		<fieldDescription><![CDATA[numero de serie ]]></fieldDescription>
+	</field>
+	<field name="estructura" class="java.lang.String"/>
+	<field name="vigencia" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[vigencia activa    :true
+vigencia terminada  :false]]></fieldDescription>
+	</field>
+	<field name="aniogarantia" class="java.lang.Long">
+		<fieldDescription><![CDATA[Años restantes de la garantia de un equipo]]></fieldDescription>
+	</field>
+	<field name="id_ficha_tecnica" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificador de la ficha tecnica]]></fieldDescription>
+	</field>
+	<field name="id_disp_mar_mod" class="java.lang.Long"/>
+	<field name="id_marca" class="java.lang.Long"/>
+	<field name="marca" class="java.lang.String"/>
+	<field name="id_modelo" class="java.lang.Long"/>
+	<field name="modelo" class="java.lang.String"/>
+	<field name="id_disp_soft" class="java.lang.Long"/>
+	<field name="dispositivo" class="java.lang.String"/>
+	<field name="marcamodelo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="87" height="20" uuid="18fd7dd2-a0e0-4b97-9f23-c7adbc656f6a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Microprocesador:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="311" y="0" width="38" height="20" uuid="602baec7-81ad-43f0-89dc-90766ca67656"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{estructura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="260" y="0" width="51" height="20" uuid="e6ab941e-77b9-47f7-8ba1-87a7017fc8cc"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Estructura:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="0" width="173" height="20" uuid="ccb05649-0c9b-40ef-aee6-dedefe744de7"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{marcamodelo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

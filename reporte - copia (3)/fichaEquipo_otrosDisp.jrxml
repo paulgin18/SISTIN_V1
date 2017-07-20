@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaEquipo_ram" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a9f012f5-f9c6-4c85-858f-908a953789b6">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="622"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pid" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT fi.id_detalle_ficha, trim(fi.serie) serie, (trim(fi.estructura) || ' bits' )estructura, fi.vigencia,
+fi.aniogarantia,fi.id_ficha_tecnica, fi.id_disp_mar_mod,
+dm.id_marca, fu_bmarca(dm.id_marca::int) marca, dm.id_modelo, trim(fu_bmodelo(dm.id_modelo::int)) modelo, id_disp_soft, trim(fu_bdispositivo(id_disp_soft::int)) dispositivo, (fu_bmarca(dm.id_marca::int)||' / '||trim(fu_bmodelo(dm.id_modelo::int)))marcamodelo FROM ft_compinternos fi
+inner join disp_mar_mod dm on fi.id_disp_mar_mod=dm.id_disp_mar_mod
+ where dm.id_disp_soft=4 and fi.vigencia=true and id_ficha_tecnica=$P{pid}]]>
+	</queryString>
+	<field name="id_detalle_ficha" class="java.lang.Long"/>
+	<field name="serie" class="java.lang.String">
+		<fieldDescription><![CDATA[numero de serie]]></fieldDescription>
+	</field>
+	<field name="estructura" class="java.lang.String"/>
+	<field name="vigencia" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[vigencia activa    :true
+vigencia terminada  :false]]></fieldDescription>
+	</field>
+	<field name="aniogarantia" class="java.lang.Long">
+		<fieldDescription><![CDATA[Años restantes de la garantia de un equipo]]></fieldDescription>
+	</field>
+	<field name="id_ficha_tecnica" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificador de la ficha tecnica]]></fieldDescription>
+	</field>
+	<field name="id_disp_mar_mod" class="java.lang.Long"/>
+	<field name="id_marca" class="java.lang.Long"/>
+	<field name="marca" class="java.lang.String"/>
+	<field name="id_modelo" class="java.lang.Long"/>
+	<field name="modelo" class="java.lang.String"/>
+	<field name="id_disp_soft" class="java.lang.Long"/>
+	<field name="dispositivo" class="java.lang.String"/>
+	<field name="marcamodelo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="98" height="20" uuid="6e65b2cc-8f9a-4300-9afa-2c9d26fe7b52"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Otros:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="86" y="0" width="439" height="20" backcolor="#333333" uuid="81163e1a-17b6-466a-9b22-fc0644cb018a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="86" y="0" width="125" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="d74a1681-cbbc-4c86-b421-0362470bd3db"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dispositivo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="47995e72-9294-4a9f-bd1b-80a4d092fe3e"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="411" y="0" width="114" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="f6a19dc4-db87-4b48-99ec-e2478e28011c"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="211" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="d9cd1aaf-8cbd-467d-a640-3ce3e7cd9eab"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="86" y="0" width="125" height="20" uuid="60a6a103-5fcb-4e14-a1bf-945b6a522e6e"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dispositivo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="211" y="0" width="100" height="20" uuid="6f36d75e-f318-4cac-b755-b71422a990a9"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="311" y="0" width="100" height="20" uuid="16cb1678-32b6-41ef-a9a7-2028c28a68ad"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="411" y="0" width="114" height="20" uuid="11cb9726-747b-4835-b249-6c1bec89a7d5"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serie}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaEquipo_adquisicion" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="23ee1fe7-cee1-46c3-8914-b76f74153106">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pid" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT id_ft_adquisicion, nro_doc, fecha_doc, fecha_registro, vigencia, id_doc_adquisicion, fu_bdocadquisicion(id_doc_adquisicion::int) doc, id_ficha_tecnica FROM ft_adquisicion
+where id_ficha_tecnica=$P{pid}]]>
+	</queryString>
+	<field name="id_ft_adquisicion" class="java.lang.Integer"/>
+	<field name="nro_doc" class="java.lang.String">
+		<fieldDescription><![CDATA[Numero del documento que se ha seleccionado]]></fieldDescription>
+	</field>
+	<field name="fecha_doc" class="java.sql.Date">
+		<fieldDescription><![CDATA[Fecha del documento que se ha recepcionado]]></fieldDescription>
+	</field>
+	<field name="fecha_registro" class="java.sql.Timestamp"/>
+	<field name="vigencia" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[vigencia activa    :true
+vigencia terminada  :false]]></fieldDescription>
+	</field>
+	<field name="id_doc_adquisicion" class="java.lang.Long"/>
+	<field name="doc" class="java.lang.String"/>
+	<field name="id_ficha_tecnica" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificador de la ficha tecnica]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="12" y="10" width="193" height="20" uuid="1df2c355-6c4c-4a04-9809-bf700025856c"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datos de Adquisicion del Equipo]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="27" y="18" width="247" height="20" uuid="0f619230-2af0-4ba3-ad05-93b3d2895166"/>
+				<text><![CDATA[Numero del documento que se ha seleccionado]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="274" y="18" width="100" height="20" uuid="bc1c2a24-4306-43d9-ae9f-2d13314ee393"/>
+				<textFieldExpression><![CDATA[$F{nro_doc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="385" y="18" width="37" height="20" uuid="a381b3de-3c6e-4e16-8474-8ed5aa0c00fe"/>
+				<text><![CDATA[Fecha del documento que se ha recepcionado]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="422" y="18" width="100" height="20" uuid="25ae3176-ed84-431d-9e1f-f5dbe9376f50"/>
+				<textFieldExpression><![CDATA[$F{fecha_doc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="38" width="100" height="20" uuid="0f04a347-d27f-48f8-a42a-3b5e4391412f"/>
+				<text><![CDATA[doc]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="38" width="100" height="20" uuid="136a2cb3-d9aa-4e95-87e3-5e5a06b3347f"/>
+				<textFieldExpression><![CDATA[$F{doc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

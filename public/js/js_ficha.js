@@ -728,7 +728,7 @@ $(document).on('click', '#btnAnadirDAd', function (event) {
 $(document).on('click', '#btnAnadirEditDAd', function (event) {
 	$("#datosAdquisicion").show();
 	$("#txtPecosa").focus();
-	datosEspecificos();
+	docAdquisicion();
 });
 
 $(document).on('click', '#btnAnadirDetaFicha', function (event) {

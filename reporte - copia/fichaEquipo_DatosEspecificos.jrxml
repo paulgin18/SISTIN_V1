@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaEquipo_DatosEspecificos" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a97e77c-78bc-4da0-a273-930d191e0b78">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pid" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT id_ft_datos_esp, case when compatible=true then 'C:\\xampp\\htdocs\\SISTIN_V1\\public\\img\\checkrpt.png' when compatible=false then 'C:\\xampp\\htdocs\\SISTIN_V1\\public\\img\\uncheckrpt.png' end compatible, id_marca, fu_bmarca(id_marca::int) marca,serie, case when operativo=true then 'C:\\xampp\\htdocs\\SISTIN_V1\\public\\img\\checkrpt.png' when operativo=false then 'C:\\xampp\\htdocs\\SISTIN_V1\\public\\img\\uncheckrpt.png' end operativo , case when garantia=true then 'C:\\xampp\\htdocs\\SISTIN_V1\\public\\img\\checkrpt.png' when garantia=false then 'C:\\xampp\\htdocs\\SISTIN_V1\\public\\img\\uncheckrpt.png' end garantia, fecha_adquision, coalesce(anio_garantia,null) anio_garantia,case when garantia=true then 'años' when garantia=false then '' end descanio, nropratrimonial, id_ficha_tecnica  FROM ft_datos_especificos where id_ficha_tecnica=$P{pid}]]>
+	</queryString>
+	<field name="id_ft_datos_esp" class="java.lang.Long"/>
+	<field name="compatible" class="java.lang.String"/>
+	<field name="id_marca" class="java.lang.Long"/>
+	<field name="marca" class="java.lang.String"/>
+	<field name="serie" class="java.lang.String">
+		<fieldDescription><![CDATA[numero de serie ]]></fieldDescription>
+	</field>
+	<field name="operativo" class="java.lang.String"/>
+	<field name="garantia" class="java.lang.String"/>
+	<field name="fecha_adquision" class="java.sql.Date"/>
+	<field name="anio_garantia" class="java.lang.Integer"/>
+	<field name="descanio" class="java.lang.String"/>
+	<field name="nropratrimonial" class="java.lang.String"/>
+	<field name="id_ficha_tecnica" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificador de la ficha tecnica]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="208" y="0" width="33" height="20" uuid="ef12131a-65d6-41c2-b3b0-423a30dfcca7"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="247" y="0" width="114" height="20" uuid="34f40d83-8cd6-49cc-b459-0c64975f843e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="241" y="0" width="6" height="20" uuid="be550ac6-bd25-4fb7-bd15-a5b19a3c9856"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="208" y="20" width="33" height="20" uuid="d66dd924-a525-4740-805c-04c9af02bb8a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Serie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="20" width="6" height="20" uuid="1c4d586c-1d85-4685-92ea-55f2854813fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="247" y="20" width="135" height="20" uuid="aa679c19-0397-4426-83f9-29fac354ff7c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{serie}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="58" height="20" uuid="776f7d4f-db6f-474c-b8f9-5660ce130b4a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Operativo]]></text>
+			</staticText>
+			<image>
+				<reportElement x="74" y="3" width="17" height="13" uuid="8b817533-89a4-4bfc-b3ef-979c619d6c93"/>
+				<imageExpression><![CDATA[$F{operativo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="20" width="58" height="20" uuid="7666eec7-7989-4ffc-9072-8286dab40070"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Compatible]]></text>
+			</staticText>
+			<image>
+				<reportElement x="74" y="23" width="17" height="13" uuid="042754e3-e17f-4cba-b6dc-24661ce39a5d"/>
+				<imageExpression><![CDATA[$F{compatible}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="440" y="20" width="58" height="20" uuid="f7a69228-33af-41c7-b3b8-6b5ad1b6c0ad"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Garantia]]></text>
+			</staticText>
+			<image>
+				<reportElement x="498" y="23" width="17" height="13" uuid="cb3c915d-1a7e-48cd-942c-a41a2563ea18"/>
+				<imageExpression><![CDATA[$F{garantia}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="423" y="0" width="75" height="20" uuid="4bdd89e3-93b8-408f-a13f-1bddffb56fb1"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[F.Adquisicion]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="498" y="0" width="46" height="20" uuid="bf3d2a80-15ac-4574-a108-adb353589288"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_adquision}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="515" y="20" width="12" height="20" uuid="06ec13a7-fcdb-450e-9238-69c5dd1e1ad0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{anio_garantia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="527" y="20" width="27" height="20" uuid="aeb131c3-e816-4eae-aa80-fe13e13fb6f8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descanio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="40" width="100" height="20" uuid="4d693a7a-b09b-41ea-aa08-7950d3d56f2a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nropratrimonial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="75" height="20" uuid="b92caffe-dacf-421b-992e-28d656d25c9f"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nº Patrimonial]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

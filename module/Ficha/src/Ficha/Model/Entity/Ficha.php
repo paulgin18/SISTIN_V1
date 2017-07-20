@@ -277,13 +277,13 @@ class Ficha extends TableGateway {
 
 	public function buscarFicha($id) {
 		$consulta = $this->dbAdapter->query(
-		"SELECT id_ficha_tecnica, fecha_inv, nompc, observacion, fecha_registro,"
+		"SELECT id_ficha_tecnica, fecha_inv, coalesce(trim(nompc),null) nompc, coalesce(trim(observacion),null) observacion, fecha_registro,"
 		. "id_user, id_anio, vigencia, id_unidad_ejecutora, fecha_instalacion, "
 		. "numero, fecha_actualizacion, id_disp_soft, upper(fu_bdispositivo(id_disp_soft)) dispositivo FROM ficha_tecnica "
 		. " where id_ficha_tecnica=$id"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-		return $datos[0];
+		return $datos!=null?$datos[0]:null;
 	}
 	
 	public function bAdquisicion($id) {
@@ -298,7 +298,7 @@ class Ficha extends TableGateway {
 	
 	public function bArchivo($id) {
 		$consulta = $this->dbAdapter->query(
-		"SELECT id_ft_archivo, ruta, vigencia, fecha_registro, id_ficha_tecnica  "
+		"SELECT id_ft_archivo, trim(ruta), vigencia, fecha_registro, id_ficha_tecnica  "
 				. "FROM ft_archivo where id_ficha_tecnica=$id"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
@@ -307,17 +307,33 @@ class Ficha extends TableGateway {
 	
 		public function bComponenteInterno($id,$idDis) {
 		$consulta = $this->dbAdapter->query(
-		"SELECT fi.id_detalle_ficha, fi.serie, fi.estructura, fi.vigencia, "
-				. "fi.aniogarantia,fi.id_ficha_tecnica, fi.id_disp_mar_mod  "
-				. "FROM ft_compinternos fi inner join disp_mar_mod dm "
-				." on fi.id_disp_mar_mod=dm.id_disp_mar_mod "
-				."inner join disp_soft ds on ds.id_disp_soft=dm.id_disp_soft"
-				. " where fi.id_ficha_tecnica=$id and ds.id_disp_soft=$idDis and fi.vigencia=true" 
+		"SELECT fi.id_detalle_ficha, trim(fi.serie) serie, trim(fi.estructura) estructura, fi.vigencia, "
+				. "fi.aniogarantia,fi.id_ficha_tecnica, fi.id_disp_mar_mod, "
+				. "dm.id_marca, fu_bmarca(dm.id_marca::int) marca, dm.id_modelo, trim(fu_bmodelo(dm.id_modelo::int)) modelo, "
+				. "id_disp_soft, trim(fu_bdispositivo(id_disp_soft::int)) dispositivo "
+				. " FROM ft_compinternos fi "
+				. "inner join disp_mar_mod dm on fi.id_disp_mar_mod=dm.id_disp_mar_mod "
+				. " where fi.id_ficha_tecnica=$id and dm.id_disp_soft=$idDis and fi.vigencia=true" 
 			, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-		return $datos[0];
+		//var_dump($datos);
+		return $datos!=null?$datos[0]:null;
 	}
 	
+	public function bComponenteInternoRam($id,$idDis) {
+		$consulta = $this->dbAdapter->query(
+		"SELECT fi.id_detalle_ficha, trim(fi.serie) serie, trim(fi.estructura) estructura, fi.vigencia, "
+				. "fi.aniogarantia,fi.id_ficha_tecnica, fi.id_disp_mar_mod, "
+				. "dm.id_marca, fu_bmarca(dm.id_marca::int) marca, dm.id_modelo, trim(fu_bmodelo(dm.id_modelo::int)) modelo, "
+				. "id_disp_soft, trim(fu_bdispositivo(id_disp_soft::int)) dispositivo "
+				. " FROM ft_compinternos fi "
+				. "inner join disp_mar_mod dm on fi.id_disp_mar_mod=dm.id_disp_mar_mod "
+				. " where fi.id_ficha_tecnica=$id and dm.id_disp_soft=$idDis and fi.vigencia=true" 
+			, Adapter::QUERY_MODE_EXECUTE);
+		$datos = $consulta->toArray();
+		//var_dump($datos);
+		return $datos!=null?$datos:null;
+	}
 	public function bDatosEspecificos($id) {
 		$consulta = $this->dbAdapter->query(
 		"SELECT id_ft_datos_esp, compatible, id_marca, fu_bmarca(id_marca::int) marca,serie, operativo,"
@@ -326,7 +342,7 @@ class Ficha extends TableGateway {
 				. "where id_ficha_tecnica=$id" 
 			, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-		return $datos[0];
+		return $datos!=null?$datos[0]:null;
 	}
 	
 	public function bFechaInventario($id) {
@@ -351,12 +367,12 @@ class Ficha extends TableGateway {
 	
 	public function bRed($id) {
 		$consulta = $this->dbAdapter->query(
-		"SELECT id_ft_red, serie, mac, puertos, ip, puertaenlace, "
-		. "proxy, integrada, vigencia, red, internet, id_disp_mar_mod, "
+		"SELECT id_ft_red, serie, mac, puertos, trim(ip), trim(puertaenlace), "
+		. "trim(proxy), integrada, vigencia, red, internet, id_disp_mar_mod, "
 		. "id_ficha_tecnica FROM ft_red where id_ficha_tecnica=$id"
 			, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-		return $datos[0];
+		return $datos!=null?$datos[0]:null;
 	}
 	
 	public function bResArea($id) {
@@ -368,7 +384,7 @@ class Ficha extends TableGateway {
 	. " FROM ft_resp_area where id_ficha_tecnica=$id and  vigencia=true order by fecha_registro desc limit 1"
 			, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-		return $datos[0];
+		return $datos!=null?$datos[0]:null;
 	}
 	
 	public function bSoftware($id) {
@@ -379,11 +395,11 @@ class Ficha extends TableGateway {
 				. " where id_ficha_tecnica=$id"
 			, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-		return $datos[0];
+		return $datos!=null?$datos[0]:null;
 	}
 	public function bUser($id) {
 		$consulta = $this->dbAdapter->query(
-		"SELECT id_ft_user, tipo, usuario, contrasena, id_ficha_tecnica "
+		"SELECT id_ft_user, tipo, usuario, contrasena, id_ficha_tecnica,vigencia "
 				. "FROM ft_user where id_ficha_tecnica=$id"
 			, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();

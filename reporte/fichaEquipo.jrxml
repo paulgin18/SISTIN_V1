@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fichaEquipo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="583" leftMargin="6" rightMargin="6" topMargin="20" bottomMargin="20" uuid="4d803f0b-b157-44ba-9049-bacc240cc242">
+	<property name="ireport.zoom" value="1.0000000000000007"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="170"/>
+	<parameter name="pid" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\xampp\\htdocs\\SISTIN_V1\\reporte\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT id_ficha_tecnica, fecha_inv, coalesce(trim(nompc),null) nompc, coalesce(trim(observacion),null) observacion, fecha_registro, id_user, id_anio, vigencia, id_unidad_ejecutora, fecha_instalacion, numero, fecha_actualizacion, id_disp_soft, upper(fu_bdispositivo(id_disp_soft)) dispositivo FROM ficha_tecnica
+where id_ficha_tecnica=$P{pid}]]>
+	</queryString>
+	<field name="id_ficha_tecnica" class="java.lang.Long">
+		<fieldDescription><![CDATA[Identificador de la ficha tecnica]]></fieldDescription>
+	</field>
+	<field name="fecha_inv" class="java.sql.Date">
+		<fieldDescription><![CDATA[Fecha de inventario]]></fieldDescription>
+	</field>
+	<field name="nompc" class="java.lang.String">
+		<fieldDescription><![CDATA[Nombre del Equipo]]></fieldDescription>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[Observaciones generales del CPU (Hardware y Software)]]></fieldDescription>
+	</field>
+	<field name="fecha_registro" class="java.sql.Date"/>
+	<field name="id_user" class="java.lang.Long">
+		<fieldDescription><![CDATA[Id de usuario que registra la ficha]]></fieldDescription>
+	</field>
+	<field name="id_anio" class="java.lang.Long"/>
+	<field name="vigencia" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[vigencia activa    :true
+vigencia terminada  :false]]></fieldDescription>
+	</field>
+	<field name="id_unidad_ejecutora" class="java.lang.Long"/>
+	<field name="fecha_instalacion" class="java.sql.Date"/>
+	<field name="numero" class="java.lang.String">
+		<fieldDescription><![CDATA[El año en numero - 2017]]></fieldDescription>
+	</field>
+	<field name="fecha_actualizacion" class="java.sql.Timestamp"/>
+	<field name="id_disp_soft" class="java.lang.Integer"/>
+	<field name="dispositivo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="583" height="31" uuid="06fdc911-a928-461d-9370-ef070e5f24cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FICHA TECNICA DE EQUIPO DE COMPUTO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="381" splitType="Stretch">
+			<textField>
+				<reportElement x="484" y="20" width="100" height="20" uuid="4637728b-9a76-45a3-a5d4-c59b5da5d8e2"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nompc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="429" y="20" width="50" height="20" uuid="e83d5dd9-7b4b-45f9-a056-8dbcf5247e4f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nom _ PC]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="484" y="40" width="100" height="20" uuid="95bc3e1f-71eb-4caf-b517-c1b79a87564c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_inv}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="429" y="40" width="50" height="20" uuid="e480da80-944d-4ab9-a0eb-4ea7a521f10d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fech_Inv]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="429" y="0" width="50" height="20" uuid="26ee1031-aa81-4282-8103-0873137effcb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[F.T. _ Nº.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="484" y="0" width="100" height="20" uuid="86192ab3-3e96-45ed-881f-63ea8653a334"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="479" y="0" width="5" height="20" uuid="470c013b-ac54-4d63-a12c-1f3eec741735"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="20" width="5" height="20" uuid="4bb0a54d-b90d-4fc0-8d57-753ba1311ae9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="40" width="5" height="20" uuid="80d7c97c-2b23-4054-9636-c68620a62f34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="76" width="583" height="20" uuid="ed48edb5-526d-42f3-b793-bcca9d34990b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="76" width="583" height="20" uuid="a482d92c-bd0d-4608-9bf7-9de8f2d02dcc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATOS ESPECIFICOS DE LOS DISPOSITIVOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="46" y="98" width="107" height="20" uuid="47511ca0-8395-4eba-a0ad-362f0cdd3db4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{dispositivo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="98" width="45" height="20" uuid="68ab13eb-9c8d-4068-b2e8-41c3e01e4da3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EQUIPO:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="118" width="583" height="55" uuid="78a164f6-ddf6-4f85-9602-2c219c2fbb53"/>
+				<subreportParameter name="pid">
+					<subreportParameterExpression><![CDATA[$P{pid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["fichaEquipo_DatosEspecificos.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="177" width="584" height="23" uuid="ad72f7ef-030c-4b81-b929-005c8cb43ba0"/>
+				<subreportParameter name="pid">
+					<subreportParameterExpression><![CDATA[$P{pid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["fichaEquipo_microprocesador.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="1" y="176" width="579" height="1" uuid="4b5b1110-bf2f-4392-ab9c-22b984f05ad7"/>
+			</line>
+			<subreport>
+				<reportElement x="0" y="246" width="583" height="100" uuid="f0fa3ab1-11bd-4299-9c37-7ae5a64b961d"/>
+				<subreportParameter name="pid">
+					<subreportParameterExpression><![CDATA[$P{pid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["fichaEquipo_ram.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="200" width="584" height="23" uuid="e013c418-4158-42dd-891d-a4649d05a24f"/>
+				<subreportParameter name="pid">
+					<subreportParameterExpression><![CDATA[$P{pid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["fichaEquipo_discoduro.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="223" width="584" height="23" uuid="43a3af8d-cc30-4f59-8748-0a6f0202c06c"/>
+				<subreportParameter name="pid">
+					<subreportParameterExpression><![CDATA[$P{pid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["fichaEquipo_mainboard.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="208" splitType="Stretch">
+			<subreport>
+				<reportElement x="1" y="113" width="200" height="91" uuid="ee920eeb-8e48-4086-8407-9af4479b809f"/>
+				<subreportParameter name="pid">
+					<subreportParameterExpression><![CDATA[$P{pid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["fichaEquipo_adquisicion.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="1" y="0" width="583" height="100" uuid="5c9a4a7b-8369-43f3-a2fe-f31111e6040b"/>
+				<subreportParameter name="pid">
+					<subreportParameterExpression><![CDATA[$P{pid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["fichaEquipo_otrosDisp.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

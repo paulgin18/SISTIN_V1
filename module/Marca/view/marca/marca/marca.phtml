@@ -25,7 +25,7 @@
 							<?php foreach ($this->marcas as $marca) { ?>
 								<tr>
 									<td><?php echo $marca['descripcion'] ?></td>
-									<td><?= $marca['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
+									<td><?= $marca['vigencia'] == 1?"<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>";?></td>
 									<td>
 										<a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("marca/marca/form/1/" . $marca['id_marca'] . ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
 										

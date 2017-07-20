@@ -93,7 +93,11 @@ class FichaController extends AbstractActionController {
 				if($cod[0]==1 || $cod[0]=2){
 					
 					$datosArchivo = $this->buscarFicha($datosFicha["id_ficha_tecnica"],2,null);
-					$datosCompInterno= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,3);
+					$datosMicroprocesador= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,3);
+					$datosMemoriaRam= $this->buscarFicha($datosFicha["id_ficha_tecnica"],11,4);
+					$datosDiscoDuro= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,5);
+					$datosMainboard= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,6);
+					$datosTarjetaRed= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,7);
 					$datosEspecifico= $this->buscarFicha($datosFicha["id_ficha_tecnica"],4,null);
 					$datosOComponentes= $this->buscarFicha($datosFicha["id_ficha_tecnica"],5,null);
 					$datosRed= $this->buscarFicha($datosFicha["id_ficha_tecnica"],6,null);
@@ -103,22 +107,27 @@ class FichaController extends AbstractActionController {
 					$datosFechaInv= $this->buscarFicha($datosFicha["id_ficha_tecnica"],10,null);
 				}
 					
-				var_dump($datosEspecifico);
+				var_dump($datosMemoriaRam);
 					return new ViewModel(
 							array('mantenimiento' => 'Modificar',
 						'textBoton' => 'Actualizar',
 						'datosFicha' => $datosFicha,
 							'docAdquisicion' => $docAdquisicion ,
 							'datosArchivo' => $datosArchivo,
-							'datosCompInterno' => $datosCompInterno,
+							
 							'datosEspecifico' => $datosEspecifico,
-							//'datosAdquisicion' => $datosAdquisicion,
+							'datosMicroprocesador' => $datosMicroprocesador,
+							'datosMemoriaRam' => $datosMemoriaRam,
+							'datosDiscoDuro' => $datosDiscoDuro,
+							'datosMainboard' => $datosMainboard,
+							'datosTarjetaRed' => $datosTarjetaRed,
 							'datosOComponentes' => $datosOComponentes,
 							'datosRed' => $datosRed,
 							'datosRespArea' => $datosRespArea,
 							'datosSoftware' => $datosSoftware,
 							'datosUser' => $datosUser,
 							'datosFechaInv' => $datosFechaInv,
+								 'timeout'      => 30
 							));
 				}
 			} else {
@@ -152,6 +161,8 @@ class FichaController extends AbstractActionController {
 			case 9:$datos = $ficha->bUser($cod);
 				   return $datos;
 			case 10:$datos = $ficha->bFechaInventario($cod);
+				   return $datos;
+			case 11:$datos = $ficha->bComponenteInternoRam($cod,$codDisp);
 				   return $datos;
 		
 		}

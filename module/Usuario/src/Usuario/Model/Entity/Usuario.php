@@ -50,7 +50,7 @@ class Usuario extends TableGateway {
 		try{
         $consulta=$this->dbAdapter->query(
 			"SELECT id_user, usuario, password, vigencia, fecha_registro, fecha_actualizacion,"
-			. " id_personal, id_rol rol, id_unidad_ejecutora dependencia from usuario where usuario='$usuario'",
+			. " id_personal, id_rol rol, id_unidad_ejecutora dependencia from usuario where usuario=upper('$usuario')",
 				Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
 		count($datos)=='0'?$consulta=array('usuario'=>null):$consulta=$datos[0];
