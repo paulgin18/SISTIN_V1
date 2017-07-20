@@ -8,6 +8,8 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Select;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Session\Container;
+use Zend\Json\Json;
+use Zend\View\Model\JsonModel;
 
 class Personal extends TableGateway {
 
@@ -59,13 +61,13 @@ class Personal extends TableGateway {
 //require "cnn.php";
 $con=null;
 //$obcon= new cnn("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
-   $this->con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017'");
-$consulta = "select pers_id as value,(a.pers_apellpaterno || ' '|| a.pers_apellmaterno ||' '|| a.pers_nombres) as label from remoto.view_personas"
-		. "where (a.pers_apellpaterno || ' '|| a.pers_apellmaterno ||' '|| a.pers_nombres) like Upper('%$descripcion%')";
-$ejecquery = pg_query($this->con, $consulta);
+   $con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017'");
+$consulta = "select pers_id as value,(pers_apellpaterno || ' '|| pers_apellmaterno ||' '|| pers_nombres) as label from remoto.view_personas "
+		. "where (pers_apellpaterno || ' '|| pers_apellmaterno ||' '|| pers_nombres) like Upper('%$descripcion%')";
+$result = pg_query($con, $consulta);
 
-        $datos=$ejecquery->toArray();
-        return $datos[0];
+
+        return $result;
     }
 
     public function buscarPersonal($descripcion){

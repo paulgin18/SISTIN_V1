@@ -91,8 +91,19 @@ class PersonalController extends AbstractActionController {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$personal= new Personal($this->dbAdapter);
 		$items = $personal->buscarPersonalsiga($descripcion);
+		
+		$personal = array();  
+		$value=array();
+		$label=array();
+		$i = 0;
+		while ($reg = pg_fetch_assoc($items)){
+			$personal[$i] = array();
+			$personal[$i]['value'] = $reg['value'];
+			$personal[$i]['label'] = utf8_encode($reg['label']);
+			$i++;
+		}
 		$response = new JsonModel(
-				$items
+				$personal
 		);
 		$response->setTerminal(true);
 		return $response;
