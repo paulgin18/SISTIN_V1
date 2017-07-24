@@ -17,18 +17,18 @@ class Area extends TableGateway {
 		return parent::__construct('Area', $this->dbAdapter, $databaseSchema, $selectResultPrototype);
 	}
 
-	public function insertar($descripcion, $id_uni_org) {
+	public function insertar($descripcion, $id_uni_org,$cnx) {
 		$insert = $this->dbAdapter->
 				createStatement(
-				"INSERT INTO area (descripcion,id_uni_org) "
-						. "VALUES ('$descripcion',$id_uni_org)");
+				"INSERT INTO area (descripcion,id_uni_org, conexion_unidad_organica) "
+						. "VALUES ('$descripcion',$id_uni_org,'$cnx')");
 		$datos = $insert->execute();
 		return $datos;
 	}
-	public function modificar($id, $descripcion,$id_uni_org) {
+	public function modificar($id, $descripcion,$id_uni_org,$cnx) {
 		
 		$update = $this->dbAdapter->
-				createStatement("UPDATE area SET descripcion=upper(trim('$descripcion')), id_uni_org=$id_uni_org WHERE id_area=$id");
+				createStatement("UPDATE area SET descripcion=upper(trim('$descripcion')), conexion_unidad_organica='$cnx',id_uni_org=$id_uni_org WHERE id_area=$id");
 
 		$datos = $update->execute();
 		return $update;
@@ -40,8 +40,15 @@ class Area extends TableGateway {
 	public function lista() {
 		//$consulta = $this->dbAdapter->query("SELECT id_estado,numero,descripcion, vigencia FROM estado order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 
-		$consulta = $this->dbAdapter->query("SELECT a.id_area, a.descripcion, a.id_uni_org, a.id_area, a.vigencia, o.descripcion as unidad_organica FROM area a inner join unidad_organica o on a.id_uni_org=o.id_uni_org order by a.vigencia desc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query(
+			"SELECT a.id_area, a.descripcion, a.id_uni_org, a.id_area, a.vigencia, "
+				. "o.descripcion as unidad_organica FROM area "
+				. "a left join unidad_organica o on a.id_uni_org=o.id_uni_org order "
+				. "by a.vigencia desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
+		
+		
+		
 		return $datos;
 	}
 

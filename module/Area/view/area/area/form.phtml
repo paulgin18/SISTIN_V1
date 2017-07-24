@@ -31,6 +31,19 @@
                                          
                         </div>
                                 <label class="col-sm-1 control-label"><b>Unidad Organica:</b></label>
+								<div class="col-lg-4">
+                                    <select id="cmbUnidadOrganica" name="cmbUnidadOrganica" class="selectpicker" data-style="btn-info" data-live-search="true" required="">
+                                    <option disabled selected value>
+                                       <?php  foreach ($unidades_organicas as $unidades_organica) { ?>
+									<option value1=<?= $unidades_organica['conex'] ?> value=<?= $unidades_organica['id_uni_org'] ?>  <?php echo ($datos!=null) ? ($datos['id_unidad_organica'] ==  $unidades_organica['id_uni_org'] ? "selected" : "") : "" ?>  > <?= utf8_encode($unidades_organica['descripcion'])?></option>       
+                                        <?php } ?>
+                                    </select>
+
+                                    <!--<input class="form-control" name="cmbUnidadOrganica" id="cmbUnidadOrganica" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $d_unidad_organica!=null ? $d_unidad_organica['label'] :'';?>">-->
+                                    <input type="hidden" value="<?= $datos!=null ? $datos['id_unidad_organica'] :'';?>" id="id_unidad_organica">
+                                    <input type="hidden" value="<?= $datos!=null ? $datos['conexion_unidad_organica'] :'';?>" id="id_unidad_organica_conex">  
+
+                                </div>
                                 <div class="col-sm-4">
                                     <input class="form-control" name="txtUnidad" id="txtUnidad" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $datos['unidad_organica']?>">
                                         
@@ -63,7 +76,7 @@
     <script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
     <script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
-	
+	<script src="<?php echo $this->basePath() ?>/vendors/select/bootstrap-select.min.js"></script>
 
 <?=
 		$this->inlineScript()

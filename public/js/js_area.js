@@ -1,5 +1,15 @@
+$(function() {
+	  $('#cmbUnidadOrganica').on('change', function(){
+		var val = $(this).find("option:selected")[0].getAttribute('value');
+		var val1 = $(this).find("option:selected")[0].getAttribute('value1');
+		if(val && val1){
+			$('#id_unidad_organica').val(val);
+			$('#id_unidad_organica_conex').val(val1);
+		}
+	  });
+});
 
-var registrar = function (txtId_Area,txtDescripcion,id_uni_org) {
+var registrar = function (txtId_Area,txtDescripcion,id_uni_org,cnx) {
 	
 	var options = {
 		type: 'POST',
@@ -8,11 +18,13 @@ var registrar = function (txtId_Area,txtDescripcion,id_uni_org) {
 			'txtId_Area':txtId_Area,
 			'txtDescripcion': txtDescripcion,
 			'id_uni_org':id_uni_org,
+			'cnx':cnx,
 			//'chkVigencia': chkVigencia,
 		
 		},
 		dataType: 'json',
 		success: function (response) {
+			alert("aqui");
 			var elemento = response.msj.split(":");
 			if (elemento.length > 0) {
 		
@@ -49,19 +61,12 @@ $("#txtUnidad").focus(function (){
 $(document).on('click', '#btnguardar', function (event) {
 	this.disabled = true;
 	event.preventDefault();
-	
 	var txtId = $('#txtId').val();
+    var txtDescripcion = $('#txtDescripcion').val();
+    var id_uni_org =$('#id_unidad_organica').val();
+    var cnx =$('#id_unidad_organica_conex').val();
 
-	var txtDescripcion = $('#txtDescripcion').val();
-
-	var id_uni_org =$('#id_uni_org').val();
-
-	alert('id area '+txtId);
-	alert('descripcion '+txtDescripcion);
-	alert('id unidad '+id_uni_org);
-
-	registrar(txtId,txtDescripcion,id_uni_org);
-	//this.disabled=false;
+	registrar(txtId,txtDescripcion,id_uni_org,cnx);
 
 });
 

@@ -1,0 +1,158 @@
+<!--?php //Comprobamos si nos llega la sesión correcta o no, esto se puede hacer de distintas formas
+//if(!is_string($this->datos)&& $this->datos!=null){
+//	var_dump($this->datos);
+//$this->datos->id_user;
+//echo "Bienvenido ".$this->datos->usuario." ".$this->datos->id_personal."<br/>";
+//echo "Estas identificado con ".$this->datos->usuario;
+?-->
+<div class="right_col" role="main">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                  <div class="col-md-6">
+					  <h2 aling="center" >Bienvenidos</h2>
+					<!--<?=$this->datos->usuario?><small></small>-->
+                    <div id='hora'>
+                    </div>
+                  </div>
+                  <!--<div class="col-md-6">
+                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                      <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                    </div>
+                  </div>-->
+                </div>
+				  </br>
+				  
+				  <center><h1>GERENCIA REGIONAL DE SALUD DE LAMBAYEQUE</h1></center>
+				  <center><img src="img/logo.png"/></center>
+				  </br>
+				  <center><h3>CENTRO DE SISTEMAS DE INFORMACION - CSI<h3/></center>
+				  
+                <div class="col-md-9 col-sm-9 col-xs-12">
+					
+                  <!--<div id="chart_plot_01" class="demo-placeholder"></div>-->
+                </div>
+				  <!--
+                <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
+                  <div class="x_title">
+                    <h2>Top Campaign Performance</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-xs-6">
+                    <div>
+                      <p>Facebook Campaign</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <p>Twitter Campaign</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-xs-6">
+                    <div>
+                      <p>Conventional Media</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="40"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <p>Bill boards</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+                        </
+                      </div>
+                    </div>
+                  </div>
+
+                </div>-->
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+          </div>
+
+          </div>
+        <footer>
+          <div class="pull-right">
+            ©2017 Derechos Reservados - GERESA LAMBAYEQUE 
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+
+
+<script src="<?php echo $this->basePath() ?>/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="<?php echo $this->basePath() ?>/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="<?php echo $this->basePath() ?>/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="<?php echo $this->basePath() ?>/vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="<?php echo $this->basePath() ?>/vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="<?php echo $this->basePath() ?>/vendors/iCheck/icheck.min.js"></script>
+    <!-- Flot si-->
+    <script src="<?php echo $this->basePath() ?>/vendors/Flot/jquery.flot.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="<?php echo $this->basePath() ?>/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="<?php echo $this->basePath() ?>/vendors/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="<?php echo $this->basePath() ?>/vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="<?php echo $this->basePath() ?>/vendors/moment/min/moment.min.js"></script>
+    <script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+
+    <!-- Custom Theme Scripts         
+    <script type="text/javascript" >
+                $('document').ready(function(){
+                 
+                  function hora(){
+                    $.ajax({
+                    type:'GET',
+                    url:'anio/anio/fecha',
+                    success:function($hora){
+                    $('#hora').html($hora);
+
+                    setTimeout(hora(),2000);
+                }
+              });
+              }
+        
+                  setTimeout(hora(),2000);
+                  });
+      </script>
+      -->
+
+
+	  

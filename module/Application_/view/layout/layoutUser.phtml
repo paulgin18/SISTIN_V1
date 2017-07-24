@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<?php
+		echo $this->headMeta()
+				->appendName('viewport', 'width=device-width, initial-scale=1.0')
+				->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+		?>
+		<meta charset="UTF-8">
+		<meta name="description" content="SISTEMA DE INVENTARIO - GERESA"> 
+		<?php echo $this->headTitle('SISTIN')->setSeparator(' - ')->setAutoEscape(false) ?>
+		<meta name="author" content="GERENCIA REGIONA DE SALUD LAMBAYEQUE, GINO PAUL GONZALES CUSTODIO" />
+		<meta name="description" content="SISTEMA DE INVENTARIO - GERESA LAMBAYEQUE"> 
+		<?php echo $this->headTitle('SISTIN')->setSeparator(' - ')->setAutoEscape(false) ?>
+		<link href="<?php echo $this->basePath() ?>/css/vendor.css" rel="stylesheet">
+		<link href="<?php echo $this->basePath() ?>/css/flat-admin.css" rel="stylesheet">
+
+	</head>
+</head>
+<body >
+	<div class="app app-default">
+
+		<div class="app-container app-login">
+			<div class="flex-center">
+				<div class="app-header"></div>
+				<div class="app-body">
+					<div class="loader-container text-center">
+						<div class="icon">
+							<div class="sk-folding-cube">
+								<div class="sk-cube1 sk-cube"></div>
+								<div class="sk-cube2 sk-cube"></div>
+								<div class="sk-cube4 sk-cube"></div>
+								<div class="sk-cube3 sk-cube"></div>
+							</div>
+						</div>
+						<div class="title">Logging in...</div>
+					</div>
+					<div class="app-block">
+						<div class="app-form">
+							<?php echo $this->content; ?>
+						</div>
+					</div>
+				</div>
+				<div class="app-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="<?php echo $this->basePath() ?>/js/vendor.js"></script>

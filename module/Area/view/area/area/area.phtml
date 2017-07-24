@@ -30,21 +30,23 @@
 
 							<?php foreach ($this->areas as $area) { ?>
 								<tr>
-				
 									<td><?php echo $area['descripcion'] ?> </td>
-
-									<td><?php echo $area['unidad_organica'] ?> </td>
-
+									<td>
+						<?php
+						$con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017' connect_timeout=3");
+						$consulta = "select depe_nombre as descripcion from remoto.view_unidades "
+								. "where depe_id=".$area['id_uni_org'] ;
+								$datos = pg_query($con, $consulta);
+						while ($reg = pg_fetch_assoc($datos)){
+							echo $reg['descripcion'];
+						}?>
+					<?php echo $area['unidad_organica'] ?> </td>
 									<td><?= $area['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
 									<td>
 										<a class="btn btn-default" href="<?php echo $this->basePath("area/area/form/1/".$area['id_area']."" ); ?>">Editar</a>								
 										<!--cambio-->
-
 										<?= $area['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Desactivar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
-
-
 										<!--  hasta aqui -->
-
 									</td>
 									<td id="idCod" style="display:none;"><?= $area['id_area'] ?></td>
 								
