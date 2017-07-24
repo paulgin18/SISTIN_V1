@@ -33,21 +33,15 @@
 										<input class="form-control "  align=\"right\"  id="txtIdNroUniOrg" name="txtIdNroUniOrg"  value="<?= $this->uni_org?>" type="hidden" >
 									</div>
 								</div>
-								<div id="divDatosNuevo" style="display:<?=$divDatosNuevo?>">
+								<div id="divDatosNuevo" >
 								<div class="form-group" >
 									
 									<label class="col-sm-2 control-label"><b>Fecha_Inv:</b></label>
 									<div class="col-sm-4">
-										
-										<?php if(isset($datosFechaInv)){
-											$fechaInv=explode("-",$datosFechaInv['fecha_inventario']);
-										echo '<input type="date" class="form" id="txtFecha" name="txtFecha" value="'.( $fechaInv[0] . '-'. $fechaInv[1] . '-' .$fechaInv[2]).'">';
-										}else{
-										echo '<input type="date" class="form" id="txtFecha" name="txtFecha" value="">';
-										}?>
-										
-									
-										
+									<?php
+										$fechaInv=explode("-",$datosFechaInv['fecha_inventario']);
+									?>
+										<input type='date' class="form" id="txtFecha" name="txtFecha" value='<?= ( $fechaInv[0] . "-" . $fechaInv[1] . "-" .$fechaInv[2])?>'>
 									</div>
 									<label class="col-sm-2 control-label"><b>Fecha_Inst:</b></label>
 									<div class="col-sm-4">
@@ -76,13 +70,8 @@
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Responsable Patrimonio:</b></label>
 									<div class="col-sm-4">
-										
 										<input class="form-control "  id="txtIdRespPatrimonio" name="txtIdRespPatrimonio" placeholder="BUSCAR"value="<?=$datosRespArea['id_reppatrimonio']?>"  type="hidden" style="text-transform:uppercase" >
-										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" disabled 
-											   value="<?php if(isset($datosRespArea)){
-											$res=explode("\\",$datosRespArea['respatrimonial']);
-											echo $res[1];
-										}?>" type="text" style="text-transform:uppercase" >
+										<input class="form-control "  id="txtRespPatrimonio" name="txtRespPatrimonio" disabled value="<?php $res=explode("\\",$datosRespArea['respatrimonial']);echo $res[1]?>" type="text" style="text-transform:uppercase" >
 									</div>
 									<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
 									<div class="col-sm-4">
@@ -97,14 +86,14 @@
 										
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group" >
 									<a class="btn btn-alert" id="btnAnadirEditDAd" class="col-sm-4"> <i class="fa fa-plus" aria-hidden="true"></i> Ver Datos de Adquisicion</a>
 								</div>
 									</div>
 							</form><br/><hr/>
 						</div>
 					</div>
-					<div id="datosAdquisicion" class="x_panel" style="display:<?=$datosAdquisicion ?>" >
+					<div id="datosAdquisicion" class="x_panel" style="display:none" >
 						<div class="x_title">
 							
 							<h2><strong>DATOS DE ADQUISICIÓN</strong><small></small></h2>
@@ -209,7 +198,7 @@
 						</div>
 
 						<div class="x_content">
-							<div id="divComponentes" style="display:<?=$divComponentes?>">
+							<div id="divComponentes" style="display:none">
 
 								<div class="form-horizontal form-label-left">
 									<div class="form-group">
@@ -238,23 +227,23 @@
 										</div>
 										<label class="col-sm-2 control-label" for="chkOpFichaDisp" ><b>Operativo:</b></label>
 										<div class="col-sm-1">
-											<!--?=
+											<?=
 											$datos != null ? $datos['vigencia'] == true ?
 															'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1" checked>' :
 															'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1">' :
 													'<input type="checkbox" name="chkOpFichaDisp" id="chkOpFichaDisp" value="1"  checked><br>';
-											?-->
+											?>
 										</div>
 										
 									</div>
-									<div class="form-group" id="divTelefono" style="display:<?=$divTelefono ?>" >
-										<div id="IMEI" style="display:<?=$IMEI?>">
+									<div class="form-group" id="divTelefono" style="display:none" >
+										<div id="IMEI" style="display:none">
 										<label class="col-sm-2 control-label"><b>IMEI:</b></label>
 										<div class="col-sm-4">
 											<input type="text" id="txtIMEI" name="txtIMEI" class="form-control"  value="" style="text-transform:uppercase">
 										</div>
 										</div>
-										<div id="FECHAAD" style="display:<?=$FECHAAD?>">										
+										<div id="FECHAAD" style="display:none">										
 											<label for="" class="col-sm-2 control-label"><b>Fecha de adquisición:</b></label>
 										<div class="col-sm-3">
 											<input class="form-control" name="txtFACel" id="txtFACel" type="date" value="">
@@ -262,7 +251,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<div id="FECHAREN" style="display:<?=$FECHAREN ?>">
+										<div id="FECHAREN" style="display:none">
 										<label class="col-sm-2 control-label"><b>Fecha de renovación:</b></label>
 										<div class="col-sm-3">
 											<input class="form-control" name="txtFRCel" id="txtFRCel" type="date" value="">
@@ -283,9 +272,9 @@
 														<th width="30%">Marca - Modelo</th>
 														<th width="25%">Serie</th>
 														<th width="25%">Inventario</th>
-														<th width="25%" id="tblIMEI" name="tblIMEI" <?=$tblIMEI?> >IMEI</th>
-														<th width="25%" id="tblFAdquisicion" name="tblFAdquisicion" <?=$tblFAdquisicion?>>F.Adquisición</th>
-														<th width="25%" id="tblFRenovacion" name="tblFRenovacion" <?=$tblFRenovacion ?>>F.Renovación</th>
+														<th width="25%" id="tblIMEI" name="tblIMEI" style="display:none" >IMEI</th>
+														<th width="25%" id="tblFAdquisicion" name="tblFAdquisicion" style="display:none">F.Adquisición</th>
+														<th width="25%" id="tblFRenovacion" name="tblFRenovacion" style="display:none">F.Renovación</th>
 														<th width="8%">Operativo</th>
 														<th width="30%">Accion</th>
 													</tr>
@@ -299,7 +288,7 @@
 								</div>
 							</div>
 							<div id="wizard" class="form_wizard wizard_horizontal" id="tab" >
-								<ul class="wizard_steps" id="menuItem" style="display: none" >
+								<ul class="wizard_steps" style="display: none" >
 									<li>
 										<a href="#step-1" id="tab1">
 											<span class="step_no">1</span>
@@ -464,7 +453,7 @@
 															</tr>
 														</thead>
 														<tbody>
-																	<?php if($datosUser!=null) foreach ($datosUser as $dUser) { 
+																	<?php foreach ($datosUser as $dUser) { 
 																		echo "<tr data-id=" .$dUser['usuario'] .">"
 																		. "<td>#</td>"
 																		. "<td hidden>" .$dUser['usuario'] . "</td><td>" ;
@@ -578,7 +567,7 @@
 														</tr>
 													</thead>
 													<tbody>
-														<?php if ($datosMemoriaRam!=null) foreach ($datosMemoriaRam as $dRam) { 
+														<?php foreach ($datosMemoriaRam as $dRam) { 
 															
 																		echo "<tr data-id=" .$dRam['id_disp_soft'] .">"
 																		. "<td hidden>#</td>"

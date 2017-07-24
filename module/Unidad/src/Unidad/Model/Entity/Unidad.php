@@ -41,7 +41,7 @@ class Unidad extends TableGateway {
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT id_uni_org, descripcion, numero, vigencia, unidad_organica_id_uni_org FROM unidad_organica where id_uni_org=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT id_uni_org, descripcion, numero, vigencia, unidad_organica_id_uni_org,id_unidad_ejecutora, fu_bunidadejecutora(id_unidad_ejecutora) unidad_ejecutora  FROM unidad_organica where id_uni_org=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }

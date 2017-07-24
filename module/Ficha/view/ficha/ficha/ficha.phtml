@@ -24,7 +24,14 @@
 							</tr>
 						</thead>
 						<tbody>
-
+<?php 
+//$dis= password_hash("TELEFONO", PASSWORD_BCRYPT);
+////if (password_verify('TELEFONO', $pas)) {
+////    echo 'Password is valid!';
+////} else {
+////    echo 'Invalid password.';
+////}
+//?>
 							<?php foreach ($this->fichas as $ficha) { ?>
 								<tr>
 									<td><?php echo $ficha['fecha_registro'] ?></td>
@@ -32,10 +39,12 @@
 									<td><?php echo $ficha['numero'] ?></td>
 									<td><?php echo $ficha['dispositivo'] ?></td>
 									<td><?php echo $ficha['funcionario'] ?></td>
-
 									<td><?= $ficha['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
-									<td><a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("ficha/ficha/edit/1/" . $ficha['id_ficha_tecnica']."-". $ficha['id_disp_soft']. ""); ?>"><img alt="Editar" style="width:20px;" src="../../img/edit.png"></a>
-										<?= $ficha['vigencia'] == 1 ? "<a class='btn btn-danger btnBorrar' title='Eliminar'><img alt='Eliminar' style='width:19px;' src='../../img/delete.png'></a>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
+									<td>
+									<a class="btn btn-success" title="Editar" href="<?php echo $this->basePath("ficha/ficha/edit/1/" . $ficha['id_ficha_tecnica']."-". $ficha['id_disp_soft']."-". base64_encode($ficha['dispositivo']) ); ?>">
+										<img alt="Editar" style="width:20px;" src="../../img/edit.png">
+									</a>
+									<?= $ficha['vigencia'] == 1 ? "<a class='btn btn-danger btnBorrar' title='Eliminar'><img alt='Eliminar' style='width:19px;' src='../../img/delete.png'></a>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
 									</td>
 								</tr>
 							<?php } ?>

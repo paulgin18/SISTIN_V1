@@ -46,8 +46,8 @@ class FichaController extends AbstractActionController {
 					//var_dump($uni_org);
 
 					if ($numeroFicha->datos == null) {
-						$numero = $fichas->obtenerNumero($session->datos->id_user, $session->datos->id_unidad_ejecutora);
-						$numeroFicha->datos = (object) array("numero" => $numero, "uni_org" => $session->datos->id_unidad_ejecutora);
+						//$numero = $fichas->obtenerNumero($session->datos->id_user, $session->datos->id_unidad_ejecutora);
+						//$numeroFicha->datos = (object) array("numero" => $numero, "uni_org" => $session->datos->id_unidad_ejecutora);
 					} else {
 						$numero = $numeroFicha->datos->numero;
 						$uni_org = $numeroFicha->datos->uni_org;
@@ -57,7 +57,7 @@ class FichaController extends AbstractActionController {
 					return new ViewModel(array('mantenimiento' => 'Crear', 'textBoton' => 'Guardar',
 						'datosAdquisicion' => $datosAdquisicion,
 						'datos' => null,
-						'nro' => $numero,
+						//'nro' => $numero,
 						'uni_org' => $uni_org));
 				} else {
 					if ($id == 1 && $cod > 0) {
@@ -80,114 +80,230 @@ class FichaController extends AbstractActionController {
 	public function editAction() {
 		$id = $this->params()->fromRoute("id", null);
 		$cod = $this->params()->fromRoute("cod", null);
+		$cod = explode("-", $cod);
 		if ($id !== null) {
-			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
-			$docAdquisicion = new Docadquisicion($this->dbAdapter);
-			$docAdquisicion = $docAdquisicion->lista("true");
-			$session = new Container('sesion');
-			$numeroFicha = new Container('numero');
-			if ($session->datos != null) {
-				if ($id == 1 && $cod > 0) {
-					$cod = explode("-", $cod);
-					$datosFicha = $this->buscarFicha($cod[0],0,null);
-				if($cod[0]==1 || $cod[0]=2){
-					
-					$datosArchivo = $this->buscarFicha($datosFicha["id_ficha_tecnica"],2,null);
-					$datosMicroprocesador= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,3);
-					$datosMemoriaRam= $this->buscarFicha($datosFicha["id_ficha_tecnica"],11,4);
-					$datosDiscoDuro= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,5);
-					$datosMainboard= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,6);
-					$datosTarjetaRed= $this->buscarFicha($datosFicha["id_ficha_tecnica"],3,7);
-					$datosEspecifico= $this->buscarFicha($datosFicha["id_ficha_tecnica"],4,null);
-					$datosOComponentes= $this->buscarFicha($datosFicha["id_ficha_tecnica"],5,null);
-					$datosRed= $this->buscarFicha($datosFicha["id_ficha_tecnica"],6,null);
-					$datosRespArea= $this->buscarFicha($datosFicha["id_ficha_tecnica"],7,null);
-					$datosSoftware= $this->buscarFicha($datosFicha["id_ficha_tecnica"],8,null);
-					$datosUser= $this->buscarFicha($datosFicha["id_ficha_tecnica"],9,null);
-					$datosFechaInv= $this->buscarFicha($datosFicha["id_ficha_tecnica"],10,null);
-				}
-					
-				var_dump($datosMemoriaRam);
-					return new ViewModel(
-							array('mantenimiento' => 'Modificar',
-						'textBoton' => 'Actualizar',
-						'datosFicha' => $datosFicha,
-							'docAdquisicion' => $docAdquisicion ,
-							'datosArchivo' => $datosArchivo,
-							
-							'datosEspecifico' => $datosEspecifico,
-							'datosMicroprocesador' => $datosMicroprocesador,
-							'datosMemoriaRam' => $datosMemoriaRam,
-							'datosDiscoDuro' => $datosDiscoDuro,
-							'datosMainboard' => $datosMainboard,
-							'datosTarjetaRed' => $datosTarjetaRed,
-							'datosOComponentes' => $datosOComponentes,
-							'datosRed' => $datosRed,
-							'datosRespArea' => $datosRespArea,
-							'datosSoftware' => $datosSoftware,
-							'datosUser' => $datosUser,
-							'datosFechaInv' => $datosFechaInv,
-								 'timeout'      => 30
-							));
-				}
-			} else {
-				return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+			if (base64_decode($cod[2]) == "TELEFONO") {
+				$array=$this->fichaTel($id,$cod);
+			}else if (base64_decode($cod[2]) == "TELEFONO CELULAR") {
+				$array=$this->fichaCel($id,$cod);
+			}else if (base64_decode($cod[2]) == "DESKTOP"||base64_decode($cod[2]) == "LAPTOP") {
+				$array=$this->fichaDeskLap($id,$cod);
+			}else {
 			}
+		}else{
+			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+		}
+		
+		return new ViewModel(
+				$array
+				);
+	}
+
+	public function fichaTel($id,$cod) {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$session = new Container('sesion');
+		if ($session->datos != null) {
+			if ($id == 1 && $cod > 0) {
+				$datosFicha = $this->buscarFicha($cod[0], 0, null);
+					$datosOComponentes = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 5, null);
+				//var_dump($datosMemoriaRam);
+				$array=		array('mantenimiento' => 'Modificar',
+					'textBoton' => 'Actualizar',
+					'datosFicha' => $datosFicha,
+					'docAdquisicion' => null,
+					'datosArchivo' => null,
+					'datosEspecifico' => null,
+					'datosMicroprocesador' => null,
+					'datosMemoriaRam' => null,
+					'datosDiscoDuro' => null,
+					'datosMainboard' => null,
+					'datosTarjetaRed' => null,
+					'datosOComponentes' => $datosOComponentes,
+					'datosRed' => null,
+					'datosRespArea' => null,
+					'datosSoftware' => null,
+					'datosUser' => null,
+					'datosFechaInv' => null,
+					'divDatosNuevo'=>'none',
+					'datosAdquisicion'=>'none',
+					'divComponentes'=>'none',
+					'divTelefono'=>'block',
+					'IMEI'=>'none',
+					'FECHAAD'=>'block',
+					'FECHAREN'=>'block',
+					'tblIMEI'=>'style="display:none"',
+					'tblFAdquisicion'=>'style',
+					'tblFRenovacion'=>'style',
+					'timeout' => 30
+				);
+				return $array;
+			}
+		} else {
+			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+		}
+	}
+	
+	public function fichaCel($id,$cod) {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$session = new Container('sesion');
+		if ($session->datos != null) {
+			if ($id == 1 && $cod > 0) {
+				$datosFicha = $this->buscarFicha($cod[0], 0, null);
+					$datosOComponentes = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 5, null);
+				//var_dump($datosMemoriaRam);
+				$array=		array('mantenimiento' => 'Modificar',
+					'textBoton' => 'Actualizar',
+					'datosFicha' => $datosFicha,
+					'docAdquisicion' => null,
+					'datosArchivo' => null,
+					'datosEspecifico' => null,
+					'datosMicroprocesador' => null,
+					'datosMemoriaRam' => null,
+					'datosDiscoDuro' => null,
+					'datosMainboard' => null,
+					'datosTarjetaRed' => null,
+					'datosOComponentes' => $datosOComponentes,
+					'datosRed' => null,
+					'datosRespArea' => null,
+					'datosSoftware' => null,
+					'datosUser' => null,
+					'datosFechaInv' => null,
+					'divDatosNuevo'=>'none',
+					'datosAdquisicion'=>'none',
+					'divComponentes'=>'none',
+					'divTelefono'=>'block',
+					'IMEI'=>'block',
+					'FECHAAD'=>'block',
+					'FECHAREN'=>'block',
+					'tblIMEI'=>'style',
+					'tblFAdquisicion'=>'style',
+					'tblFRenovacion'=>'style',
+					'timeout' => 30
+				);
+				return $array;
+			}
+		} else {
+			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
+		}
+	}
+	
+	public function fichaDeskLap($id,$cod) {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$docAdquisicion = new Docadquisicion($this->dbAdapter);
+		$docAdquisicion = $docAdquisicion->lista("true");
+		$session = new Container('sesion');
+		$numeroFicha = new Container('numero');
+		if ($session->datos != null) {
+			if ($id == 1 && $cod > 0) {
+				$datosFicha = $this->buscarFicha($cod[0], 0, null);
+				if ($cod[0] == 1 || $cod[0] = 2) {
+					$datosArchivo = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 2, null);
+					$datosMicroprocesador = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 3, 3);
+					$datosMemoriaRam = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 11, 4);
+					$datosDiscoDuro = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 3, 5);
+					$datosMainboard = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 3, 6);
+					$datosTarjetaRed = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 3, 7);
+					$datosEspecifico = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 4, null);
+					$datosOComponentes = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 5, null);
+					$datosRed = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 6, null);
+					$datosRespArea = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 7, null);
+					$datosSoftware = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 8, null);
+					$datosUser = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 9, null);
+					$datosFechaInv = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 10, null);
+				}
+				//var_dump($datosMemoriaRam);
+				$array=		array('mantenimiento' => 'Modificar',
+					'textBoton' => 'Actualizar',
+					'datosFicha' => $datosFicha,
+					'docAdquisicion' => $docAdquisicion,
+					'datosArchivo' => $datosArchivo,
+					'datosEspecifico' => $datosEspecifico,
+					'datosMicroprocesador' => $datosMicroprocesador,
+					'datosMemoriaRam' => $datosMemoriaRam,
+					'datosDiscoDuro' => $datosDiscoDuro,
+					'datosMainboard' => $datosMainboard,
+					'datosTarjetaRed' => $datosTarjetaRed,
+					'datosOComponentes' => $datosOComponentes,
+					'datosRed' => $datosRed,
+					'datosRespArea' => $datosRespArea,
+					'datosSoftware' => $datosSoftware,
+					'datosUser' => $datosUser,
+					'datosFechaInv' => $datosFechaInv,
+					'divDatosNuevo'=>'block',
+					'datosAdquisicion'=>'none',
+					'divComponentes'=>'none',
+					'divTelefono'=>'none',
+					'IMEI'=>'none',
+					'FECHAAD'=>'none',
+					'FECHAREN'=>'none',
+					'tblIMEI'=>'none',
+					'tblFAdquisicion'=>'none',
+					'tblFRenovacion'=>'none',
+					'menuItem'=>'block',
+					'tblIMEI'=>'style="display:none"',
+					'tblFAdquisicion'=>'style="display:none"',
+					'tblFRenovacion'=>'style="display:none"',
+					'step-1'=>'block',
+					'timeout' => 30
+				);
+				return $array;
+			}
+		} else {
+			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 		}
 	}
 
-	public function buscarFicha($cod,$tipo,$codDisp) {
+	public function buscarFicha($cod, $tipo, $codDisp) {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$ficha = new Ficha($this->dbAdapter);
-		switch ($tipo){
+		switch ($tipo) {
 			case 0:$datos = $ficha->buscarFicha($cod);
-				   return $datos;
+				return $datos;
 			case 1:$datos = $ficha->bAdquisicion($cod);
-				   return $datos;
+				return $datos;
 			case 2:$datos = $ficha->bArchivo($cod);
-				   return $datos;
-			case 3:$datos = $ficha->bComponenteInterno($cod,$codDisp);
-				   return $datos;
+				return $datos;
+			case 3:$datos = $ficha->bComponenteInterno($cod, $codDisp);
+				return $datos;
 			case 4:$datos = $ficha->bDatosEspecificos($cod);
-				   return $datos;
+				return $datos;
 			case 5:$datos = $ficha->bOComponenentes($cod);
-				   return $datos;
+				return $datos;
 			case 6:$datos = $ficha->bRed($cod);
-				   return $datos;
+				return $datos;
 			case 7:$datos = $ficha->bResArea($cod);
-				   return $datos;
+				return $datos;
 			case 8:$datos = $ficha->bSoftware($cod);
-				   return $datos;
+				return $datos;
 			case 9:$datos = $ficha->bUser($cod);
-				   return $datos;
+				return $datos;
 			case 10:$datos = $ficha->bFechaInventario($cod);
-				   return $datos;
-			case 11:$datos = $ficha->bComponenteInternoRam($cod,$codDisp);
-				   return $datos;
-		
+				return $datos;
+			case 11:$datos = $ficha->bComponenteInternoRam($cod, $codDisp);
+				return $datos;
 		}
-		
 	}
 
 	public function documentosAction() {
-		$id= $this->getRequest()->getPost('id');
-		$datosAdquisicion = $this->buscarFicha($id,1,null);
-		
-		$envio ="0";
-		foreach ($datosAdquisicion as $dAquisicion) { 
-			$envio=$envio."<tr data-id=".$dAquisicion['id_doc_adquisicion'].">"
-					. "<td>#</td><td hidden>".$dAquisicion['id_doc_adquisicion']."</td>"
-					. "<td>".$dAquisicion['doc']."</td>"
-					. "<td>".$dAquisicion['nro_doc']."</td>"
-					. "<td>".$dAquisicion['fecha_doc']."</td>"
+		$id = $this->getRequest()->getPost('id');
+		$datosAdquisicion = $this->buscarFicha($id, 1, null);
+
+		$envio = "0";
+		foreach ($datosAdquisicion as $dAquisicion) {
+			$envio = $envio . "<tr data-id=" . $dAquisicion['id_doc_adquisicion'] . ">"
+					. "<td>#</td><td hidden>" . $dAquisicion['id_doc_adquisicion'] . "</td>"
+					. "<td>" . $dAquisicion['doc'] . "</td>"
+					. "<td>" . $dAquisicion['nro_doc'] . "</td>"
+					. "<td>" . $dAquisicion['fecha_doc'] . "</td>"
 					. "<td>sin Adjunto</td>"
-					. "<td>".$dAquisicion['vigencia']."</td>"
+					. "<td>" . $dAquisicion['vigencia'] . "</td>"
 					. "<td><button type='button' class='btn btn-danger btn-xs removerM'><i class='fa fa-fw fa-close'></i></button></td>"
 					. "</tr>";
-				} 
-				echo $envio;
-				return $envio;
+		}
+		echo $envio;
+		return $envio;
 	}
+
 	public function registrarAction() {
 		$error = 0;
 		$msj = "";
@@ -224,7 +340,8 @@ class FichaController extends AbstractActionController {
 //			} else {
 			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal, $tblDatosEsp, $fechaInstalacion, $idEquipo, $unidad_org);
 
-			$msj = $this->mensaje($insertar, 0);
+			$msj = $this->mensaje($insertar[0], 0);
+			$num = $insertar[1];
 //			}
 		} catch (\Exception $e) {
 			$error = 1;
@@ -248,7 +365,7 @@ class FichaController extends AbstractActionController {
 //				unicidad «idx_anio_descripcion» DETAIL: Ya existe la llave (numero, vigencia)=(2017, t).)
 //			
 		}
-		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error, 'numero' => $num));
 		$response->setTerminal(true);
 		return $response;
 	}
@@ -370,6 +487,5 @@ class FichaController extends AbstractActionController {
 			return $this->redirect()->toUrl($this->getRequest()->getBaseUrl() . '/usuario/usuario/login');
 		}
 	}
-
 
 }

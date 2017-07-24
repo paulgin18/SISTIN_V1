@@ -1172,7 +1172,7 @@ var registrar = function (ficha, txtNroFicha, txtFecha,
 				if (elemento[0] == "Error") {
 					bootbox.alert(elemento[0] + "" + elemento[1]);
 				} else {
-					bootbox.alert(response.msj, function () {
+					bootbox.alert("<label style='color:red'> NRO FICHA: "+response.numero+"</label></br>"+response.msj, function () {
 						window.location.href = "../../ficha";
 					});
 				}

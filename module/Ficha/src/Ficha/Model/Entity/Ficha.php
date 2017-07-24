@@ -25,10 +25,14 @@ class Ficha extends TableGateway {
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
 			$connection->beginTransaction();
+			$num=$this->insertNro($idUser,$unidad_org);
+			
+			$numero=$numero.str_pad($num, 7, '0', STR_PAD_LEFT);
 			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser,$fechaInstalacion,$idEquipo);
 			$tblPersonal!= null || $tblPersonal != "" ? $this->personal($idInsert, $tblPersonal,$idUser) : "";
 			$tblFechaInventario=$this->fechaInventario($fecha,$idInsert, $idUser);
 			$tblDatosEsp != null || $tblDatosEsp != "" ? $this->datosEspecificos($idInsert, $tblDatosEsp) : "";
+			
 			if ($ficha == 3) {
 				//Solo para Fichas De quipo que no son laptops ni mucho menos desctockp
 				($tblFichaDisp != null || $tblFichaDisp != "" ) ? $this->fichaDisp($idInsert, $tblFichaDisp) : "";
@@ -46,7 +50,7 @@ class Ficha extends TableGateway {
 				
 			}
 			$this->actualizarnro($numero,$unidad_org);
-			$datos = true;
+			$datos =array(true,$numero);
 			$connection->commit();
 		} catch (\Exception $e) {
 			//echo $e;
@@ -268,7 +272,7 @@ class Ficha extends TableGateway {
 	public function lista() {
 		$consulta = $this->dbAdapter->query(
 				"SELECT id_ficha_tecnica, numero, fecha_inv, nompc, observacion, fecha_registro,id_disp_soft,
-					fu_bdispositivo(id_disp_soft) dispositivo, fu_brespfuncionanrio(id_ficha_tecnica) funcionario,
+					fu_bdispositivo(id_disp_soft::int) dispositivo, fu_brespfuncionanrio(id_ficha_tecnica) funcionario,
 					id_user,id_unidad_ejecutora,fecha_instalacion,vigencia  FROM ficha_tecnica order by vigencia desc"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
@@ -461,4 +465,13 @@ class Ficha extends TableGateway {
 		return $numero;
 	}
 
+	
+	public function insertNro($idUser,$idUni) {
+		$insert = $this->dbAdapter->createStatement(
+				"INSERT INTO tmp_ficha(registro,  id_user,id_uni_org)"
+				. " VALUES (true,$idUser,$idUni)");
+		$insert->execute();
+		$datos = $this->dbAdapter->getDriver()->getConnection()->getLastGeneratedValue('tmp_ficha_numero_seq');
+		return $datos;
+	}
 }

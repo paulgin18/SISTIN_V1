@@ -38,13 +38,13 @@ class User extends TableGateway {
 
 
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT u.id_user,u.usuario,p.nombre as nombrepersonal,p.apellido_paterno, p.apellido_materno,r.nombre as nombrerol, e.decripcion as ejecutora,u.vigencia FROM usuario u inner join personal p on u.id_personal=p.id_personal inner join rol r on u.id_rol=r.id_rol inner join unidad_ejecutora e on u.id_unidad_ejecutora=e.id_unidad_ejecutora order by  u.vigencia desc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("SELECT u.id_user,u.usuario,p.nombre as nombrepersonal,p.apellido_paterno, p.apellido_materno,r.nombre as nombrerol, e.descripcion as ejecutora,u.vigencia FROM usuario u inner join personal p on u.id_personal=p.id_personal inner join rol r on u.id_rol=r.id_rol inner join unidad_ejecutora e on u.id_unidad_ejecutora=e.id_unidad_ejecutora order by  u.vigencia desc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos;
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT u.id_user,u.usuario,p.id_personal,(p.apellido_paterno ||' '||p.apellido_materno ||' ' || p.nombre) as personal,r.id_rol,r.nombre as rol, e.id_unidad_ejecutora,e.decripcion as ejecutora,u.vigencia FROM usuario u inner join personal p on u.id_personal=p.id_personal inner join rol r on u.id_rol=r.id_rol inner join unidad_ejecutora e on u.id_unidad_ejecutora=e.id_unidad_ejecutora where id_user=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->query("SELECT u.id_user,u.usuario,p.id_personal,(p.apellido_paterno ||' '||p.apellido_materno ||' ' || p.nombre) as personal,r.id_rol,r.nombre as rol, e.id_unidad_ejecutora,e.descripcion as ejecutora,u.vigencia FROM usuario u inner join personal p on u.id_personal=p.id_personal inner join rol r on u.id_rol=r.id_rol inner join unidad_ejecutora e on u.id_unidad_ejecutora=e.id_unidad_ejecutora where id_user=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     } 

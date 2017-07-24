@@ -54,7 +54,7 @@ class Ejecutora extends TableGateway {
 
 	  public function buscarEjecutora($descripcion){
         $consulta=$this->dbAdapter->query(
-		"SELECT id_unidad_ejecutora as value, decripcion as label, vigencia FROM unidad_ejecutora where decripcion like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);
+		"SELECT id_unidad_ejecutora as value, descripcion as label, vigencia FROM unidad_ejecutora where descripcion like Upper('%$descripcion%')",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();        
         return $datos;    
     }
