@@ -96,7 +96,7 @@ class MarcaController extends AbstractActionController {
 			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
 			switch ($codError[0]) {
 				case 23505:
-					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado '" . $numero . "', ya se encuentra en la base de datos.";
+					$msj = $msj . "<br/><strong>MENSAJE:</strong> El registro ingresado <strong>'" . $descripcion . "'</strong>, ya se encuentra en la base de datos.";
 					break;
 				
 				default:
