@@ -50,8 +50,18 @@
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Unidad Organica:</b></label>
 									<div class="col-sm-4">
-										<input class="form-control "  id="txtIdUnidadOrganica"  name="txtIdUnidadOrganica" type="hidden" value="" >
+                                    <select id="cmbUnidadOrganica" name="cmbUnidadOrganica" class="selectpicker col-lg-12  " data-style="btn-info" data-live-search="true" required="">
+                                    <option disabled selected value>
+                                       <?php  foreach ($unidades_organicas as $unidades_organica) { ?>
+									<option value1=<?= $unidades_organica['conex'] ?> value=<?= $unidades_organica['id_uni_org'] ?> value2='<?= $unidades_organica['jefe'] ?>' value3=<?= $unidades_organica['pers_id'] ?> <?php echo ($datos!=null) ? ($datos['id_uni_org'] ==  $unidades_organica['id_uni_org'] ? "selected" : "") : "" ?>  > <?= utf8_encode($unidades_organica['descripcion'])?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <!--<input class="form-control" name="cmbUnidadOrganica" id="cmbUnidadOrganica" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $d_unidad_organica!=null ? $d_unidad_organica['label'] :'';?>">-->
+                                    <input type="hidden" value="<?= $datos!=null ? $datos['id_uni_org'] :'';?>" id="txtIdUnidadOrganica">
+                                    <input type="hidden" value="<?= $datos!=null ? $datos['conexion_unidad_organica'] :'';?>" id="id_unidad_organica_conex">  
+										<!--input class="form-control "  id="txtIdUnidadOrganica"  name="txtIdUnidadOrganica" type="hidden" value="" >
 										<input type="text" id="txtUnidadOrganica" name="txtUnidadOrganica"  disabled  class="form-control" style="text-transform:uppercase"  value="">
+										-->
 									</div>
 									<label class="col-sm-2 control-label"><b>Area/Servicio:</b></label>
 									<div class="col-sm-4">
@@ -67,9 +77,22 @@
 									</div>
 									<label class="col-sm-2 control-label"><b>Responsable Funcion:</b></label>
 									<div class="col-sm-4">
+										
+                                    <select id="cmbRespFuncionario" name="cmbRespFuncionario" class="selectpicker" data-style="btn-info" data-live-search="true" required="">
+                                    <option disabled selected value>
+                                       <?php foreach ($lista_personal as $personal) { ?>
+                                            <option value1=<?= $personal['conex'] ?> value=<?= $personal['id_personal'] ?>  <?php echo ($datos!=null) ? ($datos['id_jefe_unidad_organica'] ==  $personal['id_personal'] ? "selected" : "") : "" ?>  > <?= utf8_encode($personal['nombres']) ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <!--<input class="form-control" name="txtJefe" id="txtJefe" placeholder="Buscar..." style="text-transform:uppercase" type="text" value="<?= $d_jefe!=null ? $d_jefe['label'] :'';?>">-->
+                                    <input type="hidden" value="<?= $datos!=null ? $datos['id_funcionario'] :'';?>" id="txtIdRespFuncionario"> 
+                                    <input type="hidden" value="<?= $datos!=null ? $datos['conexion_funcionario'] :'';?>" id="id_funcionario_conex">  
+
+                                </div>
+									<!--<div class="col-sm-4">
 										<input class="form-control "  id="txtIdRespFuncionario" name="txtIdRespFuncionario" placeholder="BUSCAR" value="" type="hidden" style="text-transform:uppercase"	>
 										<input class="form-control "  id="txtRespFuncionario" name="txtRespFuncionario"  placeholder="BUSCAR" value="" type="text" style="text-transform:uppercase"	>
-									</div>
+									</div>-->
 								</div>
 								<div class="form-group" >
 									<label class="col-sm-2 control-label"><b>Observación:</b></label>
@@ -731,6 +754,7 @@
 	<script src="<?php echo $this->basePath() ?>/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 	<script src="<?php echo $this->basePath() ?>/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
 	<script src="<?php echo $this->basePath() ?>/build/js/custom.min.js"></script>
+	<script src="<?php echo $this->basePath() ?>/vendors/select/bootstrap-select.min.js"></script>
 <?php } ?>
 
 <?=

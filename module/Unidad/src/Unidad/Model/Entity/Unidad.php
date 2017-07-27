@@ -35,11 +35,71 @@ class Unidad extends TableGateway {
 	}
 	
 	public function lista() {
-		$consulta = $this->dbAdapter->query("SELECT id_uni_org, descripcion, numero, vigencia, unidad_organica_id_uni_org FROM unidad_organica order by vigencia desc , descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$datos = array();
+		$datos1 = array();
+		$datos2 = array();
+		$combined = array();
+		$array_vacio = array('conex' => '' , 'id_personal' => '', 'nombres' => '' );
+		$consulta = $this->dbAdapter->query("select 'L' as conex, id_uni_org, descripcion,nom_corto, 'jefe' jefe,vigencia from unidad_organica order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
-		return $datos;
+		//return $datos;
+		//Controlar errores php 
+		error_reporting(E_ERROR | E_PARSE);
+		try {
+			$con=null;
+			//$obcon= new cnn("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
+			   $con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017' connect_timeout=3");
+			$consulta1 = "select 'R' as conex, depe_id as id_uni_org, depe_nombre as descripcion,depe_nombrecorto nom_corto,jefe, 1 vigencia from remoto.view_unidades order by depe_nombre asc" ;
+			if ($con) {
+				$datos2 = pg_query($con, $consulta1);
+				$datos1 = pg_fetch_all($datos2);
+			}else{
+				$datos1 = array($array_vacio);
+			}
+			
+		} catch (\Exception $e) {
+		}
+        $combined = array_merge($datos, $datos1);
+        return $combined;
 	}
 
+	public function bJefeUnidadSiga($id) {
+		$datos = array();
+		$datos1 = array();
+		$datos2 = array();
+		$combined = array();
+		$array_vacio = array('conex' => '' , 'id_personal' => '', 'nombres' => '' );
+		$consulta = $this->dbAdapter->query("select 'L' as conex, id_uni_org, descripcion,nom_corto, "
+				. "'jefe' jefe,vigencia,1 pers_id, from unidad_organica "
+				. " where id_uni_org=".$id
+				. "order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$datos = $consulta->toArray();
+		//return $datos;
+		//Controlar errores php 
+		error_reporting(E_ERROR | E_PARSE);
+		try {
+			$con=null;
+			//$obcon= new cnn("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
+			   $con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017' connect_timeout=3");
+			$consulta1 = "select 'R' as conex, depe_id as id_uni_org, depe_nombre as descripcion, "
+					. "depe_nombrecorto nom_corto,jefe, 1 vigencia,pers_id from remoto.view_unidades "
+					. "where depe_id=".$id
+					. "order by depe_nombre asc" ;
+			if ($con) {
+				$datos2 = pg_query($con, $consulta1);
+				$datos1 = pg_fetch_all($datos2);
+			}else{
+				$datos1 = array($array_vacio);
+			}
+			
+		} catch (\Exception $e) {
+		}
+        $combined = array_merge($datos, $datos1);
+        return $combined;
+	}
+	
+	
+	
 	public function buscar($id){
         $consulta=$this->dbAdapter->query("SELECT id_uni_org, descripcion, numero, vigencia, unidad_organica_id_uni_org,id_unidad_ejecutora, fu_bunidadejecutora(id_unidad_ejecutora) unidad_ejecutora  FROM unidad_organica where id_uni_org=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
@@ -75,7 +135,7 @@ class Unidad extends TableGateway {
 		$datos2 = array();
 		$combined = array();
 		$array_vacio = array('conex' => '' , 'id_personal' => '', 'nombres' => '' );
-		$consulta = $this->dbAdapter->query("select 'L' as conex, id_uni_org, descripcion from unidad_organica order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
+		$consulta = $this->dbAdapter->query("select 'L' as conex, id_uni_org, descripcion, 'jefe' jefe, vigencia, 1 pers_id from unidad_organica order by descripcion asc", Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		//return $datos;
 		//Controlar errores php 
@@ -84,7 +144,7 @@ class Unidad extends TableGateway {
 			$con=null;
 			//$obcon= new cnn("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
 			   $con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017' connect_timeout=3");
-			$consulta1 = "select 'R' as conex, depe_id as id_uni_org, depe_nombre as descripcion from remoto.view_unidades order by depe_nombre asc" ;
+			$consulta1 = "select 'R' as conex, depe_id as id_uni_org, depe_nombre as descripcion, jefe, 1 vigencia,pers_id  from remoto.view_unidades order by depe_nombre asc" ;
 			if ($con) {
 				$datos2 = pg_query($con, $consulta1);
 				$datos1 = pg_fetch_all($datos2);

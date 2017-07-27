@@ -19,8 +19,9 @@ class Dispositivo extends TableGateway {
 
 	public function insertar($descripcion, $tipo, $ficha, $idDisp, $mar_mod) {
 		$cnn = $this->dbAdapter->getDriver()->getConnection()->beginTransaction();
-		try {
+//		try {
 			if ($idDisp > 0) {
+				
 				$insert = $this->insertarDispositivo($idDisp, $mar_mod);
 			} else {
 				$sql = "INSERT INTO disp_soft (descripcion,tipo,ficha) "
@@ -38,10 +39,10 @@ class Dispositivo extends TableGateway {
 				}
 			}
 			$cnn->commit();
-		} catch (\Exception $e) {
-			$insert = 'Error CON: ' . $e->getMessage();
-			$cnn->rollback();
-		}
+//		} catch (\Exception $e) {
+//			$insert = 'Error CON: ' . $e->getMessage();
+//			$cnn->rollback();
+//		}
 		return $insert;
 	}
 
@@ -55,7 +56,6 @@ class Dispositivo extends TableGateway {
 			$insert = $this->dbAdapter->createStatement($sql);
 			$insert->execute();
 		}
-
 		return $insert;
 	}
 
@@ -84,6 +84,15 @@ class Dispositivo extends TableGateway {
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
 		return $datos[0];
+	}
+	
+	public function buscarDetalle($cod) {
+		$consulta = $this->dbAdapter->query(
+				"SELECT id_disp_mar_mod, id_disp_soft, id_marca, id_modelo, fu_bmarca(id_marca::int) marca,fu_bmodelo(id_modelo::int) modelo, vigencia FROM disp_mar_mod "
+				. " where id_disp_soft=$cod order by fu_bmarca(id_marca::int) asc"
+				, Adapter::QUERY_MODE_EXECUTE);
+		$datos = $consulta->toArray();
+		return $datos;
 	}
 
 	public function buscarDispositivo($descripcion, $tipo) {

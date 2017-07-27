@@ -20,7 +20,7 @@ class Ficha extends TableGateway {
 	public function insertar($ficha, $numero, $fecha, $nompc, $observacion, $idUser,
 			 $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
 			$tblOtro, $tblUser, $tblFichaDisp, $tblFichaDocAdquisicion, $tblArchivo,$tblPersonal,
-			$tblDatosEsp,$fechaInstalacion,$idEquipo,$unidad_org) {
+			$tblDatosEsp,$fechaInstalacion,$idEquipo,$unidad_org,$cnxUnidad) {
 		$datos = false;
 		try {
 			$connection = $this->dbAdapter->getDriver()->getConnection();
@@ -29,6 +29,7 @@ class Ficha extends TableGateway {
 			
 			$numero=$numero.str_pad($num, 7, '0', STR_PAD_LEFT);
 			$idInsert = $this->fichaTecnica($numero, $fecha, $nompc, $observacion, $idUser,$fechaInstalacion,$idEquipo);
+			var_dump($tblPersonal);
 			$tblPersonal!= null || $tblPersonal != "" ? $this->personal($idInsert, $tblPersonal,$idUser) : "";
 			$tblFechaInventario=$this->fechaInventario($fecha,$idInsert, $idUser);
 			$tblDatosEsp != null || $tblDatosEsp != "" ? $this->datosEspecificos($idInsert, $tblDatosEsp) : "";
@@ -109,6 +110,7 @@ class Ficha extends TableGateway {
 				"INSERT INTO ft_resp_area(id_respfuncionario, id_user, id_reppatrimonio,id_area,id_uni_org,id_ficha_tecnica)"
 				."VALUES (" . $tblPersonal['resFuncionario'] . ",".$idUser.",". $tblPersonal['resPatrimonio'] . ",". $tblPersonal['areaServ'] . ",". $tblPersonal['unidadOrganica'] 
 				. ",".$idInsert.")");
+		var_dump($insert->getSql());
 		$insert->execute();
 		return $insert;
 	}
@@ -283,7 +285,7 @@ class Ficha extends TableGateway {
 		$consulta = $this->dbAdapter->query(
 		"SELECT id_ficha_tecnica, fecha_inv, coalesce(trim(nompc),null) nompc, coalesce(trim(observacion),null) observacion, fecha_registro,"
 		. "id_user, id_anio, vigencia, id_unidad_ejecutora, fecha_instalacion, "
-		. "numero, fecha_actualizacion, id_disp_soft, upper(fu_bdispositivo(id_disp_soft)) dispositivo FROM ficha_tecnica "
+		. "numero, fecha_actualizacion, id_disp_soft, upper(fu_bdispositivo(id_disp_soft::int)) dispositivo FROM ficha_tecnica "
 		. " where id_ficha_tecnica=$id"
 				, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();
@@ -362,7 +364,7 @@ class Ficha extends TableGateway {
 		$consulta = $this->dbAdapter->query(
 		"SELECT id_ft_ocomponentes, serie, vigencia, id_disp_mar_mod, "
 				. "id_ficha_tecnica, operativo, id_inventario, imei, "
-				. "fecha_renovacion, fecha_adquisicion FROM ft_ocomponentes "
+				. "fecha_renovacion, fecha_adquisicion,fu_bmarca_modelo(id_disp_mar_mod::bigint) marca_modelo, operativo FROM ft_ocomponentes "
 				. "where id_ficha_tecnica=$id"
 			, Adapter::QUERY_MODE_EXECUTE);
 		$datos = $consulta->toArray();

@@ -53,11 +53,8 @@ class AreaController extends AbstractActionController {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$unidad = new Unidad($this->dbAdapter);
 		$lista_unidad_organica = $unidad->lista_unidad_organica();
-		
 		if ($id !== null) {
 			if ($id == 0 ) {
-
-
 				return new ViewModel(array('mantenimiento' => 'Crear',
 					'textBoton' => 'Guardar',
 					'unidades_organicas'=>$lista_unidad_organica,
@@ -121,7 +118,7 @@ class AreaController extends AbstractActionController {
 
 			$areas = new Area($this->dbAdapter);
 			if ($id != '') {
-				$modificar = $areas->modificar($id,$descripcion,$id_uni_org);
+				$modificar = $areas->modificar($id,$descripcion,$id_uni_org,$cnx);
 				$msj = $this->mensaje($modificar, 1);
 			} else {
 				$insert = $areas->insertar($descripcion,$id_uni_org,$cnx);

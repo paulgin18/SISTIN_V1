@@ -24,15 +24,15 @@ var registrar = function (txtId_Area,txtDescripcion,id_uni_org,cnx) {
 		},
 		dataType: 'json',
 		success: function (response) {
-			alert("aqui");
-			var elemento = response.msj.split(":");
-			if (elemento.length > 0) {
-		
+			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
 						window.location.href = "../../area";
-					});
-				
-			}
+					}) :
+					bootbox.alert(response.msj);
+				$("#btnguardar").prop('disabled', false);
+		}
+		, error: function () {
+			this.disabled = true;
 		}
 	};
 	$.ajax(options);

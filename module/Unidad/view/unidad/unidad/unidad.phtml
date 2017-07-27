@@ -1,10 +1,4 @@
-<?php
-//echo $_SERVER['SCRIPT_NAME'];
-include_once("config/autoload/conexion.php");
-$obcon= new Conexion("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
-$consulta = "select * from remoto.view_unidades";
-$ejecquery = pg_query($obcon->getConexion(), $consulta);
-?>
+
 <div class="right_col" role="main">
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12">
@@ -30,34 +24,19 @@ $ejecquery = pg_query($obcon->getConexion(), $consulta);
 							</tr>
 						</thead>
 						<tbody>
-
-							<?php while ($reg = pg_fetch_assoc($ejecquery)){?>
-  <tr>
-    <td><?=utf8_encode($reg['depe_nombre'])?></td>
-    <td><?=utf8_encode($reg['depe_nombrecorto'])?></td>
-	<td><?=utf8_encode($reg['jefe'])?></td>
-	<td><i class='fa fa-check'></i></td>
-	<td><a class='btn btn-success' 
+							<?php foreach ($this->unidades as $unidad) { ?>
+								<tr>
+									<td><?php echo utf8_encode($unidad['descripcion'])?></td>
+									<td><?php echo utf8_encode($unidad['nom_corto']) ?></td>
+									<td><?php echo utf8_encode($unidad['jefe']) ?></td>
+									<td><?= $unidad['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
+									<td><a class='btn btn-success' 
 			   href='
 			<?= $this->basePath('unidad/unidad/form/1/'. $reg['depe_id'].'')?>'>
 			<img alt='Ver' style='width:20px;' src='../../img/ver.png'></a></td>	
-			   <td id="idCod" style="display:none;"></td>
-   </tr>
- <?php }?>
-							<!--<?php foreach ($this->unidades as $unidad) { ?>
-								<tr>
-									<td><?php echo $unidad['descripcion'] ?></td>
-									<td><?= $unidad['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
-									<td><?= $unidad['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
-									<td><?= $unidad['vigencia'] == 1 ? "<i class='fa fa-check'></i>" : "<i class='fa fa-remove'></i>"; ?></td>
-									<td>
-										<a class="btn btn-default"href="<?php echo $this->basePath("unidad/unidad/form/1/" . $unidad['id_uni_org'] . ""); ?>">Editar</a>
-										<?= $unidad['vigencia'] == 1 ? "<input type='button' class='btn btn-danger btnBorrar'  value='Desactivar'/>" : "<input type='button' class='btn btn-success btnActivar'  value='Activar'/>" ?>
-									 </td>
 									<td id="idCod" style="display:none;"><?= $unidad['id_uni_org'] ?></td>
 								</tr>
 							<?php } ?>
-							-->
 						</tbody>
 						<tfoot>
 							<tr>

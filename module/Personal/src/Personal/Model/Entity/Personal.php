@@ -103,4 +103,38 @@ $result = pg_query($con, $consulta);
 		$datos = $insert->execute();
 		return $datos;
     } 
+	
+	public function lista_personal() {
+		$datos = array();
+		$datos1 = array();
+		$datos2 = array();
+		$combined = array();
+		$array_vacio = array('conex' => '' , 'id_personal' => '', 'nombres' => '' );
+		$consulta = $this->dbAdapter->query("select 'L' as conex, id_personal, (COALESCE(apellido_paterno,'') || ' ' || COALESCE(apellido_materno,'') || ' ' || COALESCE(nombre,'')) as nombres 
+from personal order by (COALESCE(apellido_paterno,'') || ' ' || COALESCE(apellido_materno,'') || ' ' || COALESCE(nombre,'')) asc", Adapter::QUERY_MODE_EXECUTE);
+		$datos = $consulta->toArray();
+		error_reporting(E_ERROR | E_PARSE);
+		try {
+			$con=null;
+			//$obcon= new cnn("172.16.0.152","user_geresa","user_geresa2017","siganew",5432);
+			   $con = pg_pconnect("host='172.16.0.152' port='5432' dbname='siganew' user='user_geresa' password='user_geresa2017' connect_timeout=10");
+			$consulta1 = "select 'R' as conex, pers_id as id_personal,
+pers_apellpaterno || ' '|| pers_apellmaterno ||' '|| pers_nombres as nombres 
+from remoto.view_personas 
+order by pers_apellpaterno || ' '|| pers_apellmaterno ||' '|| pers_nombres " ;
+			if ($con) {
+
+				$datos2 = pg_query($con, $consulta1);
+				$datos1 = pg_fetch_all($datos2);
+				//var_dump($datos1);
+			}else{
+				//var_dump($datos1);
+				$datos1 = array($array_vacio);
+			}
+		} catch (\Exception $e) {
+	
+		}
+        $combined = array_merge($datos, $datos1);
+        return $combined;
+	}
 }

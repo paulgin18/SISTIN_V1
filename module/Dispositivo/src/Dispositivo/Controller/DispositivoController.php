@@ -59,10 +59,13 @@ class DispositivoController extends AbstractActionController {
 			} else {
 				if ($id == 1 && $cod > 0) {
 					$datos = $this->buscar($cod);
+					$datosDetalle = $this->buscarDetalle($cod);
 					return new ViewModel(
 							array('mantenimiento' => 'Modificar',
 						'textBoton' => 'Actualizar',
-						'datos' => $datos));
+						'datos' => $datos,
+						'datosDetalle' => $datosDetalle,
+					));
 				}
 			}
 		}
@@ -72,6 +75,13 @@ class DispositivoController extends AbstractActionController {
 		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 		$dispositivos = new Dispositivo($this->dbAdapter);
 		$datos = $dispositivos->buscar($cod);
+		return $datos;
+	}
+
+	public function buscarDetalle($cod) {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$dispositivos = new Dispositivo($this->dbAdapter);
+		$datos = $dispositivos->buscarDetalle($cod);
 		return $datos;
 	}
 
@@ -87,7 +97,7 @@ class DispositivoController extends AbstractActionController {
 		$response->setTerminal(true);
 		return $response;
 	}
- 
+
 	public function bSofDispAction() {
 		$descripcion = $this->getRequest()->getQuery('term');
 		$tipo = $this->getRequest()->getQuery('tipo');
@@ -128,41 +138,64 @@ class DispositivoController extends AbstractActionController {
 	}
 
 	public function registrarAction() {
+		$error = 0;
+		$msj = "";
 		try {
 			$descripcion = $this->getRequest()->getPost('txtDescripcion');
 			$tipo = $this->getRequest()->getPost('cmbTipo');
 			$ficha = $this->getRequest()->getPost('rbtFicha');
 			$idDis = $this->getRequest()->getPost('txtIdDis');
-
+			$id = $this->getRequest()->getPost('txtId');
 			$idRoute = $this->params()->fromRoute("id", null);
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
 			$dispositivos = new Dispositivo($this->dbAdapter);
-
 			$mar_mod = $this->getRequest()->getPost('items_marca');
 			if (( $idDis == '' || $idDis > 0) && $idRoute == 0) {
-
 				$insert = $dispositivos->insertar($descripcion, $tipo, $ficha, $idDis, $mar_mod);
+				$msj = $this->mensaje($insert, 0);
 			} else {
-
 				$insert = $dispositivos->insertar($descripcion, $tipo, $ficha, $idDis, $mar_mod);
+				$msj = $this->mensaje($insert, 1);
 			}
-
-			$msj = $this->mensaje($insert);
 		} catch (\Exception $e) {
-			$msj = 'Error: ' . $e->getMessage();
+			$error = 1;
+			$codError = explode("(", $e->getMessage());
+			$codError = explode("-", $codError[1]);
+			$msj = "<h3 style='color:#ca2727'> ALERTA!</h3><hr>";
+			switch ($codError[0]) {
+				case 23505:$msj = $msj . "<br/><strong>MENSAJE:</strong> Verifique los datos, uno de la lista ya se encuentra en la base de datos.";
+					break;
+				case 23514:$msj = $msj . "<br/><strong>MENSAJE:</strong> Verifique los datos.";
+					break;
+				default:
+					$error = explode("DETAIL:", $codError[2]);
+					$msj = $msj . "<strong>CODIGO:</strong>" . $codError[0] . "<br/><br/><strong>MENSAJE</strong> " . strtoupper($error[0]);
+					break;
+			}
 		}
-		$response = new JsonModel(
-				array('msj' => $msj)
-		);
+		$response = new JsonModel(array('msj' => $msj, 'error' => $error));
 		$response->setTerminal(true);
 		return $response;
 	}
 
-	public function mensaje($insert) {
-		if ($insert == true) {
-			$msj = 'REGISTRADO CORRECTAMENTE';
+	public function mensaje($valorConsulta, $tipoConsulta) {
+		if ($valorConsulta == true) {
+			switch ($tipoConsulta) {
+				case 0:
+					$msj = "REGISTRADO CORRECTAMENTE";
+					break;
+				case 1:
+					$msj = "MODIFICADO CORRECTAMENTE";
+					break;
+				case 2:
+					$msj = "ELIMINADO CORRECTAMENTE";
+					break;
+				case 3:
+					$msj = "ACTIVADO CORRECTAMENTE";
+					break;
+			}
 		} else {
-			$msj = 'PROBLEMASMMMM' . $insert . "S";
+			$msj = "NO SE HA REALIZADO LA ACCION, CONSULTE CON EL ADMINISTRADOR O VUELVA A INTENTARLO";
 		}
 		return $msj;
 	}

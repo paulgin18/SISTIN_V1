@@ -1,7 +1,30 @@
+
 $(document).data('tipoDisp', 2);
 $(document).ready(function () {
 	$(".actionBar").hide();
 	$(".stepContainer").hide();
+	var val="";
+	  $('#cmbUnidadOrganica').on('change', function(){
+		var val = $(this).find("option:selected")[0].getAttribute('value');
+		var val1 = $(this).find("option:selected")[0].getAttribute('value1');
+		var val2 = $(this).find("option:selected")[0].getAttribute('value2');
+		var val3 = $(this).find("option:selected")[0].getAttribute('value3');
+		if(val && val1){
+			$('#txtIdUnidadOrganica').val(val);
+			$('#id_unidad_organica_conex').val(val1);
+			$('#txtIdRespPatrimonio').val(val3);
+			$('#txtRespPatrimonio').val(val2);
+		}
+	  });
+	  $('#cmbRespFuncionario').on('change', function(){
+		var val = $(this).find("option:selected")[0].getAttribute('value');
+		var val1 = $(this).find("option:selected")[0].getAttribute('value1');
+		if(val && val1){
+			$('#txtIdRespFuncionario').val(val);
+			$('#id_funcionario_conex').val(val1);
+		}
+		
+	  });
 });
 
 var bDispositivo = function (tipoDisp, id, inp) {
@@ -141,13 +164,10 @@ $("#txtUnidadOrganica").focus(function () {
 			$(this).val(ui.item.label);
 			return false;
 		}
-
 	});
-
 });
 
 $("#txtRespFuncionario").focus(function () {
-
 	$("#txtRespFuncionario").autocomplete({
 		minLength: 0,
 		source: '../../../../personal/personal/buscarFuncionario',
@@ -852,7 +872,6 @@ var insertFichaDisp = function (id, modelo, serie, inventario, chk, imei, fechaR
 				+ '<td><button type="button" class="btn btn-danger btn-xs removerMo"><i class="fa fa-fw fa-close"></i></button></td>'
 				+ '</tr>');
 	}
-	
 }
 
 $(document).on('click', '#chkCompatible', function (event) {
@@ -1011,7 +1030,9 @@ $(document).on('click', '#btnguardar', function (event) {
 	var txtObservacion = $('#txtObservacion').val();
 	var txtIdEquipo = $('#txtIdEquipo').val();
 	var ficha = $('#ficha').val();
-	var unidad_org=$("#txtIdUnidadOrganica").val()>0?$("#txtIdUnidadOrganica").val():$("#txtIdNroUniOrg").val();
+	var unidad_org=$("#txtIdUnidadOrganica").val()>0?$("#txtIdUnidadOrganica").val():$("#txtIdUnidadOrganica").val();	
+	var cnxUnidad=$("#id_unidad_organica_conex").val();	
+	
 
 	//  var txtAnioNroFicha = $('#txtAnioNroFicha').val();
 	//var txtFechaAdquisicion = $('#txtFechaAdquisicion').val();
@@ -1034,9 +1055,10 @@ $(document).on('click', '#btnguardar', function (event) {
 
 	var tblPersonal = ($("#txtIdRespFuncionario").val().length > 0) ? {
 		'unidadOrganica': $("#txtIdUnidadOrganica").val(),
-		'areaServ': $("#txtIdAreaServ").val(),
-		'resPatrimonio': $("#txtIdRespPatrimonio").val(),
-		'resFuncionario': $("#txtIdRespFuncionario").val()
+		'areaServ'      : $("#txtIdAreaServ").val(),
+		'resPatrimonio' : $("#txtIdRespPatrimonio").val(),
+		'resFuncionario': $("#txtIdRespFuncionario").val(),
+		'cnxFuncionario': $("#id_funcionario_conex").val()
 	} : null;
 
 
@@ -1128,16 +1150,18 @@ $(document).on('click', '#btnguardar', function (event) {
 
 
 	registrar(ficha, txtNroFicha, txtFecha,
-			txtIdEquipo, txtNomPc,
-			tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,
-			tblUser, tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion,unidad_org);
+	txtIdEquipo, txtNomPc,tblOtrosComponentes, tblRam, tblSoftware, 
+	tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed,
+	tblUser, tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, 
+	txtFechaInstalacion, txtObservacion,unidad_org,cnxUnidad);
 });
 
 
 var registrar = function (ficha, txtNroFicha, txtFecha,
 		txtIdEquipo, txtNomPc,
 		tblOtrosComponentes, tblRam, tblSoftware, tblMicroprocesador, tblDiscoDuro, tblMainboard, tblRed, tblUser,
-		tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, txtObservacion,unidad_org) {
+		tblFichaDisp, tblFichaAd, tblArchivo, tblPersonal, tblDatosEsp, txtFechaInstalacion, 
+		txtObservacion,unidad_org,cnxUnidad) {
 	//alert($("#uploadedfile").val());
 	//alert(JSON.stringify(tblArchivo, null, 4));
 	var options = {
@@ -1164,6 +1188,7 @@ var registrar = function (ficha, txtNroFicha, txtFecha,
 			'fechaInstalacion': txtFechaInstalacion,
 			'observacion': txtObservacion,
 			'unidad_org': unidad_org,
+			'cnxUnidad': cnxUnidad,
 		},
 		dataType: 'json',
 		success: function (response) {

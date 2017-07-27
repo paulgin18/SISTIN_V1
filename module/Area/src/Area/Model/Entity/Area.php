@@ -53,7 +53,8 @@ class Area extends TableGateway {
 	}
 
 	public function buscar($id){
-        $consulta=$this->dbAdapter->query("SELECT a.id_area, a.descripcion, a.id_uni_org, a.id_area, a.vigencia, o.descripcion as unidad_organica FROM area a inner join unidad_organica o on a.id_uni_org=o.id_uni_org where a.id_area=$id",Adapter::QUERY_MODE_EXECUTE);
+        $consulta=$this->dbAdapter->
+				query("SELECT a.id_area, a.descripcion, a.id_uni_org, a.id_area, a.vigencia FROM area a  where a.id_area=$id",Adapter::QUERY_MODE_EXECUTE);
         $datos=$consulta->toArray();
         return $datos[0];
     }

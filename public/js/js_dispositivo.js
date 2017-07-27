@@ -131,6 +131,7 @@ $(document).on('click', '#btnModelo', function (event) {
 $(document).on('click', '.removerM', function (event) {
 	event.preventDefault();
 	$(this).parent().parent().remove();
+	
 });
 
 $(document).on('click', '.removerMo', function (event) {
@@ -150,16 +151,15 @@ var registrar = function (cmbTipo, txtDescripcion, txtIdDis, rbtFichaTecnica, it
 		},
 		dataType: 'json',
 		success: function (response) {
-			var elemento = response.msj.split(":");
-			if (elemento.length > 0) {
-				if (elemento[0] == "Error") {
-					bootbox.alert(elemento[0] + "" + elemento[1]);
-				} else {
+			(response.error == 0) ?
 					bootbox.alert(response.msj, function () {
 						window.location.href = "../../dispositivo";
-					});
-				}
-			}
+					}) :
+					bootbox.alert(response.msj);
+				$("#btnguardar").prop('disabled', false);
+		}
+		, error: function () {
+			this.disabled = true;
 		}
 	};
 	$.ajax(options);

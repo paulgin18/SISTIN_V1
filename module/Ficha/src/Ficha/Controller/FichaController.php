@@ -23,6 +23,8 @@ use Ficha\Model\Entity\Ficha;
 use Docadquisicion\Model\Entity\Docadquisicion;
 use Marca\Model\Entity\Marca;
 use Anio\Model\Entity\Anio;
+use Personal\Model\Entity\Personal;
+use Unidad\Model\Entity\Unidad;
 use Zend\MVC\Exception;
 use Zend\File\Transfer\Adapter\Http;
 
@@ -39,10 +41,13 @@ class FichaController extends AbstractActionController {
 			$numeroFicha = new Container('numero');
 			if ($session->datos != null) {
 				if ($id == 0) {
+				$unidad = new Unidad($this->dbAdapter);
+				$lista_unidad_organica = $unidad->lista_unidad_organica();
 					$fichas = new Ficha($this->dbAdapter);
+					$personal = new Personal($this->dbAdapter);
+					$lista_personal = $personal->lista_personal();
 					$numero = 2;
 					$uni_org = $session->datos->id_unidad_ejecutora;
-
 					//var_dump($uni_org);
 
 					if ($numeroFicha->datos == null) {
@@ -58,7 +63,9 @@ class FichaController extends AbstractActionController {
 						'datosAdquisicion' => $datosAdquisicion,
 						'datos' => null,
 						//'nro' => $numero,
-						'uni_org' => $uni_org));
+						'unidades_organicas'=>$lista_unidad_organica,
+						'uni_org' => $uni_org,
+						'lista_personal' => $lista_personal));
 				} else {
 					if ($id == 1 && $cod > 0) {
 
@@ -105,7 +112,7 @@ class FichaController extends AbstractActionController {
 		if ($session->datos != null) {
 			if ($id == 1 && $cod > 0) {
 				$datosFicha = $this->buscarFicha($cod[0], 0, null);
-					$datosOComponentes = $this->buscarFicha($datosFicha["id_ficha_tecnica"], 5, null);
+					$datosOComponentes= $this->buscarFicha($datosFicha["id_ficha_tecnica"], 5, null);
 				//var_dump($datosMemoriaRam);
 				$array=		array('mantenimiento' => 'Modificar',
 					'textBoton' => 'Actualizar',
@@ -124,6 +131,7 @@ class FichaController extends AbstractActionController {
 					'datosSoftware' => null,
 					'datosUser' => null,
 					'datosFechaInv' => null,
+					
 					'divDatosNuevo'=>'none',
 					'datosAdquisicion'=>'none',
 					'divComponentes'=>'none',
@@ -304,6 +312,18 @@ class FichaController extends AbstractActionController {
 		return $envio;
 	}
 
+	public function bpersonalsigaAction() {
+		$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
+		$id = $this->getRequest()->getPost('id_Unidad');
+		$unidad = new Unidad($this->dbAdapter);
+		$bJefeUnidad= $unidad->bJefeUnidadSiga($id);
+		
+		$response = new JsonModel(array('jefe' => $bJefeUnidad));
+		$response->setTerminal(true);
+		return $response;
+	}
+	
+	
 	public function registrarAction() {
 		$error = 0;
 		$msj = "";
@@ -330,6 +350,7 @@ class FichaController extends AbstractActionController {
 			$fechaInstalacion = $this->getRequest()->getPost('fechaInstalacion');
 			$observacion = $this->getRequest()->getPost('txtObservacion');
 			$unidad_org = $this->getRequest()->getPost('unidad_org');
+			$cnxUnidad= $this->getRequest()->getPost('cnxUnidad');
 			$id_user = $session->datos->id_user;
 			;
 			$this->dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter');
@@ -338,7 +359,11 @@ class FichaController extends AbstractActionController {
 //				$modificar = $ficha->modificar($descripcion, $numero, $id);
 //				$msj = $this->mensaje($modificar, 1);
 //			} else {
-			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, $tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, $tblOtro, $tblUser, $tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal, $tblDatosEsp, $fechaInstalacion, $idEquipo, $unidad_org);
+			var_dump($tblPersonal);
+			$insertar = $ficha->insertar($fichapost, $numero, $fecha, $nompc, $observacion, $id_user, 
+					$tblMicroprocesador, $tblDiscoDuro, $tblMainboard, $tblRam, $tblRed, $tblSoft, 
+					$tblOtro, $tblUser, $tblFichaDisp, $tblFichaAd, $tblArchivo, $tblPersonal, 
+					$tblDatosEsp, $fechaInstalacion, $idEquipo, $unidad_org,$cnxUnidad);
 
 			$msj = $this->mensaje($insertar[0], 0);
 			$num = $insertar[1];

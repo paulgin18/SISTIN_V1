@@ -20,41 +20,45 @@
 										<label class="col-sm-2 control-label"><b>Tipo:</b></label>
 										<div class="col-sm-4">
 											<select id="cmbTipo" name="cmbTipo" class="form-control tipo" required="">
-												<option value="SO">Sistema Operativo</option>
-												<option value="DI">Dispositivos</option>
-												<option value="SC">Software Comercial</option>
-												<option value="SM">Software Medida</option>
-												<option value="SL">Software Libre</option>
+												<option value="SO"
+												<?php echo ($datos!=null) ? ($datos['tipo'] =='SO' ? "selected" : "") :"" ?>
+														>Sistema Operativo</option>
+												<option value="DI" <?php echo ($datos!=null) ? ($datos['tipo'] =='DI' ? "selected" : "") :"" ?>
+														>Dispositivos</option>
+												<option value="SC" <?php echo ($datos!=null) ? ($datos['tipo'] =='SC' ? "selected" : "") :"" ?>
+														>Software Comercial</option>
+												<option value="SM" <?php echo ($datos!=null) ? ($datos['tipo'] =='SM' ? "selected" : "") :"" ?>
+														>Software Medida</option>
+												<option value="SL" <?php echo ($datos!=null) ? ($datos['tipo'] =='SL' ? "selected" : "") :"" ?>
+														>Software Libre</option>
 											</select>							
-
 										</div>
-
 									</div>
 
 									<div class="form-group">
 										<label class="col-sm-2 control-label"><b>Nombre</b></label>
 										<div class="col-sm-10">
-											
-											<input class="form-control dispositivo" autofocus="autofocus" name="txtDispositivo" id="txtDispositivo" style="text-transform:uppercase"type="text">										
-											<input class="form-control" name="txtIdDis" id="txtIdDis" type="hidden"  >										
+											<input class="form-control dispositivo" autofocus="autofocus" name="txtDispositivo" id="txtDispositivo" style="text-transform:uppercase" type="text" value="<?=$datos['descripcion']?>">
+											<input class="form-control" name="txtIdDis" id="txtIdDis" value="<?=$datos['id_disp_soft']?>" type="hidden"  >										
+											<input class="form-control" name="txtId" id="txtId" value="" type="hidden">
 										</div>
 									</div>
-									<div class="form-group">
+									<!--<div class="form-group">
 										<label class="col-sm-2 control-label"><b>En Ficha Tecnica:</b></label>
 										<div class="col-sm-2">
-											<div class="radio radio-inline radio-primary">
-												<input type="radio" name="rbtFicha" id="rbtFicha" value="si">
-												<label>SI</label>
+											<div class="radio radio-inline radio-primary">-->
+												<input type="hidden" name="rbtFicha" id="rbtFicha" value="si">
+												<!--<label>SI</label>
 											</div>
 											<div class="radio radio-inline radio-primary">
-												<input type="radio" name="rbtFicha" id="rbtFicha" value="no" checked >
+												<input type="radio" name="rbtFicha" id="rbtFicha" value="no"  >
 												<label >NO</label>
 											</div>
 										</div>
-									</div>
+									</div>-->
 									<br>
 									<hr>
-									<div class="form-group" id="marca_modelo" style="display:none">
+									<div class="form-group" id="marca_modelo" style="<?php echo ($datos!=null) ? ($datos['tipo'] !='DI' ? "display:none" : "display:block") :"display:none"?>">
 										<div class="col-md-6">
 											<label for="" class="col-sm-2 control-label"><b>Marca:</b></label>
 											<div class="col-sm-8">
@@ -79,10 +83,10 @@
 											</div>
 										</div>
 									</div>
-
+								
 									<div class="form-group">
 										<div class="col-md-12">
-											<table id="tabla_marca" class="table table-striped table-bordered" style="display:none">
+											<table id="tabla_marca" class="table table-striped table-bordered" style="<?php echo ($datos!=null) ? ($datos['tipo'] !='DI' ? "display:none" : "display:block") :"display:none" ?>">
 												<thead>
 													<tr>
 														<th width="5%">#</th>
@@ -94,11 +98,23 @@
 													</tr>
 												</thead>
 												<tbody>
+													<?php if($datos!=null){
+													foreach ($datosDetalle as $dDetalle) { 
+											echo "<tr data-id=" .$dDetalle['id_disp_mar_mod'] .">"
+												. "<td>#</td>"
+												. "<td hidden>" .$dDetalle['id_marca'] . "</td>" 
+												. "<td>".$dDetalle['marca']."</td>"
+												. "<td hidden>".$dDetalle['id_modelo']."</td>"
+												. "<td>".$dDetalle['modelo']."</td>"
+												. "<td><button type='button' class='btn btn-danger btn-xs removerM'><i class='fa fa-fw fa-close'></i></button></td>"
+											."</tr>";
+																	}	
+													}?>
 												</tbody>
 											</table>			
 										</div>
 									</div>
-									<hr id="hrT" style="display:none" >
+									<hr id="hrT" style="<?php echo ($datos!=null) ? ($datos['tipo'] !='DI' ? "display:none" : "display:block") :"display:none" ?>" >
 									<div class="form-group">
 										<div class="form-group">
 											<center><div class="col-sm-9">
